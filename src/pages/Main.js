@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as commonActions from "../redux/modules/commonSlice";
 import Login from "../components/user/Login";
-// import { getInfo } from "../store/modules/modal";
+import {userApi} from "../apis/userApi";
+
 
 
 const Main = () => {
@@ -19,6 +20,12 @@ const Main = () => {
     //     })
     //     .catch((err) => console.log(err));
     // };
+
+    useEffect(()=>{
+        userApi.getTest().then((res) => {
+            console.log(res,"res")
+        })
+    },[])
 
 
     return (

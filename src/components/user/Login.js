@@ -30,17 +30,17 @@ function Login(props) {
     // }
 
     const kakaoLoginHandler =  () => {
-
+        // 여기에 카카오 로그인 코드 연동
 
     }
 
-    // const logoutHandler = () => {
-    //     //리덕스 user 값 삭제
-    // }
+    const logoutHandler = () => {
+        //리덕스 user 값 삭제
+    }
 
-    // const onFail = (err) => {
-    //     console.log("로그인이 실패했습니다", err);
-    // }
+    const onFail = (err) => {
+        console.log("로그인이 실패했습니다", err);
+    }
 
     const closeModal = () => {
         dispatch(isModalOpen(false))
@@ -83,25 +83,24 @@ function Login(props) {
                     로그인
                 </LoginText>
                 <LoginButtons>
-                    {/* <KakaoLogin
-              token={String(process.env.NEXT_PUBLIC_KAKAO_APPKEY)}
-              onSuccess={onSuccess}
-              onFail={onFail}
-              onLogout={logoutHandler}
-              render={({ onClick }) => {
-                  return (
-                    <KaKaoLoginText
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onClick();
-                      }}
-                    >
-                      카카오로 로그인하기
-                    </KaKaoLoginText>
-                  );
-                }}
-          />                 */}
-
+                    <KakaoLogin
+                      token={String(process.env.REACT_APP_KAKAO_APPKEY)}
+                      onSuccess={kakaoLoginHandler}
+                      onFail={onFail}
+                      onLogout={logoutHandler}
+                      render={({ onClick }) => {
+                          return (
+                            <KaKaoLoginText
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onClick();
+                              }}
+                            >
+                              카카오로 로그인하기
+                            </KaKaoLoginText>
+                          );
+                        }}
+                    />
                     {/* <GoogleLogin
               clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENTID}
               onSuccess={onSuccess}
