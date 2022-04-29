@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from 'react-modal';
 import KakaoLogin from "react-kakao-login";
+import { isModalOpen } from "../../redux/modules/commonSlice";
 
 Login.propTypes = {
 
@@ -14,7 +15,7 @@ function Login(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const modalIsOpen = useSelector(({modal}) => modal.modalIsOpen);
+    const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
 
     // const onSuccess = (res) => {
     // console.log("res:",res);
@@ -26,7 +27,7 @@ function Login(props) {
     //google res
     // res.accessToken
     // res.tokenId
-// }
+    // }
 
     const kakaoLoginHandler =  () => {
 
@@ -42,7 +43,7 @@ function Login(props) {
     // }
 
     const closeModal = () => {
-        // dispatch(modalActions.isModalOpen(false))
+        dispatch(isModalOpen(false))
     }
 
 

@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-// import * as modalActions from "../store/modules/modal";
-// import LoginPopup from "../components/LoginPopup";
+import * as commonActions from "../redux/modules/commonSlice";
+import Login from "../components/user/Login";
 // import { getInfo } from "../store/modules/modal";
 
 
@@ -28,10 +28,10 @@ const Main = () => {
                 시작하기
             </StartButton>
             {/* <button onClick={thunkHandler}>thunk Test</button> */}
-            {/* <button onClick={() => dispatch(modalActions.isModalOpen(true))}> */}
-            {/* 로그인 */}
-            {/* </button> */}
-            {/* <LoginPopup /> */}
+             <button onClick={() => dispatch(commonActions.isModalOpen(true))}>
+                로그인
+             </button>
+             <Login/>
         </React.Fragment>
     );
 
