@@ -26,7 +26,7 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     getChatList(state, action) {
-      (state.rooms = action), payload;
+      state.rooms = action.payload;
     },
     getChatMessage(state, action) {
       state.messages = action.payload;

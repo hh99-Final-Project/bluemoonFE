@@ -3,7 +3,7 @@ import styled from "styled-components";
 // import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { chatApis } from "../../apis/chatApis";
+import { chatApi } from "../apis/chatApi";
 
 ChatList.propTypes = {};
 
@@ -28,7 +28,7 @@ function ChatList(props) {
 
   // 채팅방 리스트 조회 api
   // React.useEffect(() => {
-  //   chatApis.getChatList()
+  //   chatApi.getChatList()
   //   .then((res) => {
   //     console.log(res)
   //     // 컴포넌트 스테이트에 바로 저장

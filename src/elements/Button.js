@@ -3,67 +3,67 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-    const {
-        width,
-        height,
-        display,
-        margin,
-        padding,
-        size,
-        bold,
-        color,
-        bg,
-        border,
-        children,
-        is_float,
-        text,
-        _onClick,
-        _value,
-    } = props;
+  const {
+    width,
+    height,
+    display,
+    margin,
+    padding,
+    size,
+    bold,
+    color,
+    bg,
+    border,
+    children,
+    is_float,
+    text,
+    _onClick,
+    _value,
+  } = props;
 
-    const styles = {
-        width,
-        height,
-        display,
-        margin,
-        padding,
-        size,
-        color,
-        bg,
-        border,
-        bold,
-    };
+  const styles = {
+    width,
+    height,
+    display,
+    margin,
+    padding,
+    size,
+    color,
+    bg,
+    border,
+    bold,
+  };
 
-    // if (is_float) {
-    //   return (
-    //     <React.Fragment>
-    //       <FloatButton {...styles} onClick={_onClick}>
-    //         {text ? text : children}
-    //       </FloatButton>
-    //     </React.Fragment>
-    //   );
-    // }
+  // if (is_float) {
+  //   return (
+  //     <React.Fragment>
+  //       <FloatButton {...styles} onClick={_onClick}>
+  //         {text ? text : children}
+  //       </FloatButton>
+  //     </React.Fragment>
+  //   );
+  // }
 
-    return (
-        <React.Fragment>
-            <BasicButton {...styles} onClick={_onClick} value={_value}>
-                {children}
-            </BasicButton>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <BasicButton {...styles} onClick={_onClick} value={_value}>
+        {children}
+      </BasicButton>
+    </React.Fragment>
+  );
 };
 
 Button.defaultProps = {
-    display: "inline-block",
-    margin: false,
-    padding: "16px 16px",
-    size: "14px",
-    color: "#fff",
-    bg: "#298D49",
-    border: null,
-    children: null,
-    text: false,
-    bold: false,
+  display: "inline-block",
+  margin: false,
+  padding: "16px 16px",
+  size: "14px",
+  color: "#fff",
+  bg: "#298D49",
+  border: null,
+  children: null,
+  text: false,
+  bold: false,
 };
 
 const BasicButton = styled.button`

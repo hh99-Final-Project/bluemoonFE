@@ -1,18 +1,14 @@
-import React, { useEffect }  from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Grid, Button1, Input } from "../../elements/index";
+import { Grid, Button, Input } from "../../elements/index";
 import { useNavigate } from "react-router-dom";
 // import SockJS from "sockjs-client";
 // import StompJs from "@stomp/stompjs";
 
-
-ChatInput.propTypes = {
-  
-};
+ChatInput.propTypes = {};
 
 function ChatInput(props) {
-
   // let sock = new SockJS("");
   // let ws = StompJs.over(sock);
 
@@ -81,7 +77,7 @@ function ChatInput(props) {
         _onChange={(e) => setText(e.target.value)}
       />
       {/* onClick 은 나중에 먹임 */}
-      <Button1 width="7%" height="5%" padding="2%"></Button1>
+      <Button width="7%" height="5%" padding="2%"></Button>
     </React.Fragment>
   );
 }

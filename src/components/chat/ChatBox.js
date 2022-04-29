@@ -4,7 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
-import { chatApis } from "../../apis/chatApis";
+import { chatApi } from "../../apis/chatApi";
 
 import SockJS from "sockjs-client";
 import StompJs from "@stomp/stompjs";
@@ -19,7 +19,7 @@ function ChatBox(props) {
 
   // 채팅방 이전 메시지 호출
   // useEffect(() => {
-  //    chatApis.getChatMessage(roomId)
+  //    chatApi.getChatMessage(roomId)
   //    .then
   // })
 

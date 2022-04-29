@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ChatBox from "../components/chat/ChatBox";
 import styled from "styled-components";
 
-const roomId = () => {
+const Chat = () => {
   const navigate = useNavigate();
   const params = useParams();
 
@@ -21,7 +21,7 @@ const roomId = () => {
   );
 };
 
-export default roomId;
+export default Chat;
 
 const BackButton = styled.div`
   width: 184px;
