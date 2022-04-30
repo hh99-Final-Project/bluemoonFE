@@ -37,7 +37,7 @@ function ChatList(props) {
   //   })
   // })
 
-  let roomList = [
+  let chatList = [
     {
       roomName: "말 잘듣는 원숭이1",
       lastMessage: "마지막 메시지 1",
@@ -61,15 +61,15 @@ function ChatList(props) {
   return (
     <React.Fragment>
       <Grid>
-        {roomList.map((i, idx) => {
+        {chatList.map((chat, i) => {
           return (
-            <ChatRoom onClick={() => navigate(`/chat/${i.roomId}`)} key={idx}>
-              <Text>{i.roomName}</Text>
-              <Text>{i.lastMessage}</Text>
-              <Text>{i.lastTime}</Text>
+            <ChatRoom onClick={() => navigate(`/chat/${chat.roomId}`)} key={i}>
+              <Text>{chat.roomName}</Text>
+              <Text>{chat.lastMessage}</Text>
+              <Text>{chat.lastTime}</Text>
               {/* 모달은 좀 나중에... */}
               {/* <button>
-                  <Modal roomId={i.roomId} open={isModalOpen}></Modal>
+                  <Modal roomId={chat.roomId} open={isModalOpen}></Modal>
                 </button> */}
             </ChatRoom>
           );

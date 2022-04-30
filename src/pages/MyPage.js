@@ -1,23 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {userApi} from "../apis/userApi";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import { userApi } from "../apis/userApi";
 
 MyPage.propTypes = {};
 
 function MyPage(props) {
+  const navigate = useNavigate();
+  const [myDiary, setMyDiary] = useState([]);
+  console.log(myDiary);
 
-    const navigate = useNavigate();
-    const [myDiary, setMyDiary] = useState([]);
-
-    useEffect(()=>{
-        let page = 1
-        userApi.getMyPage(page).then((response) => {
-            setMyDiary(response.data);
-        })
-    },[])
-
+  useEffect(() => {
+    let page = 1;
+    userApi.getMyPage(page).then((response) => {
+      setMyDiary(response.data);
+    });
+  }, []);
 
   return (
     <React.Fragment>
@@ -31,7 +30,7 @@ function MyPage(props) {
               key={diary.postId}
             >
               <Text>{diary.title}</Text>
-              {/*<Text>댓글 {diary.commentCount}개</Text>*/}
+              {/*<Text>댓글 {diary.count}개</Text>*/}
             </DiaryCard>
           );
         })}
