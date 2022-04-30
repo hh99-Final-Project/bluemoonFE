@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { DiaryContent } from "../components/diary";
 import { CommentList } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
+import Header from "../shared/Header";
 
 DiaryDetail.propTypes = {};
 
@@ -55,6 +56,7 @@ function DiaryDetail(props) {
         <BackButton onClick={() => navigate("/diarylist")}>뒤로가기</BackButton>
         <Title>고민 들어주기</Title>
       </TitleContainer>
+        <Header/>
       <DiaryContent diary={diary} />
       <CommentList comments={diary.comments} postId={diary.postId}/>
     </React.Fragment>

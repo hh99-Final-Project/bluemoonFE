@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Header from "../shared/Header";
 
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
@@ -162,6 +163,7 @@ function WriteDiary(props) {
   return (
     <React.Fragment>
       <PostTitle>고민 털어놓기</PostTitle>
+      <Header/>
       <PostAreaContainer>
         <PostText
           placeholder="제목을 작성해주세요"
