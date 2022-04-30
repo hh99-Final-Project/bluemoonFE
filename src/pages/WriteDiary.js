@@ -43,6 +43,12 @@ function WriteDiary(props) {
     setIsOpenPopup(true);
   };
 
+  const saveTemp = () => {
+    diaryApi.tempSaveDiary(title, diary).then((response) => {
+      console.log(response);
+    })
+  }
+
   //음성 녹음하기
   const recordVoice = () => {
     // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
@@ -174,7 +180,7 @@ function WriteDiary(props) {
           <VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>
           <VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>
         </VoiceContainer>
-
+        <TempSaveButton onClick={saveTemp}>임시 저장</TempSaveButton>
         <PostButton onClick={onClickHandler}>등록하기</PostButton>
       </PostAreaContainer>
 
@@ -283,6 +289,15 @@ const VoiceRecordButton = styled(VoicePlayButton)``;
 const VoiceStop = styled(VoicePlayButton)``;
 const VoiceTempStop = styled(VoicePlayButton)``;
 const VoiceTempReplay = styled(VoicePlayButton)``;
+
+const TempSaveButton = styled.div`
+  width: 100px;
+  height: 50px;
+  position: absolute;
+  bottom: 100px;
+  left: calc(50% - 400px);
+  cursor: pointer;
+`;
 
 const PostButton = styled.a`
   position: absolute;

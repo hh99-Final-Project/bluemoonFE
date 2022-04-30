@@ -10,13 +10,18 @@ CommentList.propTypes = {
 };
 
 function CommentList(props) {
+
+    const { comments, postId } = props;
+
     return (
         <React.Fragment>
             <CommentsContainer>
-                <Comment/>
-                <Comment/>
-                <Comment/>
-                <CommentInput/>
+                {
+                    comments.map((comment) => {
+                        return <Comment key={comment.commentId} comment={comment}/>
+                    })
+                }
+                <CommentInput postId={postId}/>
             </CommentsContainer>
         </React.Fragment>
     )

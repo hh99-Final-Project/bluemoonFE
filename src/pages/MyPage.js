@@ -3,13 +3,20 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
+import { diaryApi } from "../apis/diaryApi";
 
 MyPage.propTypes = {};
 
 function MyPage(props) {
   const navigate = useNavigate();
   const [myDiary, setMyDiary] = useState([]);
-  console.log(myDiary);
+
+  //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
+  const deleteDiary = (postId) => {
+    diaryApi.deleteDiary(postId).then((response) => {
+      console.log(response);
+    })
+  }
 
   useEffect(() => {
     let page = 1;

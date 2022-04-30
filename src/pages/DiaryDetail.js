@@ -30,7 +30,7 @@ function DiaryDetail(props) {
         <Title>고민 들어주기</Title>
       </TitleContainer>
       <DiaryContent diary={diary} />
-      <CommentList />
+      <CommentList comments={diary.comments} postId={diary.postId}/>
     </React.Fragment>
   );
 }

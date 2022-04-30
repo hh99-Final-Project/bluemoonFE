@@ -2,23 +2,33 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
 import moment from "moment";
+import { diaryApi } from "../../apis/diaryApi";
 
 Comment.propTypes = {
 
 };
 
 function Comment(props) {
+
+    const { comment } = props;
+
+    const deleteComment = () => {
+        diaryApi.deleteComment(comment.commentId).then((response) => {
+            console.log(response);
+        })
+    }
+
     return (
         <React.Fragment>
             <OneCommentContainer>
                 <NickNameTimeArea>
-                    <NicknameArea>햄님의 댓글</NicknameArea>
-                    <PostTimeArea>2022-03-22 11:33</PostTimeArea>
+                    <NicknameArea>`${comment.nickname}의 댓글`</NicknameArea>
+                    <PostTimeArea>{comment.createdAt}</PostTimeArea>
                 </NickNameTimeArea>
-                <PostContent>고민 내용이 들어갑니다</PostContent>
+                <PostContent>{comment.content}</PostContent>
 
                 <IconArea>
-                    <DeleteIcon>삭제</DeleteIcon>
+                    {comment.isShow && <DeleteIcon onClick={deleteComment}>삭제</DeleteIcon>}
                     <LockIcon>자물쇠</LockIcon>
                     <ChatIcon>채팅</ChatIcon>
                     <PlayIcon>보이스 듣기</PlayIcon>

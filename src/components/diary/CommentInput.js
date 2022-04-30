@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
+import { diaryApi } from "../../apis/diaryApi";
 
 
 CommentInput.propTypes = {
@@ -8,7 +9,7 @@ CommentInput.propTypes = {
 };
 
 function CommentInput(props) {
-
+    const { postId } = props;
     const [comment, setComment] = useState("");
 
     const onChangeHandler = (e) => {
@@ -19,10 +20,12 @@ function CommentInput(props) {
         setComment(e.target.value);
     }
 
-    const onClick = (e) => {
-        //코멘트를 api로 보내준다.
-
-        setComment("");
+    const onClick = () => {
+        diaryApi.createComment(postId, comment)
+            .then((response) => {
+            console.log(response);
+            setComment("");
+        })
     }
 
     return (
