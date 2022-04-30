@@ -1,44 +1,23 @@
-import React from "react";
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {userApi} from "../apis/userApi";
 
 MyPage.propTypes = {};
 
 function MyPage(props) {
-  const navigate = useNavigate();
 
-  let myDiary = [
-    {
-      postId: 1,
-      nickname: "랜덤 닉네임1",
-      userId: 1,
-      title: "게시글 제목1",
-      content: "게시글 내용1",
-      commentCount: "4",
-      createdAt: "12:43",
-    },
+    const navigate = useNavigate();
+    const [myDiary, setMyDiary] = useState([]);
 
-    {
-      postId: 2,
-      nickname: "랜덤 닉네임2",
-      userId: 2,
-      title: "게시글 제목2",
-      content: "게시글 내용2",
-      commentCount: "2",
-      createdAt: "09:02",
-    },
+    useEffect(()=>{
+        let page = 1
+        userApi.getMyPage(page).then((response) => {
+            setMyDiary(response.data);
+        })
+    },[])
 
-    {
-      postId: 3,
-      nickname: "랜덤 닉네임3",
-      userId: 3,
-      title: "게시글 제목3",
-      content: "게시글 내용3",
-      commentCount: "3",
-      createdAt: "00:20",
-    },
-  ];
 
   return (
     <React.Fragment>
@@ -52,7 +31,7 @@ function MyPage(props) {
               key={diary.postId}
             >
               <Text>{diary.title}</Text>
-              <Text>댓글 {diary.commentCount}개</Text>
+              {/*<Text>댓글 {diary.commentCount}개</Text>*/}
             </DiaryCard>
           );
         })}

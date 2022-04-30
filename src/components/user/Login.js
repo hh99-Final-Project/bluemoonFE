@@ -1,37 +1,59 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from 'react-modal';
 import KakaoLogin from "react-kakao-login";
+import GoogleLogin from "react-google-login";
 import { isModalOpen } from "../../redux/modules/commonSlice";
+import { userApi } from "../../apis/userApi";
+import { setCookie } from "../../utils/cookie";
+import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
+
 
 Login.propTypes = {
 
 };
+
+// const gapi = window.gapi;
 
 function Login(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
 
-    // const onSuccess = (res) => {
-    // console.log("res:",res);
 
-    //kakao res
-    //res.access_token
-    //res.id_token
+    const kakaoLoginHandler =  (res) => {
+        userApi.kakaoLogin(res.response.access_token).then((response) =>{
+            if(response.status === 200) {
+                //헤더에 담긴 토큰 확인 필요
+                let token = response.headers.authorization;
+                setCookie(token);
+                dispatch(getUserInfo(response.data))
+                dispatch(isLogined(true));
+                navigate('/select');
+            } else {
+                console.log("err")
+            }
+        })
+    }
 
-    //google res
-    // res.accessToken
-    // res.tokenId
-    // }
-
-    const kakaoLoginHandler =  () => {
-        // 여기에 카카오 로그인 코드 연동
-
+    const googleLoginHandler = (res) => {
+        userApi.googleLogin(res.tokenId).then((response) => {
+            if(response.status === 200) {
+                console.log(response);
+                let token = response.headers.authorization;
+                setCookie(token);
+                dispatch(getUserInfo(response.data))
+                dispatch(isLogined(true));
+                navigate('/select');
+            } else {
+                console.log("err")
+            }
+        })
     }
 
     const logoutHandler = () => {
@@ -45,6 +67,7 @@ function Login(props) {
     const closeModal = () => {
         dispatch(isModalOpen(false))
     }
+
 
 
     return (
@@ -101,17 +124,20 @@ function Login(props) {
                           );
                         }}
                     />
-                    {/* <GoogleLogin
-              clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENTID}
-              onSuccess={onSuccess}
-              onFailure={onFail}
-              cookiePolicy={'single_host_origin'}
-              render={renderProps => (
-                  <GoogleLoginText onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                      구글로 로그인하기
-                  </GoogleLoginText>
-              )}
-          /> */}
+                  <GoogleLogin
+                      clientId={process.env.REACT_APP_GOOGLE_CLIENTID}
+                      onSuccess={googleLoginHandler}
+                      onFailure={onFail}
+                      cookiePolicy={'single_host_origin'}
+                      render={renderProps => (
+                        <GoogleLoginText onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                            구글로 로그인하기
+                        </GoogleLoginText>
+                      )}
+                    />
+                    {/*<GoogleLoginText onClick={googleLoginHandler}>*/}
+                    {/*    구글로 로그인하기*/}
+                    {/*</GoogleLoginText>*/}
                 </LoginButtons>
             </Modal>
         </div>
