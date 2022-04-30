@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {userApi} from "../apis/userApi";
 
 MyPage.propTypes = {
 
@@ -10,35 +11,14 @@ MyPage.propTypes = {
 function MyPage(props) {
 
     const navigate = useNavigate();
+    const [myDiary, setMyDiary] = useState([]);
 
-    let myDiary = [
-        {
-            postId: 1,
-            nickname: "랜덤 닉네임1",
-            userId: 1,
-            title: "게시글 제목1",
-            content: "게시글 내용1",
-            createdAt: "게시글 작성 시간1",
-        },
-
-        {
-            postId: 2,
-            nickname: "랜덤 닉네임2",
-            userId: 2,
-            title: "게시글 제목2",
-            content: "게시글 내용2",
-            createdAt: "게시글 작성 시간2",
-        },
-
-        {
-            postId: 3,
-            nickname: "랜덤 닉네임3",
-            userId: 3,
-            title: "게시글 제목3",
-            content: "게시글 내용3",
-            createdAt: "게시글 작성 시간3",
-        },
-    ];
+    useEffect(()=>{
+        let page = 1
+        userApi.getMyPage(page).then((response) => {
+            setMyDiary(response.data);
+        })
+    },[])
 
 
     return (
@@ -47,7 +27,9 @@ function MyPage(props) {
 
             {myDiary.map((diary) => {
                 return (
-                    <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
+                    <DiaryCard
+                        key={diary.postId}
+                        onClick={() => navigate(`/diary/${diary.postId}`)} >
                         <DiaryTitle>{diary.title}</DiaryTitle>
                         <DiaryDesc>{diary.content}</DiaryDesc>
                         <DiaryIcons>

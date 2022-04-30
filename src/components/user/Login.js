@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from 'react-modal';
 import KakaoLogin from "react-kakao-login";
+import GoogleLogin from "react-google-login";
 import { isModalOpen } from "../../redux/modules/commonSlice";
 import { userApi } from "../../apis/userApi";
 import { setCookie } from "../../utils/cookie";
@@ -15,7 +16,7 @@ Login.propTypes = {
 
 };
 
-const gapi = window.gapi;
+// const gapi = window.gapi;
 
 function Login(props) {
 
@@ -24,9 +25,6 @@ function Login(props) {
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
-    //google res
-    // res.accessToken
-    // res.tokenId
 
     const kakaoLoginHandler =  (res) => {
         userApi.kakaoLogin(res.response.access_token).then((response) =>{
@@ -43,31 +41,19 @@ function Login(props) {
         })
     }
 
-    function updateSigninStatus(isSignedIn) {
-        console.log({ isSignedIn });
-        if (isSignedIn) {
-            console.log("yes")
-            // makeApiCall();
-        }
-    }
-
-
-    const init = () => {
-        gapi.client.init({
-            'apiKey': process.env.REACT_APP_GOOGLE_APIKEY,
-            'clientId': process.env.REACT_APP_GOOGLE_CLIENTID,
-            'scope': 'profile',
-        }).then(function() {
-            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-        }).then(function(response) {
-            console.log(response.result);
-        }, function(reason) {
-            console.log('Error: ' + reason.result.error.message);
-        });
-    }
-
-    const googleLoginHandler = () => {
-
+    const googleLoginHandler = (res) => {
+        userApi.googleLogin(res.tokenId).then((response) => {
+            if(response.status === 200) {
+                console.log(response);
+                let token = response.headers.authorization;
+                setCookie(token);
+                dispatch(getUserInfo(response.data))
+                dispatch(isLogined(true));
+                navigate('/select');
+            } else {
+                console.log("err")
+            }
+        })
     }
 
     const logoutHandler = () => {
@@ -82,9 +68,6 @@ function Login(props) {
         dispatch(isModalOpen(false))
     }
 
-    useEffect(()=>{
-        window.gapi.load('client:auth2', init);
-    },[])
 
 
     return (
@@ -141,20 +124,20 @@ function Login(props) {
                           );
                         }}
                     />
-                    {/* <GoogleLogin
-              clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENTID}
-              onSuccess={onSuccess}
-              onFailure={onFail}
-              cookiePolicy={'single_host_origin'}
-              render={renderProps => (
-                  <GoogleLoginText onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                      구글로 로그인하기
-                  </GoogleLoginText>
-              )}
-          /> */}
-                    <GoogleLoginText onClick={googleLoginHandler}>
-                        구글로 로그인하기
-                    </GoogleLoginText>
+                  <GoogleLogin
+                      clientId={process.env.REACT_APP_GOOGLE_CLIENTID}
+                      onSuccess={googleLoginHandler}
+                      onFailure={onFail}
+                      cookiePolicy={'single_host_origin'}
+                      render={renderProps => (
+                        <GoogleLoginText onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                            구글로 로그인하기
+                        </GoogleLoginText>
+                      )}
+                    />
+                    {/*<GoogleLoginText onClick={googleLoginHandler}>*/}
+                    {/*    구글로 로그인하기*/}
+                    {/*</GoogleLoginText>*/}
                 </LoginButtons>
             </Modal>
         </div>
