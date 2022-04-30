@@ -2,7 +2,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import userSlice from './userSlice';
 import commonSlice from './commonSlice';
 import chatSlice from './chatSlice';
-import postSlice from './postSlice';
+import diarySlice from './diarySlice';
 
 
 const reducer = (state, action) => {
@@ -10,7 +10,7 @@ const reducer = (state, action) => {
         userSlice,
         commonSlice,
         chatSlice,
-        postSlice
+        diarySlice
     })(state, action);
 }
 

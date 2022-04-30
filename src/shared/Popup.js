@@ -11,6 +11,8 @@ function Popup(props) {
 
     const {title, desc, event, close} = props;
 
+    //props.title, props.desc, props.event, props.close
+
     const confirmHandler = () => {
         event();
     }

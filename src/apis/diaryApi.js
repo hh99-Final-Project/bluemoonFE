@@ -1,7 +1,7 @@
-import { instance } from "./apiConfig";
+import { instance } from "./config";
 
 
-export const postApi = {
+export const diaryApi = {
     createPost: async (title, content) => {
         let req = {
             "title" : title,

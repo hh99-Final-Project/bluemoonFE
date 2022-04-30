@@ -108,16 +108,20 @@ function ChatBox(props) {
   return (
     <Wrapper>
       <MessageWrapper>
-        {message.map((message, idx) => {
-          return (
-            <ChatMessage
-              key={idx}
-              message={message.message}
-              nickname={message.nickname}
-              createdAt={message.createdAt}
-            />
-          );
-        })}
+        {
+          message.length > 0 &&
+            message.map((message, idx) => {
+            return (
+                <ChatMessage
+                    key={idx}
+                    message={message.message}
+                    nickname={message.nickname}
+                    createdAt={message.createdAt}
+                />
+              );
+            })
+        }
+
       </MessageWrapper>
       <InputWrpper>
         <ChatInput />

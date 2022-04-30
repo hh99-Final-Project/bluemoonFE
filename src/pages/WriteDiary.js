@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 import Popup from "../shared/Popup";
 
-Post.propTypes = {
+WriteDiary.propTypes = {
 
 };
 
-function Post(props) {
+function WriteDiary(props) {
 
     const navigate = useNavigate();
 
@@ -203,7 +203,7 @@ function Post(props) {
     )
 }
 
-export default Post;
+export default WriteDiary;
 
 
 const PostTitle = styled.div`

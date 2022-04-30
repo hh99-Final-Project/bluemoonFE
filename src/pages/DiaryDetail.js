@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import styled from "styled-components";
-import { DiaryContent } from '../components/post';
-import { CommentList } from "../components/post";
+import { DiaryContent } from '../components/diary';
+import { CommentList } from "../components/diary";
 
 DiaryDetail.propTypes = {
 

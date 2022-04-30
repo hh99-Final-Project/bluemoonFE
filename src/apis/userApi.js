@@ -1,4 +1,4 @@
-import { instance } from "./apiConfig";
+import { instance } from "./config";
 
 
 

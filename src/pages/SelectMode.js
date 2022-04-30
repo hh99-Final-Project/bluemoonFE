@@ -4,11 +4,11 @@ import styled from "styled-components";
 import PropTypes from 'prop-types';
 
 
-SelectToDiary.propTypes = {
+SelectMode.propTypes = {
 
 };
 
-function SelectToDiary(props){
+function SelectMode(props){
 
     const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ function SelectToDiary(props){
 
 }
 
-export default SelectToDiary;
+export default SelectMode;
 
 
 const Logo = styled.div`

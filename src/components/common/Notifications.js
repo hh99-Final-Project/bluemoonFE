@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import AlertPopup from "./AlertPopup";
+import Notice from "./Notice";
 
-AlertList.propTypes = {
+Notifications.propTypes = {
 
 };
 
-function AlertList(props) {
+function Notifications(props) {
 
     let alertList = [
         {
@@ -36,14 +36,14 @@ function AlertList(props) {
         <AlertContainer>
             {
                 alertList.map((alert) => {
-                    return <AlertPopup key={alert.id} alert={alert}/>
+                    return <Notice key={alert.id} alert={alert}/>
                 })
             }
         </AlertContainer>
     );
 }
 
-export default AlertList;
+export default Notifications;
 
 const AlertContainer = styled.div`
     width: 800px;
