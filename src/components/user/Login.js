@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -6,31 +6,67 @@ import styled from "styled-components";
 import Modal from 'react-modal';
 import KakaoLogin from "react-kakao-login";
 import { isModalOpen } from "../../redux/modules/commonSlice";
+import { userApi } from "../../apis/userApi";
+import { setCookie } from "../../utils/cookie";
+import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
+
 
 Login.propTypes = {
 
 };
+
+const gapi = window.gapi;
 
 function Login(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
-
-    // const onSuccess = (res) => {
-    // console.log("res:",res);
-
-    //kakao res
-    //res.access_token
-    //res.id_token
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
 
     //google res
     // res.accessToken
     // res.tokenId
-    // }
 
-    const kakaoLoginHandler =  () => {
-        // 여기에 카카오 로그인 코드 연동
+    const kakaoLoginHandler =  (res) => {
+        userApi.kakaoLogin(res.response.access_token).then((response) =>{
+            if(response.status === 200) {
+                //헤더에 담긴 토큰 확인 필요
+                let token = response.headers.authorization;
+                setCookie(token);
+                dispatch(getUserInfo(response.data))
+                dispatch(isLogined(true));
+                navigate('/select');
+            } else {
+                console.log("err")
+            }
+        })
+    }
+
+    function updateSigninStatus(isSignedIn) {
+        console.log({ isSignedIn });
+        if (isSignedIn) {
+            console.log("yes")
+            // makeApiCall();
+        }
+    }
+
+
+    const init = () => {
+        gapi.client.init({
+            'apiKey': process.env.REACT_APP_GOOGLE_APIKEY,
+            'clientId': process.env.REACT_APP_GOOGLE_CLIENTID,
+            'scope': 'profile',
+        }).then(function() {
+            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+        }).then(function(response) {
+            console.log(response.result);
+        }, function(reason) {
+            console.log('Error: ' + reason.result.error.message);
+        });
+    }
+
+    const googleLoginHandler = () => {
 
     }
 
@@ -45,6 +81,10 @@ function Login(props) {
     const closeModal = () => {
         dispatch(isModalOpen(false))
     }
+
+    useEffect(()=>{
+        window.gapi.load('client:auth2', init);
+    },[])
 
 
     return (
@@ -112,6 +152,9 @@ function Login(props) {
                   </GoogleLoginText>
               )}
           /> */}
+                    <GoogleLoginText onClick={googleLoginHandler}>
+                        구글로 로그인하기
+                    </GoogleLoginText>
                 </LoginButtons>
             </Modal>
         </div>

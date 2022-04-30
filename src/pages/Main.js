@@ -21,11 +21,12 @@ const Main = () => {
     //     .catch((err) => console.log(err));
     // };
 
-    useEffect(()=>{
-        userApi.getTest().then((res) => {
-            console.log(res,"res")
-        })
-    },[])
+    // test api 잘 작동합니다. 서버 부하를 줄이기 위해 주석처리 했습니다.
+    // useEffect(()=>{
+    //     userApi.getTest().then((res) => {
+    //         console.log(res,"res")
+    //     })
+    // },[])
 
 
     return (
