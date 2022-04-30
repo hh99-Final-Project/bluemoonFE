@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-DiaryContent.propTypes = {};
+DiaryContent.propTypes = {
+  diary: PropTypes.object,
+};
 
 function DiaryContent(props) {
   const { diary } = props;

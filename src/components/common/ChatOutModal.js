@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-ChatOutModal.propTypes = {};
+ChatOutModal.propTypes = {
+    modalOpen: PropTypes.bool.isRequired,
+    closeModal: PropTypes.func.isRequired
+};
 
 function ChatOutModal(props) {
     const {modalOpen, closeModal} = props;

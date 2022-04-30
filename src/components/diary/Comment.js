@@ -5,7 +5,7 @@ import moment from "moment";
 import { diaryApi } from "../../apis/diaryApi";
 
 Comment.propTypes = {
-
+    comment: PropTypes.object
 };
 
 function Comment(props) {

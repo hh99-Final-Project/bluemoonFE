@@ -9,17 +9,43 @@ import { diaryApi } from "../apis/diaryApi";
 DiaryDetail.propTypes = {};
 
 function DiaryDetail(props) {
+
   const navigate = useNavigate();
   const params = useParams();
   const postId = params.id;
 
-  const [diary, setDiary] = useState();
-  //   console.log(diary);
+  // const [diary, setDiary] = useState();
+    let diary = {
+        "isShow": true,
+        "postId": 1,
+        "nickname":"랜덤 닉네임",
+        "userId": 1,
+        "title": "게시글 제목",
+        "content": "게시글 내용",
+        "createdAt": "2022-05-01 23:00",
+        "comments":
+            [
+                {
+                    "isShow":true,
+                    "commentId": 1,
+                    "nickname": "랜덤 닉네임",
+                    "content": "댓글 내용",
+                    "createdAt":"2022-05-01 23:00",
+                },
+                {
+                    "isShow": false,
+                    "commentId": 2,
+                    "nickname":"랜덤 닉네임",
+                    "content": "댓글 내용",
+                    "createdAt":"2022-05-01 23:00",
+                }
+            ]
+    }
 
   useEffect(() => {
     diaryApi.getOneDiary(postId).then((response) => {
-      setDiary(response);
-      //   console.log(response);
+        console.log(response);
+        // setDiary(response);
     });
   }, []);
 

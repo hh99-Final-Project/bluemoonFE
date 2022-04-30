@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ChatOutModal from "./ChatOutModal"
 
 Notice.propTypes = {
-
+    alert: PropTypes.object.isRequired
 };
 
 function Notice(props) {

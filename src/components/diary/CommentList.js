@@ -6,7 +6,8 @@ import CommentInput from "./CommentInput";
 
 
 CommentList.propTypes = {
-
+    comments: PropTypes.array,
+    postId: PropTypes.number
 };
 
 function CommentList(props) {

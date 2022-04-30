@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Grid, Text } from "../../elements/index";
 
-ChatMessage.propTypes = {};
+ChatMessage.propTypes = {
+  message: PropTypes.string,
+  nickname: PropTypes.string,
+  createdAt: PropTypes.string
+};
 
 function ChatMessage(props) {
   const { message, nickname, createdAt } = props;
