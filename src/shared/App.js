@@ -25,7 +25,7 @@ function App() {
       <Route path="/chatlist" element={<ChatList />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/alert" element={<Notifications />} />
-      <Route path="/notfound" element={<NotFound />} />
+      <Route path={"*"} element={<NotFound />}/>
     </Routes>
   );
 }
