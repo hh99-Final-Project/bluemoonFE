@@ -8,9 +8,19 @@ export const postApi = {
             "content" : content
         }
         const data = await instance.post('/api/posts', req)
+        return data;
     },
 
-    getRandomDiary: async () => {
-        // const data = awiat instance.get('/api/posts')
-    }
+    getOneDiary: async () => {
+        const data = await instance.get('/api/posts');
+        return data.data;
+    },
+
+    deleteDiary: async (postId) => {
+        const data = await instance.delete(`/api/posts/${postId}`)
+        return data;
+    },
+
+    // getDetailDiary:
+
 };
