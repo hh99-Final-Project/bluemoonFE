@@ -7,7 +7,7 @@ import ChatInput from "./ChatInput";
 import { chatApi } from "../../apis/chatApi";
 
 import SockJS from "sockjs-client";
-import StompJs from "@stomp/stompjs";
+import * as StompJs from '@stomp/stompjs';
 
 ChatBox.propTypes = {};
 
