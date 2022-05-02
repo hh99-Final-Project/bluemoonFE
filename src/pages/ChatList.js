@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
+import Header2 from "../shared/Header2";
 
 ChatList.propTypes = {};
 
@@ -66,7 +67,8 @@ function ChatList(props) {
   ];
 
   return (
-    <div style={{marginTop:'120px'}}>
+    <div>
+      <Header2/>
       <CategoryBar/>
       <Grid>
         {chatList.map((chat, i) => {

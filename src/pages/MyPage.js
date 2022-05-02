@@ -6,6 +6,7 @@ import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
 import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
+import Header2 from "../shared/Header2";
 
 
 MyPage.propTypes = {};
@@ -48,7 +49,8 @@ function MyPage(props) {
     // ];
 
     return (
-        <div style={{marginTop:'130px'}}>
+        <div>
+            <Header2/>
             <CategoryBar/>
             <Grid>
                 <Select>

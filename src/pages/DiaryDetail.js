@@ -6,6 +6,7 @@ import { DiaryContent } from "../components/diary";
 import { CommentList } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
 import CommentInput from "../components/diary/CommentInput";
+import Header2 from "../shared/Header2";
 
 DiaryDetail.propTypes = {};
 
@@ -28,6 +29,7 @@ function DiaryDetail(props) {
 
   return (
     <React.Fragment>
+        <Header2/>
       <TitleContainer>
         <BackButton onClick={() => navigate("/diarylist")}>뒤로가기</BackButton>
         <Title>고민 들어주기</Title>

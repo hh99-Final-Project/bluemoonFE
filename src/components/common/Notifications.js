@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Notice from "./Notice";
+import Modal from "react-modal";
 
 Notifications.propTypes = {
 
 };
 
 function Notifications(props) {
+
+    const { closeModal } = props;
 
     let alertList = [
         {
@@ -33,23 +36,68 @@ function Notifications(props) {
 
 
     return (
-        <AlertContainer>
+        <div>
+            <Modal
+                isOpen={true}
+                onRequestClose={closeModal}
+                shouldCloseOnOverlayClick={false}
+                ariaHideApp={false}
+                style={{
+                    overlay: {
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(65, 65, 65, 0.5)'
+                    },
+                    content: {
+                        position: 'absolute',
+                        zIndex: 2,
+                        top: '500px',
+                        left: 'calc(50% + 200px)',
+                        right: 'auto',
+                        bottom: 'auto',
+                        transform: 'translate(-50%, -50%)',
+                        width: '400px',
+                        height: '900px',
+                        border: 'none',
+                        background: '#ffffff',
+                        borderRadius: '10px',
+                        outline: 'none',
+                        padding: '20px'
+                    }
+                }}>
+                <NotiHeader>
+                    <Title>알림창</Title>
+                    <CloseButton onClick={closeModal}>X</CloseButton>
+                </NotiHeader>
             {
                 alertList.map((alert) => {
                     return <Notice key={alert.id} alert={alert}/>
                 })
             }
-        </AlertContainer>
+            </Modal>
+        {/*</AlertContainer>*/}
+        </div>
     );
 }
 
 export default Notifications;
 
-const AlertContainer = styled.div`
-    width: 800px;
-    height: 1000px;
-    background-color: #CBCBCB;
-    margin: 100px auto;
-    padding: 30px 20px 0;
-    box-sizing: border-box;
+const NotiHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 20px;
+`;
+
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: bold;
+`;
+
+const CloseButton = styled.div`
+  font-weight: bold;
+  font-size: 30px;
+  cursor: pointer;
 `;

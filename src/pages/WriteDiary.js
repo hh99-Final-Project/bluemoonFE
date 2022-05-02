@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
+import Header2 from "../shared/Header2";
 
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
@@ -171,7 +172,8 @@ function WriteDiary(props) {
 
   return (
     <React.Fragment>
-      <button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>
+      {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
+      <Header2/>
       <PostTitle>고민 털어놓기</PostTitle>
       <CategoryBar/>
       <PostAreaContainer>

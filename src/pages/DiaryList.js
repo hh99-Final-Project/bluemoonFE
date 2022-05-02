@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { diaryApi } from "../apis/diaryApi";
 import CategoryBar from "../shared/CategoryBar";
+import Header2 from "../shared/Header2";
 import useStore from "../zustand/store";
 
 DiaryList.propTypes = {};
@@ -84,7 +85,8 @@ function DiaryList(props) {
 
 
   return (
-    <div style={{marginTop:'200px'}}>
+    <div>
+      <Header2/>
       <CategoryBar/>
       <CardContainer {...settings}>
         {diaryList.map((diary) => {
