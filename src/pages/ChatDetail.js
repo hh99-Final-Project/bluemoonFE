@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 // import { Grid, Text } from "../../elements/index";
 import ChatBox from "../components/chat/ChatBox";
 import styled from "styled-components";
+import Header2 from "../shared/Header2";
+import CategoryBar from "../shared/CategoryBar";
 
 const ChatDetail = () => {
   const navigate = useNavigate();
@@ -13,10 +15,12 @@ const ChatDetail = () => {
 
   return (
     <div>
-      <ChatBox />
-      <BackButton onClick={() => navigate("/chatlist")}>
-        채팅 리스트로 돌아가기
-      </BackButton>
+        <Header2/>
+        <CategoryBar/>
+        <ChatBox />
+        <BackButton onClick={() => navigate("/chatlist")}>
+            채팅 리스트로 돌아가기
+        </BackButton>
     </div>
   );
 };

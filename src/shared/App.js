@@ -13,6 +13,7 @@ import MyPage from "../pages/MyPage";
 import MyTempPage from "../pages/MyTempPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
+import Lottery from "../pages/Lottery";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/mypage/temp" element={<MyTempPage />} />
                 <Route path="/alert" element={<Notifications />} />
+                <Route path="/lottery" element={<Lottery/>}/>
                 <Route path={"*"} element={<NotFound />} />
             </Routes>
         </QueryClientProvider>
