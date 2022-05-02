@@ -4,12 +4,15 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
+import { useQuery } from "react-query";
+
 
 MyPage.propTypes = {};
 
 function MyPage(props) {
     const navigate = useNavigate();
-    // const [myDiary, setMyDiary] = useState([]);
+    const [myDiary, setMyDiary] = useState([]);
+    const [page, setPage] = useState(1);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postId) => {
@@ -18,25 +21,31 @@ function MyPage(props) {
         });
     };
 
-    // useEffect(() => {
-    //   let page = 1;
-    //   userApi.getMyPage(page).then((response) => {
-    //     setMyDiary(response.data);
-    //   });
-    // }, []);
+    // const { data } = useQuery('mypage', () => userApi.getMyPage(page),
+    //     {
+    //
+    //     }
+    //     );
 
-    const myDiary = [
-        {
-            postId: 1,
-            title: "타이틀1",
-            count: 2,
-        },
-        {
-            postId: 2,
-            title: "타이틀2",
-            count: 1,
-        },
-    ];
+    useEffect(() => {
+      userApi.getMyPage(1).then((response) => {
+          setMyDiary(response);
+      });
+    }, []);
+
+    // const myDiary = [
+    //     {
+    //         postId: 1,
+    //         title: "타이틀1",
+    //         count: 2,
+    //     },
+    //     {
+    //         postId: 2,
+    //         title: "타이틀2",
+    //         count: 1,
+    //     },
+    // ];
+
     return (
         <React.Fragment>
             {/* 헤더는 일단 나중에 */}
@@ -50,6 +59,7 @@ function MyPage(props) {
                     return (
                         <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
                             <Text>{diary.title}</Text>
+                            <div>{diary.content}</div>
                             <Text>댓글 {diary.count}개</Text>
                         </DiaryCard>
                     );
@@ -72,7 +82,7 @@ const Grid = styled.div`
 
 const Select = styled.div`
     height: 10%;
-    align-items: right;
+    align-items: flex-end;
 `;
 const DiaryCard = styled.div`
     width: 90%;

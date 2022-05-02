@@ -6,13 +6,31 @@ import CommentInput from "./CommentInput";
 
 
 CommentList.propTypes = {
-    comments: PropTypes.array,
-    postId: PropTypes.number
+    comments: PropTypes.array
 };
 
 function CommentList(props) {
 
-    const { comments, postId } = props;
+    // const { comments } = props;
+
+    let comments = [
+        {
+            "isShow": true,
+            "commentId": 1,
+            "nickname": "햄",
+            "content": "나의 댓글입니다",
+            "createAt": "2022-05-02",
+            "file": "file"
+        },
+        {
+            "isShow": true,
+            "commentId": 2,
+            "nickname": "햄2",
+            "content": "나의 댓글입니다2",
+            "createAt": "2022-05-01",
+            "file": "file"
+        },
+    ]
 
     return (
         <React.Fragment>
@@ -22,7 +40,6 @@ function CommentList(props) {
                         return <Comment key={comment.commentId} comment={comment}/>
                     })
                 }
-                <CommentInput postId={postId}/>
             </CommentsContainer>
         </React.Fragment>
     )

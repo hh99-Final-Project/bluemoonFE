@@ -1,12 +1,18 @@
-import { instance } from "./config";
+import { instance, fileInstance } from "./config";
 
 export const diaryApi = {
-  createPost: async (title, content) => {
-    let req = {
-      title: title,
-      content: content,
-    };
-    const data = await instance.post("/api/posts", req);
+  createPost: async (title, content, soundFile) => {
+    // let req = {
+    //   title: title,
+    //   content: content,
+    // };
+
+    const form = new FormData();
+    form.append('title', title);
+    form.append('content', content);
+    form.append('file', soundFile);
+
+    const data = await fileInstance.post("/api/posts", form);
     return data;
   },
 
@@ -25,12 +31,19 @@ export const diaryApi = {
     return data;
   },
 
-  createComment: async (postId, comment) => {
+  createComment: async (postId, comment, sound) => {
     let req = {
       "postId": postId,
       "content": comment
     }
-    const data = await instance.post('/api/comments', req);
+
+    const form = new FormData();
+    form.append('postId', postId);
+    form.append('comment', comment);
+    form.append('file', sound);
+
+    const data = await fileInstance.post("/api/comments", form);
+    // const data = await instance.post('/api/comments', req);
     return data;
   },
 

@@ -11,54 +11,54 @@ DiaryList.propTypes = {};
 
 function DiaryList(props) {
   const navigate = useNavigate();
-  // const [diaryList, setDiaryList] = useState([]);
+  const [diaryList, setDiaryList] = useState([]);
 
-  let diaryList = [
-    {
-      postId: 1,
-      nickname: "랜덤 닉네임1",
-      userId: 1,
-      title: "게시글 제목1",
-      content: "게시글 내용1",
-      createdAt: "게시글 작성 시간1",
-    },
-
-    {
-      postId: 2,
-      nickname: "랜덤 닉네임2",
-      userId: 2,
-      title: "게시글 제목2",
-      content: "게시글 내용2",
-      createdAt: "게시글 작성 시간2",
-    },
-
-    {
-      postId: 3,
-      nickname: "랜덤 닉네임3",
-      userId: 3,
-      title: "게시글 제목3",
-      content: "게시글 내용3",
-      createdAt: "게시글 작성 시간3",
-    },
-
-    {
-      postId: 4,
-      nickname: "랜덤 닉네임4",
-      userId: 4,
-      title: "게시글 제목4",
-      content: "게시글 내용4",
-      createdAt: "게시글 작성 시간4",
-    },
-
-    {
-      postId: 5,
-      nickname: "랜덤 닉네임5",
-      userId: 5,
-      title: "게시글 제목5",
-      content: "게시글 내용5",
-      createdAt: "게시글 작성 시간5",
-    },
-  ];
+  // let diaryList = [
+  //   {
+  //     postId: 1,
+  //     nickname: "랜덤 닉네임1",
+  //     userId: 1,
+  //     title: "게시글 제목1",
+  //     content: "게시글 내용1",
+  //     createdAt: "게시글 작성 시간1",
+  //   },
+  //
+  //   {
+  //     postId: 2,
+  //     nickname: "랜덤 닉네임2",
+  //     userId: 2,
+  //     title: "게시글 제목2",
+  //     content: "게시글 내용2",
+  //     createdAt: "게시글 작성 시간2",
+  //   },
+  //
+  //   {
+  //     postId: 3,
+  //     nickname: "랜덤 닉네임3",
+  //     userId: 3,
+  //     title: "게시글 제목3",
+  //     content: "게시글 내용3",
+  //     createdAt: "게시글 작성 시간3",
+  //   },
+  //
+  //   {
+  //     postId: 4,
+  //     nickname: "랜덤 닉네임4",
+  //     userId: 4,
+  //     title: "게시글 제목4",
+  //     content: "게시글 내용4",
+  //     createdAt: "게시글 작성 시간4",
+  //   },
+  //
+  //   {
+  //     postId: 5,
+  //     nickname: "랜덤 닉네임5",
+  //     userId: 5,
+  //     title: "게시글 제목5",
+  //     content: "게시글 내용5",
+  //     createdAt: "게시글 작성 시간5",
+  //   },
+  // ];
 
   const settings = {
     dots: false,
@@ -69,12 +69,13 @@ function DiaryList(props) {
     slidesToScroll: 1,
   };
 
-  // useEffect(() => {
-  //   diaryApi.getDiaryList().then((response) => {
-  //     setDiaryList(response.data);
-  //     console.log(response);
-  //   });
-  // }, []);
+  //
+  useEffect(() => {
+    diaryApi.getDiaryList(1).then((response) => {
+      setDiaryList([response]);
+    });
+  }, []);
+
 
   return (
     <React.Fragment>
@@ -89,9 +90,11 @@ function DiaryList(props) {
               <DiaryDesc>{diary.content}</DiaryDesc>
               <DiaryIcons>
                 <IconsLeft>
-                  <LikeIcon>좋아용</LikeIcon>
                   <CommentIcon
-                    onClick={() => navigate(`/diary/${diary.postId}`)}
+                    onClick={(e) => {
+                     e.preventDefault();
+                     navigate(`/diary/${diary.postId}`)
+                    }}
                   >
                     댓글
                   </CommentIcon>

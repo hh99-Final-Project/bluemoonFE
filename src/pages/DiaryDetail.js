@@ -6,6 +6,7 @@ import { DiaryContent } from "../components/diary";
 import { CommentList } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
 import Header from "../shared/Header";
+import CommentInput from "../components/diary/CommentInput";
 
 DiaryDetail.propTypes = {};
 
@@ -15,40 +16,16 @@ function DiaryDetail(props) {
   const params = useParams();
   const postId = params.id;
 
-  // const [diary, setDiary] = useState();
-    let diary = {
-        "isShow": true,
-        "postId": 1,
-        "nickname":"랜덤 닉네임",
-        "userId": 1,
-        "title": "게시글 제목",
-        "content": "게시글 내용",
-        "createdAt": "2022-05-01 23:00",
-        "comments":
-            [
-                {
-                    "isShow":true,
-                    "commentId": 1,
-                    "nickname": "랜덤 닉네임",
-                    "content": "댓글 내용",
-                    "createdAt":"2022-05-01 23:00",
-                },
-                {
-                    "isShow": false,
-                    "commentId": 2,
-                    "nickname":"랜덤 닉네임",
-                    "content": "댓글 내용",
-                    "createdAt":"2022-05-01 23:00",
-                }
-            ]
-    }
+  const [diary, setDiary] = useState({});
+
 
   useEffect(() => {
-    diaryApi.getOneDiary(postId).then((response) => {
+    diaryApi.getOneDiary(1).then((response) => {
         console.log(response);
-        // setDiary(response);
+        setDiary(response);
     });
   }, []);
+
 
   return (
     <React.Fragment>
@@ -59,6 +36,7 @@ function DiaryDetail(props) {
         <Header/>
       <DiaryContent diary={diary} />
       <CommentList comments={diary.comments} postId={diary.postId}/>
+      <CommentInput postId={postId}/>
     </React.Fragment>
   );
 }

@@ -24,7 +24,7 @@ export const userApi = {
 
     getMyPage: async (page) => {
         const data = await instance.get(`/api/myposts/${page}`);
-        return data;
+        return data.data;
     },
 
     getMyTempPage: async () => {

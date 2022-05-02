@@ -15,6 +15,9 @@ import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 
 function App() {
+
+    const queryClient = new QueryClient();
+
     return (
         <QueryClientProvider client={queryClient}>
             <Routes>
@@ -32,6 +35,7 @@ function App() {
                 <Route path={"*"} element={<NotFound />} />
             </Routes>
         </QueryClientProvider>
+
     );
 }
 
