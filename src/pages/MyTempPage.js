@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
 
-MyTemporaryPage.propTypes = {};
+MyTempPage.propTypes = {};
 
 function MyTempPage(props) {
     const navigate = useNavigate();
