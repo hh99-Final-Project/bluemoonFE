@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
+import { Button } from "../elements/index";
 
 MyPage.propTypes = {};
 
@@ -51,6 +52,14 @@ function MyPage(props) {
                         <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
                             <Text>{diary.title}</Text>
                             <Text>댓글 {diary.count}개</Text>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteDiary(diary.postId);
+                                }}
+                            >
+                                게시물 삭제
+                            </button>
                         </DiaryCard>
                     );
                 })}
@@ -86,4 +95,9 @@ const DiaryCard = styled.div`
     padding: 10px;
 `;
 
-const Text = styled.text``;
+const Text = styled.p``;
+
+const DeleteButton = styled.button`
+    margin-right: 20px;
+    cursor: pointer;
+`;

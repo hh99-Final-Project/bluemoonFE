@@ -12,8 +12,8 @@ function MyTempPage(props) {
     // const [myTempDiary, setMyTempDiary] = useState([]);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
-    const deleteDiary = (postId) => {
-        diaryApi.deleteDiary(postId).then((response) => {
+    const deleteTempDiary = (postId) => {
+        diaryApi.deleteTempDiary(postId).then((response) => {
             console.log(response);
         });
     };
@@ -50,6 +50,14 @@ function MyTempPage(props) {
                         <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
                             <Text>{diary.title}</Text>
                             <Text>{diary.content}</Text>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteTempDiary(diary.postId);
+                                }}
+                            >
+                                임시저장 삭제
+                            </button>
                         </DiaryCard>
                     );
                 })}
@@ -86,4 +94,4 @@ const DiaryCard = styled.div`
     padding: 10px;
 `;
 
-const Text = styled.text``;
+const Text = styled.p``;
