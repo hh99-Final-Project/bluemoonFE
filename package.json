@@ -38,6 +38,12 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "sourceType": "module",
+      "allowImportExportEverywhere": true,
+      "ecmaVersion": 2015
+    },
     "extends": [
       "react-app",
       "react-app/jest"
