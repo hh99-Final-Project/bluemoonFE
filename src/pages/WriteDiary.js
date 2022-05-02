@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import Header from "../shared/Header";
+import CategoryBar from "../shared/CategoryBar";
 
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
@@ -12,7 +12,7 @@ WriteDiary.propTypes = {};
 
 function WriteDiary(props) {
   const navigate = useNavigate();
-  const { audioFile, setAudioFile } = useStore();
+  const { audioFile, setAudioFile, setCurrentHeader } = useStore();
 
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
@@ -165,11 +165,15 @@ function WriteDiary(props) {
     }
   }, [audioUrl]);
 
+  useEffect(()=>{
+    setCurrentHeader('포스트')
+  }, [])
+
   return (
     <React.Fragment>
       <button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>
       <PostTitle>고민 털어놓기</PostTitle>
-      <Header/>
+      <CategoryBar/>
       <PostAreaContainer>
         <PostText
           placeholder="제목을 작성해주세요"

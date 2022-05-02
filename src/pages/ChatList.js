@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 // import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
+import CategoryBar from "../shared/CategoryBar";
+import useStore from "../zustand/store";
 
 ChatList.propTypes = {};
 
 function ChatList(props) {
   // const [roomList, setRoomList] = useState([]);
   const navigate = useNavigate();
+  const { setCurrentHeader } = useStore();
 
   const inicialRoom = {
     roomename: null,
@@ -37,6 +40,10 @@ function ChatList(props) {
   //   })
   // })
 
+  useEffect(()=>{
+    setCurrentHeader('채팅');
+  },[])
+
   let chatList = [
     {
       roomName: "말 잘듣는 원숭이1",
@@ -59,7 +66,8 @@ function ChatList(props) {
   ];
 
   return (
-    <React.Fragment>
+    <div style={{marginTop:'120px'}}>
+      <CategoryBar/>
       <Grid>
         {chatList.map((chat, i) => {
           return (
@@ -75,7 +83,7 @@ function ChatList(props) {
           );
         })}
       </Grid>
-    </React.Fragment>
+    </div>
   );
 }
 
@@ -84,7 +92,7 @@ export default ChatList;
 const Grid = styled.div`
   width: 80vw;
   height: 80vh;
-  margin: 20vh auto 0;
+  margin: auto;
   display: flex;
   flex-direction: column;
   background-color: lightgray;

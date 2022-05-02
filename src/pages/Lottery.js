@@ -1,10 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
+import CategoryBar from "../shared/CategoryBar";
+import useStore from "../zustand/store";
 
 
 const Lottery = () => {
+
+    const {setCurrentHeader} = useStore();
+
+    useEffect(()=>{
+        setCurrentHeader('추첨');
+    },[])
+
     return (
-        <div style={{width: '100%'}}>
+        <div style={{width: '100%', marginTop:'200px'}}>
+            <CategoryBar/>
             <Title>
                 블루문 런칭 이벤트
             </Title>
@@ -29,7 +39,7 @@ const Lottery = () => {
 export default Lottery;
 
 const Title = styled.div`
-  margin: 200px auto 100px;
+  margin: 0 auto 100px;
   text-align: center;
   font-size: 60px;
   font-weight: bold;

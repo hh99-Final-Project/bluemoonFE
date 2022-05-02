@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import useStore from "../zustand/store";
 
 
-Header.propTypes = {
+CategoryBar.propTypes = {
 
 };
 
-function Header(props) {
+function CategoryBar(props) {
 
     const navigate = useNavigate();
     const { currentHeader, setCurrentHeader } = useStore();
@@ -24,7 +24,11 @@ function Header(props) {
                   }}>
                 홈
             </Home>
-            <DiaryList>
+            <DiaryList header={currentHeader}
+                onClick={() => {
+                setCurrentHeader('고민상담')
+                navigate('/diarylist')
+            }}>
                 고민상담
             </DiaryList>
             <Post header={currentHeader}
@@ -34,19 +38,23 @@ function Header(props) {
                   }}>
                 작성
             </Post>
-            <MyPage
+            <MyPage header={currentHeader}
                 onClick={() => {
-                    setCurrentHeader('포스트')
+                    setCurrentHeader('마이페이지')
                     navigate('/mypage');
                 }}>
                 마이페이지
             </MyPage>
-            <ChattingList onClick={()=>{
+            <ChattingList header={currentHeader}
+                onClick={()=>{
+                setCurrentHeader('채팅')
                 navigate('/chatlist');
             }}>
                 채팅
             </ChattingList>
-            <Lottery onClick={()=>{
+            <Lottery header={currentHeader}
+                onClick={()=>{
+                setCurrentHeader('추첨')
                 navigate('/lottery');
             }}>
                 추첨
@@ -56,12 +64,12 @@ function Header(props) {
     );
 }
 
-export default Header;
+export default CategoryBar;
 
 const HeaderContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
-  margin: 10px 0 20px 10px;
+  justify-content: center;
+  margin: 10px auto;
 `;
 
 const Home = styled.div`
@@ -78,7 +86,14 @@ const Post = styled(Home)`
 `;
 
 const DiaryList = styled(Home)`
+  color: ${(props) => (props.header === "고민상담" ? 'red' : 'black')};
 `;
-const MyPage = styled(Home)``
-const ChattingList = styled(Home)``
-const Lottery = styled(Home)``
+const MyPage = styled(Home)`
+  color: ${(props) => (props.header === "마이페이지" ? 'red' : 'black')};
+`
+const ChattingList = styled(Home)`
+  color: ${(props) => (props.header === "채팅" ? 'red' : 'black')};
+`
+const Lottery = styled(Home)`
+  color: ${(props) => (props.header === "추첨" ? 'red' : 'black')};
+`

@@ -6,6 +6,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { diaryApi } from "../apis/diaryApi";
+import CategoryBar from "../shared/CategoryBar";
+import useStore from "../zustand/store";
 
 DiaryList.propTypes = {};
 
@@ -69,16 +71,21 @@ function DiaryList(props) {
     slidesToScroll: 1,
   };
 
-  //
+  const { currentHeader, setCurrentHeader } = useStore();
+
+
   useEffect(() => {
     diaryApi.getDiaryList(1).then((response) => {
       setDiaryList([response]);
     });
+
+    setCurrentHeader('고민상담');
   }, []);
 
 
   return (
-    <React.Fragment>
+    <div style={{marginTop:'200px'}}>
+      <CategoryBar/>
       <CardContainer {...settings}>
         {diaryList.map((diary) => {
           return (
@@ -108,7 +115,7 @@ function DiaryList(props) {
       <DiaryWriteButton onClick={() => navigate("/post")}>
         다이어리 쓰기
       </DiaryWriteButton>
-    </React.Fragment>
+    </div>
   );
 }
 
@@ -117,7 +124,7 @@ export default DiaryList;
 const CardContainer = styled(Slider)`
   .slick-list {
     width: 509px;
-    margin: 70px auto;
+    margin: auto;
   }
 `;
 
@@ -177,7 +184,7 @@ const DiaryWriteButton = styled.div`
   height: 76px;
   background: #c4c4c4;
   border-radius: 9px;
-  margin: auto;
+  margin: 40px auto;
   display: flex;
   align-items: center;
   justify-content: center;

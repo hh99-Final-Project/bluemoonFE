@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
 import { useQuery } from "react-query";
+import CategoryBar from "../shared/CategoryBar";
 
 
 MyPage.propTypes = {};
@@ -47,9 +48,8 @@ function MyPage(props) {
     // ];
 
     return (
-        <React.Fragment>
-            {/* 헤더는 일단 나중에 */}
-
+        <div style={{marginTop:'130px'}}>
+            <CategoryBar/>
             <Grid>
                 <Select>
                     <button onClick={() => navigate("/mypage")}>내가 쓴 고민</button>
@@ -65,7 +65,7 @@ function MyPage(props) {
                     );
                 })}
             </Grid>
-        </React.Fragment>
+        </div>
     );
 }
 
@@ -74,7 +74,7 @@ export default MyPage;
 const Grid = styled.div`
     width: 80vw;
     height: 80vh;
-    margin: 20vh auto 0;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     background-color: lightgray;
