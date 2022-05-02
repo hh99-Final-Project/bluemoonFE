@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
 
-MyPage.propTypes = {};
+MyTempPage.propTypes = {};
 
-function MyPage(props) {
+function MyTempPage(props) {
     const navigate = useNavigate();
-    // const [myDiary, setMyDiary] = useState([]);
+    // const [myTempDiary, setMyTempDiary] = useState([]);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postId) => {
@@ -19,38 +19,37 @@ function MyPage(props) {
     };
 
     // useEffect(() => {
-    //   let page = 1;
-    //   userApi.getMyPage(page).then((response) => {
-    //     setMyDiary(response.data);
-    //   });
+    //     let page = 1;
+    //     userApi.getMyTempPage().then((response) => {
+    //         setMyTempDiary(response.data);
+    //     });
     // }, []);
 
-    const myDiary = [
+    const myTempDiary = [
         {
             postId: 1,
-            title: "타이틀1",
-            count: 2,
+            title: "임시저장 제목1",
+            content: "내용을 입력중...",
         },
         {
             postId: 2,
-            title: "타이틀2",
-            count: 1,
+            title: "임시저장 제목2",
+            content: "내용을 입력중...",
         },
     ];
+
     return (
         <React.Fragment>
-            {/* 헤더는 일단 나중에 */}
-
             <Grid>
                 <Select>
                     <button onClick={() => navigate("/mypage")}>내가 쓴 고민</button>
                     <button onClick={() => navigate("/mypage/temp")}>임시저장본 </button>
                 </Select>
-                {myDiary.map((diary) => {
+                {myTempDiary.map((diary) => {
                     return (
                         <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
                             <Text>{diary.title}</Text>
-                            <Text>댓글 {diary.count}개</Text>
+                            <Text>{diary.content}</Text>
                         </DiaryCard>
                     );
                 })}
@@ -59,7 +58,7 @@ function MyPage(props) {
     );
 }
 
-export default MyPage;
+export default MyTempPage;
 
 const Grid = styled.div`
     width: 80vw;
@@ -74,6 +73,7 @@ const Select = styled.div`
     height: 10%;
     align-items: right;
 `;
+
 const DiaryCard = styled.div`
     width: 90%;
     height: 15%;
