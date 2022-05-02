@@ -10,7 +10,7 @@ MyPage.propTypes = {};
 
 function MyPage(props) {
     const navigate = useNavigate();
-    // const [myDiary, setMyDiary] = useState([]);
+    const [myDiary, setMyDiary] = useState([]);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postId) => {
@@ -19,25 +19,26 @@ function MyPage(props) {
         });
     };
 
-    // useEffect(() => {
-    //   let page = 1;
-    //   userApi.getMyPage(page).then((response) => {
-    //     setMyDiary(response.data);
-    //   });
-    // }, []);
+    useEffect(() => {
+        let page = 1;
+        userApi.getMyPage(page).then((response) => {
+            setMyDiary(response.data);
+        });
+    }, []);
 
-    const myDiary = [
-        {
-            postId: 1,
-            title: "타이틀1",
-            count: 2,
-        },
-        {
-            postId: 2,
-            title: "타이틀2",
-            count: 1,
-        },
-    ];
+    // const myDiary = [
+    //     {
+    //         postId: 1,
+    //         title: "타이틀1",
+    //         count: 2,
+    //     },
+    //     {
+    //         postId: 2,
+    //         title: "타이틀2",
+    //         count: 1,
+    //     },
+    // ];
+
     return (
         <React.Fragment>
             {/* 헤더는 일단 나중에 */}
@@ -56,6 +57,7 @@ function MyPage(props) {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     deleteDiary(diary.postId);
+                                    navigate("/mypage");
                                 }}
                             >
                                 게시물 삭제

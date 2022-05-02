@@ -8,7 +8,7 @@ import { chatApi } from "../apis/chatApi";
 ChatList.propTypes = {};
 
 function ChatList(props) {
-    // const [roomList, setRoomList] = useState([]);
+    const [chatList, setChatList] = useState([]);
     const navigate = useNavigate();
 
     const inicialRoom = {
@@ -27,54 +27,54 @@ function ChatList(props) {
     };
 
     // 채팅방 리스트 조회 api
-    // React.useEffect(() => {
-    //   chatApi.getChatList()
-    //   .then((res) => {
-    //     console.log(res)
-    //     // 컴포넌트 스테이트에 바로 저장
-    // setRoomList(res.data);
-    //   })
-    // })
+    React.useEffect(() => {
+        chatApi.getChatList().then((res) => {
+            console.log(res);
+            // 컴포넌트 스테이트에 바로 저장
+            setChatList(res.data);
+        });
+    }, []);
 
-    let chatList = [
-        {
-            roomName: "말 잘듣는 원숭이1",
-            lastMessage: "마지막 메시지 1",
-            lastTime: "2022-05-01 23:00",
-            roomId: "1",
-        },
-        {
-            roomName: "말 잘듣는 원숭이2",
-            lastMessage: "마지막 메시지 2",
-            lastTime: "2022-05-01 23:00",
-            roomId: "2",
-        },
-        {
-            roomName: "말 잘듣는 원숭이3",
-            lastMessage: "마지막 메시지 3",
-            lastTime: "2022-05-01 23:00",
-            roomId: "3",
-        },
-    ];
+    // let chatList = [
+    //     {
+    //         roomName: "말 잘듣는 원숭이1",
+    //         lastMessage: "마지막 메시지 1",
+    //         lastTime: "2022-05-01 23:00",
+    //         roomId: "1",
+    //     },
+    //     {
+    //         roomName: "말 잘듣는 원숭이2",
+    //         lastMessage: "마지막 메시지 2",
+    //         lastTime: "2022-05-01 23:00",
+    //         roomId: "2",
+    //     },
+    //     {
+    //         roomName: "말 잘듣는 원숭이3",
+    //         lastMessage: "마지막 메시지 3",
+    //         lastTime: "2022-05-01 23:00",
+    //         roomId: "3",
+    //     },
+    // ];
 
-    return (
-        <React.Fragment>
-            <Grid>
-                {chatList.map((chat, i) => {
-                    return (
-                        <ChatRoom onClick={() => navigate(`/chat/${chat.roomId}`)} key={i}>
-                            <Text>{chat.roomName}</Text>
-                            <Text>{chat.lastMessage}</Text>
-                            <Text>{chat.lastTime}</Text>
-                            {/* <button>
-                  <Modal roomId={chat.roomId} open={isModalOpen}></Modal>
-                </button> */}
-                        </ChatRoom>
-                    );
-                })}
-            </Grid>
-        </React.Fragment>
-    );
+    if (chatList === []) {
+        return;
+    } else {
+        return (
+            <React.Fragment>
+                <Grid>
+                    {chatList.map((chat, i) => {
+                        return (
+                            <ChatRoom onClick={() => navigate(`/chat/${chat.roomId}`)} key={i}>
+                                <Text>{chat.roomName}</Text>
+                                <Text>{chat.lastMessage}</Text>
+                                <Text>{chat.lastTime}</Text>
+                            </ChatRoom>
+                        );
+                    })}
+                </Grid>
+            </React.Fragment>
+        );
+    }
 }
 
 export default ChatList;
