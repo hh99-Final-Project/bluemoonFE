@@ -7,6 +7,7 @@ import { CommentList } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
 import Header from "../shared/Header";
 import CommentInput from "../components/diary/CommentInput";
+import Loading from "../shared/Loading";
 
 DiaryDetail.propTypes = {};
 
@@ -17,15 +18,20 @@ function DiaryDetail(props) {
   const postId = params.id;
 
   const [diary, setDiary] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
     diaryApi.getOneDiary(1).then((response) => {
         console.log(response);
         setDiary(response);
+        setIsLoading(false);
     });
   }, []);
 
+  if(isLoading){
+     return <Loading/>
+  }
 
   return (
     <React.Fragment>

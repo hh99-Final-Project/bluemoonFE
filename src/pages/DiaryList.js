@@ -6,12 +6,14 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { diaryApi } from "../apis/diaryApi";
+import Loading from "../shared/Loading";
 
 DiaryList.propTypes = {};
 
 function DiaryList(props) {
   const navigate = useNavigate();
   const [diaryList, setDiaryList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // let diaryList = [
   //   {
@@ -73,9 +75,13 @@ function DiaryList(props) {
   useEffect(() => {
     diaryApi.getDiaryList(1).then((response) => {
       setDiaryList([response]);
+      setIsLoading(false);
     });
   }, []);
 
+  if(isLoading){
+    return <Loading/>
+  }
 
   return (
     <React.Fragment>
