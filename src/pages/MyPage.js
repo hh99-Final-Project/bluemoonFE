@@ -22,9 +22,14 @@ function MyPage(props) {
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postId) => {
-        diaryApi.deleteDiary(postId).then((response) => {
-            console.log(response);
-        });
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            diaryApi.deleteDiary(postId).then((response) => {
+                if (response.status === 200) {
+                    window.alert("삭제 완료되었습니다.");
+                    navigate("/mypage");
+                }
+            });
+        }
     };
 
     // const { data } = useQuery('mypage', () => userApi.getMyPage(page),
@@ -132,6 +137,9 @@ const DiaryCard = styled.div`
 const Text = styled.p``;
 
 const DeleteButton = styled.button`
-    margin-right: 20px;
+    width: 100px;
+    height: 20px;
+    margin-top: 20px;
+    background-color: pink;
     cursor: pointer;
 `;

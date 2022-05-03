@@ -27,10 +27,10 @@ export const userApi = {
         return data.data;
     },
 
-    // getMyTempPage: async () => {
-    //     const data = await instance.get("/api/temporarys");
-    //     return data;
-    // },
+    isLogin: async () => {
+        const data = await instance.get('/api/user/islogin');
+        return data;
+    },
 
     nickNameCheck: async (nickName) => {
         let req = {

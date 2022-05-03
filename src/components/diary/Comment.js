@@ -4,6 +4,7 @@ import styled from "styled-components";
 import moment from "moment";
 import { diaryApi } from "../../apis/diaryApi";
 import useStore from "../../zustand/store";
+import { useNavigate } from "react-router-dom";
 
 Comment.propTypes = {
     comment: PropTypes.object
@@ -12,37 +13,41 @@ Comment.propTypes = {
 function Comment(props) {
 
     const { comment } = props;
+    console.log(comment,"comment")
 
-    const { audioFile, setAudioFile } = useStore();
     const [audio, setAudio] = useState();
+    const navigate = useNavigate();
 
-    // console.log(audioFile,"audioFile")
-
-    // useEffect(()=>{
-    //     let audio = new Audio(URL.createObjectURL(audioFile))
-    //     audio.loop = false;
-    //     audio.volume = 1;
-    //     setAudio(audio);
-    // },[])
-
-
-    // const audioPlay = () => {
-    //     // audioUrl은 commnet의 data로 올 예정
-    //     if(audio){
-    //         console.log(audio.paused,"audio.paused")
-    //         if(!audio.paused) {
-    //             audio.pause();
-    //         } else {
-    //             audio.play();
-    //         }
+    // props는 이렇게 생겼어요
+    // let comments = [
+    //     {
+    //         "commentUuid": 1,
+    //         "nickname": "",
+    //         "content": "하이하이",
+    //         "createdAt": null,
+    //         "voiceUrl": "",
+    //         "show": true
     //     }
-    // }
+    // ]
+
+
+    const audioPlay = (url) => {
+        const audio = new Audio(url);
+        if(audio){
+            audio.volume = 1;
+            audio.loop = false;
+            audio.play();
+        }
+    }
 
 
 
-    const deleteComment = () => {
-        diaryApi.deleteComment(comment.commentId).then((response) => {
+    const deleteComment = (id) => {
+        diaryApi.deleteComment(id).then((response) => {
             console.log(response);
+            if(response.status === 200) {
+                window.alert("댓글 삭제 완료!")
+            }
         })
     };
 
@@ -56,12 +61,21 @@ function Comment(props) {
                 <PostContent>{comment.content}</PostContent>
 
                 <IconArea>
-                    {comment.isShow && <DeleteIcon onClick={deleteComment}>삭제</DeleteIcon>}
-                    <LockIcon>자물쇠</LockIcon>
+                    {comment.show && <DeleteIcon
+                        onClick={() => deleteComment(comment.commentUuid)}>
+                        삭제
+                    </DeleteIcon>}
+                    {comment.show && <LockIcon>자물쇠</LockIcon>}
                     <ChatIcon>채팅</ChatIcon>
-                    {/*<PlayIcon onClick={audioPlay}>*/}
-                    {/*    보이스 듣기*/}
-                    {/*</PlayIcon>*/}
+                    {
+                        comment.voiceUrl !== "" &&
+                        <PlayIcon
+                            onClick={(e) => {
+                                e.preventDefault();
+                                audioPlay(comment.voiceUrl)}}>
+                        보이스 듣기
+                    </PlayIcon>
+                    }
                 </IconArea>
             </OneCommentContainer>
         </React.Fragment>

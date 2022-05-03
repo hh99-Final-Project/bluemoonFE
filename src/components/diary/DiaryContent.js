@@ -27,26 +27,25 @@ function DiaryContent(props) {
         }
     };
 
-    return (
-        <React.Fragment>
-            <DiaryContainer>
-                <TitleContainer>
-                    <TitleContainerLeft>
-                        <Title>{diary.nickname}</Title>
-                        <NewBadge />
-                    </TitleContainerLeft>
-                    <TitleContainerRight>
-                        <DateArea>2022-04-26 12:00</DateArea>
-                        <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
-                    </TitleContainerRight>
-                </TitleContainer>
-                <ContentsContainer>{diary.content}</ContentsContainer>
-                <VoiceButton onClick={playAudio}>듣기</VoiceButton>
-                <IconArea>
-                    <IconAreaLeft>
-                        <LikeButton>좋아요</LikeButton>
-                        <CommentButton>댓글 남기기</CommentButton>
-                    </IconAreaLeft>
+  return (
+    <React.Fragment>
+      <DiaryContainer>
+        <TitleContainer>
+          <TitleContainerLeft>
+            <Title>{diary.nickname}</Title>
+            <NewBadge />
+          </TitleContainerLeft>
+          <TitleContainerRight>
+            <DateArea>{diary.createdAt}</DateArea>
+            <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
+          </TitleContainerRight>
+        </TitleContainer>
+        <ContentsContainer>{diary.content}</ContentsContainer>
+        <VoiceButton onClick={playAudio}>듣기</VoiceButton>
+        <IconArea>
+          <IconAreaLeft>
+            <CommentButton>댓글 남기기</CommentButton>
+          </IconAreaLeft>
 
                     <ChattingButton
                         onClick={(e) => {
@@ -127,10 +126,7 @@ const IconAreaLeft = styled.div`
     justify-content: center;
     align-items: center;
 `;
-const LikeButton = styled.div`
-    margin-right: 20px;
-    cursor: pointer;
-`;
+
 const CommentButton = styled.div`
     cursor: pointer;
 `;
