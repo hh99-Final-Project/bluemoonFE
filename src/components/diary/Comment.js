@@ -13,9 +13,6 @@ Comment.propTypes = {
 function Comment(props) {
 
     const { comment } = props;
-    console.log(comment,"comment")
-
-    const [audio, setAudio] = useState();
     const navigate = useNavigate();
 
     // props는 이렇게 생겼어요
@@ -30,7 +27,6 @@ function Comment(props) {
     //     }
     // ]
 
-
     const audioPlay = (url) => {
         const audio = new Audio(url);
         if(audio){
@@ -39,8 +35,6 @@ function Comment(props) {
             audio.play();
         }
     }
-
-
 
     const deleteComment = (id) => {
         diaryApi.deleteComment(id).then((response) => {
