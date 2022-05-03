@@ -36,7 +36,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/signup" element={<SignUp />} />
-                <Route path="/post" element={<WriteDiary />} />
+                <Route path="/write" element={<WriteDiary />} />
                 <Route path="/diarylist" element={<DiaryList />} />
                 <Route path="/select" element={<SelectMode />} />
                 <Route path="/diary/:id" element={<DiaryDetail />} />

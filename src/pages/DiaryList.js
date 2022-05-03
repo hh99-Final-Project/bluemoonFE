@@ -92,7 +92,7 @@ function DiaryList(props) {
           );
         })}
       </CardContainer>
-      <DiaryWriteButton onClick={() => navigate("/post")}>
+      <DiaryWriteButton onClick={() => navigate("/write")}>
         다이어리 쓰기
       </DiaryWriteButton>
     </div>

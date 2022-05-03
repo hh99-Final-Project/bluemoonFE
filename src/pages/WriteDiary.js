@@ -90,7 +90,6 @@ function WriteDiary(props) {
           <VoiceStop onClick={stopRecord}>중지</VoiceStop>
           <VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>
           <VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>
-          <button onClick={testPlay}>소리들리나</button>
         </VoiceContainer>
         <PostButton onClick={onClickHandler}>등록하기</PostButton>
 
