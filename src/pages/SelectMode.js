@@ -24,7 +24,7 @@ function SelectMode(props){
             </MoveToDiary>
 
             <MoveToDiary onClick={() => navigate('/diarylist')}>
-                고민 상담하기
+                고민 둘러보기
             </MoveToDiary>
         </React.Fragment>
     );

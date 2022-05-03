@@ -29,7 +29,7 @@ export const userApi = {
 
     isLogin: async () => {
         const data = await instance.get('/api/user/islogin');
-        return data;
+        return data.data;
     },
 
     nickNameCheck: async (nickName) => {

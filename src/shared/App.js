@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { QueryClient ,QueryClientProvider } from 'react-query'
 import Main from "../pages/Main";
@@ -14,10 +14,22 @@ import MyTempPage from "../pages/MyTempPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
+import { getCookie } from "../utils/cookie";
+import { userApi } from "../apis/userApi";
+import { useDispatch } from "react-redux";
+import {loginCheck} from "../redux/modules/userSlice";
 
 function App() {
 
     const queryClient = new QueryClient();
+    const dispatch = useDispatch();
+    const cookie = getCookie('authorization');
+
+    useEffect(()=>{
+        if(cookie){
+           dispatch(loginCheck());
+        }
+    },[])
 
     return (
         <QueryClientProvider client={queryClient}>

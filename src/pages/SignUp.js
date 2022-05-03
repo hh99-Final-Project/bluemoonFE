@@ -124,8 +124,8 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-    background-color: ${(props) => (props.isvalid === "true" ? "blue" : "gray")};
-    pointer-events: ${(props) => (props.isvalid === "true" ? "auto" : "none")};
+    background-color: ${(props) => (props.isvalid === true ? "blue" : "gray")};
+    pointer-events: ${(props) => (props.isvalid === true ? "auto" : "none")};
     color: #ffffff;
 
     border: none;

@@ -8,6 +8,7 @@ import Header2 from "../shared/Header2";
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
+import {useSelector} from "react-redux";
 
 WriteDiary.propTypes = {};
 
@@ -28,6 +29,8 @@ function WriteDiary(props) {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [test, setTest] = useState();
 
+  const userInfo = useSelector((state) => state.userSlice.userInfo)
+
   const onChangeTitleHandler = (e) => {
     setTitle(e.target.value);
   };
@@ -41,6 +44,12 @@ function WriteDiary(props) {
   };
 
   const onClickHandler = (e) => {
+
+    if(!userInfo){
+      window.alert('로그인하셔야 등록 가능합니다!')
+      return;
+    }
+
     // api 연동 (voice 보내기 or 다이어리 내역 보내기)
     diaryApi.createPost(title, diary, audioUrl).then((response) => {
       console.log(response);
