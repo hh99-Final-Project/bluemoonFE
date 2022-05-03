@@ -26,7 +26,7 @@ export const diaryApi = {
   },
 
   getOneDiary: async (postId) => {
-    const data = await instance.get(`/api/posts/${postId}`);
+    const data = await instance.get(`/api/postsDetail/${postId}`);
     return data.data;
   },
 
