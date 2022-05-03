@@ -78,6 +78,7 @@ function DiaryList(props) {
 
     useEffect(() => {
         diaryApi.getDiaryList(1).then((response) => {
+            console.log(response);
             setDiaryList([response]);
             setIsLoading(false);
         });

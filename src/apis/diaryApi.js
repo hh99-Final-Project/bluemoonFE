@@ -20,8 +20,8 @@ export const diaryApi = {
         return data;
     },
 
-    getDiaryList: async () => {
-        const data = await instance.get(`/api/posts`);
+    getDiaryList: async (page) => {
+        const data = await instance.get(`/api/posts/${page}`);
         return data.data;
     },
 
