@@ -5,6 +5,7 @@ import moment from "moment";
 import { diaryApi } from "../../apis/diaryApi";
 import useStore from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
+import { convertDate } from "../../utils/convertDate";
 
 Comment.propTypes = {
     comment: PropTypes.object
@@ -45,12 +46,15 @@ function Comment(props) {
         })
     };
 
+
+
+
     return (
         <React.Fragment>
             <OneCommentContainer>
                 <NickNameTimeArea>
                     <NicknameArea>{comment.nickname}의 댓글</NicknameArea>
-                    <PostTimeArea>{comment.createdAt}</PostTimeArea>
+                    <PostTimeArea>{convertDate(comment.createdAt)}</PostTimeArea>
                 </NickNameTimeArea>
                 <PostContent>{comment.content}</PostContent>
 
