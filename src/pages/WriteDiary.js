@@ -26,6 +26,7 @@ function WriteDiary(props) {
   const [audioCtx, setAudioCtx] = useState();
   const [soundFile, setSoundFile] = useState();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [test, setTest] = useState();
 
   const onChangeTitleHandler = (e) => {
     setTitle(e.target.value);
@@ -41,19 +42,15 @@ function WriteDiary(props) {
 
   const onClickHandler = (e) => {
     // api 연동 (voice 보내기 or 다이어리 내역 보내기)
-    diaryApi.createPost(title, diary, soundFile).then((response) => {
+    diaryApi.createPost(title, diary, audioUrl).then((response) => {
       console.log(response);
+      setTest(response.data);
     });
     //일단 쓰고 있다고 가정하고, 쓰고 있는데 나갈거냐는 팝업을 띄워본다.
     // setIsOpenPopup(true);
   };
 
-  const saveTemp = () => {
-    diaryApi.tempSaveDiary(title, diary).then((response) => {
-      console.log(response);
-    })
-  }
-
+  console.log(test,"test")
   //음성 녹음하기
   const recordVoice = () => {
     // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
@@ -92,7 +89,8 @@ function WriteDiary(props) {
   const stopRecord = () => {
     media.ondataavailable = function (e) {
       setAudioUrl(e.data);
-      setAudioFile(e.data);
+      console.log(e.data,"e.data")
+      // setAudioFile(e.data);
       const sound = new File([audioUrl], "recordedVoice", {
         lastModified: new Date().getTime(),
         type: "audio",
@@ -166,6 +164,21 @@ function WriteDiary(props) {
     }
   }, [audioUrl]);
 
+  const testplay = () => {
+    console.log(test,"test")
+    if(test){
+      let audio = new Audio(test);
+      if(audio){
+        audio.loop = false;
+        audio.volume = 1;
+        audio.play();
+      }
+    }
+
+
+
+  }
+
   useEffect(()=>{
     setCurrentHeader('포스트')
   }, [])
@@ -193,9 +206,10 @@ function WriteDiary(props) {
           <VoiceStop onClick={stopRecord}>중지</VoiceStop>
           <VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>
           <VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>
+          <button onClick={testplay}>소리들리나</button>
         </VoiceContainer>
-        <TempSaveButton onClick={saveTemp}>임시 저장</TempSaveButton>
         <PostButton onClick={onClickHandler}>등록하기</PostButton>
+
       </PostAreaContainer>
 
       {isOpenPopup && (

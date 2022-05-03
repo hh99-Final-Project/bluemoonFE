@@ -17,6 +17,16 @@ function DiaryContent(props) {
         });
     };
 
+    const playAudio = () => {
+        //diary.voiceUrl
+        let audio = new Audio(diary.voiceUrl);
+        if (audio) {
+            audio.volume = 1;
+            audio.loop = false;
+            audio.play();
+        }
+    };
+
     return (
         <React.Fragment>
             <DiaryContainer>
@@ -31,7 +41,7 @@ function DiaryContent(props) {
                     </TitleContainerRight>
                 </TitleContainer>
                 <ContentsContainer>{diary.content}</ContentsContainer>
-                <VoiceButton>듣기</VoiceButton>
+                <VoiceButton onClick={playAudio}>듣기</VoiceButton>
                 <IconArea>
                     <IconAreaLeft>
                         <LikeButton>좋아요</LikeButton>

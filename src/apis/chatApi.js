@@ -11,8 +11,8 @@ export const chatApi = {
         return data;
     },
 
-    getChatList: async () => {
-        const data = await instance.get("/api/rooms");
+    getChatList: async (page) => {
+        const data = await instance.get(`/api/rooms/${page}`);
         return data;
     },
 

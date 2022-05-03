@@ -7,12 +7,13 @@ import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header2 from "../shared/Header2";
+import Loading from "../shared/Loading";
 
 ChatList.propTypes = {};
 
 function ChatList(props) {
-    // const [chatList, setChatList] = useState([]);
-    // const [roomList, setRoomList] = useState([]);
+    const [chatList, setChatList] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
 
@@ -32,42 +33,41 @@ function ChatList(props) {
     };
 
     // 채팅방 리스트 조회 api
-    React.useEffect(() => {
-        chatApi.getChatList().then((res) => {
-            console.log(res);
-            // 컴포넌트 스테이트에 바로 저장
-            setChatList(res.data);
-        });
-    }, []);
-
     useEffect(() => {
+        chatApi.getChatList(1).then((response) => {
+            // 컴포넌트 스테이트에 바로 저장
+            setChatList(response.data);
+            setIsLoading(false);
+        });
+
         setCurrentHeader("채팅");
     }, []);
 
-    let chatList = [
-        {
-            roomName: "말 잘듣는 원숭이1",
-            lastMessage: "마지막 메시지 1",
-            lastTime: "마지막 메시지 온 시간",
-            roomId: "1",
-        },
-        {
-            roomName: "말 잘듣는 원숭이2",
-            lastMessage: "마지막 메시지 2",
-            lastTime: "마지막 메시지 온 시간",
-            roomId: "2",
-        },
-        {
-            roomName: "말 잘듣는 원숭이3",
-            lastMessage: "마지막 메시지 3",
-            lastTime: "마지막 메시지 온 시간",
-            roomId: "3",
-        },
-    ];
-
-    if (chatList === []) {
-        return;
+    if (isLoading) {
+        return <Loading />;
     }
+
+    console.log(chatList);
+    // let chatList = [
+    //     {
+    //         roomName: "말 잘듣는 원숭이1",
+    //         lastMessage: "마지막 메시지 1",
+    //         lastTime: "마지막 메시지 온 시간",
+    //         roomId: "1",
+    //     },
+    //     {
+    //         roomName: "말 잘듣는 원숭이2",
+    //         lastMessage: "마지막 메시지 2",
+    //         lastTime: "마지막 메시지 온 시간",
+    //         roomId: "2",
+    //     },
+    //     {
+    //         roomName: "말 잘듣는 원숭이3",
+    //         lastMessage: "마지막 메시지 3",
+    //         lastTime: "마지막 메시지 온 시간",
+    //         roomId: "3",
+    //     },
+    // ];
 
     return (
         <div>

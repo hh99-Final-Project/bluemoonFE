@@ -1,16 +1,20 @@
 import { instance, fileInstance } from "./config";
 
 export const diaryApi = {
-    createPost: async (title, content, soundFile) => {
-        // let req = {
-        //   title: title,
-        //   content: content,
-        // };
-
+    createPost: async (title, content, audioUrl) => {
+        let req = {
+            title: title,
+            content: content,
+        };
+        let requestDto = {
+            ...req,
+        };
+        let req2 = { requestDto };
+        let json2 = JSON.stringify(req);
         const form = new FormData();
-        form.append("title", title);
-        form.append("content", content);
-        form.append("file", soundFile);
+        const blob2 = new Blob([json2], { type: "application/json" });
+        form.append("requestDto", blob2);
+        form.append("file", audioUrl);
 
         const data = await fileInstance.post("/api/posts", form);
         return data;
@@ -22,7 +26,7 @@ export const diaryApi = {
     },
 
     getOneDiary: async (postId) => {
-        const data = await instance.get(`/api/posts/${postId}`);
+        const data = await instance.get(`/api/postsDetail/${postId}`);
         return data.data;
     },
 

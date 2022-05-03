@@ -19,7 +19,7 @@ function DiaryDetail(props) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        diaryApi.getOneDiary(1).then((response) => {
+        diaryApi.getOneDiary(postId).then((response) => {
             console.log(response);
             setDiary(response);
             setIsLoading(false);
