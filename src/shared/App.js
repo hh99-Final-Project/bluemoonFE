@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { QueryClient ,QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from "react-query";
 import Main from "../pages/Main";
 import SignUp from "../pages/SignUp";
 import WriteDiary from "../pages/WriteDiary";
@@ -10,7 +10,7 @@ import DiaryDetail from "../pages/DiaryDetail";
 import ChatDetail from "../pages/ChatDetail";
 import ChatList from "../pages/ChatList";
 import MyPage from "../pages/MyPage";
-import MyTempPage from "../pages/MyTempPage";
+// import MyTempPage from "../pages/MyTempPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
@@ -20,7 +20,6 @@ import { useDispatch } from "react-redux";
 import {loginCheck} from "../redux/modules/userSlice";
 
 function App() {
-
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
     const cookie = getCookie('authorization');
@@ -43,13 +42,12 @@ function App() {
                 <Route path="/chat/:id" element={<ChatDetail />} />
                 <Route path="/chatlist" element={<ChatList />} />
                 <Route path="/mypage" element={<MyPage />} />
-                <Route path="/mypage/temp" element={<MyTempPage />} />
+                {/* <Route path="/mypage/temp" element={<MyTempPage />} /> */}
                 <Route path="/alert" element={<Notifications />} />
-                <Route path="/lottery" element={<Lottery/>}/>
+                <Route path="/lottery" element={<Lottery />} />
                 <Route path={"*"} element={<NotFound />} />
             </Routes>
         </QueryClientProvider>
-
     );
 }
 

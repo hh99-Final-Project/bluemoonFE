@@ -8,25 +8,28 @@ import { Button } from "../elements/index";
 import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
+import Loading from "../shared/Loading";
+import InfinityScroll from "../shared/InfinityScroll";
 
 MyPage.propTypes = {};
 
 function MyPage(props) {
     const navigate = useNavigate();
     const [myDiary, setMyDiary] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
+    const [hasNext, setHasNext] = useState(null);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postId) => {
-        if(window.confirm("정말 삭제하시겠습니까?")) {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
             diaryApi.deleteDiary(postId).then((response) => {
-                if(response.status === 200) {
-                    window.alert("삭제 완료되었습니다.")
-                    navigate('/mypage');
+                if (response.status === 200) {
+                    window.alert("삭제 완료되었습니다.");
+                    navigate("/mypage");
                 }
             });
         }
-
     };
 
     // const { data } = useQuery('mypage', () => userApi.getMyPage(page),
@@ -35,48 +38,69 @@ function MyPage(props) {
     //     }
     //     );
 
+    // 무한스크롤을 위한 세팅 작업
+    // 일단은 더 보기 버튼으로 구현
+    const MoreDiary = () => {
+        console.log("next!");
+        userApi.getMyPage(page).then((response) => {
+            setMyDiary([...myDiary, ...response]);
+            setIsLoading(false);
+            if (response.length < 5) {
+                setHasNext(false);
+            } else {
+                setHasNext(true);
+            }
+            setPage(page + 1);
+        });
+    };
+
     useEffect(() => {
-        userApi.getMyPage(1).then((response) => {
-            setMyDiary(response);
+        userApi.getMyPage(page).then((response) => {
+            setMyDiary([...myDiary, ...response]);
+            setIsLoading(false);
+            if (response.length < 5) {
+                setHasNext(false);
+            } else {
+                setHasNext(true);
+            }
+            setPage(page + 1);
         });
     }, []);
 
-    // const myDiary = [
-    //     {
-    //         postId: 1,
-    //         title: "타이틀1",
-    //         count: 2,
-    //     },
-    //     {
-    //         postId: 2,
-    //         title: "타이틀2",
-    //         count: 1,
-    //     },
-    // ];
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <div>
             <Header2 />
             <CategoryBar />
             <Grid>
-                {myDiary.map((diary) => {
-                    return (
-                        <DiaryCard onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
-                            <Text>{diary.title}</Text>
-                            <div>{diary.content}</div>
-                            <Text>댓글 {diary.count}개</Text>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteDiary(diary.postUuid);
-                                    navigate("/mypage");
-                                }}
-                            >
-                                게시물 삭제
-                            </button>
-                        </DiaryCard>
-                    );
-                })}
+                {/* <Select>
+                    <button onClick={() => navigate("/mypage")}>내가 쓴 고민</button>
+                    <button onClick={() => navigate("/mypage/temp")}>임시저장본 </button>
+                </Select> */}
+                <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}>
+                    {myDiary.map((diary) => {
+                        return (
+                            <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
+                                <Text>{diary.title}</Text>
+                                <div>{diary.content}</div>
+                                <Text>댓글 {diary.count}개</Text>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteDiary(diary.postId);
+                                        navigate("/mypage");
+                                    }}
+                                >
+                                    게시물 삭제
+                                </button>
+                            </DiaryCard>
+                        );
+                    })}
+                </InfinityScroll>
+                {/* <button onClick={MoreDiary}>더 보기</button> */}
             </Grid>
         </div>
     );
@@ -93,10 +117,11 @@ const Grid = styled.div`
     background-color: lightgray;
 `;
 
-const Select = styled.div`
-    height: 10%;
-    align-items: flex-end;
-`;
+// const Select = styled.div`
+//     height: 10%;
+//     align-items: flex-end;
+// `;
+
 const DiaryCard = styled.div`
     width: 90%;
     height: 15%;
@@ -112,9 +137,9 @@ const DiaryCard = styled.div`
 const Text = styled.p``;
 
 const DeleteButton = styled.button`
-  width: 100px;
-  height: 20px;
-  margin-top: 20px;
-  background-color: pink;
-  cursor:pointer;
+    width: 100px;
+    height: 20px;
+    margin-top: 20px;
+    background-color: pink;
+    cursor: pointer;
 `;
