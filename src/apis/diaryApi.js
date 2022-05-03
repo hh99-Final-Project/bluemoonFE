@@ -6,15 +6,11 @@ export const diaryApi = {
       title: title,
       content: content,
     }
-    let requestDto = {
-      ...req
-    }
-    let req2 = {requestDto}
-    let json2 = JSON.stringify(req)
+    let json = JSON.stringify(req)
     const form = new FormData();
-    const blob2 = new Blob([json2], { type: "application/json" })
-    form.append('requestDto',blob2);
-    form.append('file', audioUrl);
+    const blob = new Blob([json], { type: "application/json" })
+    form.append('requestDto',blob);
+    audioUrl !== undefined && form.append('file', audioUrl);
 
     const data = await fileInstance.post("/api/posts", form);
     return data;
@@ -35,19 +31,20 @@ export const diaryApi = {
     return data;
   },
 
-  createComment: async (postId, comment, sound) => {
+  createComment: async (postId, comment, audioUrl) => {
     let req = {
-      "postId": postId,
+      "postUuid": postId,
       "content": comment
     }
 
     const form = new FormData();
-    form.append('postId', postId);
-    form.append('comment', comment);
-    form.append('file', sound);
+    let json = JSON.stringify(req)
+    const blob = new Blob([json], { type: "application/json" })
+    form.append('requestDto',blob);
+    audioUrl !== undefined && form.append('file', audioUrl);
+
 
     const data = await fileInstance.post("/api/comments", form);
-    // const data = await instance.post('/api/comments', req);
     return data;
   },
 

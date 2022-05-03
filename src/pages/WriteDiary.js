@@ -13,7 +13,7 @@ WriteDiary.propTypes = {};
 
 function WriteDiary(props) {
   const navigate = useNavigate();
-  const { audioFile, setAudioFile, setCurrentHeader } = useStore();
+  const { setCurrentHeader } = useStore();
 
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
@@ -44,13 +44,15 @@ function WriteDiary(props) {
     // api 연동 (voice 보내기 or 다이어리 내역 보내기)
     diaryApi.createPost(title, diary, audioUrl).then((response) => {
       console.log(response);
-      setTest(response.data);
+      if(response.status === 200) {
+        window.alert('작성 완료입니다!');
+        navigate('/mypage')
+      } else {
+        window.alert("고민 작성에 실패했어요! 다시 시도해주세요")
+      }
     });
-    //일단 쓰고 있다고 가정하고, 쓰고 있는데 나갈거냐는 팝업을 띄워본다.
-    // setIsOpenPopup(true);
   };
 
-  console.log(test,"test")
   //음성 녹음하기
   const recordVoice = () => {
     // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
@@ -63,8 +65,8 @@ function WriteDiary(props) {
     function makeSound(stream) {
       // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보를 보여준다.
       const source = audioCtx.createMediaStreamSource(stream);
-      console.log(source,"source")
       setAudioCtx(audioCtx);
+      setSource(source);
 
       // AudioBufferSourceNode 연결
       source.connect(analyser);
@@ -89,8 +91,6 @@ function WriteDiary(props) {
   const stopRecord = () => {
     media.ondataavailable = function (e) {
       setAudioUrl(e.data);
-      console.log(e.data,"e.data")
-      // setAudioFile(e.data);
       const sound = new File([audioUrl], "recordedVoice", {
         lastModified: new Date().getTime(),
         type: "audio",

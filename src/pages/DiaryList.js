@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { diaryApi } from "../apis/diaryApi";
+import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
@@ -78,8 +79,13 @@ function DiaryList(props) {
 
 
   useEffect(() => {
+    userApi.isLogin().then((response) => {
+      console.log(response,"response")
+    })
+
     diaryApi.getDiaryList(1).then((response) => {
-      setDiaryList([response]);
+      console.log(response);
+      setDiaryList(response);
       setIsLoading(false);
     });
 
@@ -98,8 +104,8 @@ function DiaryList(props) {
         {diaryList.map((diary) => {
           return (
             <DiaryCard
-              onClick={() => navigate(`/diary/${diary.postId}`)}
-              key={diary.postId}
+              onClick={() => navigate(`/diary/${diary.postUuid}`)}
+              key={diary.postpostUuidUuid}
             >
               <DiaryTitle>{diary.title}</DiaryTitle>
               <DiaryDesc>{diary.content}</DiaryDesc>
@@ -108,7 +114,7 @@ function DiaryList(props) {
                   <CommentIcon
                     onClick={(e) => {
                      e.preventDefault();
-                     navigate(`/diary/${diary.postId}`)
+                     navigate(`/diary/${diary.postUuid}`)
                     }}
                   >
                     댓글

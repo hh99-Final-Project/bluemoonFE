@@ -27,8 +27,8 @@ export const userApi = {
         return data.data;
     },
 
-    getMyTempPage: async () => {
-        const data = await instance.get("/api/temporarys");
+    isLogin: async () => {
+        const data = await instance.get('/api/user/islogin');
         return data;
     },
 
