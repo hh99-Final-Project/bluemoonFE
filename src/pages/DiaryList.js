@@ -6,12 +6,17 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { diaryApi } from "../apis/diaryApi";
+import Loading from "../shared/Loading";
+import CategoryBar from "../shared/CategoryBar";
+import Header2 from "../shared/Header2";
+import useStore from "../zustand/store";
 
 DiaryList.propTypes = {};
 
 function DiaryList(props) {
     const navigate = useNavigate();
     const [diaryList, setDiaryList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     // let diaryList = [
     //   {
@@ -22,7 +27,7 @@ function DiaryList(props) {
     //     content: "게시글 내용1",
     //     createdAt: "게시글 작성 시간1",
     //   },
-
+    //
     //   {
     //     postId: 2,
     //     nickname: "랜덤 닉네임2",
@@ -31,7 +36,7 @@ function DiaryList(props) {
     //     content: "게시글 내용2",
     //     createdAt: "게시글 작성 시간2",
     //   },
-
+    //
     //   {
     //     postId: 3,
     //     nickname: "랜덤 닉네임3",
@@ -40,7 +45,7 @@ function DiaryList(props) {
     //     content: "게시글 내용3",
     //     createdAt: "게시글 작성 시간3",
     //   },
-
+    //
     //   {
     //     postId: 4,
     //     nickname: "랜덤 닉네임4",
@@ -49,7 +54,7 @@ function DiaryList(props) {
     //     content: "게시글 내용4",
     //     createdAt: "게시글 작성 시간4",
     //   },
-
+    //
     //   {
     //     postId: 5,
     //     nickname: "랜덤 닉네임5",
@@ -69,19 +74,25 @@ function DiaryList(props) {
         slidesToScroll: 1,
     };
 
+    const { currentHeader, setCurrentHeader } = useStore();
+
     useEffect(() => {
-        diaryApi.getDiaryList().then((response) => {
-            setDiaryList(response);
-            console.log(response);
+        diaryApi.getDiaryList(1).then((response) => {
+            setDiaryList([response]);
+            setIsLoading(false);
         });
+
+        setCurrentHeader("고민상담");
     }, []);
 
-    if (diaryList === []) {
-        return;
+    if (isLoading) {
+        return <Loading />;
     }
 
     return (
-        <React.Fragment>
+        <div>
+            <Header2 />
+            <CategoryBar />
             <CardContainer {...settings}>
                 {diaryList.map((diary) => {
                     return (
@@ -90,8 +101,14 @@ function DiaryList(props) {
                             <DiaryDesc>{diary.content}</DiaryDesc>
                             <DiaryIcons>
                                 <IconsLeft>
-                                    <LikeIcon>좋아용</LikeIcon>
-                                    <CommentIcon onClick={() => navigate(`/diary/${diary.postId}`)}>댓글</CommentIcon>
+                                    <CommentIcon
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(`/diary/${diary.postId}`);
+                                        }}
+                                    >
+                                        댓글
+                                    </CommentIcon>
                                 </IconsLeft>
                                 <ChattingIcon>채팅</ChattingIcon>
                             </DiaryIcons>
@@ -100,7 +117,7 @@ function DiaryList(props) {
                 })}
             </CardContainer>
             <DiaryWriteButton onClick={() => navigate("/post")}>다이어리 쓰기</DiaryWriteButton>
-        </React.Fragment>
+        </div>
     );
 }
 
@@ -109,7 +126,7 @@ export default DiaryList;
 const CardContainer = styled(Slider)`
     .slick-list {
         width: 509px;
-        margin: 70px auto;
+        margin: auto;
     }
 `;
 
@@ -169,7 +186,7 @@ const DiaryWriteButton = styled.div`
     height: 76px;
     background: #c4c4c4;
     border-radius: 9px;
-    margin: auto;
+    margin: 40px auto;
     display: flex;
     align-items: center;
     justify-content: center;

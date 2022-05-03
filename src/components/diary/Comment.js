@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
 import moment from "moment";
 import { diaryApi } from "../../apis/diaryApi";
+import useStore from "../../zustand/store";
 
 Comment.propTypes = {
     comment: PropTypes.object
@@ -12,17 +13,44 @@ function Comment(props) {
 
     const { comment } = props;
 
+    const { audioFile, setAudioFile } = useStore();
+    const [audio, setAudio] = useState();
+
+    // console.log(audioFile,"audioFile")
+
+    // useEffect(()=>{
+    //     let audio = new Audio(URL.createObjectURL(audioFile))
+    //     audio.loop = false;
+    //     audio.volume = 1;
+    //     setAudio(audio);
+    // },[])
+
+
+    // const audioPlay = () => {
+    //     // audioUrl은 commnet의 data로 올 예정
+    //     if(audio){
+    //         console.log(audio.paused,"audio.paused")
+    //         if(!audio.paused) {
+    //             audio.pause();
+    //         } else {
+    //             audio.play();
+    //         }
+    //     }
+    // }
+
+
+
     const deleteComment = () => {
         diaryApi.deleteComment(comment.commentId).then((response) => {
             console.log(response);
         })
-    }
+    };
 
     return (
         <React.Fragment>
             <OneCommentContainer>
                 <NickNameTimeArea>
-                    <NicknameArea>`${comment.nickname}의 댓글`</NicknameArea>
+                    <NicknameArea>{comment.nickname}의 댓글</NicknameArea>
                     <PostTimeArea>{comment.createdAt}</PostTimeArea>
                 </NickNameTimeArea>
                 <PostContent>{comment.content}</PostContent>
@@ -31,7 +59,9 @@ function Comment(props) {
                     {comment.isShow && <DeleteIcon onClick={deleteComment}>삭제</DeleteIcon>}
                     <LockIcon>자물쇠</LockIcon>
                     <ChatIcon>채팅</ChatIcon>
-                    <PlayIcon>보이스 듣기</PlayIcon>
+                    {/*<PlayIcon onClick={audioPlay}>*/}
+                    {/*    보이스 듣기*/}
+                    {/*</PlayIcon>*/}
                 </IconArea>
             </OneCommentContainer>
         </React.Fragment>

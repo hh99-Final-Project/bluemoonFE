@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { DiaryContent } from "../components/diary";
-import { CommentList } from "../components/diary";
+import { DiaryContent, CommentList } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
-import Header from "../shared/Header";
+import CommentInput from "../components/diary/CommentInput";
+import Header2 from "../shared/Header2";
+import Loading from "../shared/Loading";
 
 DiaryDetail.propTypes = {};
 
@@ -14,57 +15,33 @@ function DiaryDetail(props) {
     const params = useParams();
     const postId = params.id;
 
-    const [diary, setDiary] = useState(null);
-
-    // let diary = {
-    //     isShow: true,
-    //     postId: 1,
-    //     nickname: "랜덤 닉네임",
-    //     userId: 1,
-    //     title: "게시글 제목",
-    //     content: "게시글 내용",
-    //     createdAt: "2022-05-01 23:00",
-    //     comments: [
-    //         {
-    //             isShow: true,
-    //             commentId: 1,
-    //             nickname: "랜덤 닉네임",
-    //             content: "댓글 내용",
-    //             createdAt: "2022-05-01 23:00",
-    //         },
-    //         {
-    //             isShow: false,
-    //             commentId: 2,
-    //             nickname: "랜덤 닉네임",
-    //             content: "댓글 내용",
-    //             createdAt: "2022-05-01 23:00",
-    //         },
-    //     ],
-    // };
+    const [diary, setDiary] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        diaryApi.getOneDiary(postId).then((response) => {
+        diaryApi.getOneDiary(1).then((response) => {
             console.log(response);
             setDiary(response);
+            setIsLoading(false);
         });
     }, []);
 
-    if (diary === null) {
-        return;
-    } else {
-        return (
-            <React.Fragment>
-                <TitleContainer>
-                    <BackButton onClick={() => navigate("/diarylist")}>뒤로가기</BackButton>
-                    <Title>고민 들어주기</Title>
-                </TitleContainer>
-                <Header />
-                <DiaryContent diary={diary} />
-                <CommentList comments={diary.comments} postId={diary.postId} />
-                {/* <CommentList comments={diary.comments.commentList} postId={diary.postId} /> */}
-            </React.Fragment>
-        );
+    if (isLoading) {
+        return <Loading />;
     }
+
+    return (
+        <React.Fragment>
+            <Header2 />
+            <TitleContainer>
+                <BackButton onClick={() => navigate("/diarylist")}>뒤로가기</BackButton>
+                <Title>고민 들어주기</Title>
+            </TitleContainer>
+            <DiaryContent diary={diary} />
+            <CommentList comments={diary.comments} postId={diary.postId} />
+            <CommentInput postId={postId} />
+        </React.Fragment>
+    );
 }
 
 export default DiaryDetail;

@@ -5,12 +5,16 @@ import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
 import { Button } from "../elements/index";
+import { useQuery } from "react-query";
+import CategoryBar from "../shared/CategoryBar";
+import Header2 from "../shared/Header2";
 
 MyPage.propTypes = {};
 
 function MyPage(props) {
     const navigate = useNavigate();
     const [myDiary, setMyDiary] = useState([]);
+    const [page, setPage] = useState(1);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postId) => {
@@ -19,10 +23,15 @@ function MyPage(props) {
         });
     };
 
+    // const { data } = useQuery('mypage', () => userApi.getMyPage(page),
+    //     {
+    //
+    //     }
+    //     );
+
     useEffect(() => {
-        let page = 1;
-        userApi.getMyPage(page).then((response) => {
-            setMyDiary(response.data);
+        userApi.getMyPage(1).then((response) => {
+            setMyDiary(response);
         });
     }, []);
 
@@ -40,9 +49,9 @@ function MyPage(props) {
     // ];
 
     return (
-        <React.Fragment>
-            {/* 헤더는 일단 나중에 */}
-
+        <div>
+            <Header2 />
+            <CategoryBar />
             <Grid>
                 <Select>
                     <button onClick={() => navigate("/mypage")}>내가 쓴 고민</button>
@@ -52,6 +61,7 @@ function MyPage(props) {
                     return (
                         <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
                             <Text>{diary.title}</Text>
+                            <div>{diary.content}</div>
                             <Text>댓글 {diary.count}개</Text>
                             <button
                                 onClick={(e) => {
@@ -66,7 +76,7 @@ function MyPage(props) {
                     );
                 })}
             </Grid>
-        </React.Fragment>
+        </div>
     );
 }
 
@@ -75,7 +85,7 @@ export default MyPage;
 const Grid = styled.div`
     width: 80vw;
     height: 80vh;
-    margin: 20vh auto 0;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     background-color: lightgray;
@@ -83,7 +93,7 @@ const Grid = styled.div`
 
 const Select = styled.div`
     height: 10%;
-    align-items: right;
+    align-items: flex-end;
 `;
 const DiaryCard = styled.div`
     width: 90%;

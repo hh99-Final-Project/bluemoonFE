@@ -1,16 +1,19 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import Header from "../shared/Header";
+import CategoryBar from "../shared/CategoryBar";
+import Header2 from "../shared/Header2";
 
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
+import useStore from "../zustand/store";
 
 WriteDiary.propTypes = {};
 
 function WriteDiary(props) {
   const navigate = useNavigate();
+  const { audioFile, setAudioFile, setCurrentHeader } = useStore();
 
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
@@ -21,6 +24,7 @@ function WriteDiary(props) {
   const [analyser, setAnalyser] = useState();
   const [audioUrl, setAudioUrl] = useState();
   const [audioCtx, setAudioCtx] = useState();
+  const [soundFile, setSoundFile] = useState();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
   const onChangeTitleHandler = (e) => {
@@ -37,11 +41,11 @@ function WriteDiary(props) {
 
   const onClickHandler = (e) => {
     // api 연동 (voice 보내기 or 다이어리 내역 보내기)
-    diaryApi.createPost(title, diary).then((response) => {
+    diaryApi.createPost(title, diary, soundFile).then((response) => {
       console.log(response);
     });
     //일단 쓰고 있다고 가정하고, 쓰고 있는데 나갈거냐는 팝업을 띄워본다.
-    setIsOpenPopup(true);
+    // setIsOpenPopup(true);
   };
 
   const saveTemp = () => {
@@ -62,7 +66,7 @@ function WriteDiary(props) {
     function makeSound(stream) {
       // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보를 보여준다.
       const source = audioCtx.createMediaStreamSource(stream);
-      setSource(source);
+      console.log(source,"source")
       setAudioCtx(audioCtx);
 
       // AudioBufferSourceNode 연결
@@ -88,6 +92,13 @@ function WriteDiary(props) {
   const stopRecord = () => {
     media.ondataavailable = function (e) {
       setAudioUrl(e.data);
+      setAudioFile(e.data);
+      const sound = new File([audioUrl], "recordedVoice", {
+        lastModified: new Date().getTime(),
+        type: "audio",
+      });
+      setSoundFile(sound);
+
       setOnRec(true);
     };
     // 모든 트랙에서 stop()을 호출해 오디오 스트림을 정지
@@ -102,6 +113,8 @@ function WriteDiary(props) {
     analyser.disconnect();
     source.disconnect();
   };
+
+
 
   //녹음 조건 정하기
   if (analyser) {
@@ -130,9 +143,7 @@ function WriteDiary(props) {
 
   //일시 정지
   const pause = () => {
-    media.onpause = (e) => {
-      media.requestData();
-    };
+    media.pause();
   };
 
   const replay = () => {
@@ -147,11 +158,6 @@ function WriteDiary(props) {
 
   // 파일 출력 & 재생
   const play = useCallback(() => {
-    const sound = new File([audioUrl], "recordedVoice", {
-      lastModified: new Date().getTime(),
-      type: "audio",
-    });
-
     if (audioUrl) {
       const audio = new Audio(URL.createObjectURL(audioUrl));
       audio.loop = false;
@@ -160,10 +166,16 @@ function WriteDiary(props) {
     }
   }, [audioUrl]);
 
+  useEffect(()=>{
+    setCurrentHeader('포스트')
+  }, [])
+
   return (
     <React.Fragment>
+      {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
+      <Header2/>
       <PostTitle>고민 털어놓기</PostTitle>
-      <Header/>
+      <CategoryBar/>
       <PostAreaContainer>
         <PostText
           placeholder="제목을 작성해주세요"

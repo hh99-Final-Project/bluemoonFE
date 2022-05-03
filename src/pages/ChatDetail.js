@@ -5,6 +5,10 @@ import ChatBox from "../components/chat/ChatBox";
 import styled from "styled-components";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import Header2 from "../shared/Header2";
+import CategoryBar from "../shared/CategoryBar";
+import ChatMessage from "../components/chat/ChatMessage";
+import ChatInput from "../components/chat/ChatInput";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -102,6 +106,8 @@ const ChatDetail = () => {
     } else {
         return (
             <Wrapper>
+                <Header2 />
+                <CategoryBar />
                 <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
 
                 <MessageWrapper>

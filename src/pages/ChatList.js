@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 // import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
+import CategoryBar from "../shared/CategoryBar";
+import useStore from "../zustand/store";
+import Header2 from "../shared/Header2";
 
 ChatList.propTypes = {};
 
 function ChatList(props) {
-    const [chatList, setChatList] = useState([]);
+    // const [chatList, setChatList] = useState([]);
+    // const [roomList, setRoomList] = useState([]);
     const navigate = useNavigate();
+    const { setCurrentHeader } = useStore();
 
     const inicialRoom = {
         roomename: null,
@@ -35,46 +40,56 @@ function ChatList(props) {
         });
     }, []);
 
-    // let chatList = [
-    //     {
-    //         roomName: "말 잘듣는 원숭이1",
-    //         lastMessage: "마지막 메시지 1",
-    //         lastTime: "2022-05-01 23:00",
-    //         roomId: "1",
-    //     },
-    //     {
-    //         roomName: "말 잘듣는 원숭이2",
-    //         lastMessage: "마지막 메시지 2",
-    //         lastTime: "2022-05-01 23:00",
-    //         roomId: "2",
-    //     },
-    //     {
-    //         roomName: "말 잘듣는 원숭이3",
-    //         lastMessage: "마지막 메시지 3",
-    //         lastTime: "2022-05-01 23:00",
-    //         roomId: "3",
-    //     },
-    // ];
+    useEffect(() => {
+        setCurrentHeader("채팅");
+    }, []);
+
+    let chatList = [
+        {
+            roomName: "말 잘듣는 원숭이1",
+            lastMessage: "마지막 메시지 1",
+            lastTime: "마지막 메시지 온 시간",
+            roomId: "1",
+        },
+        {
+            roomName: "말 잘듣는 원숭이2",
+            lastMessage: "마지막 메시지 2",
+            lastTime: "마지막 메시지 온 시간",
+            roomId: "2",
+        },
+        {
+            roomName: "말 잘듣는 원숭이3",
+            lastMessage: "마지막 메시지 3",
+            lastTime: "마지막 메시지 온 시간",
+            roomId: "3",
+        },
+    ];
 
     if (chatList === []) {
         return;
-    } else {
-        return (
-            <React.Fragment>
-                <Grid>
-                    {chatList.map((chat, i) => {
-                        return (
-                            <ChatRoom onClick={() => navigate(`/chat/${chat.roomId}`)} key={i}>
-                                <Text>{chat.roomName}</Text>
-                                <Text>{chat.lastMessage}</Text>
-                                <Text>{chat.lastTime}</Text>
-                            </ChatRoom>
-                        );
-                    })}
-                </Grid>
-            </React.Fragment>
-        );
     }
+
+    return (
+        <div>
+            <Header2 />
+            <CategoryBar />
+            <Grid>
+                {chatList.map((chat, i) => {
+                    return (
+                        <ChatRoom onClick={() => navigate(`/chat/${chat.roomId}`)} key={i}>
+                            <Text>{chat.roomName}</Text>
+                            <Text>{chat.lastMessage}</Text>
+                            <Text>{chat.lastTime}</Text>
+                            {/* 모달은 좀 나중에... */}
+                            {/* <button>
+                  <Modal roomId={chat.roomId} open={isModalOpen}></Modal>
+                </button> */}
+                        </ChatRoom>
+                    );
+                })}
+            </Grid>
+        </div>
+    );
 }
 
 export default ChatList;
@@ -82,7 +97,7 @@ export default ChatList;
 const Grid = styled.div`
     width: 80vw;
     height: 80vh;
-    margin: 20vh auto 0;
+    margin: auto;
     display: flex;
     flex-direction: column;
     background-color: lightgray;

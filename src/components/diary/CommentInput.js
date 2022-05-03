@@ -5,7 +5,7 @@ import { diaryApi } from "../../apis/diaryApi";
 
 
 CommentInput.propTypes = {
-    postId: PropTypes.number
+    postId: PropTypes.string
 };
 
 function CommentInput(props) {

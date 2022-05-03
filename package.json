@@ -9,6 +9,7 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
+    "babel-eslint": "^10.1.0",
     "dotenv": "^16.0.0",
     "moment": "^2.29.3",
     "net": "^1.0.2",
@@ -40,6 +41,12 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "sourceType": "module",
+      "allowImportExportEverywhere": true,
+      "ecmaVersion": 2015
+    },
     "extends": [
       "react-app",
       "react-app/jest"
