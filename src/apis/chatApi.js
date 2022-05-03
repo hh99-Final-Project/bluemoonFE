@@ -11,6 +11,7 @@ export const chatApi = {
         return data;
     },
 
+    // 채팅방 리스트 조회
     getChatList: async (page) => {
         const data = await instance.get(`/api/rooms/${page}`);
         return data;
@@ -23,5 +24,8 @@ export const chatApi = {
     },
 
     // 채팅방(chat) 삭제
-    deleteChat: async (roomId) => instance.delete(`/api/rooms/${roomId}`),
+    deleteChat: async (roomId) => {
+        const data = await instance.delete(`/api/rooms/${roomId}`);
+        return data;
+    },
 };
