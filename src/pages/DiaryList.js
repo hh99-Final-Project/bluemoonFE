@@ -78,7 +78,10 @@ function DiaryList(props) {
 
     useEffect(() => {
         diaryApi.getDiaryList(1).then((response) => {
-            setDiaryList([response]);
+            if(response.errorMessage) {
+                setDiaryList([]);
+            }
+            setDiaryList(response);
             setIsLoading(false);
         });
 
