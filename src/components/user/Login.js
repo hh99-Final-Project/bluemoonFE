@@ -29,7 +29,8 @@ function Login(props) {
                 setCookie(token);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
-                console.log(response.data.nickname);
+                dispatch(isModalOpen(false));
+
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
@@ -49,6 +50,7 @@ function Login(props) {
                 setCookie(token);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
+                dispatch(isModalOpen(false));
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {

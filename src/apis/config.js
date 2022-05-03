@@ -30,8 +30,6 @@ fileInstance.interceptors.request.use(
 );
 
 
-
-
 instance.interceptors.request.use(
     config => {
         const accessToken = getCookie('authorization');
