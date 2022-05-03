@@ -18,9 +18,15 @@ function MyPage(props) {
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postId) => {
-        diaryApi.deleteDiary(postId).then((response) => {
-            console.log(response);
-        });
+        if(window.confirm("정말 삭제하시겠습니까?")) {
+            diaryApi.deleteDiary(postId).then((response) => {
+                if(response.status === 200) {
+                    window.alert("삭제 완료되었습니다.")
+                    navigate('/mypage');
+                }
+            });
+        }
+
     };
 
     // const { data } = useQuery('mypage', () => userApi.getMyPage(page),
@@ -53,20 +59,16 @@ function MyPage(props) {
             <Header2 />
             <CategoryBar />
             <Grid>
-                <Select>
-                    <button onClick={() => navigate("/mypage")}>내가 쓴 고민</button>
-                    <button onClick={() => navigate("/mypage/temp")}>임시저장본 </button>
-                </Select>
                 {myDiary.map((diary) => {
                     return (
-                        <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
+                        <DiaryCard onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
                             <Text>{diary.title}</Text>
                             <div>{diary.content}</div>
                             <Text>댓글 {diary.count}개</Text>
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    deleteDiary(diary.postId);
+                                    deleteDiary(diary.postUuid);
                                     navigate("/mypage");
                                 }}
                             >
@@ -110,6 +112,9 @@ const DiaryCard = styled.div`
 const Text = styled.p``;
 
 const DeleteButton = styled.button`
-    margin-right: 20px;
-    cursor: pointer;
+  width: 100px;
+  height: 20px;
+  margin-top: 20px;
+  background-color: pink;
+  cursor:pointer;
 `;

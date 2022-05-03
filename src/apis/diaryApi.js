@@ -1,20 +1,16 @@
 import { instance, fileInstance } from "./config";
 
 export const diaryApi = {
-    createPost: async (title, content, audioUrl) => {
-        let req = {
-            title: title,
-            content: content,
-        };
-        let requestDto = {
-            ...req,
-        };
-        let req2 = { requestDto };
-        let json2 = JSON.stringify(req);
-        const form = new FormData();
-        const blob2 = new Blob([json2], { type: "application/json" });
-        form.append("requestDto", blob2);
-        form.append("file", audioUrl);
+  createPost: async (title, content, audioUrl) => {
+    let req = {
+      title: title,
+      content: content,
+    }
+    let json = JSON.stringify(req)
+    const form = new FormData();
+    const blob = new Blob([json], { type: "application/json" })
+    form.append('requestDto',blob);
+    audioUrl !== undefined && form.append('file', audioUrl);
 
         const data = await fileInstance.post("/api/posts", form);
         return data;
@@ -35,21 +31,22 @@ export const diaryApi = {
         return data;
     },
 
-    createComment: async (postId, comment, sound) => {
-        let req = {
-            postId: postId,
-            content: comment,
-        };
+  createComment: async (postId, comment, audioUrl) => {
+    let req = {
+      "postUuid": postId,
+      "content": comment
+    }
 
-        const form = new FormData();
-        form.append("postId", postId);
-        form.append("comment", comment);
-        form.append("file", sound);
+    const form = new FormData();
+    let json = JSON.stringify(req)
+    const blob = new Blob([json], { type: "application/json" })
+    form.append('requestDto',blob);
+    audioUrl !== undefined && form.append('file', audioUrl);
 
-        const data = await fileInstance.post("/api/comments", form);
-        // const data = await instance.post('/api/comments', req);
-        return data;
-    },
+
+    const data = await fileInstance.post("/api/comments", form);
+    return data;
+  },
 
     deleteComment: async (commentId) => {
         const data = await instance.delete(`/api/comments/${commentId}`);

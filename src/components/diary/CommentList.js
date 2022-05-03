@@ -11,33 +11,15 @@ CommentList.propTypes = {
 
 function CommentList(props) {
 
-    // const { comments } = props;
+    const { comments } = props;
 
-    let comments = [
-        {
-            "isShow": true,
-            "commentId": 1,
-            "nickname": "햄",
-            "content": "나의 댓글입니다",
-            "createAt": "2022-05-02",
-            "file": "file"
-        },
-        {
-            "isShow": true,
-            "commentId": 2,
-            "nickname": "햄2",
-            "content": "나의 댓글입니다2",
-            "createAt": "2022-05-01",
-            "file": "file"
-        },
-    ]
 
     return (
         <React.Fragment>
             <CommentsContainer>
                 {
                     comments.map((comment) => {
-                        return <Comment key={comment.commentId} comment={comment}/>
+                        return <Comment key={comment.commentUuid} comment={comment}/>
                     })
                 }
             </CommentsContainer>
