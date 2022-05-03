@@ -28,12 +28,22 @@ function CommentInput(props) {
         setComment(e.target.value);
     }
 
-    const onClick = () => {
-        diaryApi.createComment(postId, comment, audioUrl).then((response) =>
-        {
-            console.log(response);
-            setComment("");
+    const saveComment = () => {
+        diaryApi.createComment(postId, comment, audioUrl).then((response) => {
+            if(response.status === 200) {
+                setComment("");
+            }
         })
+    }
+
+    const onClick = () => {
+        saveComment();
+    }
+
+    const onKeyPressHandler = (e) => {
+        if(e.key === "Enter") {
+            saveComment();
+        }
     }
 
     const recordVoice = () => {
@@ -126,10 +136,12 @@ function CommentInput(props) {
                 <StopButton onClick={stopRecord}>중지</StopButton>
                 <input
                     onChange={onChangeHandler}
+                    onKeyPress={onKeyPressHandler}
                     value={comment}
                     placeholder='댓글을 남겨주세요'/>
                 <TextLength>{comment.length}/150</TextLength>
-                <PostButton onClick={onClick}>등록</PostButton>
+                <PostButton
+                    onClick={onClick}>등록</PostButton>
             </InputContainer>
         </React.Fragment>
     );

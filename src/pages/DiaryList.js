@@ -105,7 +105,7 @@ function DiaryList(props) {
           return (
             <DiaryCard
               onClick={() => navigate(`/diary/${diary.postUuid}`)}
-              key={diary.postpostUuidUuid}
+              key={diary.postUuid}
             >
               <DiaryTitle>{diary.title}</DiaryTitle>
               <DiaryDesc>{diary.content}</DiaryDesc>
