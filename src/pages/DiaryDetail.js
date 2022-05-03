@@ -22,7 +22,7 @@ function DiaryDetail(props) {
 
 
   useEffect(() => {
-    diaryApi.getOneDiary(1).then((response) => {
+    diaryApi.getOneDiary("d4d7f441-8f1e-4733-838f-93a33e943209").then((response) => {
         console.log(response);
         setDiary(response);
         setIsLoading(false);

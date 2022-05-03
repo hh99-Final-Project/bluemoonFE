@@ -15,6 +15,23 @@ export const fileInstance = axios.create({
     }
 })
 
+fileInstance.interceptors.request.use(
+    config => {
+        const accessToken = getCookie('authorization');
+        if (accessToken) {
+            config.headers["authorization"] = accessToken;
+            return config;
+        }
+        return config;
+    },
+    error => {
+        return;
+    },
+);
+
+
+
+
 instance.interceptors.request.use(
     config => {
         const accessToken = getCookie('authorization');
