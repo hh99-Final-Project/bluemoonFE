@@ -7,6 +7,7 @@ import { diaryApi } from "../apis/diaryApi";
 import CommentInput from "../components/diary/CommentInput";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
+import {useSelector} from "react-redux";
 
 DiaryDetail.propTypes = {};
 
@@ -18,12 +19,23 @@ function DiaryDetail(props) {
     const [diary, setDiary] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
+    const isLogin = useSelector((state) => state.userSlice.isLogin)
+
     useEffect(() => {
-        diaryApi.getOneDiary(postId).then((response) => {
-            console.log(response);
-            setDiary(response);
-            setIsLoading(false);
-        });
+        if(isLogin) {
+            diaryApi.getOneDiary(postId).then((response) => {
+                console.log(response);
+                setDiary(response);
+                setIsLoading(false);
+            });
+        } else {
+            diaryApi.getNotLoginUserDetail(postId).then((response) => {
+                console.log(response);
+                setDiary(response.data);
+                setIsLoading(false);
+            })
+        }
+
     }, []);
 
     if (isLoading) {

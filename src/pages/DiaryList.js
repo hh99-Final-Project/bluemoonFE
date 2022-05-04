@@ -46,13 +46,13 @@ function DiaryList(props) {
               setIsLoading(false);
           });
       } else {
-          setDiaryList([]);
-          setIsLoading(false);
-          // diaryApi.getNotLoginUserDiary().then((response) => {
-          //     console.log(response,"response");
-          //     setDiaryList([response.data]);
-          //     setIsLoading(false);
-          // })
+          // setDiaryList([]);
+          // setIsLoading(false);
+          diaryApi.getNotLoginUserDiary().then((response) => {
+              console.log(response,"response");
+              setDiaryList([response.data]);
+              setIsLoading(false);
+          })
       }
 
         setCurrentHeader("고민상담");
