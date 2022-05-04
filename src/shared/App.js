@@ -14,6 +14,7 @@ import MyPage from "../pages/MyPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
+import TestScroll from "../pages/TestScroll";
 import { getCookie } from "../utils/cookie";
 import { userApi } from "../apis/userApi";
 import { useDispatch } from "react-redux";
@@ -42,10 +43,10 @@ function App() {
                 <Route path="/chat/:id" element={<ChatDetail />} />
                 <Route path="/chatlist" element={<ChatList />} />
                 <Route path="/mypage" element={<MyPage />} />
-                {/* <Route path="/mypage/temp" element={<MyTempPage />} /> */}
                 <Route path="/alert" element={<Notifications />} />
                 <Route path="/lottery" element={<Lottery />} />
                 <Route path={"*"} element={<NotFound />} />
+                <Route path="/scroll" element={<TestScroll />} />
             </Routes>
         </QueryClientProvider>
     );
