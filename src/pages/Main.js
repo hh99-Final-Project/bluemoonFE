@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import * as commonActions from "../redux/modules/commonSlice";
 import Login from "../components/user/Login";
 import { userApi } from "../apis/userApi";
@@ -18,38 +21,186 @@ const Main = () => {
     //     .catch((err) => console.log(err));
     // };
 
-    // test api 잘 작동합니다. 서버 부하를 줄이기 위해 주석처리 했습니다.
-    // useEffect(()=>{
-    //     userApi.getTest().then((res) => {
-    //         console.log(res,"res")
-    //     })
-    // },[])
+    const settings = {
+        dots: true,
+        arrows: false,
+        infinite: false,
+        speed: 0,
+        slideToShow: 1,
+        slidesToScroll: 1,
+    };
 
     return (
-        <React.Fragment>
-            <ServiceIntro>Bluemoon</ServiceIntro>
-            <StartButton onClick={() => navigate("/select")}>시작하기</StartButton>
-            {/* <button onClick={thunkHandler}>thunk Test</button> */}
-            <button onClick={() => dispatch(commonActions.isModalOpen(true))}>로그인</button>
-            <Login />
-        </React.Fragment>
+        <Container>
+            <IntroContainer>
+                <ServiceStart>
+                    <Logo>
+                        로고
+                    </Logo>
+                    <ServiceTitle>
+                        Blue Moon
+                    </ServiceTitle>
+                    <DiaryWriteButton>
+                        <div onClick={() => navigate('/write')}>
+                            고민 털어놓기
+                        </div>
+                    </DiaryWriteButton>
+                    <DiaryListButton onClick={() => navigate('/diarylist')}>
+                        고민 둘러보기
+                    </DiaryListButton>
+                </ServiceStart>
+                <ServiceIntro>
+                    <IntroTitle>
+                        블루문 사용 설명서
+                    </IntroTitle>
+                    <IntroImage>
+                        <Slider {...settings}>
+                            <div>
+                                누구에게 털어놓지 못하는 고민이 있으신가요?
+                            </div>
+                            <div>
+                                그렇다면, 당신을 블루문에 초대할게요
+                            </div>
+                            <div>
+                                푸른 달이 뜨는 이 곳은 아무도 당신을 알지 못하고,
+                                그 누구보다도 솔직해 질 수 있는 공간이에요
+                            </div>
+                            <div>
+                                모두가 솔직해지는 신비한 공간인 블루문으로 오세요.
+                            </div>
+                        </Slider>
+                    </IntroImage>
+                </ServiceIntro>
+            </IntroContainer>
+        </Container>
     );
 };
 
 export default Main;
 
-const ServiceIntro = styled.div`
-    width: 300px;
-    font-size: 50px;
-    font-weight: bold;
-    margin: 300px auto;
-    text-align: center;
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #111B3F;
+  overflow: hidden;
 `;
 
-const StartButton = styled.div`
-    margin: auto;
-    font-size: 40px;
+const IntroContainer = styled.div`
+  width: 850px;
+  height: 530px;
+  margin: 129px auto 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
+  box-shadow: 0 0 70px #465981;
+  backdrop-filter: blur(80px);
+  border-radius: 25px;
+  background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 60px;
+  
+`;
+
+
+const ServiceStart = styled.div`
+  margin-right: 20px;
+  width: 428px;
+  background-color: #1F2449;
+  border: 2px solid #43567E;
+  box-sizing: border-box;
+  border-radius: 20px;
+
+`;
+
+const ServiceIntro = styled.div`
+  width: 284px;
+  background-color: #1F2449;
+  border: 2px solid #43567E;
+  box-sizing: border-box;
+  border-radius: 20px;
+`;
+
+const Logo = styled.div`
+  width: 120px;
+  height: 80px;
+  margin: 100px auto 20px;
+  background-color: rgba(182, 233, 230, 0.7);
+`;
+
+
+const ServiceTitle = styled.div`
+    width: 300px;
+    font-size: 24px;
+    line-height: 28px;
     font-weight: bold;
-    cursor: pointer;
+    margin: auto;
     text-align: center;
+    color: #FFFFFF;
+`;
+
+
+const DiaryWriteButton = styled.div`
+    width: 355px;
+    height: 45px;
+    background-color: #C0CDE6;
+    margin: 50px auto 0;
+    border: 2px solid #43567E;
+    box-sizing: border-box;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+    font-size: 19px;
+    line-height: 23px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #060E32;
+`;
+
+const DiaryListButton = styled(DiaryWriteButton)`
+  margin: 15px auto 0;
+  color: #84C8CC;
+  background-color: #293252;
+  border: 2px solid #84C8CC;
+`;
+
+const IntroTitle = styled.div`
+  margin: 75px auto 30px;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: #ffffff;
+`;
+const IntroImage = styled.div`
+  width: 250px;
+  height: 195px;
+  background: #111B3F;
+  border: 2px solid #43567E;
+  box-sizing: border-box;
+  backdrop-filter: blur(20px);
+  border-radius: 9px;
+  margin: auto;
+  text-align: center;
+  color: #ffffff;
+  padding: 30px;
+  
+  div {
+    margin: 10px auto;
+    font-size: 14px;
+  }
+
+  .slick-dots {
+    bottom: -70px;
+  }
+  .slick-dots li {
+    margin: 0 -3px;
+  }
+  .slick-dots li button:before {
+    color: #DDDDDD;
+  }
+  .slick-dots li.slick-active button:before {
+    color: #9AEBE7;
+  }
+  
 `;

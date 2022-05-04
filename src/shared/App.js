@@ -10,13 +10,11 @@ import DiaryDetail from "../pages/DiaryDetail";
 import ChatDetail from "../pages/ChatDetail";
 import ChatList from "../pages/ChatList";
 import MyPage from "../pages/MyPage";
-// import MyTempPage from "../pages/MyTempPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
 import TestScroll from "../pages/TestScroll";
 import { getCookie } from "../utils/cookie";
-import { userApi } from "../apis/userApi";
 import { useDispatch } from "react-redux";
 import {loginCheck} from "../redux/modules/userSlice";
 

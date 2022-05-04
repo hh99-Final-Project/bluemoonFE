@@ -12,6 +12,7 @@ import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
 import useStore from "../zustand/store";
 import {useSelector} from "react-redux";
+import { useQuery } from "react-query";
 
 DiaryList.propTypes = {};
 
@@ -19,8 +20,6 @@ function DiaryList(props) {
     const navigate = useNavigate();
     const [diaryList, setDiaryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-
     const isLogin = useSelector((state) => state.userSlice.isLogin)
 
 
@@ -28,14 +27,21 @@ function DiaryList(props) {
         dots: false,
         arrows: true,
         infinite: true,
-        speed: 0,
+        speed: 400,
         slideToShow: 1,
         slidesToScroll: 1,
     };
 
     const { currentHeader, setCurrentHeader } = useStore();
+    const getDiaryListAPI = () => {
+        const data = diaryApi.getDiaryList(1);
+        return data.data;
+    }
 
-    console.log(isLogin,"isLogin")
+    //쿼리 테스트는 서버가 올라가 있을때 재개...
+    // const { isLoading, data } = useQuery('diaryList', () => getDiaryListAPI());
+    // console.log(data,"data")
+
 
   useEffect(() => {
 
@@ -46,10 +52,7 @@ function DiaryList(props) {
               setIsLoading(false);
           });
       } else {
-          // setDiaryList([]);
-          // setIsLoading(false);
           diaryApi.getNotLoginUserDiary().then((response) => {
-              console.log(response,"response");
               setDiaryList([response.data]);
               setIsLoading(false);
           })
@@ -144,11 +147,6 @@ const IconsLeft = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`;
-
-const LikeIcon = styled.div`
-    margin-right: 20px;
-    cursor: pointer;
 `;
 
 const CommentIcon = styled.div`

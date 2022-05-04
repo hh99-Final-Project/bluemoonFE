@@ -11,14 +11,13 @@ export const diaryApi = {
     const blob = new Blob([json], { type: "application/json" })
     form.append('requestDto',blob);
     audioUrl !== undefined && form.append('file', audioUrl);
-
         const data = await fileInstance.post("/api/posts", form);
         return data;
     },
 
     getDiaryList: async (page) => {
         const data = await instance.get(`/api/posts/${page}`);
-        return data.data;
+        return data;
     },
 
     getOneDiary: async (postId) => {

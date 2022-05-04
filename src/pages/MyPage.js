@@ -76,10 +76,6 @@ function MyPage(props) {
             <Header2 />
             <CategoryBar />
             <Grid>
-                {/* <Select>
-                    <button onClick={() => navigate("/mypage")}>내가 쓴 고민</button>
-                    <button onClick={() => navigate("/mypage/temp")}>임시저장본 </button>
-                </Select> */}
                 <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}>
                     {myDiary.map((diary) => {
                         return (
