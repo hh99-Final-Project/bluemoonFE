@@ -34,7 +34,7 @@ function CategoryBar(props) {
             <Post header={currentHeader}
                   onClick={() => {
                       setCurrentHeader('포스트')
-                      navigate('/post')
+                      navigate('/write')
                   }}>
                 작성
             </Post>

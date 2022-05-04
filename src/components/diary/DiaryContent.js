@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
+import { convertDate } from "../../utils/convertDate";
 
 DiaryContent.propTypes = {
     diary: PropTypes.object,
@@ -36,7 +37,7 @@ function DiaryContent(props) {
             <NewBadge />
           </TitleContainerLeft>
           <TitleContainerRight>
-            <DateArea>{diary.createdAt}</DateArea>
+            <DateArea>{convertDate(diary.createdAt)}</DateArea>
             <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
           </TitleContainerRight>
         </TitleContainer>

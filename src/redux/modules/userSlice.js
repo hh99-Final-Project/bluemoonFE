@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { userApi } from "../../apis/userApi";
 
 const initialState = {
     isLogin: false,
@@ -6,16 +7,16 @@ const initialState = {
 };
 
 //toolkit - thunk (비동기 처리를 여기서 하고 싶을때 사용)
-// export const getInfo = createAsyncThunk("GET_INFO", async() => {
-//     try {
-//         const response = await axios.get("https://run.mocky.io/v3/c4a9c621-ec5e-4505-9f32-d69510d27871");
-//         return response.data;
-//     } catch (e) {
-//         // return null;
-//         return thunkAPI.rejectWithValue(await e.response.data)
-//     }
+export const loginCheck = createAsyncThunk("LOGIN_CHECK", async() => {
+    try {
+        const response = userApi.isLogin()
+        return response;
+    } catch (e) {
+        // return null;
+        return thunkAPI.rejectWithValue(await e.response.data)
+    }
 
-// })
+})
 
 export const userSlice = createSlice({
     name: 'user',
@@ -29,9 +30,10 @@ export const userSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // builder.addCase(getInfo.fulfilled, (state, action) => {
-        // state.info = action.payload
-        // })
+        builder.addCase(loginCheck.fulfilled, (state, action) => {
+            state.userInfo = action.payload
+            state.isLogin = true;
+        })
     },
 })
 

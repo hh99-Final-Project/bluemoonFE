@@ -20,11 +20,11 @@ function SelectMode(props){
                 서비스 이름에서 함께 털어놔요:)
             </ServiceDesc>
             <MoveToDiary>
-                <div onClick={() => navigate('/post')}>고민 털어놓기</div>
+                <div onClick={() => navigate('/write')}>고민 털어놓기</div>
             </MoveToDiary>
 
             <MoveToDiary onClick={() => navigate('/diarylist')}>
-                고민 상담하기
+                고민 둘러보기
             </MoveToDiary>
         </React.Fragment>
     );

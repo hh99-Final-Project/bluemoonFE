@@ -11,6 +11,7 @@ import Loading from "../shared/Loading";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
 import useStore from "../zustand/store";
+import {useSelector} from "react-redux";
 
 DiaryList.propTypes = {};
 
@@ -19,52 +20,9 @@ function DiaryList(props) {
     const [diaryList, setDiaryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // let diaryList = [
-    //   {
-    //     postId: 1,
-    //     nickname: "랜덤 닉네임1",
-    //     userId: 1,
-    //     title: "게시글 제목1",
-    //     content: "게시글 내용1",
-    //     createdAt: "게시글 작성 시간1",
-    //   },
-    //
-    //   {
-    //     postId: 2,
-    //     nickname: "랜덤 닉네임2",
-    //     userId: 2,
-    //     title: "게시글 제목2",
-    //     content: "게시글 내용2",
-    //     createdAt: "게시글 작성 시간2",
-    //   },
-    //
-    //   {
-    //     postId: 3,
-    //     nickname: "랜덤 닉네임3",
-    //     userId: 3,
-    //     title: "게시글 제목3",
-    //     content: "게시글 내용3",
-    //     createdAt: "게시글 작성 시간3",
-    //   },
-    //
-    //   {
-    //     postId: 4,
-    //     nickname: "랜덤 닉네임4",
-    //     userId: 4,
-    //     title: "게시글 제목4",
-    //     content: "게시글 내용4",
-    //     createdAt: "게시글 작성 시간4",
-    //   },
-    //
-    //   {
-    //     postId: 5,
-    //     nickname: "랜덤 닉네임5",
-    //     userId: 5,
-    //     title: "게시글 제목5",
-    //     content: "게시글 내용5",
-    //     createdAt: "게시글 작성 시간5",
-    //   },
-    // ];
+
+    const isLogin = useSelector((state) => state.userSlice.isLogin)
+
 
     const settings = {
         dots: false,
@@ -77,20 +35,28 @@ function DiaryList(props) {
 
     const { currentHeader, setCurrentHeader } = useStore();
 
+    console.log(isLogin,"isLogin")
 
   useEffect(() => {
-    userApi.isLogin().then((response) => {
-      console.log(response,"response")
-    })
 
-    diaryApi.getDiaryList(1).then((response) => {
-      console.log(response);
-      setDiaryList(response);
-      setIsLoading(false);
-    });
+      if(isLogin) {
+          diaryApi.getDiaryList(1).then((response) => {
+             console.log(response);
+              setDiaryList(response);
+              setIsLoading(false);
+          });
+      } else {
+          // setDiaryList([]);
+          // setIsLoading(false);
+          diaryApi.getNotLoginUserDiary().then((response) => {
+              console.log(response,"response");
+              setDiaryList([response.data]);
+              setIsLoading(false);
+          })
+      }
 
         setCurrentHeader("고민상담");
-    }, []);
+    }, [isLogin]);
 
     if (isLoading) {
         return <Loading />;
@@ -105,7 +71,7 @@ function DiaryList(props) {
           return (
             <DiaryCard
               onClick={() => navigate(`/diary/${diary.postUuid}`)}
-              key={diary.postpostUuidUuid}
+              key={diary.postUuid}
             >
               <DiaryTitle>{diary.title}</DiaryTitle>
               <DiaryDesc>{diary.content}</DiaryDesc>
@@ -126,7 +92,7 @@ function DiaryList(props) {
           );
         })}
       </CardContainer>
-      <DiaryWriteButton onClick={() => navigate("/post")}>
+      <DiaryWriteButton onClick={() => navigate("/write")}>
         다이어리 쓰기
       </DiaryWriteButton>
     </div>
