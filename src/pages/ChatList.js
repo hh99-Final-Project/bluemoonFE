@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 // import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
@@ -8,14 +8,19 @@ import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
+import _ from "lodash";
 
 ChatList.propTypes = {};
 
 function ChatList(props) {
-    const [chatList, setChatList] = useState();
-    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const ref = useRef();
     const { setCurrentHeader } = useStore();
+
+    const [chatList, setChatList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [hasNext, setHasNext] = useState(null);
 
     const inicialRoom = {
         roomename: null,
@@ -44,12 +49,44 @@ function ChatList(props) {
         }
     };
 
+    // 무한스크롤을 함수
+    // Grid onScroll 이벤트에 넣어두어, Grid 스크롤 발생 시 실행됨
+    const InfinityScroll = _.throttle((e) => {
+        // // 실제 요소의 높이값
+        // console.log(e.target.scrollHeight);
+
+        //  // 스크롤 위치
+        //  console.log(e.target.scrollTop);
+
+        //  //현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
+        // console.log(e.target.clientHeight);
+
+        if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+            chatApi.getChatList(page).then((response) => {
+                setChatList([...chatList, ...response.data]);
+                setIsLoading(false);
+                if (response.length < 5) {
+                    setHasNext(false);
+                } else {
+                    setHasNext(true);
+                }
+                setPage(page + 1);
+            });
+        }
+    }, 300);
+
     // 채팅방 리스트 조회 api
     useEffect(() => {
-        chatApi.getChatList(1).then((response) => {
-            console.log(response);
-            setChatList(response.data);
+        chatApi.getChatList(page).then((response) => {
+            console.log(response.data);
+            setChatList([...chatList, ...response.data]);
             setIsLoading(false);
+            if (response.length < 5) {
+                setHasNext(false);
+            } else {
+                setHasNext(true);
+            }
+            setPage(page + 1);
         });
 
         setCurrentHeader("채팅");
@@ -63,7 +100,7 @@ function ChatList(props) {
         <div>
             <Header2 />
             <CategoryBar />
-            <Grid>
+            <Grid ref={ref} onScroll={InfinityScroll}>
                 {chatList.map((chat, i) => {
                     return (
                         <ChatRoom onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)} key={chat.chatRoomUuid}>
@@ -97,11 +134,12 @@ const Grid = styled.div`
     display: flex;
     flex-direction: column;
     background-color: lightgray;
+    overflow: auto;
 `;
 
 const ChatRoom = styled.div`
     width: 90%;
-    height: 15%;
+    height: 20%;
     display: flex;
     flex-direction: column;
     background-color: white;

@@ -1,3 +1,6 @@
+// 이전에 썼던 permit 페이지 가지고 왔어요!
+// 참고용입니다.
+
 import React from "react";
 import { useSelector } from "react-redux";
 
