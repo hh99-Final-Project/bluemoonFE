@@ -23,7 +23,7 @@ export const chatApi = {
         return data;
     },
 
-    // 채팅방(chat) 삭제
+    // 채팅방(chat) 나가기
     deleteChat: async (roomId) => {
         const data = await instance.delete(`/api/rooms/${roomId}`);
         return data;
