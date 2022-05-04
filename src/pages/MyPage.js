@@ -9,14 +9,14 @@ import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
-import InfinityScroll from "../shared/InfinityScroll";
+// import InfinityScroll from "../shared/InfinityScroll";
+import _ from "lodash";
 
 MyPage.propTypes = {};
 
 function MyPage(props) {
     const navigate = useNavigate();
     const ref = useRef();
-    console.log(ref);
     const [myDiary, setMyDiary] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -40,21 +40,31 @@ function MyPage(props) {
     //     }
     //     );
 
-    // 무한스크롤을 위한 세팅 작업
-    // 일단은 더 보기 버튼으로 구현
-    const MoreDiary = () => {
-        console.log("next!");
-        userApi.getMyPage(page).then((response) => {
-            setMyDiary([...myDiary, ...response]);
-            setIsLoading(false);
-            if (response.length < 5) {
-                setHasNext(false);
-            } else {
-                setHasNext(true);
-            }
-            setPage(page + 1);
-        });
-    };
+    // 무한스크롤을 함수
+    // Grid onScroll 이벤트에 넣어두어, Grid 스크롤 발생 시 실행됨
+    const InfinityScroll = _.throttle((e) => {
+        // // 실제 요소의 높이값
+        // console.log(e.target.scrollHeight);
+
+        //  // 스크롤 위치
+        //  console.log(e.target.scrollTop);
+
+        //  //현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
+        // console.log(e.target.clientHeight);
+
+        if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+            userApi.getMyPage(page).then((response) => {
+                setMyDiary([...myDiary, ...response]);
+                setIsLoading(false);
+                if (response.length < 5) {
+                    setHasNext(false);
+                } else {
+                    setHasNext(true);
+                }
+                setPage(page + 1);
+            });
+        }
+    }, 300);
 
     useEffect(() => {
         userApi.getMyPage(page).then((response) => {
@@ -82,7 +92,7 @@ function MyPage(props) {
             <CategoryBar />
             {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
             {/* onscroll 먹여서 */}
-            <Grid ref={ref}>
+            <Grid ref={ref} onScroll={InfinityScroll}>
                 {myDiary.map((diary) => {
                     return (
                         <DiaryCard id="diary" onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
@@ -127,7 +137,7 @@ const Grid = styled.div`
 
 const DiaryCard = styled.div`
     width: 90%;
-    height: 15%;
+    height: 20%;
     display: flex;
     flex-direction: column;
     background-color: #999;

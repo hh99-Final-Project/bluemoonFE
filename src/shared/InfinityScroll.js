@@ -25,8 +25,8 @@ const InfinityScroll = (props) => {
             if (isLoading) {
                 return;
             }
+            callNext();
         }
-        callNext();
     }, 300);
 
     const handleScroll = useCallback(_handleScroll, [isLoading]);
