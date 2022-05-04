@@ -1,18 +1,27 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import _ from "lodash";
 import Loading from "./Loading";
 
 const InfinityScroll = (props) => {
     const { children, callNext, hasNext, isLoading } = props;
 
+    const test = document.getElementById("container");
+    console.log(test.offsetHeight);
+
     const _handleScroll = _.throttle(() => {
-        const { innerHeight } = window;
+        // const { innerHeight } = window;
         const { scrollHeight } = document.body;
+        console.log(innerHeight);
+        console.log(scrollHeight);
+
+        // 전체 높이
+        const innerHeight = document.getElementById("container").clientHeight;
+        console.log(innerHeight);
 
         // scroll 계산
         const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 
-        if ((scrollHeight = innerHeight - scrollTop < 200)) {
+        if (scrollHeight - innerHeight - scrollTop < 200) {
             if (isLoading) {
                 return;
             }
@@ -20,7 +29,7 @@ const InfinityScroll = (props) => {
         callNext();
     }, 300);
 
-    const handleScroll = useCallback(_handleScroll, [loading]);
+    const handleScroll = useCallback(_handleScroll, [isLoading]);
 
     useEffect(() => {
         if (isLoading) {
@@ -39,7 +48,7 @@ const InfinityScroll = (props) => {
     return (
         <React.Fragment>
             {children}
-            {hasNext && <Loading />}
+            {/* {hasNext && <Loading />} */}
         </React.Fragment>
     );
 };

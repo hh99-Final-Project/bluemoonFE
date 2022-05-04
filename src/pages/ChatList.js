@@ -24,18 +24,30 @@ function ChatList(props) {
         lastTime: null,
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-    const closeModal = () => {
-        setIsModalOpen(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const openModal = () => {
+    //     setIsModalOpen(true);
+    // };
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    // };
+
+    // 채팅방 나가기
+    const deleteChat = (chatId) => {
+        if (window.confirm("정말 이 방을 나가시겠습니까?")) {
+            chatApi.deleteChat(chatId).then((response) => {
+                if (response.status === 200) {
+                    window.alert("채팅방에서 나가셨습니다.");
+                    navigate("/chatlist");
+                }
+            });
+        }
     };
 
     // 채팅방 리스트 조회 api
     useEffect(() => {
         chatApi.getChatList(1).then((response) => {
-            // 컴포넌트 스테이트에 바로 저장
+            console.log(response);
             setChatList(response.data);
             setIsLoading(false);
         });
@@ -47,28 +59,6 @@ function ChatList(props) {
         return <Loading />;
     }
 
-    console.log(chatList);
-    // let chatList = [
-    //     {
-    //         roomName: "말 잘듣는 원숭이1",
-    //         lastMessage: "마지막 메시지 1",
-    //         lastTime: "마지막 메시지 온 시간",
-    //         roomId: "1",
-    //     },
-    //     {
-    //         roomName: "말 잘듣는 원숭이2",
-    //         lastMessage: "마지막 메시지 2",
-    //         lastTime: "마지막 메시지 온 시간",
-    //         roomId: "2",
-    //     },
-    //     {
-    //         roomName: "말 잘듣는 원숭이3",
-    //         lastMessage: "마지막 메시지 3",
-    //         lastTime: "마지막 메시지 온 시간",
-    //         roomId: "3",
-    //     },
-    // ];
-
     return (
         <div>
             <Header2 />
@@ -76,14 +66,20 @@ function ChatList(props) {
             <Grid>
                 {chatList.map((chat, i) => {
                     return (
-                        <ChatRoom onClick={() => navigate(`/chat/${chat.roomId}`)} key={i}>
+                        <ChatRoom onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)} key={chat.chatRoomUuid}>
                             <Text>{chat.roomName}</Text>
                             <Text>{chat.lastMessage}</Text>
                             <Text>{chat.lastTime}</Text>
-                            {/* 모달은 좀 나중에... */}
-                            {/* <button>
-                  <Modal roomId={chat.roomId} open={isModalOpen}></Modal>
-                </button> */}
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteChat(chatRoomUuid);
+                                    navigate("/chatlist");
+                                }}
+                            >
+                                채팅방 나가기
+                            </button>
                         </ChatRoom>
                     );
                 })}

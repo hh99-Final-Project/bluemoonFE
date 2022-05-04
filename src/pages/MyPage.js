@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -15,15 +15,17 @@ MyPage.propTypes = {};
 
 function MyPage(props) {
     const navigate = useNavigate();
+    const ref = useRef();
+    console.log(ref);
     const [myDiary, setMyDiary] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
-    const deleteDiary = (postId) => {
+    const deleteDiary = (postUuid) => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
-            diaryApi.deleteDiary(postId).then((response) => {
+            diaryApi.deleteDiary(postUuid).then((response) => {
                 if (response.status === 200) {
                     window.alert("삭제 완료되었습니다.");
                     navigate("/mypage");
@@ -56,16 +58,19 @@ function MyPage(props) {
 
     useEffect(() => {
         userApi.getMyPage(page).then((response) => {
+            console.log(response);
             setMyDiary([...myDiary, ...response]);
-            setIsLoading(false);
             if (response.length < 5) {
                 setHasNext(false);
             } else {
                 setHasNext(true);
             }
             setPage(page + 1);
+            setIsLoading(false);
         });
     }, []);
+
+    // 리랜더링이 되더라도 기능이 다른 아이들을 구분해서 useEffect 실행하는 게 낫다
 
     if (isLoading) {
         return <Loading />;
@@ -75,33 +80,30 @@ function MyPage(props) {
         <div>
             <Header2 />
             <CategoryBar />
-            <Grid>
-                {/* <Select>
-                    <button onClick={() => navigate("/mypage")}>내가 쓴 고민</button>
-                    <button onClick={() => navigate("/mypage/temp")}>임시저장본 </button>
-                </Select> */}
-                <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}>
-                    {myDiary.map((diary) => {
-                        return (
-                            <DiaryCard onClick={() => navigate(`/diary/${diary.postId}`)} key={diary.postId}>
-                                <Text>{diary.title}</Text>
-                                <div>{diary.content}</div>
-                                <Text>댓글 {diary.count}개</Text>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        deleteDiary(diary.postId);
-                                        navigate("/mypage");
-                                    }}
-                                >
-                                    게시물 삭제
-                                </button>
-                            </DiaryCard>
-                        );
-                    })}
-                </InfinityScroll>
-                {/* <button onClick={MoreDiary}>더 보기</button> */}
+            {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
+            {/* onscroll 먹여서 */}
+            <Grid ref={ref}>
+                {myDiary.map((diary) => {
+                    return (
+                        <DiaryCard id="diary" onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
+                            <Text>{diary.title}</Text>
+                            <div>{diary.content}</div>
+                            <Text>댓글 {diary.count}개</Text>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteDiary(diary.postId);
+                                    navigate("/mypage");
+                                }}
+                            >
+                                게시물 삭제
+                            </button>
+                        </DiaryCard>
+                    );
+                })}
             </Grid>
+            {/* </InfinityScroll> */}
+            {/* <button onClick={MoreDiary}>더 보기</button> */}
         </div>
     );
 }
@@ -115,6 +117,7 @@ const Grid = styled.div`
     display: flex;
     flex-direction: column;
     background-color: lightgray;
+    overflow: auto;
 `;
 
 // const Select = styled.div`
