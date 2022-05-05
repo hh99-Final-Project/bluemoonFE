@@ -4,68 +4,65 @@ import styled from "styled-components";
 import { Grid, Text } from "../../elements/index";
 
 ChatMessage.propTypes = {
-  message: PropTypes.string,
-  nickname: PropTypes.string,
-  createdAt: PropTypes.string
+    message: PropTypes.string,
+    nickname: PropTypes.string,
+    createdAt: PropTypes.string,
 };
 
 function ChatMessage(props) {
-  const { message, nickname, createdAt } = props;
+    const { message, nickname, createdAt } = props;
 
-  if (nickname === "말 잘든는 원숭이") {
+    const user = nickname === "말 잘든는 원숭이" ? true : false;
+
     return (
-      <React.Fragment>
-        <Box user={true}>
-          <Nickname>
-            <Text bold>{nickname}</Text>
-          </Nickname>
-          <div className="messageBox">
-            <div className="message">{message}</div>
-            <div>{createdAt}</div>
-          </div>
-        </Box>
-      </React.Fragment>
-    );
-  }
+        <React.Fragment>
+            {/* <Box user={user}>
+                <div className="messageBox">
+                    <Message>{message}</Message>
+                    <div>{createdAt}</div>
+                </div>
+            </Box> */}
 
-  return (
-    <React.Fragment>
-      <Box user={false}>
-        <Nickname>
-          <Text bold>{nickname}</Text>
-        </Nickname>
-        <div className="messageBox">
-          <div className="message">{message}</div>
-          <div>{createdAt}</div>
-        </div>
-      </Box>
-    </React.Fragment>
-  );
+            <Box user={user}>
+                <MessageBox user={user}>
+                    <Message user={user}>{message}</Message>
+                    <CreatedAt>{createdAt}</CreatedAt>
+                </MessageBox>
+            </Box>
+        </React.Fragment>
+    );
 }
 
 export default ChatMessage;
 
 const Nickname = styled.div`
-  display: flex;
+    display: flex;
 `;
 
 const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: ${(props) => (props.user ? "flex-end" : "flex-start")};
-  margin: 0 20px;
-  height: 15%;
-  .messageBox {
+    display: flex;
+    flex-direction: column;
+    align-items: ${(props) => (props.user ? "flex-end" : "flex-start")};
+    margin: 0 20px;
+    height: 70px;
+`;
+
+const MessageBox = styled.div`
     display: flex;
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
-  }
-  .message {
+    height: 61.533203125px;
+`;
+
+const Message = styled.div`
     padding: 4%;
-    border: ${(props) => (props.user ? "none" : "1px solid #D2D2D2")};
-    border-radius: ${(props) =>
-      props.user ? "10px 0 10px 10px" : "0 10px 10px 10px"};
-    background-color: ${(props) => (props.user ? "#FAEfE1" : "#BAAAE1")};
+    border-radius: ${(props) => (props.user ? "10px 0 10px 10px" : "0 10px 10px 10px")};
+    background-color: ${(props) => (props.user ? "#293252" : "#707CA4")};
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
     word-break: break-all;
-  }
+    color: white;
+`;
+
+const CreatedAt = styled.div`
+    display: table-cell;
+    vertical-align: middle;
 `;

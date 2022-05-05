@@ -39,16 +39,20 @@ const ChatDetail = () => {
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
     function ConnectSub() {
         try {
-            ws.connect({}, () => {
-                ws.subscribe(
-                    // 구독 주소 서버와 확인 필요
-                    `/sub/chat/room/${roomId}`,
-                    (response) => {
-                        const newMessage = JSON.parse(response.body);
-                    },
-                    {},
-                );
-            });
+            ws.connect(
+                // 추후 토큰 추가 필요
+                {},
+                () => {
+                    ws.subscribe(
+                        // 구독 주소 서버와 확인 필요
+                        `/sub/chat/room/${roomId}`,
+                        (response) => {
+                            const newMessage = JSON.parse(response.body);
+                        },
+                        {},
+                    );
+                },
+            );
         } catch (error) {
             console.log(error);
         }
@@ -105,43 +109,84 @@ const ChatDetail = () => {
         return;
     } else {
         return (
-            <Wrapper>
+            <Container>
                 <Header2 />
                 <CategoryBar />
-                <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
+                <ChatRoom>
+                    <ChatRoomTitle>
+                        <p> OO 님과의 대화</p>
+                        <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
+                    </ChatRoomTitle>
 
-                <MessageWrapper>
-                    {message.length > 0 &&
-                        message.map((message, idx) => {
-                            return (
-                                <ChatMessage
-                                    key={idx}
-                                    message={message.message}
-                                    nickname={message.nickname}
-                                    createdAt={message.createdAt}
-                                />
-                            );
-                        })}
-                </MessageWrapper>
-                <InputWrpper>
-                    <ChatInput roomId={roomId} />
-                </InputWrpper>
-            </Wrapper>
+                    <MessageWrapper>
+                        {message.length > 0 &&
+                            message.map((message, idx) => {
+                                return (
+                                    <ChatMessage
+                                        key={idx}
+                                        message={message.message}
+                                        nickname={message.nickname}
+                                        createdAt={message.createdAt}
+                                    />
+                                );
+                            })}
+                    </MessageWrapper>
+                    <InputWrpper>
+                        <ChatInput roomId={roomId} />
+                    </InputWrpper>
+                </ChatRoom>
+            </Container>
         );
     }
 };
 
 export default ChatDetail;
 
-const Wrapper = styled.div`
-    position: absolute;
-    bottom: 5vh;
-    display: block;
-    width: 90vw;
-    height: 70vh;
-    margin: 0 auto;
-    background-color: #ddd;
+const Container = styled.div`
+    width: 100%;
+    height: 100vh;
+    background-color: #111b3f;
+    overflow: hidden;
 `;
+
+const ChatRoom = styled.div`
+    width: 946px;
+    height: 80vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    border: 2px solid #ffffff4d;
+    border-radius: 25px;
+    box-shadow: 0 0 70px #465981;
+`;
+
+const ChatRoomTitle = styled.div`
+    margin: 20px 0;
+    background-color: #2f3a5f;
+    height: 52px;
+    width: 946px;
+    left: 167px;
+    top: 160px;
+    border-radius: 0px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #ffffff;
+
+    & p {
+        margin-left: 20px;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+`;
+
 const MessageWrapper = styled.div`
     width: 100%;
     height: 90%;

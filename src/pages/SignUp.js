@@ -45,7 +45,8 @@ function SignUp(props) {
         userApi.saveNickName(nickName).then((response) => {
             console.log(response);
         });
-        navigate("/select");
+        // 뒤로가기. - 뒤에 붙인 숫자만큼 뒷 페이지로 가진다.
+        navigate(-1);
     };
 
     useEffect(() => {

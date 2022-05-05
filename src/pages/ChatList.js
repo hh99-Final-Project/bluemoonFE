@@ -43,7 +43,7 @@ function ChatList(props) {
             chatApi.deleteChat(chatId).then((response) => {
                 if (response.status === 200) {
                     window.alert("채팅방에서 나가셨습니다.");
-                    navigate("/chatlist");
+                    window.location.reload();
                 }
             });
         }
@@ -78,7 +78,7 @@ function ChatList(props) {
     // 채팅방 리스트 조회 api
     useEffect(() => {
         chatApi.getChatList(page).then((response) => {
-            console.log(response.data);
+            console.log(response);
             setChatList([...chatList, ...response.data]);
             setIsLoading(false);
             if (response.length < 5) {
@@ -97,56 +97,132 @@ function ChatList(props) {
     }
 
     return (
-        <div>
+        <Container>
             <Header2 />
             <CategoryBar />
-            <Grid ref={ref} onScroll={InfinityScroll}>
+            <ChatRoomListBox ref={ref} onScroll={InfinityScroll}>
+                <ChatRoomListTitle>
+                    <p>채팅 리스트</p>
+                </ChatRoomListTitle>
                 {chatList.map((chat, i) => {
                     return (
                         <ChatRoom onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)} key={chat.chatRoomUuid}>
-                            <Text>{chat.roomName}</Text>
-                            <Text>{chat.lastMessage}</Text>
-                            <Text>{chat.lastTime}</Text>
-
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteChat(chatRoomUuid);
-                                    navigate("/chatlist");
-                                }}
-                            >
-                                채팅방 나가기
-                            </button>
+                            <TiTleLine>
+                                <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
+                                <LastChatTime>{chat.createAt}</LastChatTime>
+                            </TiTleLine>
+                            <ContentLine>
+                                <LastChat>{chat.lastMessage}</LastChat>
+                                <ChatOutButton
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteChat(chat.chatRoomUuid);
+                                    }}
+                                >
+                                    채팅방 나가기
+                                </ChatOutButton>
+                            </ContentLine>
                         </ChatRoom>
                     );
                 })}
-            </Grid>
-        </div>
+            </ChatRoomListBox>
+        </Container>
     );
 }
 
 export default ChatList;
 
-const Grid = styled.div`
-    width: 80vw;
+const Container = styled.div`
+    width: 100%;
+    height: 100vh;
+    background-color: #111b3f;
+    overflow: hidden;
+`;
+
+const ChatRoomListBox = styled.div`
+    width: 946px;
     height: 80vh;
     margin: auto;
     display: flex;
     flex-direction: column;
-    background-color: lightgray;
-    overflow: auto;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    border: 2px solid #ffffff4d;
+    border-radius: 25px;
+    box-shadow: 0 0 70px #465981;
+`;
+
+const ChatRoomListTitle = styled.div`
+    margin: 20px 0;
+    background-color: #2f3a5f;
+    height: 52px;
+    width: 946px;
+    left: 167px;
+    top: 160px;
+    border-radius: 0px;
+
+    display: flex;
+    align-items: center;
+
+    color: #ffffff;
+
+    & p {
+        margin-left: 20px;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
 `;
 
 const ChatRoom = styled.div`
-    width: 90%;
-    height: 20%;
+    height: 150px;
+    width: 880px;
+    left: 198px;
+    top: 223px;
+    border-radius: 5px;
+
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: #959ebe;
     border: 1px solid black;
     border-radius: 10px;
     margin: 1% auto;
     padding: 10px;
 `;
 
-const Text = styled.p``;
+const TiTleLine = styled.div`
+    width: 860px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+`;
+
+const CharRoomTitle = styled.div`
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #373857;
+`;
+
+const LastChatTime = styled.div`
+    width: 80px;
+`;
+
+const ContentLine = styled.div`
+    width: 860px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+`;
+
+const LastChat = styled.div``;
+
+const ChatOutButton = styled.button`
+    width: 100px;
+    cursor: pointer;
+`;

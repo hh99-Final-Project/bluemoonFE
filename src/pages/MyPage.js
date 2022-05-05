@@ -28,7 +28,7 @@ function MyPage(props) {
             diaryApi.deleteDiary(postUuid).then((response) => {
                 if (response.status === 200) {
                     window.alert("삭제 완료되었습니다.");
-                    navigate("/mypage");
+                    window.location.reload();
                 }
             });
         }
@@ -87,72 +87,108 @@ function MyPage(props) {
     }
 
     return (
-        <div>
+        <Container>
             <Header2 />
             <CategoryBar />
             {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
             {/* onscroll 먹여서 */}
-            <Grid ref={ref} onScroll={InfinityScroll}>
+            <MyPageBox ref={ref} onScroll={InfinityScroll}>
                 {myDiary.map((diary) => {
                     return (
                         <DiaryCard id="diary" onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
-                            <Text>{diary.title}</Text>
-                            <div>{diary.content}</div>
-                            <Text>댓글 {diary.count}개</Text>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteDiary(diary.postId);
-                                    navigate("/mypage");
-                                }}
-                            >
-                                게시물 삭제
-                            </button>
+                            <TiTleLine>
+                                <DiaryTitle>{diary.title}</DiaryTitle>
+                                <CreatedAt>{diary.createdAt}</CreatedAt>
+                            </TiTleLine>
+                            <ContentLine>
+                                <CommentCount>댓글 {diary.count}개</CommentCount>
+                                <DeleteButton
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteDiary(diary.postUuid);
+                                    }}
+                                >
+                                    게시물 삭제
+                                </DeleteButton>
+                            </ContentLine>
                         </DiaryCard>
                     );
                 })}
-            </Grid>
+            </MyPageBox>
             {/* </InfinityScroll> */}
             {/* <button onClick={MoreDiary}>더 보기</button> */}
-        </div>
+        </Container>
     );
 }
 
 export default MyPage;
-
-const Grid = styled.div`
-    width: 80vw;
-    height: 80vh;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    background-color: lightgray;
-    overflow: auto;
+const Container = styled.div`
+    width: 100%;
+    height: 100vh;
+    background-color: #111b3f;
+    overflow: hidden;
 `;
 
-// const Select = styled.div`
-//     height: 10%;
-//     align-items: flex-end;
-// `;
-
-const DiaryCard = styled.div`
-    width: 90%;
-    height: 20%;
+const MyPageBox = styled.div`
+    width: 946px;
+    height: 80vh;
+    margin: auto;
     display: flex;
     flex-direction: column;
-    background-color: #999;
+    align-items: center;
+    box-shadow: 0 0 70px #465981;
+    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    border: 2px solid #ffffff4d;
+    border-radius: 25px;
+`;
+
+const DiaryCard = styled.div`
+    height: 150px;
+    width: 880px;
+    left: 198px;
+    top: 223px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    background-color: #959ebe;
     border: 1px solid black;
     border-radius: 10px;
     margin: 1% auto;
     padding: 10px;
 `;
 
-const Text = styled.p``;
+const TiTleLine = styled.div`
+    width: 860px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+`;
+
+const DiaryTitle = styled.div`
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #373857;
+`;
+
+const CreatedAt = styled.div`
+    width: 80px;
+`;
+
+const ContentLine = styled.div`
+    width: 860px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+`;
+
+const CommentCount = styled.div``;
 
 const DeleteButton = styled.button`
     width: 100px;
     height: 20px;
-    margin-top: 20px;
-    background-color: pink;
     cursor: pointer;
 `;

@@ -11,7 +11,7 @@ import Loading from "../shared/Loading";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
 import useStore from "../zustand/store";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
 
 DiaryList.propTypes = {};
@@ -20,8 +20,7 @@ function DiaryList(props) {
     const navigate = useNavigate();
     const [diaryList, setDiaryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const isLogin = useSelector((state) => state.userSlice.isLogin)
-
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
 
     const settings = {
         dots: false,
@@ -36,27 +35,25 @@ function DiaryList(props) {
     const getDiaryListAPI = () => {
         const data = diaryApi.getDiaryList(1);
         return data.data;
-    }
+    };
 
     //쿼리 테스트는 서버가 올라가 있을때 재개...
     // const { isLoading, data } = useQuery('diaryList', () => getDiaryListAPI());
     // console.log(data,"data")
 
-
-  useEffect(() => {
-
-      if(isLogin) {
-          diaryApi.getDiaryList(1).then((response) => {
-             console.log(response);
-              setDiaryList(response);
-              setIsLoading(false);
-          });
-      } else {
-          diaryApi.getNotLoginUserDiary().then((response) => {
-              setDiaryList([response.data]);
-              setIsLoading(false);
-          })
-      }
+    useEffect(() => {
+        if (isLogin) {
+            diaryApi.getDiaryList(1).then((response) => {
+                console.log(response.data);
+                setDiaryList(response.data);
+                setIsLoading(false);
+            });
+        } else {
+            diaryApi.getNotLoginUserDiary().then((response) => {
+                setDiaryList([response.data]);
+                setIsLoading(false);
+            });
+        }
 
         setCurrentHeader("고민상담");
     }, [isLogin]);
@@ -65,41 +62,36 @@ function DiaryList(props) {
         return <Loading />;
     }
 
-  return (
-    <div>
-      <Header2/>
-      <CategoryBar/>
-      <CardContainer {...settings}>
-        {diaryList.map((diary) => {
-          return (
-            <DiaryCard
-              onClick={() => navigate(`/diary/${diary.postUuid}`)}
-              key={diary.postUuid}
-            >
-              <DiaryTitle>{diary.title}</DiaryTitle>
-              <DiaryDesc>{diary.content}</DiaryDesc>
-              <DiaryIcons>
-                <IconsLeft>
-                  <CommentIcon
-                    onClick={(e) => {
-                     e.preventDefault();
-                     navigate(`/diary/${diary.postUuid}`)
-                    }}
-                  >
-                    댓글
-                  </CommentIcon>
-                </IconsLeft>
-                <ChattingIcon>채팅</ChattingIcon>
-              </DiaryIcons>
-            </DiaryCard>
-          );
-        })}
-      </CardContainer>
-      <DiaryWriteButton onClick={() => navigate("/write")}>
-        다이어리 쓰기
-      </DiaryWriteButton>
-    </div>
-  );
+    return (
+        <div>
+            <Header2 />
+            <CategoryBar />
+            <CardContainer {...settings}>
+                {diaryList.map((diary) => {
+                    return (
+                        <DiaryCard onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
+                            <DiaryTitle>{diary.title}</DiaryTitle>
+                            <DiaryDesc>{diary.content}</DiaryDesc>
+                            <DiaryIcons>
+                                <IconsLeft>
+                                    <CommentIcon
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(`/diary/${diary.postUuid}`);
+                                        }}
+                                    >
+                                        댓글
+                                    </CommentIcon>
+                                </IconsLeft>
+                                <ChattingIcon>채팅</ChattingIcon>
+                            </DiaryIcons>
+                        </DiaryCard>
+                    );
+                })}
+            </CardContainer>
+            <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
+        </div>
+    );
 }
 
 export default DiaryList;
