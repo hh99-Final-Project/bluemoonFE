@@ -24,7 +24,8 @@ function WriteDiary(props) {
     pause,
     replay,
     play,
-    audioUrl
+    audioUrl,
+    deleteVoice
   } = useRecordVoice();
 
   const [title, setTitle] = useState("");
@@ -96,6 +97,7 @@ function WriteDiary(props) {
           <VoiceStop onClick={stopRecord}>중지</VoiceStop>
           <VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>
           <VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>
+          <DeleteVoice onClick={deleteVoice}>삭제</DeleteVoice>
           <OpenPopup onClick={() => setIsOpenVoicePopup(true)}>열기</OpenPopup>
         </VoiceLeft>
         <PostLength>{diary.length}/1000</PostLength>
@@ -238,11 +240,12 @@ const VoiceStop = styled(VoicePlayButton)``;
 const VoiceTempStop = styled(VoicePlayButton)``;
 const VoiceTempReplay = styled(VoicePlayButton)``;
 const OpenPopup = styled(VoicePlayButton)``;
+const DeleteVoice = styled(VoicePlayButton)``;
 
 
 const PostButton = styled.a`
   position: absolute;
-  bottom: -80px;
+  bottom: 0px;
   left: 50%;
   transform: translate(-50%, 0);
   width: 100px;

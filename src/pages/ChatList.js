@@ -43,6 +43,7 @@ function ChatList(props) {
             chatApi.deleteChat(chatId).then((response) => {
                 if (response.status === 200) {
                     window.alert("채팅방에서 나가셨습니다.");
+                    //reload를 해주는 이유가 뭘까용? 강제 새로고침은 user UX에 좋지 않을 것 같아요!
                     window.location.reload();
                 }
             });

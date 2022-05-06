@@ -60,6 +60,7 @@ const ChatDetail = () => {
 
     React.useEffect(() => {
         wsConnect();
+
         return () => {
             wsDisConnect();
         };

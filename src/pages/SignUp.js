@@ -29,6 +29,7 @@ function SignUp(props) {
         setIsLoading(true);
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
         const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
+        //통과하지 않았을때의 에러처리에 대한것은 기획에 없을까용? 없다면 디자인과 의논해서 있어야할 것 같아용 else로
         if (result) {
             userApi.nickNameCheck(nickName).then((response) => {
                 console.log(response.data);
@@ -43,6 +44,7 @@ function SignUp(props) {
         }
     }, 1000);
 
+    //import React, {useCallback} ~ 을 추가하면 React 생략 가능해요~!
     const nickNameCheckDB = React.useCallback(debounce, []);
 
     const onClickHandler = () => {

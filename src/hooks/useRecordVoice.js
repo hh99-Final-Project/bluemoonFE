@@ -115,6 +115,11 @@ export default function useRecordVoice() {
         }
     }, [audioUrl]);
 
+    //파일 삭제
+    const deleteVoice = () => {
+        setAudioUrl("");
+    }
+
 
     return {
         recordVoice,
@@ -122,6 +127,7 @@ export default function useRecordVoice() {
         pause,
         replay,
         play,
-        audioUrl
+        audioUrl,
+        deleteVoice
     }
 }

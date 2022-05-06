@@ -102,6 +102,8 @@ function ChatBox(props) {
         },
     ];
 
+    //if(!message) 라고 써도 되어요..! 그리고 else 구문도 안써도 될 것 같습니다.
+    //그리고 message를 담는 리스트는 message 말고 messageList, messages가 좋을 것 같아요!
     if (message === null) {
         return;
     } else {

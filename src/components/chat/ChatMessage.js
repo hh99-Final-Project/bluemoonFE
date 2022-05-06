@@ -13,6 +13,7 @@ function ChatMessage(props) {
     const { message, nickname, createdAt } = props;
     // const cookie = getCookie("authorization");
 
+    // const user = nickname === "말 잘듣는 원숭이" 로 줄일 수 있어요!
     const user = nickname === "말 잘든는 원숭이" ? true : false;
 
     return (
