@@ -67,7 +67,7 @@ export default Header2;
 const HeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    margin: 20px auto;
+    margin: auto;
     width: 60%;
     font-weight: bold;
     font-size: 20px;
