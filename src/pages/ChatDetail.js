@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-// import { Grid, Text } from "../../elements/index";
 import ChatBox from "../components/chat/ChatBox";
 import styled from "styled-components";
 import SockJS from "sockjs-client";
@@ -9,13 +9,46 @@ import Header2 from "../shared/Header2";
 import CategoryBar from "../shared/CategoryBar";
 import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
+import { subMessage } from "../redux/modules/chatSlice";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
     const params = useParams();
+    console.log(params);
     const roomId = params.id;
 
-    // const [message, setMessage] = useState(null);
+    // 보내는 사람
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    // message state
+    const message = useSelector((state) => state.chatSlice.messages);
+
+    // const [message, setMessage] = useState([
+    //     {
+    //         userId: "1",
+    //         nickname: "말 잘든는 원숭이",
+    //         message: "안녕하세요",
+    //         createdAt: "07:30",
+    //     },
+    //     {
+    //         userId: "2",
+    //         nickname: "못말리는 짱구",
+    //         message: "반갑습니다",
+    //         createdAt: "07:31",
+    //     },
+
+    //     {
+    //         userId: "1",
+    //         nickname: "말 잘든는 원숭이",
+    //         message: "고민이 해결되셨나요?",
+    //         createdAt: "07:32",
+    //     },
+    //     {
+    //         userId: "2",
+    //         nickname: "못말리는 짱구",
+    //         message: "아뇨 여전합니다",
+    //         createdAt: "07:33",
+    //     },
+    // ]);
 
     // 채팅방 이전 메시지 호출
     // useEffect(() => {
@@ -26,10 +59,10 @@ const ChatDetail = () => {
     // });
 
     React.useEffect(() => {
-        ConnectSub();
-        //   return () => {
-        //     DisConnectUnsub();
-        //   };
+        wsConnect();
+        return () => {
+            wsDisConnect();
+        };
     }, []);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
@@ -37,73 +70,34 @@ const ChatDetail = () => {
     let ws = Stomp.over(sock);
 
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
-    function ConnectSub() {
+    function wsConnect() {
         try {
-            ws.connect(
-                // 추후 토큰 추가 필요
-                {},
-                () => {
-                    ws.subscribe(
-                        // 구독 주소 서버와 확인 필요
-                        `/sub/chat/room/${roomId}`,
-                        (response) => {
-                            const newMessage = JSON.parse(response.body);
-                        },
-                        {},
-                    );
-                },
-            );
+            ws.connect({}, () => {
+                ws.subscribe(
+                    `/sub/chat/room/${roomId}`,
+                    (response) => {
+                        const newMessage = JSON.parse(response.body);
+                        console.log(response);
+                        console.log(newMessage);
+                        subMessage(newMessage);
+                    },
+                    // {},
+                );
+            });
         } catch (error) {
             console.log(error);
         }
     }
 
-    // function DisConnectUnsub() {
-    //   try {
-    //     ws.disconnect(
-    //       {
-    //         Headers: {
-    //           // 토큰
-    //           Authorization: `${token}`,
-    //         },
-    //       },
-    //       () => {
-    //         ws.unsubscribe("sub-0");
-    //       },
-    //       { token: token }
-    //     );
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-
-    let message = [
-        {
-            userId: "1",
-            nickname: "말 잘든는 원숭이",
-            message: "안녕하세요",
-            createdAt: "07:30",
-        },
-        {
-            userId: "2",
-            nickname: "못말리는 짱구",
-            message: "반갑습니다",
-            createdAt: "07:31",
-        },
-
-        {
-            userId: "1",
-            nickname: "말 잘든는 원숭이",
-            message: "고민이 해결되셨나요?",
-            createdAt: "07:32",
-        },
-        {
-            userId: "2",
-            nickname: "못말리는 짱구",
-            message: "아뇨 여전합니다",
-            createdAt: "07:33",
-        },
-    ];
+    function wsDisConnect() {
+        try {
+            ws.disconnect(() => {
+                ws.unsubscribe("sub-0");
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     if (message === null) {
         return;
@@ -132,7 +126,7 @@ const ChatDetail = () => {
                             })}
                     </MessageWrapper>
                     <InputWrpper>
-                        <ChatInput roomId={roomId} />
+                        <ChatInput roomId={roomId} userInfo={userInfo} />
                     </InputWrpper>
                 </ChatRoom>
             </Container>

@@ -140,8 +140,8 @@ const Container = styled.div`
 `;
 
 const ChatRoomListBox = styled.div`
-    width: 946px;
-    height: 80vh;
+    width: 950px;
+    height: 530px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -150,13 +150,14 @@ const ChatRoomListBox = styled.div`
     border: 2px solid #ffffff4d;
     border-radius: 25px;
     box-shadow: 0 0 70px #465981;
+    overflow-y: auto;
 `;
 
 const ChatRoomListTitle = styled.div`
     margin: 20px 0;
     background-color: #2f3a5f;
     height: 52px;
-    width: 946px;
+    width: 925px;
     left: 167px;
     top: 160px;
     border-radius: 0px;
@@ -177,10 +178,8 @@ const ChatRoomListTitle = styled.div`
 `;
 
 const ChatRoom = styled.div`
-    height: 150px;
     width: 880px;
-    left: 198px;
-    top: 223px;
+    height: 150px;
     border-radius: 5px;
 
     display: flex;
@@ -188,7 +187,7 @@ const ChatRoom = styled.div`
     background-color: #959ebe;
     border: 1px solid black;
     border-radius: 10px;
-    margin: 1% auto;
+    margin: 10px auto;
     padding: 10px;
 `;
 
@@ -211,6 +210,7 @@ const CharRoomTitle = styled.div`
 
 const LastChatTime = styled.div`
     width: 80px;
+    overflow: hidden;
 `;
 
 const ContentLine = styled.div`

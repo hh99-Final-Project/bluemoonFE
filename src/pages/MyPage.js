@@ -130,23 +130,25 @@ const Container = styled.div`
 `;
 
 const MyPageBox = styled.div`
-    width: 946px;
-    height: 700px;
+    width: 950px;
+    height: 530px;
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 0 0 70px #465981;
+    box-sizing: border-box;
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
     border: 2px solid #ffffff4d;
     border-radius: 25px;
-    overflow-y: scroll;
+    overflow-y: auto;
 `;
 
 const DiaryCard = styled.div`
     width: 880px;
     height: 150px;
     border-radius: 5px;
+
     display: flex;
     flex-direction: column;
     background-color: #959ebe;

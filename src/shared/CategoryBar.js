@@ -77,7 +77,7 @@ export default CategoryBar;
 // 어떻게 이런 일이 일어나는지 모르겠음.
 
 const HeaderContainer = styled.div`
-    width: 946px;
+    width: 950px;
     display: flex;
     margin: 0 auto;
 `;
@@ -93,10 +93,12 @@ const Home = styled.div`
     text-align: center;
     height: 50px;
     border-radius: 5px 5px 0px 0px;
+    border: 2px solid #cbcfdc47;
 
     width: ${(props) => (props.header === "홈" ? "132px" : "80px")};
     color: ${(props) => (props.header === "홈" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "홈" ? "#C6D3EC" : "#354468")};
+    box-shadow: ${(props) => (props.header === "홈" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
 
 const Post = styled(Home)`
@@ -105,25 +107,30 @@ const Post = styled(Home)`
     width: ${(props) => (props.header === "포스트" ? "132px" : "80px")};
     color: ${(props) => (props.header === "포스트" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "포스트" ? "#C6D3EC" : "#354468")};
+    box-shadow: ${(props) => (props.header === "포스트" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
 
 const DiaryList = styled(Home)`
     width: ${(props) => (props.header === "고민상담" ? "132px" : "80px")};
     color: ${(props) => (props.header === "고민상담" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "고민상담" ? "#C6D3EC" : "#354468")};
+    box-shadow: ${(props) => (props.header === "고민상담" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
 const MyPage = styled(Home)`
     width: ${(props) => (props.header === "마이페이지" ? "132px" : "100px")};
     color: ${(props) => (props.header === "마이페이지" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "마이페이지" ? "#C6D3EC" : "#354468")};
+    box-shadow: ${(props) => (props.header === "마이페이지" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
 const ChattingList = styled(Home)`
     width: ${(props) => (props.header === "채팅" ? "132px" : "80px")};
     color: ${(props) => (props.header === "채팅" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "채팅" ? "#C6D3EC" : "#354468")};
+    box-shadow: ${(props) => (props.header === "채팅" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
 const Lottery = styled(Home)`
     width: ${(props) => (props.header === "추첨" ? "132px" : "80px")};
     color: ${(props) => (props.header === "추첨" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "추첨" ? "#C6D3EC" : "#354468")};
+    box-shadow: ${(props) => (props.header === "추첨" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
