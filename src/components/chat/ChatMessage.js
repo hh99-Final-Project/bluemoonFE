@@ -11,6 +11,7 @@ ChatMessage.propTypes = {
 
 function ChatMessage(props) {
     const { message, nickname, createdAt } = props;
+    // const cookie = getCookie("authorization");
 
     const user = nickname === "말 잘든는 원숭이" ? true : false;
 
@@ -51,6 +52,7 @@ const MessageBox = styled.div`
     display: flex;
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
     height: 61.533203125px;
+    align-items: flex-end;
 `;
 
 const Message = styled.div`
