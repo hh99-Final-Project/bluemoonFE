@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Notice from "./Notice";
 import Modal from "react-modal";
+import closeButton from "../../static/images/close_24px.svg";
 
 Notifications.propTypes = {
 
@@ -10,11 +11,11 @@ Notifications.propTypes = {
 
 function Notifications(props) {
 
-    const { closeModal } = props;
+    const { closeModal, AlertTabRef } = props;
 
     let alertList = [
         {
-            title: "곽혜미",
+            title:"곽혜미",
             desc: "라라라",
             createdAt: "2022-04-21 11:23",
             id: 1,
@@ -32,7 +33,40 @@ function Notifications(props) {
             createdAt: "2022-03-21 11:23",
             id: 3,
         },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 4,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 5,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 6,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 7,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 8,
+        },
     ];
+
+    // console.log(AlertTabRef.current.getBoundingClientRect().top,"AlertTabRef")
+    // console.log(AlertTabRef.current.getBoundingClientRect().left,"AlertTabRef")
 
 
     return (
@@ -53,51 +87,80 @@ function Notifications(props) {
                     },
                     content: {
                         position: 'absolute',
-                        zIndex: 2,
-                        top: '500px',
-                        left: 'calc(50% + 200px)',
+                        zIndex: 10,
+                        top: '328px',
+                        left: AlertTabRef.current.getBoundingClientRect().left + 115,
                         right: 'auto',
                         bottom: 'auto',
                         transform: 'translate(-50%, -50%)',
-                        width: '400px',
-                        height: '900px',
+                        width: '248px',
+                        height: '610px',
                         border: 'none',
-                        background: '#ffffff',
+                        boxSizing: 'border-box',
+                        background: '#99A5BC',
                         borderRadius: '10px',
                         outline: 'none',
-                        padding: '20px'
+                        padding: alertList.length > 7 ? '0 7px 26px 13px' : '0 9px 26px 13px',
+                        overflowY: 'hidden'
                     }
                 }}>
+
                 <NotiHeader>
                     <Title>알림창</Title>
-                    <CloseButton onClick={closeModal}>X</CloseButton>
+                    <CloseButton onClick={closeModal}>
+                        <img src={closeButton} alt={"close_alert"}/>
+                    </CloseButton>
                 </NotiHeader>
-            {
-                alertList.map((alert) => {
-                    return <Notice key={alert.id} alert={alert}/>
-                })
-            }
+                <Content length={alertList.length}>
+                    {
+                        alertList.map((alert) => {
+                            return <Notice key={alert.id} alert={alert}/>
+                        })
+                    }
+                </Content>
             </Modal>
-        {/*</AlertContainer>*/}
         </div>
     );
 }
 
 export default Notifications;
 
+
 const NotiHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    margin: 10px 0 20px;
+    margin: 8px 0 20px;
 `;
 
 const Title = styled.div`
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+  margin: 5px 0 19px;
 `;
 
 const CloseButton = styled.div`
-  font-weight: bold;
-  font-size: 30px;
   cursor: pointer;
+`;
+
+const Content = styled.div`
+  height: 530px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: ${(props) => (props.length > 7 ? "6px" : "4px")};
+  box-sizing: border-box;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #D3D3D3;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #616B7D;
+    border-radius: 5px;
+  }
 `;

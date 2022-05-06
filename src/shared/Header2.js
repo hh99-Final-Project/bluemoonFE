@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,8 @@ const Header2 = () => {
 
     const [isOpenNoti, setIsOpenNoti] = useState(false);
 
+    const AlertTabRef = useRef();
+
     const loginCheck = () => {
         //로그인 판별하기
         if (userInfo) {
@@ -31,6 +33,13 @@ const Header2 = () => {
         dispatch(isLogined(false));
     };
 
+    const closeNotiModal = () => {
+        console.log("close!")
+        setIsOpenNoti(false);
+    }
+
+    console.log(isOpenNoti,"noti?")
+
     return (
         <HeaderContainer>
             <Logo onClick={() => navigate("/")}>로고</Logo>
@@ -38,16 +47,16 @@ const Header2 = () => {
                 {userInfo ? <NickName>{userInfo.nickname}님</NickName> : <div>로그아웃 되었습니다.</div>}
                 <Point>100 points</Point>
                 <AlertIcon
+                    ref={AlertTabRef}
                     onClick={() => {
                         setIsOpenNoti(true);
-                    }}
-                >
+                    }}>
                     알림
                 </AlertIcon>
                 <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
                 <Logout onClick={logout}>로그아웃</Logout>
             </HeaderRightArea>
-            {isOpenNoti && <Notifications closeModal={() => setIsOpenNoti(false)} />}
+            {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
             {modalOpen && <Login />}
         </HeaderContainer>
     );

@@ -22,20 +22,13 @@ function Notice(props) {
         <React.Fragment>
             <AlertSliceContainer>
                 <TitleArea>
-                    <Title>
-                        {alert.title}
-                    </Title>
                     <CreatedAt>
                         {alert.createdAt}
                     </CreatedAt>
                 </TitleArea>
-
                 <ContentArea>
                     <Desc>{alert.desc}</Desc>
-                    <MoreIcon onClick={()=>setModalOpen(true)}>더보기</MoreIcon>
                 </ContentArea>
-
-                {modalOpen && <ChatOutModal modalOpen={modalOpen} closeModal={closeModal}/>}
             </AlertSliceContainer>
         </React.Fragment>
     );
@@ -45,33 +38,40 @@ export default Notice;
 
 
 const AlertSliceContainer = styled.div`
-    width: 100%;
-    height: 132px;
+    //width: 213px;
+    height: 59px;
     box-sizing: border-box;
-    background-color: #9E9E9E;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    padding: 20px;
+    background-color: #D0D5E3;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    padding: 7px;
     cursor: pointer;
 `;
 const TitleArea = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 6px;
+    font-size: 10px;
+    line-height: 12px;
 `;
 const Title = styled.div`
-    font-weight: bold;
-    font-size: 20px;
+
 `;
-const CreatedAt = styled.div``;
+const CreatedAt = styled.div`
+  font-size: 10px;
+  line-height: 12px;
+`;
 const ContentArea = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
 
-const Desc = styled.div``;
+const Desc = styled.div`
+  font-size: 12px;
+  line-height: 15px;
+`;
 
 const MoreIcon = styled.div``;
 
