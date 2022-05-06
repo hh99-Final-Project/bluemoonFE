@@ -10,6 +10,7 @@ import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
 import {useSelector} from "react-redux";
+import backIcon from "../static/images/backIcon.svg";
 
 WriteDiary.propTypes = {};
 
@@ -68,29 +69,34 @@ function WriteDiary(props) {
   }, [])
 
   return (
-    <React.Fragment>
+    <WriteContainer>
       {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
       <Header2/>
-      <PostTitle>고민 털어놓기</PostTitle>
       <CategoryBar/>
       <PostAreaContainer>
-        <PostText
-          placeholder="제목을 작성해주세요"
-          onChange={onChangeTitleHandler}
-        />
-        <PostArea
-          placeholder="1000자 내로 작성해주세요"
-          onChange={onChangeContentHandler}
-        />
-        <PostLength>{diary.length}/1000</PostLength>
+        <PostHeader>
+          <img src={backIcon}/>
+        </PostHeader>
+        <WriteArea>
+          <PostText
+            placeholder="제목을 작성해주세요"
+            onChange={onChangeTitleHandler}
+          />
+          <PostArea
+            placeholder="1000자 내로 작성해주세요"
+            onChange={onChangeContentHandler}
+          />
+        </WriteArea>
 
-        <VoiceContainer>
+        <VoiceLeft>
           <VoicePlayButton onClick={play}>재생</VoicePlayButton>
           <VoiceRecordButton onClick={recordVoice}>녹음</VoiceRecordButton>
           <VoiceStop onClick={stopRecord}>중지</VoiceStop>
           <VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>
           <VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>
-        </VoiceContainer>
+        </VoiceLeft>
+        <PostLength>{diary.length}/1000</PostLength>
+
         <PostButton onClick={onClickHandler}>등록하기</PostButton>
 
       </PostAreaContainer>
@@ -103,88 +109,112 @@ function WriteDiary(props) {
           event={() => navigate("/diarylist")}
         />
       )}
-    </React.Fragment>
+    </WriteContainer>
   );
 }
 
 export default WriteDiary;
 
-const PostTitle = styled.div`
-  font-weight: bold;
-  font-size: 32px;
-  text-align: center;
-  margin: 200px auto 100px;
+const WriteContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #081134;
 `;
 
+
 const PostAreaContainer = styled.div`
-  margin: 0 auto 50px;
-  width: 1000px;
-  height: 804px;
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: #e0e0e0;
+  margin: auto;
+  width: 950px;
+  height: 530px;
+  background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
+  box-shadow: 0 0 70px #465981;
+  backdrop-filter: blur(80px);
+  border-radius: 25px;
+  position: relative;
+`;
+
+
+const PostHeader = styled.div`
+  width: 100%;
+  height: 52px;
+  background-color: #2F3A5F;
+  margin: 23px auto 0;
+  
+  img {
+    margin: 10px 23px 0 40px;
+  }
+`;
+
+const WriteArea = styled.div`
+  margin-bottom: 10px;
+  padding: 0 34px 0 40px;
 `;
 
 const PostText = styled.input`
-  position: absolute;
-  z-index: 1;
-  width: 900px;
-  height: 67px;
-  top: 42px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: rgba(205, 205, 205, 0.9);
+  width: 876px;
+  height: 47px;
+  background-color: #959EBE;
   outline: none;
   border: none;
   padding: 14px 34px;
-  font-size: 32px;
-  border-radius: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: 10px 0;
+  font-size: 20px;
+  line-height: 24px;
   ::placeholder {
-    color: #a59f9f;
-    font-size: 32px;
+    font-size: 20px;
+    line-height: 24px;
+    color: rgba(8, 16, 93, 0.5);
   }
 `;
 
 const PostArea = styled.textarea`
-  width: 900px;
-  height: 497px;
+  width: 876px;
+  height: 352px;
+  box-sizing: border-box;
   padding: 20px;
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: rgba(205, 205, 205, 0.9);
-  border-radius: 5px;
+  background-color: #959EBE;
   border: none;
   font-size: 18px;
   line-height: 24px;
   color: #000000;
   resize: none;
   outline: none;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow-y: auto;
   overflow-x: hidden;
   ::-webkit-scrollbar {
     display: none;
   }
+  
+  ::placeholder {
+    font-size: 20px;
+    line-height: 24px;
+    color: rgba(8, 16, 93, 0.5);
+  }
+`;
+
+
+const VoiceLeft = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 50px;
+  left: 60px;
 `;
 
 const PostLength = styled.div`
   position: absolute;
-  bottom: 120px;
-  left: calc(100% - 100px);
+  bottom: 50px;
+  right: 60px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #08105D;
 `;
 
-const VoiceContainer = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: 150px;
-  left: calc(100% - 550px);
-  display: flex;
-  margin: 50px auto;
-`;
+
 const VoicePlayButton = styled.div`
   width: 70px;
   height: 50px;
@@ -201,14 +231,6 @@ const VoiceStop = styled(VoicePlayButton)``;
 const VoiceTempStop = styled(VoicePlayButton)``;
 const VoiceTempReplay = styled(VoicePlayButton)``;
 
-const TempSaveButton = styled.div`
-  width: 100px;
-  height: 50px;
-  position: absolute;
-  bottom: 100px;
-  left: calc(50% - 400px);
-  cursor: pointer;
-`;
 
 const PostButton = styled.a`
   position: absolute;
