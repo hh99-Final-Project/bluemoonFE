@@ -131,7 +131,7 @@ const Container = styled.div`
 
 const MyPageBox = styled.div`
     width: 946px;
-    height: 80vh;
+    height: 700px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -140,20 +140,19 @@ const MyPageBox = styled.div`
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
     border: 2px solid #ffffff4d;
     border-radius: 25px;
+    overflow-y: scroll;
 `;
 
 const DiaryCard = styled.div`
-    height: 150px;
     width: 880px;
-    left: 198px;
-    top: 223px;
+    height: 150px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     background-color: #959ebe;
     border: 1px solid black;
     border-radius: 10px;
-    margin: 1% auto;
+    margin: 10px auto;
     padding: 10px;
 `;
 
@@ -176,6 +175,7 @@ const DiaryTitle = styled.div`
 
 const CreatedAt = styled.div`
     width: 80px;
+    overflow: hidden;
 `;
 
 const ContentLine = styled.div`
