@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
 import useRecordVoice from "../../hooks/useRecordVoice";
+import recordIcon from "../../static/images/microphone.svg";
+import lockIcon from "../../static/images/lockIcon.svg";
 
 
 CommentInput.propTypes = {
@@ -51,16 +53,32 @@ function CommentInput(props) {
     return (
         <React.Fragment>
             <InputContainer>
-                <VoiceButton onClick={recordVoice}>음성녹음</VoiceButton>
-                <StopButton onClick={stopRecord}>중지</StopButton>
-                <input
+                {/*<VoiceButton onClick={recordVoice}>음성녹음</VoiceButton>*/}
+                {/*<StopButton onClick={stopRecord}>중지</StopButton>*/}
+                <Input
                     onChange={onChangeHandler}
                     onKeyPress={onKeyPressHandler}
                     value={comment}
                     placeholder='댓글을 남겨주세요'/>
-                <TextLength>{comment.length}/150</TextLength>
-                <PostButton
-                    onClick={onClick}>등록</PostButton>
+                <IconArea>
+                    <VoiceButton>
+                        <img src={recordIcon} alt={"recordIcon"}/>
+                    </VoiceButton>
+                    <IconRightArea>
+                        <LockIcon>
+                            <img src={lockIcon} alt={"lockIcon"}/>
+                            <input type={"checkbox"}/>
+                        </LockIcon>
+                        <TextLength>
+                            {comment.length}/150
+                        </TextLength>
+                        <PostButton
+                            onClick={onClick}>
+                            등록하기
+                        </PostButton>
+                    </IconRightArea>
+
+                </IconArea>
             </InputContainer>
         </React.Fragment>
     );
@@ -70,26 +88,26 @@ export default CommentInput;
 
 
 const InputContainer = styled.div`
-    position: relative;
-    margin: 40px auto;
-    width: 1164px;
-    height: 193px;
-    border-radius: 12px;
-    background-color: #CDCDCD;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    input {
-        outline: none;
-        border: none;
-        width: 966px;
-        height: 142px;
-        padding: 20px;
-        box-sizing: border-box;
-        ::placeholder {
-            font-size: 20px;
-            line-height: 24px;
-        }
+    margin-top: 10px;
+    width: 877px;
+    height: 86px;
+    border-radius: 5px;
+    background-color: #BCC4DE;
+`;
+
+const Input = styled.input`
+    outline: none;
+    border: none;
+    width: 856px;
+    height: 40px;
+    padding: 13px;
+    margin: 11px 10px 8px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    ::placeholder {
+      font-size: 13px;
+      line-height: 16px;
+      color: #A59F9F;
     }
 `;
 
@@ -98,17 +116,41 @@ const VoiceButton = styled.div`
     margin-right: 20px;
 `;
 
-const StopButton = styled(VoiceButton)`
-  
-`;
-
 const TextLength = styled.div`
-    position: absolute;
-    bottom:10px;
-    right: 10px;
+    margin: 0 10px;
+    font-size: 10px;
+    line-height: 12px;
 `;
 
 const PostButton = styled.div`
-    cursor:pointer;
-    padding-left: 10px;
+    cursor: pointer;
+    background-color: #08105D;
+    border-radius: 3px;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 7px 10px 6px;
+`;
+
+const IconArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+`;
+const IconRightArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const LockIcon = styled.div`
+  img {
+    margin-right: 4px;
+  }
+  
+  input {
+    width: 15px;
+    height: 15px;
+  }
 `;

@@ -8,6 +8,9 @@ import CommentInput from "../components/diary/CommentInput";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
 import {useSelector} from "react-redux";
+import CategoryBar from "../shared/CategoryBar";
+import backIcon from "../static/images/backIcon.svg";
+import { convertDate } from "../utils/convertDate";
 
 DiaryDetail.propTypes = {};
 
@@ -43,49 +46,108 @@ function DiaryDetail(props) {
     }
 
     return (
-        <React.Fragment>
+        <DetailContainer>
             <Header2 />
-            <TitleContainer>
-                <BackButton onClick={() => navigate("/diarylist")}>뒤로가기</BackButton>
-                <Title>고민 들어주기</Title>
-            </TitleContainer>
-            <DiaryContent diary={diary} />
-            <CommentList comments={diary.comments} postId={diary.postId} />
-            <CommentInput postId={postId} />
-        </React.Fragment>
+            <CategoryBar/>
+            <DetailContent>
+                <TitleContainer>
+                    <TitleLeft>
+                        <BackButton
+                            onClick={() => navigate("/diarylist")}>
+                            <img src={backIcon}/>
+                        </BackButton>
+                        <Title>고민 들어주기</Title>
+                    </TitleLeft>
+                    <Time>{convertDate(diary.createdAt)}</Time>
+                </TitleContainer>
+                <ContentContainer>
+                    <DiaryContent diary={diary} />
+                    <CommentInput postId={postId} />
+                    <CommentList comments={diary.comments} postId={diary.postId} />
+                </ContentContainer>
+            </DetailContent>
+        </DetailContainer>
     );
 }
 
 export default DiaryDetail;
 
+
+const DetailContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #081134;
+  overflow-x: hidden;
+  
+`;
+const DetailContent = styled.div`
+    width: 950px;
+    height: 530px;
+    padding-right: 5px;
+    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-sizing: border-box; 
+    box-shadow: 0 0 70px #465981;
+    backdrop-filter: blur(80px);
+    border-radius: 25px;
+    margin: auto;
+  
+`;
 const TitleContainer = styled.div`
-    width: 1224px;
-    height: 54px;
+    width: 100%;
+    height: 52px;
+    background-color: #2F3A5F;
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin: 161px auto 56px;
+    justify-content: space-between;
+    margin: 23px auto 0;
+`;
+
+const ContentContainer = styled.div`
+  height: 433px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0 32px 0 37px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #D3D3D3;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #616B7D;
+    border-radius: 5px;
+  }
+`;
+
+const TitleLeft = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BackButton = styled.div`
-    width: 184px;
-    height: 65px;
-    background-color: #787878;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
+    margin: 0 23px 0 40px;
 `;
 
 const Title = styled.div`
-    width: 1040px;
-    height: 54px;
     margin: auto;
-    background-color: #c4c4c4;
-    font-size: 32px;
-    line-height: 39px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 18px;
+    line-height: 22px;
+    color: #D0CCCC;
+    font-weight: bold;
+`;
+
+const Time = styled.div`
+  font-size: 13px;
+  line-height: 16px;
+  color: #C6D3EC;
+  margin-right: 55px;
 `;

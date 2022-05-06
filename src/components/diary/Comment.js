@@ -6,13 +6,15 @@ import { diaryApi } from "../../apis/diaryApi";
 import useStore from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
 import { convertDate } from "../../utils/convertDate";
+import lockIcon from "../../static/images/lockIcon.svg";
+import playVoice from "../../static/images/voicePlayButton.svg";
 
 Comment.propTypes = {
     comment: PropTypes.object
 };
 
 function Comment(props) {
-
+    lockIcon
     const { comment } = props;
     const navigate = useNavigate();
 
@@ -50,33 +52,38 @@ function Comment(props) {
 
 
     return (
-        <React.Fragment>
-            <OneCommentContainer>
-                <NickNameTimeArea>
+        <OneCommentContainer>
+            <TitleArea>
+                <TitleLeft>
                     <NicknameArea>{comment.nickname}의 댓글</NicknameArea>
-                    <PostTimeArea>{convertDate(comment.createdAt)}</PostTimeArea>
-                </NickNameTimeArea>
-                <PostContent>{comment.content}</PostContent>
+                    {comment.show && <img src={lockIcon} alt={"lockIcon"}/>}
+                </TitleLeft>
+                <PostTimeArea>{convertDate(comment.createdAt)}</PostTimeArea>
+            </TitleArea>
+            <PostContent>
+                {
+                    comment.show ? comment.content : "비밀 댓글 입니다"
+                }
+                <img src={playVoice} alt={"playVoice"}/>
+            </PostContent>
 
-                <IconArea>
-                    {comment.show && <DeleteIcon
-                        onClick={() => deleteComment(comment.commentUuid)}>
-                        삭제
-                    </DeleteIcon>}
-                    {comment.show && <LockIcon>자물쇠</LockIcon>}
-                    <ChatIcon>채팅</ChatIcon>
-                    {
-                        comment.voiceUrl !== "" &&
-                        <PlayIcon
-                            onClick={(e) => {
-                                e.preventDefault();
-                                audioPlay(comment.voiceUrl)}}>
-                        보이스 듣기
-                    </PlayIcon>
-                    }
-                </IconArea>
-            </OneCommentContainer>
-        </React.Fragment>
+            <IconArea>
+                {!comment.show && <DeleteIcon
+                    onClick={() => deleteComment(comment.commentUuid)}>
+                    삭제
+                </DeleteIcon>}
+                {/*<ChatIcon>채팅</ChatIcon>*/}
+                {
+                    comment.voiceUrl !== "" &&
+                    <PlayIcon
+                        onClick={(e) => {
+                            e.preventDefault();
+                            audioPlay(comment.voiceUrl)}}>
+                    보이스 듣기
+                </PlayIcon>
+                }
+            </IconArea>
+        </OneCommentContainer>
     );
 }
 
@@ -84,23 +91,52 @@ export default Comment;
 
 
 const OneCommentContainer = styled.div`
-    width: 1164px;
-    height: 180px;
-    background-color: rgba(205, 205, 205, 0.9);
-    border-radius: 20px;
-    padding: 15px;
-    margin: 30px auto 0;
+    width: 876px;
+    height: 110px;
+    background-color: #959EBE;
+    border-radius: 5px;
+    padding: 18px 44px 0 44px;
+    box-sizing: border-box;
+    margin-top: 8px;
 `
 
-const NickNameTimeArea = styled.div`
+const TitleArea = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
-const NicknameArea = styled.div``
-const PostTimeArea = styled.div``
+
+const TitleLeft = styled.div`
+  display: flex;
+  align-items: center;
+  
+  img {
+    width: 16px;
+    height: 17px;
+    margin-left: 5px;
+    padding-bottom: 2px;
+  }
+`;
+const NicknameArea = styled.div`
+  font-size: 17px;
+  line-height: 21px;
+`
+const PostTimeArea = styled.div`
+  font-size: 13px;
+  line-height: 16px;
+`
 const PostContent = styled.div`
-    margin: 10px 0 30px;
+    margin: 9px 0 0;
+    font-size: 13px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    
+    img {
+      width: 18px;
+      height: 18px;
+      margin-left: 5px;
+    }
 `
 
 const IconArea = styled.div`
