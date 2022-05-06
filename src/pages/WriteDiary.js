@@ -11,6 +11,7 @@ import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
 import {useSelector} from "react-redux";
 import backIcon from "../static/images/backIcon.svg";
+import VoicePopup from "../components/diary/VoicePopup";
 
 WriteDiary.propTypes = {};
 
@@ -29,6 +30,7 @@ function WriteDiary(props) {
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [isOpenVoicePoup, setIsOpenVoicePopup] = useState(false);
 
   const userInfo = useSelector((state) => state.userSlice.userInfo)
 
@@ -94,6 +96,7 @@ function WriteDiary(props) {
           <VoiceStop onClick={stopRecord}>중지</VoiceStop>
           <VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>
           <VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>
+          <OpenPopup onClick={() => setIsOpenVoicePopup(true)}>열기</OpenPopup>
         </VoiceLeft>
         <PostLength>{diary.length}/1000</PostLength>
 
@@ -109,6 +112,9 @@ function WriteDiary(props) {
           event={() => navigate("/diarylist")}
         />
       )}
+      {
+        isOpenVoicePoup && <VoicePopup/>
+      }
     </WriteContainer>
   );
 }
@@ -119,6 +125,7 @@ const WriteContainer = styled.div`
   width: 100%;
   height: 100vh;
   background-color: #081134;
+  position: relative;
 `;
 
 
@@ -230,6 +237,7 @@ const VoiceRecordButton = styled(VoicePlayButton)``;
 const VoiceStop = styled(VoicePlayButton)``;
 const VoiceTempStop = styled(VoicePlayButton)``;
 const VoiceTempReplay = styled(VoicePlayButton)``;
+const OpenPopup = styled(VoicePlayButton)``;
 
 
 const PostButton = styled.a`
