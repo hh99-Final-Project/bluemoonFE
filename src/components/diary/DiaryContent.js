@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
 import { convertDate } from "../../utils/convertDate";
+import voiceButton from "../../static/images/voicePlayButton.svg";
+import chatIcon from "../../static/images/message.png";
+
 
 DiaryContent.propTypes = {
     diary: PropTypes.object,
@@ -31,106 +34,90 @@ function DiaryContent(props) {
   return (
     <React.Fragment>
       <DiaryContainer>
-        <TitleContainer>
-          <TitleContainerLeft>
-            <Title>{diary.nickname}</Title>
-            <NewBadge />
-          </TitleContainerLeft>
-          <TitleContainerRight>
-            <DateArea>{convertDate(diary.createdAt)}</DateArea>
-            <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
-          </TitleContainerRight>
-        </TitleContainer>
-        <ContentsContainer>{diary.content}</ContentsContainer>
-        <VoiceButton onClick={playAudio}>듣기</VoiceButton>
+        <ContentsContainer>
+            <Content>{diary.content}</Content>
+            <VoiceButton onClick={playAudio}>
+                <img style={{width: '40px', height: '40px'}} src={voiceButton}/>
+            </VoiceButton>
+        </ContentsContainer>
         <IconArea>
-          <IconAreaLeft>
-            <CommentButton>댓글 남기기</CommentButton>
-          </IconAreaLeft>
-
-                    <ChattingButton
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            createChat(diary.nickname, diary.userId);
-                        }}
-                    >
-                        대화 신청하기
-                    </ChattingButton>
-                </IconArea>
-            </DiaryContainer>
-        </React.Fragment>
+            <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
+            <ChattingButton
+                onClick={(e) => {
+                    e.stopPropagation();
+                    createChat(diary.nickname, diary.userId);
+                }}
+            >
+                <img style={{width:'23px', height: '23px'}} src={chatIcon} alt={"chatIcon"}/>
+                <div>대화 신청</div>
+            </ChattingButton>
+        </IconArea>
+      </DiaryContainer>
+      <DottedLine/>
+    </React.Fragment>
     );
 }
 
 export default DiaryContent;
 
 const DiaryContainer = styled.div`
-    width: 1164px;
-    height: 507px;
-    background-color: rgba(155, 155, 155, 0.9);
-    border-radius: 20px;
-    margin: auto;
-    padding: 20px 30px;
+    width: 876px;
+    height: 202px;
+    background-color: #959EBE;
+    border-radius: 5px;
+    padding-left: 44px;
     box-sizing: border-box;
 `;
-const TitleContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 60px;
-`;
-const TitleContainerLeft = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-const TitleContainerRight = styled.div`
-    font-size: 20px;
-    line-height: 24px;
-`;
-const Title = styled.div`
-    font-size: 32px;
-    line-height: 39px;
-    margin-right: 15px;
-`;
+
 const NewBadge = styled.div`
     width: 113px;
     height: 41px;
     background-color: #c4c4c4;
 `;
-const DateArea = styled.div``;
-const NicknameArea = styled.div``;
+
 const ContentsContainer = styled.div`
-    width: 457px;
-    height: 116px;
-    font-size: 24px;
-    line-height: 29px;
+    width: 100%;
 `;
+
+const Content = styled.div`
+  font-size: 15px;
+  line-height: 18px;
+  padding-top: 37px;
+  margin-bottom: 10px;
+`;
+
+
 const VoiceButton = styled.div`
-    width: 62px;
-    height: 62px;
-    background-color: #c4c4c4;
-    border-radius: 50%;
-    margin-bottom: 140px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
 `;
 const IconArea = styled.div`
+    margin-top: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
-const IconAreaLeft = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+const NicknameArea = styled.div`
+  font-size: 10px;
+  line-height: 12px;
+  color: #373737
 `;
 
-const CommentButton = styled.div`
-    cursor: pointer;
-`;
 const ChattingButton = styled.div`
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 25px;
+  
+    div {
+      font-size: 11px;
+      margin-top: 3px;
+    }
+`;
+
+const DottedLine = styled.div`
+  border: 1px dashed #C6D3EC;
+  margin: 14px 0 0;
+  width: 876px;
 `;

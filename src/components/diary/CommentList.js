@@ -30,8 +30,5 @@ function CommentList(props) {
 export default CommentList;
 
 const CommentsContainer = styled.div`
-    position: relative;
-    width: 1164px;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 876px;
 `;

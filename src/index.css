@@ -2,7 +2,9 @@
 @font-face {
   font-family: "spoqa";
   src: url("./static/fonts/SpoqaHanSansNeo-Regular.ttf") format('woff2'),
-  url("./static/fonts/SpoqaHanSansNeo-Bold.ttf") format('woff2')
+      url("./static/fonts/SpoqaHanSansNeo-Bold.ttf") format('woff2'),
+      url("./static/fonts/SpoqaHanSansNeo-Medium.ttf") format('woff2'),
+        url("./static/fonts/SpoqaHanSansNeo-Light.ttf") format('woff2')
 }
 
 
