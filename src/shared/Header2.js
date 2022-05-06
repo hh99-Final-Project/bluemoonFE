@@ -38,14 +38,14 @@ const Header2 = () => {
         setIsOpenNoti(false);
     }
 
-    console.log(isOpenNoti,"noti?")
-
     return (
         <HeaderContainer>
             <Logo onClick={() => navigate("/")}>로고</Logo>
             <HeaderRightArea>
-                {userInfo ? <NickName>{userInfo.nickname}님</NickName> : <div>로그아웃 되었습니다.</div>}
-                <Point>100 points</Point>
+                {/*{userInfo ? <NickName>{userInfo.nickname}님</NickName> : <div>로그아웃 되었습니다.</div>}*/}
+                <Point>
+                    100
+                </Point>
                 <AlertIcon
                     ref={AlertTabRef}
                     onClick={() => {
@@ -68,9 +68,11 @@ const HeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin: auto;
-    width: 60%;
+    padding-top: 15px;
+    width: 950px;
     font-weight: bold;
     font-size: 20px;
+    background-color: #081134;
 `;
 const HeaderRightArea = styled.div`
     display: flex;
@@ -85,9 +87,21 @@ const NickName = styled.div`
 const Logo = styled.div`
     cursor: pointer;
     color: #9aebe7;
+    width: 99px;
+    height: 75px;
 `;
 const Point = styled.div`
     margin-right: 20px;
+    width: 96px;
+    height: 31px;
+    background-color: #DFDFDF;
+    border-radius: 23px;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 const AlertIcon = styled.div`
     margin-right: 20px;
