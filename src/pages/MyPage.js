@@ -9,7 +9,7 @@ import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
-// import InfinityScroll from "../shared/InfinityScroll";
+import useStore from "../zustand/store";
 import _ from "lodash";
 
 MyPage.propTypes = {};
@@ -21,6 +21,7 @@ function MyPage(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+    const { setCurrentHeader } = useStore();
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postUuid) => {
@@ -78,6 +79,8 @@ function MyPage(props) {
             setPage(page + 1);
             setIsLoading(false);
         });
+
+        setCurrentHeader("마이페이지");
     }, []);
 
     // 리랜더링이 되더라도 기능이 다른 아이들을 구분해서 useEffect 실행하는 게 낫다
