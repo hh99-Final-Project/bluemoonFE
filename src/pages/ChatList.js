@@ -100,35 +100,37 @@ function ChatList(props) {
         <Container>
             <Header2 />
             <CategoryBar />
-            <ChatRoomListBox ref={ref} onScroll={InfinityScroll}>
+            <ChatRoomListBox>
                 <ChatRoomListTitle>
                     <p>채팅 리스트</p>
                 </ChatRoomListTitle>
-                {chatList.map((chat, i) => {
-                    return (
-                        <ChatRoom
-                            roomName={chat.roomName}
-                            onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)}
-                            key={chat.chatRoomUuid}
-                        >
-                            <TiTleLine>
-                                <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
-                                <LastChatTime>{chat.createAt}</LastChatTime>
-                            </TiTleLine>
-                            <ContentLine>
-                                <LastChat>{chat.lastMessage}</LastChat>
-                                <ChatOutButton
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        deleteChat(chat.chatRoomUuid);
-                                    }}
-                                >
-                                    채팅방 나가기
-                                </ChatOutButton>
-                            </ContentLine>
-                        </ChatRoom>
-                    );
-                })}
+                <ChatRoomWrapper ref={ref} onScroll={InfinityScroll}>
+                    {chatList.map((chat, i) => {
+                        return (
+                            <ChatRoom
+                                roomName={chat.roomName}
+                                onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)}
+                                key={chat.chatRoomUuid}
+                            >
+                                <TiTleLine>
+                                    <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
+                                    <LastChatTime>{chat.createAt}</LastChatTime>
+                                </TiTleLine>
+                                <ContentLine>
+                                    <LastChat>{chat.lastMessage}</LastChat>
+                                    <ChatOutButton
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteChat(chat.chatRoomUuid);
+                                        }}
+                                    >
+                                        채팅방 나가기
+                                    </ChatOutButton>
+                                </ContentLine>
+                            </ChatRoom>
+                        );
+                    })}
+                </ChatRoomWrapper>
             </ChatRoomListBox>
         </Container>
     );
@@ -146,24 +148,26 @@ const Container = styled.div`
 const ChatRoomListBox = styled.div`
     width: 950px;
     height: 530px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
-    border: 2px solid #ffffff4d;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 70px #465981;
+    backdrop-filter: blur(80px);
+
     border-radius: 25px;
-    box-shadow: 0 0 70px #465981;
-    overflow-y: auto;
+
+    position: relative;
+    margin: auto;
 `;
 
 const ChatRoomListTitle = styled.div`
-    margin: 20px 0;
-    background-color: #2f3a5f;
-    height: 52px;
-    width: 925px;
-    left: 167px;
-    top: 160px;
+    position: absolute;
+    width: 950px;
+    height: 50px;
+    top: 20px;
+
+    background: #2f3a5f;
+
     border-radius: 0px;
 
     display: flex;
@@ -181,9 +185,18 @@ const ChatRoomListTitle = styled.div`
     }
 `;
 
+const ChatRoomWrapper = styled.div`
+    width: 950px;
+    height: 420px;
+    position: absolute;
+    top: 80px;
+    overflow-y: auto;
+`;
+
 const ChatRoom = styled.div`
-    width: 880px;
-    height: 150px;
+    width: 881px;
+    // 마지막 채팅 온 시간 값 뷰 조정한 뒤, height 값 수정 필요
+    height: 130px;
     border-radius: 5px;
 
     display: flex;

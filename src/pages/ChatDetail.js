@@ -129,7 +129,7 @@ const ChatRoom = styled.div`
 
     border-radius: 25px;
 
-    display: relative;
+    position: relative;
     margin: auto;
 `;
 
@@ -160,11 +160,11 @@ const ChatRoomTitle = styled.div`
 `;
 
 const MessageWrapper = styled.div`
-    width: 100%;
+    width: 950px;
     height: 375px;
     position: absolute;
     top: 80px;
-    overflow-y: scroll;
+    overflow-y: auto;
 `;
 const InputWrpper = styled.div`
     position: absolute;

@@ -20,12 +20,17 @@ function SignUp(props) {
     const { setCurrentHeader } = useStore();
     const [isLoading, setIsLoading] = useState(null);
 
+    console.log(isValidNickName);
+
     const onChange = (e) => {
         setNickName(e.target.value);
     };
 
     const debounce = _.debounce((nickName) => {
-        console.log(isValidNickName);
+        if (nickName === "") {
+            return;
+        }
+
         setIsLoading(true);
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
         const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
@@ -41,7 +46,6 @@ function SignUp(props) {
         } else {
             setIsValidNickName(false);
         }
-        console.log(isValidNickName);
     }, 1000);
 
     const nickNameCheckDB = React.useCallback(debounce, []);
@@ -64,7 +68,6 @@ function SignUp(props) {
     useEffect(() => {
         setIsValidNickName(null);
         nickNameCheckDB(nickName);
-
         setCurrentHeader("홈");
     }, [nickName]);
 
@@ -80,15 +83,15 @@ function SignUp(props) {
                         placeholder="1~10자 이내로 입력해주세요. (특수문자, 공백 불가)"
                         onChange={onChange}
                     ></NickNameInput>
-                    {!nickName && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
-                    {!isLoading && !isValidNickName ? (
+
+                    {/* {!isValidNickName ? (
                         <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>
                     ) : (
                         <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>
-                    )}
-
-                    {/* {isValidNickName === true && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
-                    {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>} */}
+                    )} */}
+                    {nickName === "" && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
+                    {isValidNickName === true && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
+                    {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
 
                     <RecommendPerson>추천인 코드 입력(선택사항)</RecommendPerson>
                     <RecommendPersonInput></RecommendPersonInput>
@@ -124,22 +127,25 @@ const Container = styled.div`
 const SignUpBOx = styled.div`
     width: 950px;
     height: 530px;
-    margin: auto;
-    align-items: center;
+
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
     border: 2px solid #ffffff4d;
-    border-radius: 25px;
     box-shadow: 0 0 70px #465981;
+
+    border-radius: 25px;
+
     position: relative;
+    margin: auto;
 `;
 
 const SignUpBoxTitle = styled.div`
-    width: 946px;
-    height: 52px;
+    width: 950px;
+    height: 50px;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
     margin: 50px 0 0 0;
     color: #ffffff;
     background-color: #2f3a5f;
