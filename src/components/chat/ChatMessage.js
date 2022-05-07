@@ -1,19 +1,23 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Grid, Text } from "../../elements/index";
+import { useSelector } from "react-redux";
 
 ChatMessage.propTypes = {
     message: PropTypes.string,
-    nickname: PropTypes.string,
+    userId: PropTypes.string,
     createdAt: PropTypes.string,
 };
 
 function ChatMessage(props) {
-    const { message, nickname, createdAt } = props;
+    const { message, userId, createdAt } = props;
     // const cookie = getCookie("authorization");
 
-    const user = nickname === "말 잘든는 원숭이" ? true : false;
+    // 보내는 사람
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    console.log(userInfo);
+
+    const user = userId === userInfo.userId ? true : false;
 
     return (
         <React.Fragment>
@@ -41,23 +45,23 @@ const Nickname = styled.div`
 `;
 
 const Box = styled.div`
-    display: flex;
-    flex-direction: column;
     align-items: ${(props) => (props.user ? "flex-end" : "flex-start")};
-    margin: 0 20px;
-    height: 70px;
+    margin: 10px;
+    // height: 70px;
 `;
 
 const MessageBox = styled.div`
     display: flex;
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
-    height: 61.533203125px;
     align-items: flex-end;
+    margin: 10px;
 `;
 
 const Message = styled.div`
-    padding: 4%;
-    border-radius: ${(props) => (props.user ? "10px 0 10px 10px" : "0 10px 10px 10px")};
+    max-width: 70%;
+    padding: 15px;
+    border-radius: 10px;
+    // border-radius: ${(props) => (props.user ? "10px 0 10px 10px" : "0 10px 10px 10px")};
     background-color: ${(props) => (props.user ? "#293252" : "#707CA4")};
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
     word-break: break-all;

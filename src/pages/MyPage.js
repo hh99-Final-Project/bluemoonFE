@@ -151,7 +151,6 @@ const DiaryCard = styled.div`
     width: 880px;
     height: 150px;
     border-radius: 5px;
-
     display: flex;
     flex-direction: column;
     background-color: #959ebe;
@@ -159,6 +158,7 @@ const DiaryCard = styled.div`
     border-radius: 10px;
     margin: 10px auto;
     padding: 10px;
+    cursor: pointer;
 `;
 
 const TiTleLine = styled.div`

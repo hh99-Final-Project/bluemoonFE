@@ -13,42 +13,17 @@ import { subMessage } from "../redux/modules/chatSlice";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const params = useParams();
     console.log(params);
     const roomId = params.id;
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
+    console.log(userInfo);
     // message state
-    const message = useSelector((state) => state.chatSlice.messages);
-
-    // const [message, setMessage] = useState([
-    //     {
-    //         userId: "1",
-    //         nickname: "말 잘든는 원숭이",
-    //         message: "안녕하세요",
-    //         createdAt: "07:30",
-    //     },
-    //     {
-    //         userId: "2",
-    //         nickname: "못말리는 짱구",
-    //         message: "반갑습니다",
-    //         createdAt: "07:31",
-    //     },
-
-    //     {
-    //         userId: "1",
-    //         nickname: "말 잘든는 원숭이",
-    //         message: "고민이 해결되셨나요?",
-    //         createdAt: "07:32",
-    //     },
-    //     {
-    //         userId: "2",
-    //         nickname: "못말리는 짱구",
-    //         message: "아뇨 여전합니다",
-    //         createdAt: "07:33",
-    //     },
-    // ]);
+    const messages = useSelector((state) => state.chatSlice.messages);
+    console.log(messages);
 
     // 채팅방 이전 메시지 호출
     // useEffect(() => {
@@ -79,7 +54,7 @@ const ChatDetail = () => {
                         const newMessage = JSON.parse(response.body);
                         console.log(response);
                         console.log(newMessage);
-                        subMessage(newMessage);
+                        dispatch(subMessage(newMessage));
                     },
                     // {},
                 );
@@ -99,7 +74,7 @@ const ChatDetail = () => {
         }
     }
 
-    if (message === null) {
+    if (messages === null) {
         return;
     } else {
         return (
@@ -113,13 +88,13 @@ const ChatDetail = () => {
                     </ChatRoomTitle>
 
                     <MessageWrapper>
-                        {message.length > 0 &&
-                            message.map((message, idx) => {
+                        {messages.length > 0 &&
+                            messages.map((message, idx) => {
                                 return (
                                     <ChatMessage
                                         key={idx}
                                         message={message.message}
-                                        nickname={message.nickname}
+                                        userId={message.userId}
                                         createdAt={message.createdAt}
                                     />
                                 );
@@ -144,25 +119,28 @@ const Container = styled.div`
 `;
 
 const ChatRoom = styled.div`
-    width: 946px;
-    height: 80vh;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 950px;
+    height: 530px;
+
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
-    border: 2px solid #ffffff4d;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 70px #465981;
+    backdrop-filter: blur(80px);
+
     border-radius: 25px;
-    box-shadow: 0 0 70px #465981;
+
+    display: relative;
+    margin: auto;
 `;
 
 const ChatRoomTitle = styled.div`
-    margin: 20px 0;
-    background-color: #2f3a5f;
-    height: 52px;
-    width: 946px;
-    left: 167px;
-    top: 160px;
+    position: absolute;
+    width: 950px;
+    height: 50px;
+    top: 20px;
+
+    background: #2f3a5f;
+
     border-radius: 0px;
 
     display: flex;
@@ -183,17 +161,21 @@ const ChatRoomTitle = styled.div`
 
 const MessageWrapper = styled.div`
     width: 100%;
-    height: 90%;
+    height: 375px;
+    position: absolute;
+    top: 80px;
     overflow-y: scroll;
 `;
 const InputWrpper = styled.div`
-    // position: absolute;
+    position: absolute;
     width: 100%;
-    height: 10%;
+    height: 70px;
+    bottom: 0px;
+    background: #2f3a5f;
+    border-radius: 0px 0px 25px 25px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: gray;
+    justify-content: space-evenly;
 `;
 
 const BackButton = styled.div`

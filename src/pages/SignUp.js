@@ -268,8 +268,9 @@ const Button = styled.button`
     align-items: center;
     justify-content: center;
     text-align: center;
-
     color: #91dddd;
+
+    cursor: pointer;
 `;
 
 const QuestionButton = styled.button`
@@ -292,8 +293,9 @@ const QuestionButton = styled.button`
     font-size: 40px;
     line-height: 48px;
     text-align: center;
-
     color: #ffffff;
+
+    cursor: pointer;
 `;
 
 const ServiceDescription = styled.div`

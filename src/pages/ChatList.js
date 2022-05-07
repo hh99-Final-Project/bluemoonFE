@@ -106,7 +106,11 @@ function ChatList(props) {
                 </ChatRoomListTitle>
                 {chatList.map((chat, i) => {
                     return (
-                        <ChatRoom onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)} key={chat.chatRoomUuid}>
+                        <ChatRoom
+                            roomName={chat.roomName}
+                            onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)}
+                            key={chat.chatRoomUuid}
+                        >
                             <TiTleLine>
                                 <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
                                 <LastChatTime>{chat.createAt}</LastChatTime>
@@ -189,6 +193,7 @@ const ChatRoom = styled.div`
     border-radius: 10px;
     margin: 10px auto;
     padding: 10px;
+    cursor: pointer;
 `;
 
 const TiTleLine = styled.div`

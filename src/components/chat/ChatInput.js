@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Grid, Button, Input } from "../../elements/index";
 import { useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -46,7 +45,7 @@ function ChatInput(props) {
                 ws.send("/pub/chat/message", {}, JSON.stringify(message));
                 // ws.send("/pub/chat/message", {});
                 console.log(ws.ws.readyState);
-                setText("");
+                // setText("");
             });
         } catch (error) {
             console.log(error);
@@ -72,10 +71,26 @@ function ChatInput(props) {
 
     return (
         <React.Fragment>
-            <Input width="90%" type="text" _onChange={(e) => setText(e.target.value)} />
-            <Button width="7%" height="5%" padding="2%" _onClick={onSend}></Button>
+            <Input type="text" onChange={(e) => setText(e.target.value)} />
+            <SendButton onClick={onSend}></SendButton>
         </React.Fragment>
     );
 }
 
 export default ChatInput;
+
+const Input = styled.input`
+    // position: absolute;
+    width: 856px;
+    height: 43px;
+    background: #ffffff;
+`;
+
+const SendButton = styled.div`
+    // position: absolute;
+    width: 24px;
+    height: 24px;
+    // right: 35px;
+    // bottom: 35px;
+    background: #555;
+`;
