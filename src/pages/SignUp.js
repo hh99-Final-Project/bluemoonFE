@@ -14,25 +14,23 @@ SignUp.propTypes = {};
 
 function SignUp(props) {
     const [nickName, setNickName] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
     const [isValidNickName, setIsValidNickName] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
-
     const navigate = useNavigate();
-    const { currentHeader, setCurrentHeader } = useStore();
+    const { setCurrentHeader } = useStore();
+    const [isLoading, setIsLoading] = useState(null);
 
     const onChange = (e) => {
         setNickName(e.target.value);
     };
 
     const debounce = _.debounce((nickName) => {
+        console.log(isValidNickName);
         setIsLoading(true);
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
         const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
         if (result) {
             userApi.nickNameCheck(nickName).then((response) => {
-                console.log(response.data);
-                console.log(typeof response.data);
                 if (response.data === true) {
                     setIsValidNickName(true);
                 } else {
@@ -40,7 +38,10 @@ function SignUp(props) {
                 }
             });
             setIsLoading(false);
+        } else {
+            setIsValidNickName(false);
         }
+        console.log(isValidNickName);
     }, 1000);
 
     const nickNameCheckDB = React.useCallback(debounce, []);
@@ -48,6 +49,7 @@ function SignUp(props) {
     const onClickHandler = () => {
         if (nickName === "") {
             window.alert("닉네임을 입력해주세요");
+            return;
         }
         setIsOpenPopup(true);
     };
@@ -78,9 +80,15 @@ function SignUp(props) {
                         placeholder="1~10자 이내로 입력해주세요. (특수문자, 공백 불가)"
                         onChange={onChange}
                     ></NickNameInput>
-                    {nickName === "" && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
-                    {isValidNickName === true && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
-                    {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
+                    {!nickName && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
+                    {!isLoading && !isValidNickName ? (
+                        <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>
+                    ) : (
+                        <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>
+                    )}
+
+                    {/* {isValidNickName === true && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
+                    {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>} */}
 
                     <RecommendPerson>추천인 코드 입력(선택사항)</RecommendPerson>
                     <RecommendPersonInput></RecommendPersonInput>
@@ -243,7 +251,7 @@ const Button = styled.button`
     background-color: rgba(255, 255, 255, 0.1);
     border: 2px solid #84c8cc;
     border-radius: 10px;
-    pointer-events: ${(props) => (props.isvalid === true ? "auto" : "none")};
+    // pointer-events: ${(props) => (props.isvalid === true ? "auto" : "none")};
 
     position: absolute;
     bottom: 20px;
