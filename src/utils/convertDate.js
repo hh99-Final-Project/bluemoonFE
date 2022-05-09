@@ -4,6 +4,6 @@ export const convertDate = (date) => {
     return YYMMDD + " " + HHMM;
 };
 
-export const convertDateInChatList = (date) => {
-    let HH = date.split(":")[0];
-};
+// export const convertDateInChatList = (date) => {
+//     let HH = date.split(":")[0];
+// };

@@ -9,7 +9,6 @@ import useStore from "../zustand/store";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
 import _ from "lodash";
-import { convertDate, convertDateBeforeNow } from "../utils/convertDate";
 
 ChatList.propTypes = {};
 
@@ -115,7 +114,7 @@ function ChatList(props) {
                             >
                                 <TiTleLine>
                                     <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
-                                    <LastChatTime>{convertDateBeforeNow(chat.createAt)}</LastChatTime>
+                                    <LastChatTime>{chat.createAt}</LastChatTime>
                                 </TiTleLine>
                                 <ContentLine>
                                     <LastChat>{chat.lastMessage}</LastChat>
