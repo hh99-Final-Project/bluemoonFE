@@ -12,20 +12,10 @@ function ChatInput(props) {
     const { roomId, userInfo } = props;
     console.log(props);
 
-    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    let ws = Stomp.over(sock);
-
-    // // 보낼 메세지
     const [text, setText] = React.useState("");
 
-    // 보내는 사람
-    // const userInfo = useSelector((state) => state.userSlice.userInfo);
-    // console.log(userInfo);
-
-    // const router = useRouter();
-    // console.log(router); // 라우터 객체를 출력합니다.
-    // const { roomId } = router.query;
-    // console.log({ roomId });
+    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    let ws = Stomp.over(sock);
 
     const onSend = async () => {
         try {
