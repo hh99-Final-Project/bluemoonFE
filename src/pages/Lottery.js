@@ -3,8 +3,9 @@ import styled from "styled-components";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
 import useStore from "../zustand/store";
-import LoterryMoon from "../static/images/LotteryMoon.png";
-import LotteryResult from "../static/images/LotteryResult.png";
+import loterryMoon from "../static/images/Lottery/lotteryMoon.png";
+import lotteryResult from "../static/images/Lottery/lotteryResult.png";
+import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -25,10 +26,10 @@ const Lottery = () => {
                     포인트는 다이어리 작성 혹은 댓글 작성으로 모을 수 있습니다.
                 </Desc>
                 <LotteryArea>
-                    <img src={LoterryMoon} />
+                    <img src={loterryMoon} />
                 </LotteryArea>
                 <LotteryResultArea>
-                    <img src={LotteryResult} />
+                    <img src={lotteryResult} />
                 </LotteryResultArea>
                 <LotteryClick>클릭하기</LotteryClick>
                 <CountNoti>참여 가능 횟수</CountNoti>
