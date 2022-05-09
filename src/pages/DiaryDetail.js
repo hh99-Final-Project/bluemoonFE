@@ -7,7 +7,7 @@ import { diaryApi } from "../apis/diaryApi";
 import CommentInput from "../components/diary/CommentInput";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
 import backIcon from "../static/images/backIcon.svg";
 import { convertDate } from "../utils/convertDate";
@@ -22,10 +22,10 @@ function DiaryDetail(props) {
     const [diary, setDiary] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-    const isLogin = useSelector((state) => state.userSlice.isLogin)
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
 
     useEffect(() => {
-        if(isLogin) {
+        if (isLogin) {
             diaryApi.getOneDiary(postId).then((response) => {
                 console.log(response);
                 setDiary(response);
@@ -36,9 +36,8 @@ function DiaryDetail(props) {
                 console.log(response);
                 setDiary(response.data);
                 setIsLoading(false);
-            })
+            });
         }
-
     }, []);
 
     if (isLoading) {
@@ -48,13 +47,12 @@ function DiaryDetail(props) {
     return (
         <DetailContainer>
             <Header2 />
-            <CategoryBar/>
+            <CategoryBar />
             <DetailContent>
                 <TitleContainer>
                     <TitleLeft>
-                        <BackButton
-                            onClick={() => navigate("/diarylist")}>
-                            <img src={backIcon}/>
+                        <BackButton onClick={() => navigate("/diarylist")}>
+                            <img src={backIcon} />
                         </BackButton>
                         <Title>고민 들어주기</Title>
                     </TitleLeft>
@@ -62,7 +60,7 @@ function DiaryDetail(props) {
                 </TitleContainer>
                 <ContentContainer>
                     <DiaryContent diary={diary} />
-                    <CommentInput postId={postId} />
+                    <CommentInput diary={diary} postId={postId} />
                     <CommentList comments={diary.comments} postId={diary.postId} />
                 </ContentContainer>
             </DetailContent>
@@ -72,13 +70,11 @@ function DiaryDetail(props) {
 
 export default DiaryDetail;
 
-
 const DetailContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #081134;
-  overflow-x: hidden;
-  
+    width: 100%;
+    height: 100vh;
+    background-color: #081134;
+    overflow-x: hidden;
 `;
 const DetailContent = styled.div`
     width: 950px;
@@ -86,17 +82,16 @@ const DetailContent = styled.div`
     padding-right: 5px;
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
     border: 2px solid rgba(255, 255, 255, 0.3);
-    box-sizing: border-box; 
+    box-sizing: border-box;
     box-shadow: 0 0 70px #465981;
     backdrop-filter: blur(80px);
     border-radius: 25px;
     margin: auto;
-  
 `;
 const TitleContainer = styled.div`
     width: 100%;
     height: 52px;
-    background-color: #2F3A5F;
+    background-color: #2f3a5f;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -104,32 +99,32 @@ const TitleContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  height: 433px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 0 32px 0 37px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
+    height: 433px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 32px 0 37px;
+    overflow-x: hidden;
+    overflow-y: auto;
 
-  &::-webkit-scrollbar-thumb {
-    background-color: #D3D3D3;
-    border-radius: 5px;
-  }
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
 
-  &::-webkit-scrollbar-track {
-    background-color: #616B7D;
-    border-radius: 5px;
-  }
+    &::-webkit-scrollbar-thumb {
+        background-color: #d3d3d3;
+        border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #616b7d;
+        border-radius: 5px;
+    }
 `;
 
 const TitleLeft = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const BackButton = styled.div`
@@ -141,13 +136,13 @@ const Title = styled.div`
     margin: auto;
     font-size: 18px;
     line-height: 22px;
-    color: #D0CCCC;
+    color: #d0cccc;
     font-weight: bold;
 `;
 
 const Time = styled.div`
-  font-size: 13px;
-  line-height: 16px;
-  color: #C6D3EC;
-  margin-right: 55px;
+    font-size: 13px;
+    line-height: 16px;
+    color: #c6d3ec;
+    margin-right: 55px;
 `;

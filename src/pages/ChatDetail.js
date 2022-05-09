@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ChatBox from "../components/chat/ChatBox";
@@ -33,7 +33,7 @@ const ChatDetail = () => {
     //     });
     // });
 
-    React.useEffect(() => {
+    useEffect(() => {
         wsConnect();
         return () => {
             wsDisConnect();
@@ -48,6 +48,7 @@ const ChatDetail = () => {
     function wsConnect() {
         try {
             ws.connect({}, () => {
+                // enterMessage();
                 ws.subscribe(
                     `/sub/chat/room/${roomId}`,
                     (response) => {
@@ -74,39 +75,71 @@ const ChatDetail = () => {
         }
     }
 
+    // const enterMessage = () => {
+    //     try {
+    //         // send할 데이터
+    //         const message = {
+    //             type: "ENTER",
+    //             userId: 1, // 상대방의 userId
+    //         };
+
+    //         waitForConnection(ws, () => {
+    //             ws.send("/pub/chat/message", {}, JSON.stringify(message));
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    // // // 웹소켓이 연결될 때 까지 실행
+    // function waitForConnection(ws, callback) {
+    //     setTimeout(
+    //         function () {
+    //             // 연결되었을 때 콜백함수 실행
+    //             if (ws.ws.readyState === 1) {
+    //                 callback();
+    //                 // 연결이 안 되었으면 재호출
+    //             } else {
+    //                 waitForConnection(ws, callback);
+    //             }
+    //         },
+    //         10, // 밀리초 간격으로 실행
+    //     );
+    // }
+
     if (messages === null) {
         return;
-    } else {
-        return (
-            <Container>
-                <Header2 />
-                <CategoryBar />
-                <ChatRoom>
-                    <ChatRoomTitle>
-                        <p> OO 님과의 대화</p>
-                        <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
-                    </ChatRoomTitle>
-
-                    <MessageWrapper>
-                        {messages.length > 0 &&
-                            messages.map((message, idx) => {
-                                return (
-                                    <ChatMessage
-                                        key={idx}
-                                        message={message.message}
-                                        userId={message.userId}
-                                        createdAt={message.createdAt}
-                                    />
-                                );
-                            })}
-                    </MessageWrapper>
-                    <InputWrpper>
-                        <ChatInput roomId={roomId} userInfo={userInfo} />
-                    </InputWrpper>
-                </ChatRoom>
-            </Container>
-        );
     }
+
+    return (
+        <Container>
+            <Header2 />
+            <CategoryBar />
+            <ChatRoom>
+                <ChatRoomTitle>
+                    <p> OO 님과의 대화</p>
+                    <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
+                </ChatRoomTitle>
+
+                <MessageWrapper>
+                    {messages.length > 0 &&
+                        messages.map((message, idx) => {
+                            return (
+                                <ChatMessage
+                                    key={idx}
+                                    message={message.message}
+                                    userId={message.userId}
+                                    createdAt={message.createdAt}
+                                />
+                            );
+                        })}
+                </MessageWrapper>
+                <InputWrpper>
+                    <ChatInput roomId={roomId} userInfo={userInfo} />
+                </InputWrpper>
+            </ChatRoom>
+        </Container>
+    );
 };
 
 export default ChatDetail;

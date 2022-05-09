@@ -11,6 +11,7 @@ import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
 import useStore from "../zustand/store";
 import _ from "lodash";
+import { convertDate } from "../utils/convertDate";
 
 MyPage.propTypes = {};
 
@@ -115,7 +116,7 @@ function MyPage(props) {
                                 >
                                     <TiTleLine>
                                         <DiaryTitle>{diary.title}</DiaryTitle>
-                                        <CreatedAt>{diary.createdAt}</CreatedAt>
+                                        <CreatedAt>{convertDate(diary.createdAt)}</CreatedAt>
                                     </TiTleLine>
                                     <ContentLine>
                                         <CommentCount>댓글 {diary.count}개</CommentCount>

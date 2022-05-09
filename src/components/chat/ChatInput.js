@@ -9,7 +9,7 @@ import Stomp from "stompjs";
 ChatInput.propTypes = {};
 
 function ChatInput(props) {
-    const { roomId } = props;
+    const { roomId, userInfo } = props;
     console.log(props);
 
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
@@ -19,8 +19,8 @@ function ChatInput(props) {
     const [text, setText] = React.useState("");
 
     // 보내는 사람
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
-    console.log(userInfo);
+    // const userInfo = useSelector((state) => state.userSlice.userInfo);
+    // console.log(userInfo);
 
     // const router = useRouter();
     // console.log(router); // 라우터 객체를 출력합니다.

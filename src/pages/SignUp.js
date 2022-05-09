@@ -30,8 +30,6 @@ function SignUp(props) {
         if (nickName === "") {
             return;
         }
-
-        setIsLoading(true);
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
         const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
         if (result) {
@@ -42,7 +40,6 @@ function SignUp(props) {
                     setIsValidNickName(false);
                 }
             });
-            setIsLoading(false);
         } else {
             setIsValidNickName(false);
         }
@@ -67,8 +64,11 @@ function SignUp(props) {
 
     useEffect(() => {
         setIsValidNickName(null);
-        nickNameCheckDB(nickName);
         setCurrentHeader("홈");
+    }, []);
+
+    useEffect(() => {
+        nickNameCheckDB(nickName);
     }, [nickName]);
 
     return (

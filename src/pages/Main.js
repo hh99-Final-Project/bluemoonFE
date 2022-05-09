@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 import * as commonActions from "../redux/modules/commonSlice";
 import Login from "../components/user/Login";
 import { userApi } from "../apis/userApi";
+import CategoryBar from "../shared/CategoryBar";
+import Header2 from "../shared/Header2";
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -32,6 +34,8 @@ const Main = () => {
 
     return (
         <Container>
+            <Header2 />
+            <CategoryBar />
             <IntroContainer>
                 <ServiceStart>
                     <Logo>로고</Logo>

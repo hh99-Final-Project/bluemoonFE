@@ -17,6 +17,8 @@ function ChatMessage(props) {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     console.log(userInfo);
 
+    // 채팅 메시지 보낸 사람과 현재 로그인한 사람을 비교하여 같은 사람이면 true 다르면 false
+    // 본인이 보낸 채팅 메시지는 오른쪽에 표시, 아닌 사람은 왼쪽에 표시한다.
     const user = userId === userInfo.userId ? true : false;
 
     return (
