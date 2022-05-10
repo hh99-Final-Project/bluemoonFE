@@ -6,18 +6,21 @@ import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { getUserInfo, isLogined } from "../redux/modules/userSlice";
 import { isModalOpen, getAlertList } from "../redux/modules/commonSlice";
+import MoonPoint from "../static/images/header/MoonPoint.svg";
+import NewAlertIcon from "../static/images/header/NewAlertIcon.svg";
 import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import Popup from "../shared/Popup";
 
-const Header2 = () => {
+const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    console.log(userInfo);
     const modalOpen = useSelector((state) => state.commonSlice.modalIsOpen);
 
     const [isOpenNoti, setIsOpenNoti] = useState(false);
+    const [logoutPopup, setLogoutPopup] = useState(false);
 
     const AlertTabRef = useRef();
 
@@ -34,6 +37,7 @@ const Header2 = () => {
         deleteCookie("authorization");
         dispatch(getUserInfo(null));
         dispatch(isLogined(false));
+        setLogoutPopup(false);
     };
 
     const closeNotiModal = () => {
@@ -85,76 +89,115 @@ const Header2 = () => {
     }
 
     return (
-        <HeaderContainer>
-            <Logo onClick={() => navigate("/")}>로고</Logo>
-            <HeaderRightArea>
-                {/*{userInfo ? <NickName>{userInfo.nickname}님</NickName> : <div>로그아웃 되었습니다.</div>}*/}
-                <Point>100</Point>
-                <AlertIcon
-                    ref={AlertTabRef}
-                    onClick={() => {
-                        setIsOpenNoti(true);
-                    }}
-                >
-                    알림
-                </AlertIcon>
-                <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
-                <Logout onClick={logout}>로그아웃</Logout>
-            </HeaderRightArea>
+        <React.Fragment>
+            <HeaderContainer>
+                <Logo onClick={() => navigate("/")}>Blue Moon</Logo>
+                    {
+                        userInfo ? (
+                            <HeaderRightArea>
+                                <Point>
+                                    <img src={MoonPoint} alt={"point"}/>
+                                    <span>1000</span>
+                                </Point>
+                            <AlertIcon
+                                ref={AlertTabRef}
+                                onClick={() => {
+                                    setIsOpenNoti(true);
+                                }}
+                            >
+                                <img src={NewAlertIcon} alt={"NewAlertIcon"}/>
+                            </AlertIcon>
+                                <Logout onClick={()=>setLogoutPopup(true)}>로그아웃</Logout>
+                            </HeaderRightArea>
+                        ) : (
+                        <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
+                        )
+                    }
+
+                {modalOpen && <Login />}
+            </HeaderContainer>
             {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
-            {modalOpen && <Login />}
-        </HeaderContainer>
-    );
+            {
+                logoutPopup && <Popup
+                title={"정말 로그아웃 하시겠습니까?"}
+                desc={""}
+                event={logout}
+                close={() => setLogoutPopup(false)}
+            />
+            }
+        </React.Fragment>
+);
 };
 
-export default Header2;
+export default Header;
 
 const HeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    margin: auto;
-    padding-top: 15px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 26px;
+    margin-bottom: 46px;
     width: 950px;
     font-weight: bold;
     font-size: 20px;
-    background-color: #081134;
 `;
 const HeaderRightArea = styled.div`
     display: flex;
     justify-content: center;
     color: #9aebe7;
-`;
-
-const NickName = styled.div`
-    margin-right: 20px;
+    height: 39px;
+    align-items: center;
 `;
 
 const Logo = styled.div`
     cursor: pointer;
-    color: #9aebe7;
-    width: 99px;
-    height: 75px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 32px;
+    line-height: 38px;
 `;
 const Point = styled.div`
-    margin-right: 20px;
+    margin-right: 13px;
     width: 96px;
     height: 31px;
-    background-color: #dfdfdf;
+    border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 23px;
     font-size: 15px;
     line-height: 18px;
-    color: #000000;
+    box-sizing: border-box;
+    color: #D2FFFD;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    cursor: default;
+  span {
+      margin: 7px 0 11px;
+    }
+     
+    img {
+      margin: 7px 8px 0 11px;
+      width: 15px;
+      height: 15px;
+    }
 `;
 const AlertIcon = styled.div`
-    margin-right: 20px;
+    margin-right: 15px;
     cursor: pointer;
+    line-height: 34px;
+  
+  img {
+    vertical-align:middle
+  }
+  
 `;
 const LoginArea = styled.div`
     cursor: pointer;
     margin-right: 20px;
+    margin-top: 9px;
+    font-size: 16px;
+    line-height: 19px;
+    color: #9AEBE7;
 `;
 
-const Logout = styled(LoginArea)``;
+const Logout = styled(LoginArea)`
+    margin-top: 0;
+`;

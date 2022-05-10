@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import _ from "lodash";
 
@@ -47,6 +47,7 @@ function ChatList(props) {
             chatApi.deleteChat(chatId).then((response) => {
                 if (response.status === 200) {
                     window.alert("채팅방에서 나가셨습니다.");
+                    //reload를 해주는 이유가 뭘까용? 강제 새로고침은 user UX에 좋지 않을 것 같아요!
                     window.location.reload();
                 }
             });
@@ -102,7 +103,7 @@ function ChatList(props) {
 
     return (
         <Container>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <ChatRoomListBox>
                 <ChatRoomListTitle>

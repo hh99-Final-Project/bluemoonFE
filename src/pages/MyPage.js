@@ -7,7 +7,7 @@ import { diaryApi } from "../apis/diaryApi";
 import { Button } from "../elements/index";
 import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import useStore from "../zustand/store";
 import _ from "lodash";
@@ -96,7 +96,7 @@ function MyPage(props) {
 
     return (
         <Container>
-            <Header2 />
+            <Header />
             <CategoryBar />
             {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
             {/* onscroll 적용 */}

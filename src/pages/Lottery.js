@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import useStore from "../zustand/store";
 import loterryMoon from "../static/images/Lottery/lotteryMoon.png";
 import lotteryResult from "../static/images/Lottery/lotteryResult.png";
@@ -16,7 +16,7 @@ const Lottery = () => {
 
     return (
         <Container>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <ContentBox>
                 <Title>블루문! 내게 말해줘</Title>

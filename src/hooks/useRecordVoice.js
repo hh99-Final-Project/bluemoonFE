@@ -6,6 +6,8 @@ export default function useRecordVoice() {
     const [media, setMedia] = useState();
     const [source, setSource] = useState();
     const [onRec, setOnRec] = useState(true);
+    const [finishRecord, setFinishRecord] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [analyser, setAnalyser] = useState();
     const [audioUrl, setAudioUrl] = useState();
     const [audioCtx, setAudioCtx] = useState();
@@ -49,6 +51,7 @@ export default function useRecordVoice() {
         media.ondataavailable = function (e) {
             setAudioUrl(e.data);
             setOnRec(true);
+            setFinishRecord(true);
         };
         // 모든 트랙에서 stop()을 호출해 오디오 스트림을 정지
         stream.getAudioTracks().forEach(function (track) {
@@ -107,13 +110,19 @@ export default function useRecordVoice() {
 
     // 파일 출력 & 재생
     const play = useCallback(() => {
-        if (audioUrl) {
+        if (audioUrl){
             const audio = new Audio(URL.createObjectURL(audioUrl));
             audio.loop = false;
             audio.volume = 1;
             audio.play();
+            setIsPlaying(true);
         }
     }, [audioUrl]);
+
+    //파일 삭제
+    const deleteVoice = () => {
+        setAudioUrl("");
+    }
 
 
     return {
@@ -122,6 +131,10 @@ export default function useRecordVoice() {
         pause,
         replay,
         play,
-        audioUrl
+        audioUrl,
+        deleteVoice,
+        onRec,
+        finishRecord,
+        isPlaying
     }
 }

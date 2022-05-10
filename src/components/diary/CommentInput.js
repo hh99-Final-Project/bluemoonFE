@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
 import useRecordVoice from "../../hooks/useRecordVoice";
-import recordIcon from "../../static/images/microphone.svg";
+// import recordIcon from "../../static/images/microphone.svg";
 import lockIcon from "../../static/images/lockIcon.svg";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -105,7 +105,7 @@ function CommentInput(props) {
                 />
                 <IconArea>
                     <VoiceButton>
-                        <img src={recordIcon} alt={"recordIcon"} />
+                        {/*<img src={recordIcon} alt={"recordIcon"} />*/}
                     </VoiceButton>
                     <IconRightArea>
                         <LockIcon>

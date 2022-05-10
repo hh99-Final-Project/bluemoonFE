@@ -6,11 +6,10 @@ import { diaryApi } from "../apis/diaryApi";
 import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
-import voiceButton from "../static/images/voicePlayButton.svg";
 import commentIcon from "../static/images/comment.png";
 import chatIcon from "../static/images/message.png";
 import prevButton from "../static/images/prevDiary.svg";
@@ -58,7 +57,7 @@ function DiaryList(props) {
 
     return (
         <DiaryListContainer>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <CardContainer>
                 <CardContainerBackGround>
@@ -87,7 +86,7 @@ function DiaryList(props) {
                                     <CardBackground>
                                         <CardBorderRight>
                                             <ContentBox>
-                                                <img src={voiceButton} alt={"voice-play"}/>
+                                                {/*<img src={voiceButton} alt={"voice-play"}/>*/}
                                                 <DiaryDesc>{diary.content}</DiaryDesc>
                                             </ContentBox>
                                             <ChattingIcon>

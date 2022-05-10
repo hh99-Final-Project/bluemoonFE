@@ -5,11 +5,10 @@ import styled from "styled-components";
 import { DiaryContent, CommentList } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
 import CommentInput from "../components/diary/CommentInput";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
-import backIcon from "../static/images/backIcon.svg";
 import { convertDate } from "../utils/convertDate";
 
 DiaryDetail.propTypes = {};
@@ -46,13 +45,13 @@ function DiaryDetail(props) {
 
     return (
         <DetailContainer>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <DetailContent>
                 <TitleContainer>
                     <TitleLeft>
                         <BackButton onClick={() => navigate("/diarylist")}>
-                            <img src={backIcon} />
+                            {/*<img src={} />*/}
                         </BackButton>
                         <Title>고민 들어주기</Title>
                     </TitleLeft>

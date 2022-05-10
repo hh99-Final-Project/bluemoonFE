@@ -9,7 +9,8 @@ import * as commonActions from "../redux/modules/commonSlice";
 import Login from "../components/user/Login";
 import { userApi } from "../apis/userApi";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
+import logo from "../static/images/common/logo.svg";
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -27,18 +28,22 @@ const Main = () => {
         dots: true,
         arrows: false,
         infinite: false,
-        speed: 0,
+        speed: 3000,
+        autoplay: true,
+        autoplaySpeed: 5000,
         slideToShow: 1,
         slidesToScroll: 1,
     };
 
     return (
         <Container>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <IntroContainer>
                 <ServiceStart>
-                    <Logo>로고</Logo>
+                    <Logo>
+                        <img src={logo}/>
+                    </Logo>
                     <ServiceTitle>Blue Moon</ServiceTitle>
                     <DiaryWriteButton>
                         <div onClick={() => navigate("/write")}>고민 털어놓기</div>
@@ -46,18 +51,48 @@ const Main = () => {
                     <DiaryListButton onClick={() => navigate("/diarylist")}>고민 둘러보기</DiaryListButton>
                 </ServiceStart>
                 <ServiceIntro>
-                    <IntroTitle>블루문 사용 설명서</IntroTitle>
-                    <IntroImage>
-                        <Slider {...settings}>
-                            <div>누구에게 털어놓지 못하는 고민이 있으신가요?</div>
-                            <div>그렇다면, 당신을 블루문에 초대할게요</div>
-                            <div>
-                                푸른 달이 뜨는 이 곳은 아무도 당신을 알지 못하고, 그 누구보다도 솔직해 질 수 있는
-                                공간이에요
-                            </div>
-                            <div>모두가 솔직해지는 신비한 공간인 블루문으로 오세요.</div>
-                        </Slider>
-                    </IntroImage>
+                    <Slider2 {...settings}>
+                        <FirstSlide>
+                            <BorderCard>
+                                <Border/>
+                                <span>블루문 다이어리 주인께</span>
+                                <Border/>
+                            </BorderCard>
+                        </FirstSlide>
+                        <SecondSlide>
+                            <BorderCard2>
+                                <span>
+                                    달빛이 깃든 이 다이어리는 당신을 <br/>
+                                    주인으로 선택했습니다. 환영합니다.
+                                </span>
+                            </BorderCard2>
+                        </SecondSlide>
+                        <ThirdSlide>
+                            <BorderCard2>
+                                <span>
+                                    이 다이어리를 통해 또 다른 주인들과
+                                    서로 글을 공유하거나, 댓글로 소통할 수 있습니다.
+                                </span>
+                            </BorderCard2>
+                        </ThirdSlide>
+                        <FourthSlide>
+                            <BorderCard2>
+                                <span>
+                                    당신이 원한다면, 원하는 사람과 진중한 대화를 나눌 수 있습니다.
+                                </span>
+                            </BorderCard2>
+                        </FourthSlide>
+                        <FifthSlide>
+                            <BorderCard2>
+                                <span>
+                                    이 다이어리는 주인들과 소통하지 않으면, 빛을 잃게 됩니다.<br/>
+                                    꼭 명심하세요.
+                                </span>
+                            </BorderCard2>
+                        </FifthSlide>
+
+                    </Slider2>
+
                 </ServiceIntro>
             </IntroContainer>
         </Container>
@@ -74,9 +109,9 @@ const Container = styled.div`
 `;
 
 const IntroContainer = styled.div`
-    width: 850px;
+    width: 950px;
     height: 530px;
-    margin: 129px auto 0;
+    margin: auto;
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
     box-shadow: 0 0 70px #465981;
@@ -85,12 +120,15 @@ const IntroContainer = styled.div`
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
     display: flex;
     justify-content: space-between;
-    padding: 40px 60px;
+    padding: 51px 48px 39px 51px;
+    position: relative;  
+    z-index: 2;
 `;
 
 const ServiceStart = styled.div`
     margin-right: 20px;
-    width: 428px;
+    width: 479px;
+    height: 440px;
     background-color: #1f2449;
     border: 2px solid #43567e;
     box-sizing: border-box;
@@ -98,18 +136,16 @@ const ServiceStart = styled.div`
 `;
 
 const ServiceIntro = styled.div`
-    width: 284px;
-    background-color: #1f2449;
-    border: 2px solid #43567e;
+    width: 342px;
+    height: 440px;
     box-sizing: border-box;
     border-radius: 20px;
+    margin: auto;
 `;
 
 const Logo = styled.div`
-    width: 120px;
-    height: 80px;
-    margin: 100px auto 20px;
-    background-color: rgba(182, 233, 230, 0.7);
+    margin: 100px auto 0;
+    width: 141px;
 `;
 
 const ServiceTitle = styled.div`
@@ -117,10 +153,88 @@ const ServiceTitle = styled.div`
     font-size: 24px;
     line-height: 28px;
     font-weight: bold;
-    margin: auto;
+    margin: -40px auto 90px;
     text-align: center;
     color: #ffffff;
 `;
+
+
+const Border = styled.div`
+  width: 212px;
+  border: 1px solid #91A6A8;
+  margin: 9px auto;
+`;
+
+const BorderCard = styled.div`
+  width: 312px;
+  height: 414px;
+  margin: 7px auto 0;
+  box-sizing: border-box;
+  border: 1px solid #91A6A8;
+  border-radius: 15px;
+  padding-top: 40%;
+  font-size: 18px;
+  line-height: 22px;
+`;
+
+const BorderCard2 = styled(BorderCard)`
+  margin: 13px auto 0;
+  border: 1px solid #91A6A8;
+  color: #000000;
+  padding: 50% 13px;
+
+`;
+
+const Slider2 = styled(Slider)`
+  width: 342px;
+  height: 440px;
+  box-sizing: border-box;
+  
+  .slick-dots {
+    top: 368px;
+  }
+  .slick-dots li {
+    margin: 0 -6px;
+    width: 25px;
+    height: 25px;
+  }
+
+  .slick-dots li button:before {
+    color: #ffffff;
+  }
+  
+  .slick-dots li.slick-active button:before {
+    color: #9aebe7;
+  }
+`
+
+
+
+const FirstSlide = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 19px;
+  line-height: 23px;
+  color: #FFFFFF;
+  width: 342px;
+  height: 440px;
+  box-sizing: border-box;
+  border-radius: 20px;
+
+  .slick-dots li button:before {
+    color: #ffffff;
+  }
+`;
+
+const SecondSlide = styled(FirstSlide)`
+  background-color: #C0CDE7;
+`;
+
+const ThirdSlide = styled(SecondSlide)``;
+const FourthSlide = styled(SecondSlide)``;
+const FifthSlide = styled(SecondSlide)``;
+
 
 const DiaryWriteButton = styled.div`
     width: 355px;
@@ -145,44 +259,4 @@ const DiaryListButton = styled(DiaryWriteButton)`
     color: #84c8cc;
     background-color: #293252;
     border: 2px solid #84c8cc;
-`;
-
-const IntroTitle = styled.div`
-    margin: 75px auto 30px;
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 18px;
-    text-align: center;
-    color: #ffffff;
-`;
-const IntroImage = styled.div`
-    width: 250px;
-    height: 195px;
-    background: #111b3f;
-    border: 2px solid #43567e;
-    box-sizing: border-box;
-    backdrop-filter: blur(20px);
-    border-radius: 9px;
-    margin: auto;
-    text-align: center;
-    color: #ffffff;
-    padding: 30px;
-
-    div {
-        margin: 10px auto;
-        font-size: 14px;
-    }
-
-    .slick-dots {
-        bottom: -70px;
-    }
-    .slick-dots li {
-        margin: 0 -3px;
-    }
-    .slick-dots li button:before {
-        color: #dddddd;
-    }
-    .slick-dots li.slick-active button:before {
-        color: #9aebe7;
-    }
 `;

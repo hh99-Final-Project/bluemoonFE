@@ -7,7 +7,7 @@ import useStore from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
 import { convertDate } from "../../utils/convertDate";
 import lockIcon from "../../static/images/lockIcon.svg";
-import playVoice from "../../static/images/voicePlayButton.svg";
+// import playVoice from "../../static/images/voicePlayButton.svg";
 
 Comment.propTypes = {
     comment: PropTypes.object
@@ -64,7 +64,7 @@ function Comment(props) {
                 {
                     comment.show ? comment.content : "비밀 댓글 입니다"
                 }
-                <img src={playVoice} alt={"playVoice"}/>
+                {/*<img src={playVoice} alt={"playVoice"}/>*/}
             </PostContent>
 
             <IconArea>

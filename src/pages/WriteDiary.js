@@ -3,15 +3,18 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import useRecordVoice from "../hooks/useRecordVoice";
 
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
 import {useSelector} from "react-redux";
-import backIcon from "../static/images/backIcon.svg";
 import VoicePopup from "../components/diary/VoicePopup";
+import backIcon from "../static/images/diary/backToList.svg";
+import saveIcon from "../static/images/diary/saveDiary.svg";
+import recordIcon from "../static/images/diary/voiceRecordIcon.svg";
+import listenIcon from "../static/images/diary/voiceListenIcon.svg";
 
 WriteDiary.propTypes = {};
 
@@ -24,13 +27,17 @@ function WriteDiary(props) {
     pause,
     replay,
     play,
-    audioUrl
+    audioUrl,
+    deleteVoice,
+    onRec,
+    finishRecord,
+    isPlaying
   } = useRecordVoice();
 
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
   const [isOpenPopup, setIsOpenPopup] = useState(false);
-  const [isOpenVoicePoup, setIsOpenVoicePopup] = useState(false);
+  const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
   const userInfo = useSelector((state) => state.userSlice.userInfo)
 
@@ -65,6 +72,10 @@ function WriteDiary(props) {
     });
   };
 
+  const closeVoicePopup = () => {
+    setIsOpenVoicePopup(false);
+  }
+
 
   useEffect(()=>{
     setCurrentHeader('포스트')
@@ -73,11 +84,15 @@ function WriteDiary(props) {
   return (
     <WriteContainer>
       {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
-      <Header2/>
+      <Header/>
       <CategoryBar/>
       <PostAreaContainer>
+        <DiaryName>
+          {userInfo?.nickname} <span>님 다이어리</span>
+        </DiaryName>
         <PostHeader>
-          <img src={backIcon}/>
+          <BackToListButton src={backIcon}/>
+          <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>
         </PostHeader>
         <WriteArea>
           <PostText
@@ -91,16 +106,24 @@ function WriteDiary(props) {
         </WriteArea>
 
         <VoiceLeft>
-          <VoicePlayButton onClick={play}>재생</VoicePlayButton>
-          <VoiceRecordButton onClick={recordVoice}>녹음</VoiceRecordButton>
-          <VoiceStop onClick={stopRecord}>중지</VoiceStop>
-          <VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>
-          <VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>
-          <OpenPopup onClick={() => setIsOpenVoicePopup(true)}>열기</OpenPopup>
+          <RecordArea onClick={() => setIsOpenVoicePopup(true)}>
+            <img src={recordIcon} alt={"record"}/>
+            <div>음성 등록</div>
+          </RecordArea>
+          <ListenArea>
+            <img src={listenIcon} alt={"listen"}/>
+            <div>음성 듣기</div>
+          </ListenArea>
+
+          {/*<VoicePlayButton onClick={play}>재생</VoicePlayButton>*/}
+          {/*<VoiceRecordButton onClick={recordVoice}>녹음</VoiceRecordButton>*/}
+          {/*<VoiceStop onClick={stopRecord}>중지</VoiceStop>*/}
+          {/*<VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>*/}
+          {/*<VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>*/}
+          {/*<DeleteVoice onClick={deleteVoice}>삭제</DeleteVoice>*/}
+          {/*<OpenPopup onClick={() => setIsOpenVoicePopup(true)}>열기</OpenPopup>*/}
         </VoiceLeft>
         <PostLength>{diary.length}/1000</PostLength>
-
-        <PostButton onClick={onClickHandler}>등록하기</PostButton>
 
       </PostAreaContainer>
 
@@ -113,7 +136,15 @@ function WriteDiary(props) {
         />
       )}
       {
-        isOpenVoicePoup && <VoicePopup/>
+        isOpenVoicePopup &&
+        <VoicePopup
+            closePopup={closeVoicePopup}
+            play={play}
+            recordVoice={recordVoice}
+            stopRecord={stopRecord}
+            finishRecord={finishRecord}
+            isPlaying={isPlaying}
+            onRec={onRec}/>
       }
     </WriteContainer>
   );
@@ -142,16 +173,37 @@ const PostAreaContainer = styled.div`
   position: relative;
 `;
 
+const DiaryName = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  line-height: 19px;
+  
+  span {
+   color: #9AEBE7; 
+  }
+`;
+
 
 const PostHeader = styled.div`
   width: 100%;
   height: 52px;
   background-color: #2F3A5F;
-  margin: 23px auto 0;
-  
-  img {
-    margin: 10px 23px 0 40px;
-  }
+  margin: 23px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const BackToListButton = styled.img`
+  margin-left: 39px;
+  cursor: pointer;
+`;
+const SaveDiaryButton = styled.img`
+  margin-right: 34px;
+  cursor: pointer;
 `;
 
 const WriteArea = styled.div`
@@ -165,12 +217,13 @@ const PostText = styled.input`
   background-color: #959EBE;
   outline: none;
   border: none;
-  padding: 14px 34px;
+  padding: 14px 27px;
   border-radius: 10px;
   box-sizing: border-box;
-  margin: 10px 0;
+  margin-bottom: 10px;
   font-size: 20px;
   line-height: 24px;
+  
   ::placeholder {
     font-size: 20px;
     line-height: 24px;
@@ -182,7 +235,7 @@ const PostArea = styled.textarea`
   width: 876px;
   height: 352px;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 18px 27px;
   background-color: #959EBE;
   border: none;
   font-size: 18px;
@@ -208,14 +261,32 @@ const PostArea = styled.textarea`
 const VoiceLeft = styled.div`
   display: flex;
   position: absolute;
-  bottom: 50px;
-  left: 60px;
+  bottom: 45px;
+  left: 69px;
 `;
+
+const RecordArea = styled.div`
+  color: #08105D;
+  font-size: 8px;
+  line-height: 10px;
+  margin-right: 18px;
+  text-align: center;
+  
+  img {
+    cursor: pointer;
+  }
+  
+  div {
+    margin-top: 7px;
+  }
+
+`;
+const ListenArea = styled(RecordArea)``;
 
 const PostLength = styled.div`
   position: absolute;
   bottom: 50px;
-  right: 60px;
+  right: 65px;
   font-size: 14px;
   line-height: 17px;
   color: #08105D;
@@ -238,11 +309,12 @@ const VoiceStop = styled(VoicePlayButton)``;
 const VoiceTempStop = styled(VoicePlayButton)``;
 const VoiceTempReplay = styled(VoicePlayButton)``;
 const OpenPopup = styled(VoicePlayButton)``;
+const DeleteVoice = styled(VoicePlayButton)``;
 
 
 const PostButton = styled.a`
   position: absolute;
-  bottom: -80px;
+  bottom: 0px;
   left: 50%;
   transform: translate(-50%, 0);
   width: 100px;

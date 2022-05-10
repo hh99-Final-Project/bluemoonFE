@@ -10,59 +10,59 @@ Notifications.propTypes = {};
 
 function Notifications(props) {
     const { closeModal, AlertTabRef } = props;
-    let alertList = useSelector((state) => state.commonslice.alertList);
+    // let alertList = useSelector((state) => state.commonslice.alertList);
 
-    // let alertList = [
-    //     {
-    //         title: "곽혜미",
-    //         desc: "라라라",
-    //         createdAt: "2022-04-21 11:23",
-    //         id: 1,
-    //     },
+    let alertList = [
+        {
+            title: "곽혜미",
+            desc: "라라라",
+            createdAt: "2022-04-21 11:23",
+            id: 1,
+        },
 
-    //     {
-    //         title: "김김김",
-    //         desc: "김김22",
-    //         createdAt: "2022-01-21 11:23",
-    //         id: 2,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 3,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 4,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 5,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 6,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 7,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 8,
-    //     },
-    // ];
+        {
+            title: "김김김",
+            desc: "김김22",
+            createdAt: "2022-01-21 11:23",
+            id: 2,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 3,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 4,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 5,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 6,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 7,
+        },
+        {
+            title: "원숭이",
+            desc: "재주부리다 넘어짐",
+            createdAt: "2022-03-21 11:23",
+            id: 8,
+        },
+    ];
 
     // console.log(AlertTabRef.current.getBoundingClientRect().top,"AlertTabRef")
     // console.log(AlertTabRef.current.getBoundingClientRect().left,"AlertTabRef")
@@ -82,15 +82,15 @@ function Notifications(props) {
                         right: 0,
                         bottom: 0,
                         backgroundColor: "rgba(65, 65, 65, 0.5)",
+                        zIndex: 10,
                     },
                     content: {
                         position: "absolute",
                         zIndex: 10,
-                        top: "328px",
-                        left: AlertTabRef.current.getBoundingClientRect().left + 115,
+                        top: AlertTabRef.current.getBoundingClientRect().top - 10,
+                        left: AlertTabRef.current.getBoundingClientRect().left - 80,
                         right: "auto",
                         bottom: "auto",
-                        transform: "translate(-50%, -50%)",
                         width: "248px",
                         height: "610px",
                         border: "none",
