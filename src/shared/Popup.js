@@ -32,7 +32,7 @@ function Popup(props) {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: 'rgba(65, 65, 65, 0.5)',
+                        backgroundColor: 'rgba(33, 33, 33, 0.5)',
                         zIndex: 30
                     },
                     content: {
@@ -42,13 +42,14 @@ function Popup(props) {
                         right: 'auto',
                         bottom: 'auto',
                         transform: 'translate(-50%, -50%)',
-                        width: '300px',
-                        height: '200px',
+                        width: '359px',
+                        height: '203x',
+                        boxSizing: 'border-box',
                         border: 'none',
-                        background: '#ffffff',
+                        background: 'rgba(230, 236, 241, 0.8)',
                         borderRadius: '20px',
                         outline: 'none',
-                        padding: '20px',
+                        padding: '26px 6px',
                         zIndex: 30
                     }
                 }}>
@@ -67,10 +68,11 @@ export default Popup;
 
 
 const Title = styled.div`
-    font-size: 20px;
-    font-weight: bold;
-    margin: 30px 0;
+    margin: 44px auto 39px;
     text-align: center;
+    font-size: 18px;
+    line-height: 22px;
+    
 `;
 const Desc = styled.div`
     text-align: center;
@@ -80,13 +82,21 @@ const Desc = styled.div`
 const ButtonArea = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0 10px;
 `
 const Confirm = styled.div`
-    margin-right: 30px;
     font-weight: bold;
     cursor:pointer;
+    width: 157px;
+    height: 46px;
+    background-color:#8D91A7;
+    border-radius: 10px;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
-const Back = styled.div`
-    cursor:pointer;
+const Back = styled(Confirm)`
+    cursor: pointer;
 `;
