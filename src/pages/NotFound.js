@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Layout } from "../components/common";
 
 const NotFound = (props) => {
     const navigate = useNavigate();
 
     return (
-        <React.Fragment>
+        <Layout>
             <Container>
                 <Grid>
                     <ContentBox>
@@ -26,7 +27,7 @@ const NotFound = (props) => {
                     <ImageBox>이미지 영역</ImageBox>
                 </Grid>
             </Container>
-        </React.Fragment>
+    </Layout>
     );
 };
 
@@ -35,7 +36,6 @@ export default NotFound;
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #111b3f;
     overflow: hidden;
 `;
 

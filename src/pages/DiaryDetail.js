@@ -10,6 +10,8 @@ import Loading from "../shared/Loading";
 import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
 import { convertDate } from "../utils/convertDate";
+import { Layout } from "../components/common";
+
 
 DiaryDetail.propTypes = {};
 
@@ -44,26 +46,28 @@ function DiaryDetail(props) {
     }
 
     return (
-        <DetailContainer>
-            <Header />
-            <CategoryBar />
-            <DetailContent>
-                <TitleContainer>
-                    <TitleLeft>
-                        <BackButton onClick={() => navigate("/diarylist")}>
-                            {/*<img src={} />*/}
-                        </BackButton>
-                        <Title>고민 들어주기</Title>
-                    </TitleLeft>
-                    <Time>{convertDate(diary.createdAt)}</Time>
-                </TitleContainer>
-                <ContentContainer>
-                    <DiaryContent diary={diary} />
-                    <CommentInput diary={diary} postId={postId} />
-                    <CommentList comments={diary.comments} postId={diary.postId} />
-                </ContentContainer>
-            </DetailContent>
-        </DetailContainer>
+        <Layout>
+            <DetailContainer>
+                <Header />
+                <CategoryBar />
+                <DetailContent>
+                    <TitleContainer>
+                        <TitleLeft>
+                            <BackButton onClick={() => navigate("/diarylist")}>
+                                {/*<img src={} />*/}
+                            </BackButton>
+                            <Title>고민 들어주기</Title>
+                        </TitleLeft>
+                        <Time>{convertDate(diary.createdAt)}</Time>
+                    </TitleContainer>
+                    <ContentContainer>
+                        <DiaryContent diary={diary} />
+                        <CommentInput diary={diary} postId={postId} />
+                        <CommentList comments={diary.comments} postId={diary.postId} />
+                    </ContentContainer>
+                </DetailContent>
+            </DetailContainer>
+        </Layout>
     );
 }
 
@@ -72,7 +76,6 @@ export default DiaryDetail;
 const DetailContainer = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #081134;
     overflow-x: hidden;
 `;
 const DetailContent = styled.div`

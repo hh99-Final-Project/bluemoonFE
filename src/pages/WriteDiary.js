@@ -15,6 +15,7 @@ import backIcon from "../static/images/diary/backToList.svg";
 import saveIcon from "../static/images/diary/saveDiary.svg";
 import recordIcon from "../static/images/diary/voiceRecordIcon.svg";
 import listenIcon from "../static/images/diary/voiceListenIcon.svg";
+import { Layout } from "../components/common";
 
 WriteDiary.propTypes = {};
 
@@ -82,71 +83,73 @@ function WriteDiary(props) {
   }, [])
 
   return (
-    <WriteContainer>
-      {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
-      <Header/>
-      <CategoryBar/>
-      <PostAreaContainer>
-        <DiaryName>
-          {userInfo?.nickname} <span>님 다이어리</span>
-        </DiaryName>
-        <PostHeader>
-          <BackToListButton src={backIcon}/>
-          <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>
-        </PostHeader>
-        <WriteArea>
-          <PostText
-            placeholder="제목을 작성해주세요"
-            onChange={onChangeTitleHandler}
-          />
-          <PostArea
-            placeholder="1000자 내로 작성해주세요"
-            onChange={onChangeContentHandler}
-          />
-        </WriteArea>
+      <Layout>
+        <WriteContainer>
+          {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
+          <Header/>
+          <CategoryBar/>
+          <PostAreaContainer>
+            <DiaryName>
+              {userInfo?.nickname} <span>님 다이어리</span>
+            </DiaryName>
+            <PostHeader>
+              <BackToListButton src={backIcon}/>
+              <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>
+            </PostHeader>
+            <WriteArea>
+              <PostText
+                placeholder="제목을 작성해주세요"
+                onChange={onChangeTitleHandler}
+              />
+              <PostArea
+                placeholder="1000자 내로 작성해주세요"
+                onChange={onChangeContentHandler}
+              />
+            </WriteArea>
 
-        <VoiceLeft>
-          <RecordArea onClick={() => setIsOpenVoicePopup(true)}>
-            <img src={recordIcon} alt={"record"}/>
-            <div>음성 등록</div>
-          </RecordArea>
-          <ListenArea>
-            <img src={listenIcon} alt={"listen"}/>
-            <div>음성 듣기</div>
-          </ListenArea>
+            <VoiceLeft>
+              <RecordArea onClick={() => setIsOpenVoicePopup(true)}>
+                <img src={recordIcon} alt={"record"}/>
+                <div>음성 등록</div>
+              </RecordArea>
+              <ListenArea>
+                <img src={listenIcon} alt={"listen"}/>
+                <div>음성 듣기</div>
+              </ListenArea>
 
-          {/*<VoicePlayButton onClick={play}>재생</VoicePlayButton>*/}
-          {/*<VoiceRecordButton onClick={recordVoice}>녹음</VoiceRecordButton>*/}
-          {/*<VoiceStop onClick={stopRecord}>중지</VoiceStop>*/}
-          {/*<VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>*/}
-          {/*<VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>*/}
-          {/*<DeleteVoice onClick={deleteVoice}>삭제</DeleteVoice>*/}
-          {/*<OpenPopup onClick={() => setIsOpenVoicePopup(true)}>열기</OpenPopup>*/}
-        </VoiceLeft>
-        <PostLength>{diary.length}/1000</PostLength>
+              {/*<VoicePlayButton onClick={play}>재생</VoicePlayButton>*/}
+              {/*<VoiceRecordButton onClick={recordVoice}>녹음</VoiceRecordButton>*/}
+              {/*<VoiceStop onClick={stopRecord}>중지</VoiceStop>*/}
+              {/*<VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>*/}
+              {/*<VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>*/}
+              {/*<DeleteVoice onClick={deleteVoice}>삭제</DeleteVoice>*/}
+              {/*<OpenPopup onClick={() => setIsOpenVoicePopup(true)}>열기</OpenPopup>*/}
+            </VoiceLeft>
+            <PostLength>{diary.length}/1000</PostLength>
 
-      </PostAreaContainer>
+          </PostAreaContainer>
 
-      {isOpenPopup && (
-        <Popup
-          title={"작성중이신데 나가실건가요?"}
-          desc={"레알 진짜?"}
-          close={() => setIsOpenPopup(false)}
-          event={() => navigate("/diarylist")}
-        />
-      )}
-      {
-        isOpenVoicePopup &&
-        <VoicePopup
-            closePopup={closeVoicePopup}
-            play={play}
-            recordVoice={recordVoice}
-            stopRecord={stopRecord}
-            finishRecord={finishRecord}
-            isPlaying={isPlaying}
-            onRec={onRec}/>
-      }
-    </WriteContainer>
+          {isOpenPopup && (
+            <Popup
+              title={"작성중이신데 나가실건가요?"}
+              desc={"레알 진짜?"}
+              close={() => setIsOpenPopup(false)}
+              event={() => navigate("/diarylist")}
+            />
+          )}
+          {
+            isOpenVoicePopup &&
+            <VoicePopup
+                closePopup={closeVoicePopup}
+                play={play}
+                recordVoice={recordVoice}
+                stopRecord={stopRecord}
+                finishRecord={finishRecord}
+                isPlaying={isPlaying}
+                onRec={onRec}/>
+          }
+        </WriteContainer>
+      </Layout>
   );
 }
 
@@ -155,7 +158,6 @@ export default WriteDiary;
 const WriteContainer = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #081134;
   position: relative;
 `;
 

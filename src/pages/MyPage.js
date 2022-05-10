@@ -12,6 +12,7 @@ import Loading from "../shared/Loading";
 import useStore from "../zustand/store";
 import _ from "lodash";
 import { convertDate } from "../utils/convertDate";
+import { Layout } from "../components/common";
 
 MyPage.propTypes = {};
 
@@ -95,47 +96,49 @@ function MyPage(props) {
     }
 
     return (
-        <Container>
-            <Header />
-            <CategoryBar />
-            {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
-            {/* onscroll 적용 */}
-            <MyPageBox>
-                <MyPageTitle>
-                    <p>내가 쓴 글</p>
-                </MyPageTitle>
-                <DiaryWrapper ref={ref} onScroll={InfinityScroll}>
-                    {myDiary.length === 0 && <NoDiaryNotice>아직 작성한 글이 없습니다.</NoDiaryNotice>}
-                    {myDiary.length > 0 &&
-                        myDiary.map((diary) => {
-                            return (
-                                <DiaryCard
-                                    id="diary"
-                                    onClick={() => navigate(`/diary/${diary.postUuid}`)}
-                                    key={diary.postUuid}
-                                >
-                                    <TiTleLine>
-                                        <DiaryTitle>{diary.title}</DiaryTitle>
-                                        <CreatedAt>{convertDate(diary.createdAt)}</CreatedAt>
-                                    </TiTleLine>
-                                    <ContentLine>
-                                        <CommentCount>댓글 {diary.count}개</CommentCount>
-                                        <DeleteButton
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                deleteDiary(diary.postUuid);
-                                            }}
-                                        >
-                                            게시물 삭제
-                                        </DeleteButton>
-                                    </ContentLine>
-                                </DiaryCard>
-                            );
-                        })}
-                </DiaryWrapper>
-            </MyPageBox>
-            {/* </InfinityScroll> */}
-        </Container>
+        <Layout>
+            <Container>
+                <Header />
+                <CategoryBar />
+                {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
+                {/* onscroll 적용 */}
+                <MyPageBox>
+                    <MyPageTitle>
+                        <p>내가 쓴 글</p>
+                    </MyPageTitle>
+                    <DiaryWrapper ref={ref} onScroll={InfinityScroll}>
+                        {myDiary.length === 0 && <NoDiaryNotice>아직 작성한 글이 없습니다.</NoDiaryNotice>}
+                        {myDiary.length > 0 &&
+                            myDiary.map((diary) => {
+                                return (
+                                    <DiaryCard
+                                        id="diary"
+                                        onClick={() => navigate(`/diary/${diary.postUuid}`)}
+                                        key={diary.postUuid}
+                                    >
+                                        <TiTleLine>
+                                            <DiaryTitle>{diary.title}</DiaryTitle>
+                                            <CreatedAt>{convertDate(diary.createdAt)}</CreatedAt>
+                                        </TiTleLine>
+                                        <ContentLine>
+                                            <CommentCount>댓글 {diary.count}개</CommentCount>
+                                            <DeleteButton
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    deleteDiary(diary.postUuid);
+                                                }}
+                                            >
+                                                게시물 삭제
+                                            </DeleteButton>
+                                        </ContentLine>
+                                    </DiaryCard>
+                                );
+                            })}
+                    </DiaryWrapper>
+                </MyPageBox>
+                {/* </InfinityScroll> */}
+            </Container>
+        </Layout>
     );
 }
 
@@ -143,7 +146,6 @@ export default MyPage;
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #111b3f;
     overflow: hidden;
 `;
 

@@ -6,6 +6,7 @@ import useStore from "../zustand/store";
 import loterryMoon from "../static/images/Lottery/lotteryMoon.png";
 import lotteryResult from "../static/images/Lottery/lotteryResult.png";
 import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
+import { Layout } from "../components/common";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -15,29 +16,31 @@ const Lottery = () => {
     }, []);
 
     return (
-        <Container>
-            <Header />
-            <CategoryBar />
-            <ContentBox>
-                <Title>블루문! 내게 말해줘</Title>
-                <Desc>
-                    추첨을 통해 바나나 우유 기프티콘을 드립니다. <br />
-                    200포인트로 참여 가능합니다. <br />
-                    포인트는 다이어리 작성 혹은 댓글 작성으로 모을 수 있습니다.
-                </Desc>
-                <LotteryArea>
-                    <img src={loterryMoon} />
-                </LotteryArea>
-                <LotteryResultArea>
-                    <img src={lotteryResult} />
-                </LotteryResultArea>
-                <LotteryClick>클릭하기</LotteryClick>
-                <CountNoti>참여 가능 횟수</CountNoti>
-                <ClickCount>1</ClickCount>
-                <RecommendIcons>친구 추천하기</RecommendIcons>
-                <RecommendDesc>친구 추천 1명 → +2회</RecommendDesc>
-            </ContentBox>
-        </Container>
+        <Layout>
+            <Container>
+                <Header />
+                <CategoryBar />
+                <ContentBox>
+                    <Title>블루문! 내게 말해줘</Title>
+                    <Desc>
+                        추첨을 통해 바나나 우유 기프티콘을 드립니다. <br />
+                        200포인트로 참여 가능합니다. <br />
+                        포인트는 다이어리 작성 혹은 댓글 작성으로 모을 수 있습니다.
+                    </Desc>
+                    <LotteryArea>
+                        <img src={loterryMoon} />
+                    </LotteryArea>
+                    <LotteryResultArea>
+                        <img src={lotteryResult} />
+                    </LotteryResultArea>
+                    <LotteryClick>클릭하기</LotteryClick>
+                    <CountNoti>참여 가능 횟수</CountNoti>
+                    <ClickCount>1</ClickCount>
+                    <RecommendIcons>친구 추천하기</RecommendIcons>
+                    <RecommendDesc>친구 추천 1명 → +2회</RecommendDesc>
+                </ContentBox>
+            </Container>
+        </Layout>
     );
 };
 
@@ -46,7 +49,6 @@ export default Lottery;
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #111b3f;
     overflow: hidden;
 `;
 

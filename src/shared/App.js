@@ -5,7 +5,6 @@ import Main from "../pages/Main";
 import SignUp from "../pages/SignUp";
 import WriteDiary from "../pages/WriteDiary";
 import DiaryList from "../pages/DiaryList";
-import SelectMode from "../pages/SelectMode";
 import DiaryDetail from "../pages/DiaryDetail";
 import ChatDetail from "../pages/ChatDetail";
 import ChatList from "../pages/ChatList";
@@ -36,7 +35,6 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/write" element={<WriteDiary />} />
                 <Route path="/diarylist" element={<DiaryList />} />
-                <Route path="/select" element={<SelectMode />} />
                 <Route path="/diary/:id" element={<DiaryDetail />} />
                 <Route path="/chat/:id" element={<ChatDetail />} />
                 <Route path="/chatlist" element={<ChatList />} />

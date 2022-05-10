@@ -10,6 +10,7 @@ import CategoryBar from "../shared/CategoryBar";
 import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
 import { subMessage } from "../redux/modules/chatSlice";
+import { Layout } from "../components/common";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -113,33 +114,35 @@ const ChatDetail = () => {
     }
 
     return (
-        <Container>
-            <Header />
-            <CategoryBar />
-            <ChatRoom>
-                <ChatRoomTitle>
-                    <p> OO 님과의 대화</p>
-                    <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
-                </ChatRoomTitle>
+        <Layout>
+            <Container>
+                <Header />
+                <CategoryBar />
+                <ChatRoom>
+                    <ChatRoomTitle>
+                        <p> OO 님과의 대화</p>
+                        <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
+                    </ChatRoomTitle>
 
-                <MessageWrapper>
-                    {messages.length > 0 &&
-                        messages.map((message, idx) => {
-                            return (
-                                <ChatMessage
-                                    key={idx}
-                                    message={message.message}
-                                    userId={message.userId}
-                                    createdAt={message.createdAt}
-                                />
-                            );
-                        })}
-                </MessageWrapper>
-                <InputWrpper>
-                    <ChatInput roomId={roomId} userInfo={userInfo} />
-                </InputWrpper>
-            </ChatRoom>
-        </Container>
+                    <MessageWrapper>
+                        {messages.length > 0 &&
+                            messages.map((message, idx) => {
+                                return (
+                                    <ChatMessage
+                                        key={idx}
+                                        message={message.message}
+                                        userId={message.userId}
+                                        createdAt={message.createdAt}
+                                    />
+                                );
+                            })}
+                    </MessageWrapper>
+                    <InputWrpper>
+                        <ChatInput roomId={roomId} userInfo={userInfo} />
+                    </InputWrpper>
+                </ChatRoom>
+            </Container>
+        </Layout>
     );
 };
 
@@ -148,7 +151,6 @@ export default ChatDetail;
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #111b3f;
     overflow: hidden;
 `;
 
