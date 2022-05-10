@@ -74,9 +74,9 @@ const Container = styled.div`
 `;
 
 const IntroContainer = styled.div`
-    width: 850px;
+    width: 950px;
     height: 530px;
-    margin: 129px auto 0;
+    margin: auto;
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
     box-shadow: 0 0 70px #465981;
@@ -86,6 +86,8 @@ const IntroContainer = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 40px 60px;
+    position: relative;  
+    z-index: 2;
 `;
 
 const ServiceStart = styled.div`
