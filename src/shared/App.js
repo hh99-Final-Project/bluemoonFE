@@ -13,7 +13,7 @@ import MyPage from "../pages/MyPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
-import TestScroll from "../pages/TestScroll";
+import Intro from "../pages/Intro";
 import { getCookie } from "../utils/cookie";
 import { useDispatch } from "react-redux";
 import {loginCheck} from "../redux/modules/userSlice";
@@ -44,7 +44,7 @@ function App() {
                 <Route path="/alert" element={<Notifications />} />
                 <Route path="/lottery" element={<Lottery />} />
                 <Route path={"*"} element={<NotFound />} />
-                <Route path="/scroll" element={<TestScroll />} />
+                <Route path="/intro" element={<Intro/>}/>
             </Routes>
         </QueryClientProvider>
     );
