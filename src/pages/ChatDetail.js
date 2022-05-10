@@ -18,20 +18,21 @@ const ChatDetail = () => {
     const params = useParams();
     // console.log(params);
     const roomId = params.id;
+    console.log(roomId);
 
     const token = getCookie("authorization");
-    console.log(token);
+    // console.log(token);
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    console.log(userInfo);
+    // console.log(userInfo);
     // message state
     const messages = useSelector((state) => state.chatSlice.messages);
-    console.log(messages);
+    // console.log(messages);
 
     // 채팅방 이전 메시지 가져오기
     useEffect(() => {
-        getChatMessage();
+        dispatch(getChatMessage(roomId));
     }, []);
 
     // 소켓 연결

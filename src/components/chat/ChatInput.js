@@ -11,7 +11,7 @@ ChatInput.propTypes = {};
 
 function ChatInput(props) {
     const { roomId, userInfo } = props;
-    console.log(props);
+    // console.log(props);
 
     const [text, setText] = React.useState("");
     const token = getCookie("authorization");
@@ -25,7 +25,7 @@ function ChatInput(props) {
             const message = {
                 roomId: roomId,
                 message: text,
-                otherUserId: userInfo.userId, // 메시지 받는 상대방
+                otherUserId: null, // 메시지 받는 상대방
                 type: "TALK",
             };
 

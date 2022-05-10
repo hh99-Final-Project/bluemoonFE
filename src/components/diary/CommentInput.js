@@ -50,7 +50,7 @@ function CommentInput(props) {
             const message = {
                 message: `[${diary.title}]에 댓글이 달렸어요!`,
                 postUuid: postId,
-                otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
+                otherUserId: diary.userId, // 새 댓글 알람을 받을 사람
                 type: "ENTER",
             };
 
@@ -104,9 +104,7 @@ function CommentInput(props) {
                     placeholder="댓글을 남겨주세요"
                 />
                 <IconArea>
-                    <VoiceButton>
-                        {/*<img src={recordIcon} alt={"recordIcon"} />*/}
-                    </VoiceButton>
+                    <VoiceButton>{/*<img src={recordIcon} alt={"recordIcon"} />*/}</VoiceButton>
                     <IconRightArea>
                         <LockIcon>
                             <img src={lockIcon} alt={"lockIcon"} />

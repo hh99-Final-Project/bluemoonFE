@@ -52,7 +52,7 @@ const Header = () => {
             //     wsDisConnect();
             // };
         }
-    }, [userInfo]);
+    }, []);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
@@ -92,41 +92,39 @@ const Header = () => {
         <React.Fragment>
             <HeaderContainer>
                 <Logo onClick={() => navigate("/")}>Blue Moon</Logo>
-                    {
-                        userInfo ? (
-                            <HeaderRightArea>
-                                <Point>
-                                    <img src={MoonPoint} alt={"point"}/>
-                                    <span>1000</span>
-                                </Point>
-                            <AlertIcon
-                                ref={AlertTabRef}
-                                onClick={() => {
-                                    setIsOpenNoti(true);
-                                }}
-                            >
-                                <img src={NewAlertIcon} alt={"NewAlertIcon"}/>
-                            </AlertIcon>
-                                <Logout onClick={()=>setLogoutPopup(true)}>로그아웃</Logout>
-                            </HeaderRightArea>
-                        ) : (
-                        <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
-                        )
-                    }
+                {userInfo ? (
+                    <HeaderRightArea>
+                        <Point>
+                            <img src={MoonPoint} alt={"point"} />
+                            <span>1000</span>
+                        </Point>
+                        <AlertIcon
+                            ref={AlertTabRef}
+                            onClick={() => {
+                                setIsOpenNoti(true);
+                            }}
+                        >
+                            <img src={NewAlertIcon} alt={"NewAlertIcon"} />
+                        </AlertIcon>
+                        <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
+                    </HeaderRightArea>
+                ) : (
+                    <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
+                )}
 
                 {modalOpen && <Login />}
             </HeaderContainer>
             {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
-            {
-                logoutPopup && <Popup
-                title={"정말 로그아웃 하시겠습니까?"}
-                desc={""}
-                event={logout}
-                close={() => setLogoutPopup(false)}
-            />
-            }
+            {logoutPopup && (
+                <Popup
+                    title={"정말 로그아웃 하시겠습니까?"}
+                    desc={""}
+                    event={logout}
+                    close={() => setLogoutPopup(false)}
+                />
+            )}
         </React.Fragment>
-);
+    );
 };
 
 export default Header;
@@ -166,28 +164,27 @@ const Point = styled.div`
     font-size: 15px;
     line-height: 18px;
     box-sizing: border-box;
-    color: #D2FFFD;
+    color: #d2fffd;
     display: flex;
     cursor: default;
-  span {
-      margin: 7px 0 11px;
+    span {
+        margin: 7px 0 11px;
     }
-     
+
     img {
-      margin: 7px 8px 0 11px;
-      width: 15px;
-      height: 15px;
+        margin: 7px 8px 0 11px;
+        width: 15px;
+        height: 15px;
     }
 `;
 const AlertIcon = styled.div`
     margin-right: 15px;
     cursor: pointer;
     line-height: 34px;
-  
-  img {
-    vertical-align:middle
-  }
-  
+
+    img {
+        vertical-align: middle;
+    }
 `;
 const LoginArea = styled.div`
     cursor: pointer;
@@ -195,7 +192,7 @@ const LoginArea = styled.div`
     margin-top: 9px;
     font-size: 16px;
     line-height: 19px;
-    color: #9AEBE7;
+    color: #9aebe7;
 `;
 
 const Logout = styled(LoginArea)`
