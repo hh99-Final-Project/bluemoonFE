@@ -112,8 +112,7 @@ function Notifications(props) {
                 <Content length={alertList.length}>
                     {alertList.length > 0 &&
                         alertList.map((alert) => {
-                            return <Notice key={alert.postId} alert={alert} />;
-                            // return <Notice key={alert.id} alert={alert} />;
+                            return <Notice key={alert.messageId} alert={alert} />;
                         })}
                 </Content>
             </Modal>

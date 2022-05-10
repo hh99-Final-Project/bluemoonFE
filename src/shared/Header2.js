@@ -44,11 +44,11 @@ const Header2 = () => {
     useEffect(() => {
         if (userInfo) {
             wsConnect();
-            return () => {
-                wsDisConnect();
-            };
+            // return () => {
+            //     wsDisConnect();
+            // };
         }
-    }, []);
+    }, [userInfo]);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
@@ -62,8 +62,8 @@ const Header2 = () => {
                     `/sub/chat/room/${userInfo.userId}`,
                     (response) => {
                         const newAlert = JSON.parse(response.body);
-                        console.log(response);
-                        console.log(newAlert);
+                        // console.log(response);
+                        // console.log(newAlert);
                         dispatch(getAlertList(newAlert));
                     },
                     // {},

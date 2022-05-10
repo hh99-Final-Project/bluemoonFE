@@ -17,10 +17,14 @@ function ChatList(props) {
     const ref = useRef();
     const { setCurrentHeader } = useStore();
 
+    // chatList 는 리덕스 툴킷으로 관리
+    // 소켓에서 받는 안 읽은 메시지 수를 chatList
     const [chatList, setChatList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+
+    console.log(chatList);
 
     const inicialRoom = {
         roomename: null,

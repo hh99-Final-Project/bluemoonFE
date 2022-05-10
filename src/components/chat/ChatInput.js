@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import { getCookie } from "../../utils/cookie";
 
 ChatInput.propTypes = {};
 
@@ -13,6 +14,7 @@ function ChatInput(props) {
     console.log(props);
 
     const [text, setText] = React.useState("");
+    const token = getCookie("authorization");
 
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
     let ws = Stomp.over(sock);
@@ -23,7 +25,7 @@ function ChatInput(props) {
             const message = {
                 roomId: roomId,
                 message: text,
-                userId: userInfo.userId, // 메시지 보내는 사람
+                otherUserId: userInfo.userId, // 메시지 받는 상대방
                 type: "TALK",
             };
 
@@ -32,8 +34,7 @@ function ChatInput(props) {
             }
             // 로딩 중
             waitForConnection(ws, function () {
-                ws.send("/pub/chat/message", {}, JSON.stringify(message));
-                // ws.send("/pub/chat/message", {});
+                ws.send("/pub/chat/message", { token: token }, JSON.stringify(message));
                 console.log(ws.ws.readyState);
                 // setText("");
             });
@@ -59,9 +60,15 @@ function ChatInput(props) {
         );
     }
 
+    const onKeyPressHandler = (e) => {
+        if (e.key === "Enter") {
+            onSend();
+        }
+    };
+
     return (
         <React.Fragment>
-            <Input type="text" onChange={(e) => setText(e.target.value)} />
+            <Input type="text" onChange={(e) => setText(e.target.value)} onKeyPress={onKeyPressHandler} />
             <SendButton onClick={onSend}></SendButton>
         </React.Fragment>
     );
