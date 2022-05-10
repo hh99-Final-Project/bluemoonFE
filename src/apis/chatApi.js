@@ -19,7 +19,7 @@ export const chatApi = {
 
     // 채팅방(chat) 이전 메시지 조회
     getChatMessage: async (roomId) => {
-        const data = await instance.get(`/api/roomsmessages/${roomId}`);
+        const data = await instance.get(`/api/rooms/${roomId}/messages`);
         return data;
     },
 
