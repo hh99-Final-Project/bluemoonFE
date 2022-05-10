@@ -6,7 +6,7 @@ import { diaryApi } from "../apis/diaryApi";
 import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
@@ -58,7 +58,7 @@ function DiaryList(props) {
 
     return (
         <DiaryListContainer>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <CardContainer>
                 <CardContainerBackGround>

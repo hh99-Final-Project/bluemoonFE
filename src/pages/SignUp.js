@@ -8,7 +8,7 @@ import { userApi } from "../apis/userApi";
 import Popup from "../shared/Popup";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 
 SignUp.propTypes = {};
 
@@ -76,7 +76,7 @@ function SignUp(props) {
     return (
         <React.Fragment>
             <Container>
-                <Header2 />
+                <Header />
                 <CategoryBar />
                 <SignUpBOx>
                     <SignUpBoxTitle>사용하실 닉네임을 입력해주세요</SignUpBoxTitle>

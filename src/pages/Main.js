@@ -9,7 +9,7 @@ import * as commonActions from "../redux/modules/commonSlice";
 import Login from "../components/user/Login";
 import { userApi } from "../apis/userApi";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const Main = () => {
 
     return (
         <Container>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <IntroContainer>
                 <ServiceStart>

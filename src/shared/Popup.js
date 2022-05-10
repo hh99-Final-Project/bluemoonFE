@@ -32,7 +32,8 @@ function Popup(props) {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: 'rgba(65, 65, 65, 0.5)'
+                        backgroundColor: 'rgba(65, 65, 65, 0.5)',
+                        zIndex: 30
                     },
                     content: {
                         position: 'absolute',
@@ -47,7 +48,8 @@ function Popup(props) {
                         background: '#ffffff',
                         borderRadius: '20px',
                         outline: 'none',
-                        padding: '20px'
+                        padding: '20px',
+                        zIndex: 30
                     }
                 }}>
                 <Title>{title}</Title>

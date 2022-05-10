@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import useRecordVoice from "../hooks/useRecordVoice";
 
 import Popup from "../shared/Popup";
@@ -74,7 +74,7 @@ function WriteDiary(props) {
   return (
     <WriteContainer>
       {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
-      <Header2/>
+      <Header/>
       <CategoryBar/>
       <PostAreaContainer>
         <PostHeader>

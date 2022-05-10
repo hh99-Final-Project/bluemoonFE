@@ -5,7 +5,7 @@ import ChatBox from "../components/chat/ChatBox";
 import styled from "styled-components";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import CategoryBar from "../shared/CategoryBar";
 import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
@@ -114,7 +114,7 @@ const ChatDetail = () => {
 
     return (
         <Container>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <ChatRoom>
                 <ChatRoomTitle>

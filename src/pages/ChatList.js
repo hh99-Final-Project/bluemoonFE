@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
-import Header2 from "../shared/Header2";
+import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import _ from "lodash";
 
@@ -99,7 +99,7 @@ function ChatList(props) {
 
     return (
         <Container>
-            <Header2 />
+            <Header />
             <CategoryBar />
             <ChatRoomListBox>
                 <ChatRoomListTitle>
