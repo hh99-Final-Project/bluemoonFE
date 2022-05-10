@@ -9,8 +9,9 @@ import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
 import Header2 from "../shared/Header2";
 import Loading from "../shared/Loading";
-// import InfinityScroll from "../shared/InfinityScroll";
+import useStore from "../zustand/store";
 import _ from "lodash";
+import { convertDate } from "../utils/convertDate";
 
 MyPage.propTypes = {};
 
@@ -21,6 +22,7 @@ function MyPage(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+    const { setCurrentHeader } = useStore();
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postUuid) => {
@@ -78,6 +80,8 @@ function MyPage(props) {
             setPage(page + 1);
             setIsLoading(false);
         });
+
+        setCurrentHeader("마이페이지");
     }, []);
 
     // 리랜더링이 되더라도 기능이 다른 아이들을 구분해서 useEffect 실행하는 게 낫다
@@ -86,37 +90,51 @@ function MyPage(props) {
         return <Loading />;
     }
 
+    if (myDiary === []) {
+        return <React.Fragment></React.Fragment>;
+    }
+
     return (
         <Container>
             <Header2 />
             <CategoryBar />
             {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
-            {/* onscroll 먹여서 */}
-            <MyPageBox ref={ref} onScroll={InfinityScroll}>
-                {myDiary.map((diary) => {
-                    return (
-                        <DiaryCard id="diary" onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
-                            <TiTleLine>
-                                <DiaryTitle>{diary.title}</DiaryTitle>
-                                <CreatedAt>{diary.createdAt}</CreatedAt>
-                            </TiTleLine>
-                            <ContentLine>
-                                <CommentCount>댓글 {diary.count}개</CommentCount>
-                                <DeleteButton
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        deleteDiary(diary.postUuid);
-                                    }}
+            {/* onscroll 적용 */}
+            <MyPageBox>
+                <MyPageTitle>
+                    <p>내가 쓴 글</p>
+                </MyPageTitle>
+                <DiaryWrapper ref={ref} onScroll={InfinityScroll}>
+                    {myDiary.length === 0 && <NoDiaryNotice>아직 작성한 글이 없습니다.</NoDiaryNotice>}
+                    {myDiary.length > 0 &&
+                        myDiary.map((diary) => {
+                            return (
+                                <DiaryCard
+                                    id="diary"
+                                    onClick={() => navigate(`/diary/${diary.postUuid}`)}
+                                    key={diary.postUuid}
                                 >
-                                    게시물 삭제
-                                </DeleteButton>
-                            </ContentLine>
-                        </DiaryCard>
-                    );
-                })}
+                                    <TiTleLine>
+                                        <DiaryTitle>{diary.title}</DiaryTitle>
+                                        <CreatedAt>{convertDate(diary.createdAt)}</CreatedAt>
+                                    </TiTleLine>
+                                    <ContentLine>
+                                        <CommentCount>댓글 {diary.count}개</CommentCount>
+                                        <DeleteButton
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                deleteDiary(diary.postUuid);
+                                            }}
+                                        >
+                                            게시물 삭제
+                                        </DeleteButton>
+                                    </ContentLine>
+                                </DiaryCard>
+                            );
+                        })}
+                </DiaryWrapper>
             </MyPageBox>
             {/* </InfinityScroll> */}
-            {/* <button onClick={MoreDiary}>더 보기</button> */}
         </Container>
     );
 }
@@ -132,23 +150,70 @@ const Container = styled.div`
 const MyPageBox = styled.div`
     width: 950px;
     height: 530px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 0 70px #465981;
-    box-sizing: border-box;
+
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
     border: 2px solid #ffffff4d;
+    box-shadow: 0 0 70px #465981;
+    backdrop-filter: blur(80px);
+
     border-radius: 25px;
+
+    position: relative;
+    margin: auto;
+`;
+
+const MyPageTitle = styled.div`
+    position: absolute;
+    width: 950px;
+    height: 50px;
+    top: 20px;
+
+    background: #2f3a5f;
+
+    display: flex;
+    align-items: center;
+
+    color: #ffffff;
+
+    & p {
+        margin-left: 20px;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+`;
+
+const NoDiaryNotice = styled.div`
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+
+    color: #d7d7d7;
+`;
+
+const DiaryWrapper = styled.div`
+    width: 950px;
+    height: 420px;
+    position: absolute;
+    top: 80px;
     overflow-y: auto;
 `;
 
 const DiaryCard = styled.div`
-    width: 880px;
-    height: 150px;
+    width: 881px;
+    // 작성시간 값 뷰 조정한 뒤, height 값 수정 필요
+    height: 100px;
     border-radius: 5px;
-
     display: flex;
     flex-direction: column;
     background-color: #959ebe;
@@ -156,6 +221,7 @@ const DiaryCard = styled.div`
     border-radius: 10px;
     margin: 10px auto;
     padding: 10px;
+    cursor: pointer;
 `;
 
 const TiTleLine = styled.div`

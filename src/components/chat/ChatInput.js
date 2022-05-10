@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Grid, Button, Input } from "../../elements/index";
 import { useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -10,23 +9,13 @@ import Stomp from "stompjs";
 ChatInput.propTypes = {};
 
 function ChatInput(props) {
-    const { roomId } = props;
+    const { roomId, userInfo } = props;
     console.log(props);
+
+    const [text, setText] = React.useState("");
 
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
     let ws = Stomp.over(sock);
-
-    // // 보낼 메세지
-    const [text, setText] = React.useState("");
-
-    // 보내는 사람
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
-    console.log(userInfo);
-
-    // const router = useRouter();
-    // console.log(router); // 라우터 객체를 출력합니다.
-    // const { roomId } = router.query;
-    // console.log({ roomId });
 
     const onSend = async () => {
         try {
@@ -46,7 +35,7 @@ function ChatInput(props) {
                 ws.send("/pub/chat/message", {}, JSON.stringify(message));
                 // ws.send("/pub/chat/message", {});
                 console.log(ws.ws.readyState);
-                setText("");
+                // setText("");
             });
         } catch (error) {
             console.log(error);
@@ -72,10 +61,26 @@ function ChatInput(props) {
 
     return (
         <React.Fragment>
-            <Input width="90%" type="text" _onChange={(e) => setText(e.target.value)} />
-            <Button width="7%" height="5%" padding="2%" _onClick={onSend}></Button>
+            <Input type="text" onChange={(e) => setText(e.target.value)} />
+            <SendButton onClick={onSend}></SendButton>
         </React.Fragment>
     );
 }
 
 export default ChatInput;
+
+const Input = styled.input`
+    // position: absolute;
+    width: 856px;
+    height: 43px;
+    background: #ffffff;
+`;
+
+const SendButton = styled.div`
+    // position: absolute;
+    width: 24px;
+    height: 24px;
+    // right: 35px;
+    // bottom: 35px;
+    background: #555;
+`;

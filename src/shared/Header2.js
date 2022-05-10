@@ -1,17 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { getUserInfo, isLogined } from "../redux/modules/userSlice";
-import { isModalOpen } from "../redux/modules/commonSlice";
+import { isModalOpen, getAlertList } from "../redux/modules/commonSlice";
 import Login from "../components/user/Login";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 const Header2 = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
+    console.log(userInfo);
     const modalOpen = useSelector((state) => state.commonSlice.modalIsOpen);
 
     const [isOpenNoti, setIsOpenNoti] = useState(false);
@@ -34,8 +37,51 @@ const Header2 = () => {
     };
 
     const closeNotiModal = () => {
-        console.log("close!")
+        console.log("close!");
         setIsOpenNoti(false);
+    };
+
+    useEffect(() => {
+        if (userInfo) {
+            wsConnect();
+            return () => {
+                wsDisConnect();
+            };
+        }
+    }, []);
+
+    // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
+    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    let ws = Stomp.over(sock);
+
+    // // 연결 및 구독. 파라메터로 토큰 넣어야 함
+    function wsConnect() {
+        try {
+            ws.connect({}, () => {
+                ws.subscribe(
+                    `/sub/chat/room/${userInfo.userId}`,
+                    (response) => {
+                        const newAlert = JSON.parse(response.body);
+                        console.log(response);
+                        console.log(newAlert);
+                        dispatch(getAlertList(newAlert));
+                    },
+                    // {},
+                );
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    function wsDisConnect() {
+        try {
+            ws.disconnect(() => {
+                ws.unsubscribe("sub-0");
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -43,14 +89,13 @@ const Header2 = () => {
             <Logo onClick={() => navigate("/")}>로고</Logo>
             <HeaderRightArea>
                 {/*{userInfo ? <NickName>{userInfo.nickname}님</NickName> : <div>로그아웃 되었습니다.</div>}*/}
-                <Point>
-                    100
-                </Point>
+                <Point>100</Point>
                 <AlertIcon
                     ref={AlertTabRef}
                     onClick={() => {
                         setIsOpenNoti(true);
-                    }}>
+                    }}
+                >
                     알림
                 </AlertIcon>
                 <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
@@ -94,7 +139,7 @@ const Point = styled.div`
     margin-right: 20px;
     width: 96px;
     height: 31px;
-    background-color: #DFDFDF;
+    background-color: #dfdfdf;
     border-radius: 23px;
     font-size: 15px;
     line-height: 18px;

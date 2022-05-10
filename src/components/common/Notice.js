@@ -1,33 +1,35 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import ChatOutModal from "./ChatOutModal"
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import ChatOutModal from "./ChatOutModal";
+import { Navigate } from "react-router-dom";
 
 Notice.propTypes = {
-    alert: PropTypes.object.isRequired
+    alert: PropTypes.object.isRequired,
 };
 
 function Notice(props) {
-
     const { alert } = props;
 
     const [modalOpen, setModalOpen] = useState(false);
 
     const closeModal = () => {
         setModalOpen(false);
-    }
-
+    };
 
     return (
         <React.Fragment>
-            <AlertSliceContainer>
+            <AlertSliceContainer
+                onClick={() => {
+                    setCurrentHeader("마이페이지");
+                    Navigate(`/diary/${alert.postUuid}`);
+                }}
+            >
                 <TitleArea>
-                    <CreatedAt>
-                        {alert.createdAt}
-                    </CreatedAt>
+                    <CreatedAt>{alert.createdAt}</CreatedAt>
                 </TitleArea>
                 <ContentArea>
-                    <Desc>{alert.desc}</Desc>
+                    <Desc>{alert.message}</Desc>
                 </ContentArea>
             </AlertSliceContainer>
         </React.Fragment>
@@ -36,12 +38,11 @@ function Notice(props) {
 
 export default Notice;
 
-
 const AlertSliceContainer = styled.div`
     //width: 213px;
     height: 59px;
     box-sizing: border-box;
-    background-color: #D0D5E3;
+    background-color: #d0d5e3;
     margin-bottom: 8px;
     border-radius: 5px;
     padding: 7px;
@@ -55,12 +56,10 @@ const TitleArea = styled.div`
     font-size: 10px;
     line-height: 12px;
 `;
-const Title = styled.div`
-
-`;
+const Title = styled.div``;
 const CreatedAt = styled.div`
-  font-size: 10px;
-  line-height: 12px;
+    font-size: 10px;
+    line-height: 12px;
 `;
 const ContentArea = styled.div`
     display: flex;
@@ -69,9 +68,8 @@ const ContentArea = styled.div`
 `;
 
 const Desc = styled.div`
-  font-size: 12px;
-  line-height: 15px;
+    font-size: 12px;
+    line-height: 15px;
 `;
 
 const MoreIcon = styled.div``;
-
