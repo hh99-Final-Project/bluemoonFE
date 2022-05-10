@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
 import { convertDate } from "../../utils/convertDate";
-import voiceButton from "../../static/images/voicePlayButton.svg";
 import chatIcon from "../../static/images/message.png";
 
 DiaryContent.propTypes = {
@@ -36,7 +35,7 @@ function DiaryContent(props) {
                 <ContentsContainer>
                     <Content>{diary.content}</Content>
                     <VoiceButton onClick={playAudio}>
-                        <img style={{ width: "40px", height: "40px" }} src={voiceButton} />
+                        {/*<img style={{ width: "40px", height: "40px" }} src={voiceButton} />*/}
                     </VoiceButton>
                 </ContentsContainer>
                 <IconArea>

@@ -9,7 +9,6 @@ import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
-import backIcon from "../static/images/backIcon.svg";
 import { convertDate } from "../utils/convertDate";
 
 DiaryDetail.propTypes = {};
@@ -52,7 +51,7 @@ function DiaryDetail(props) {
                 <TitleContainer>
                     <TitleLeft>
                         <BackButton onClick={() => navigate("/diarylist")}>
-                            <img src={backIcon} />
+                            {/*<img src={} />*/}
                         </BackButton>
                         <Title>고민 들어주기</Title>
                     </TitleLeft>
