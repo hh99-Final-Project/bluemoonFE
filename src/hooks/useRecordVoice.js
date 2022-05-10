@@ -8,6 +8,7 @@ export default function useRecordVoice() {
     const [onRec, setOnRec] = useState(true);
     const [finishRecord, setFinishRecord] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
     const [analyser, setAnalyser] = useState();
     const [audioUrl, setAudioUrl] = useState();
     const [audioCtx, setAudioCtx] = useState();
@@ -96,6 +97,7 @@ export default function useRecordVoice() {
     //일시 정지
     const pause = () => {
         media.pause();
+        setIsPaused(true);
     };
 
     const replay = () => {
@@ -105,6 +107,7 @@ export default function useRecordVoice() {
 
         if (media.state === "paused") {
             media.resume();
+            setIsPaused(false);
         }
     };
 
@@ -135,6 +138,7 @@ export default function useRecordVoice() {
         deleteVoice,
         onRec,
         finishRecord,
-        isPlaying
+        isPlaying,
+        isPaused
     }
 }

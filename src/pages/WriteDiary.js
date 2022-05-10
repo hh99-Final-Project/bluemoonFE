@@ -32,7 +32,8 @@ function WriteDiary(props) {
     deleteVoice,
     onRec,
     finishRecord,
-    isPlaying
+    isPlaying,
+    isPaused
   } = useRecordVoice();
 
   const [title, setTitle] = useState("");
@@ -143,10 +144,14 @@ function WriteDiary(props) {
                 closePopup={closeVoicePopup}
                 play={play}
                 recordVoice={recordVoice}
+                pause={pause}
                 stopRecord={stopRecord}
                 finishRecord={finishRecord}
                 isPlaying={isPlaying}
-                onRec={onRec}/>
+                onRec={onRec}
+                isPaused={isPaused}
+                replay={replay}
+            />
           }
         </WriteContainer>
       </Layout>
