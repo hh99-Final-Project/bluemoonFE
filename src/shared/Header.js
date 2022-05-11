@@ -48,9 +48,9 @@ const Header = () => {
     useEffect(() => {
         if (userInfo) {
             wsConnect();
-            // return () => {
-            //     wsDisConnect();
-            // };
+            return () => {
+                wsDisConnect();
+            };
         }
     }, []);
 
