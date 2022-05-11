@@ -21,8 +21,6 @@ function SignUp(props) {
     const { setCurrentHeader } = useStore();
     const [isLoading, setIsLoading] = useState(null);
 
-    console.log(isValidNickName);
-
     const onChange = (e) => {
         setNickName(e.target.value);
     };

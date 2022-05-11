@@ -9,6 +9,7 @@ import lockIcon from "../../static/images/lockIcon.svg";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useMutation, useQueryClient } from "react-query";
+import { getCookie } from "../../utils/cookie";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -17,6 +18,7 @@ CommentInput.propTypes = {
 function CommentInput(props) {
     const { diary, postId } = props;
     const [comment, setComment] = useState("");
+    const token = getCookie("authorization");
 
     const { recordVoice, stopRecord, pause, replay, play, audioUrl } = useRecordVoice();
 
@@ -50,18 +52,19 @@ function CommentInput(props) {
     };
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
+    // console.log(userInfo);
 
-    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    // let ws = Stomp.over(sock);
+    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    let ws = Stomp.over(sock);
 
     const onClick = async () => {
         // saveComment();
         // try {
-        //     // send할 데이터
+        //     // 보낼 메시지
         //     const message = {
         //         message: `[${diary.title}]에 댓글이 달렸어요!`,
         //         postUuid: postId,
-        //         userId: diary.userId, // 새 댓글 알람을 받을 사람 입력
+        //         otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
         //         type: "ENTER",
         //     };
         //
@@ -70,7 +73,7 @@ function CommentInput(props) {
         //     }
         //     // 로딩 중
         //     waitForConnection(ws, function () {
-        //         ws.send(`/pub/chat/message/${diary.userId}`, {}, JSON.stringify(message));
+        //         ws.send(`/pub/chat/alarm`, { token: token },
         //         console.log(ws.ws.readyState);
         //         // setText("");
         //     });
@@ -79,32 +82,6 @@ function CommentInput(props) {
         //     console.log(ws.ws.readyState);
         // }
     };
-
-    // const onSend = async () => {
-    //     try {
-    //         // send할 데이터
-    //         const message = {
-    //             roomId: roomId,
-    //             message: text,
-    //             userId: userInfo.userId, // 메시지 보내는 사람
-    //             type: "ENTER",
-    //         };
-
-    //         if (text === "") {
-    //             return;
-    //         }
-    //         // 로딩 중
-    //         waitForConnection(ws, function () {
-    //             ws.send("/pub/chat/message", {}, JSON.stringify(message));
-    //             // ws.send("/pub/chat/message", {});
-    //             console.log(ws.ws.readyState);
-    //             // setText("");
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         console.log(ws.ws.readyState);
-    //     }
-    // };
 
     // // 웹소켓이 연결될 때 까지 실행
     function waitForConnection(ws, callback) {

@@ -11,13 +11,18 @@ import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
 import { subMessage } from "../redux/modules/chatSlice";
 import { Layout } from "../components/common";
+import { getChatMessage, subMessage } from "../redux/modules/chatSlice";
+import { getCookie } from "../utils/cookie";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-    console.log(params);
+    // console.log(params);
     const roomId = params.id;
+
+    const token = getCookie("authorization");
+    console.log(token);
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
@@ -26,17 +31,14 @@ const ChatDetail = () => {
     const messages = useSelector((state) => state.chatSlice.messages);
     console.log(messages);
 
-    // 채팅방 이전 메시지 호출
-    // useEffect(() => {
-    //     chatApi.getChatMessage(roomId).then((res) => {
-    //         console.log(res);
-    //         setMessage(res);
-    //     });
-    // });
+    // 채팅방 이전 메시지 가져오기
+    useEffect(() => {
+        getChatMessage();
+    }, []);
 
+    // 소켓 연결
     useEffect(() => {
         wsConnect();
-
         return () => {
             wsDisConnect();
         };
@@ -49,8 +51,7 @@ const ChatDetail = () => {
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
     function wsConnect() {
         try {
-            ws.connect({}, () => {
-                // enterMessage();
+            ws.connect({ token: token, type: "CHAT" }, () => {
                 ws.subscribe(
                     `/sub/chat/room/${roomId}`,
                     (response) => {
@@ -109,9 +110,9 @@ const ChatDetail = () => {
     //     );
     // }
 
-    if (messages === null) {
-        return;
-    }
+    // if (messages === null) {
+    //     return;
+    // }
 
     return (
         <Layout>

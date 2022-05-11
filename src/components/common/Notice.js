@@ -20,10 +20,10 @@ function Notice(props) {
     return (
         <React.Fragment>
             <AlertSliceContainer
-                onClick={() => {
-                    setCurrentHeader("마이페이지");
-                    Navigate(`/diary/${alert.postUuid}`);
-                }}
+            // onClick={() => {
+            //     setCurrentHeader("마이페이지");
+            //     Navigate(`/diary/${alert.postUuid}`);
+            // }}
             >
                 <TitleArea>
                     <CreatedAt>{alert.createdAt}</CreatedAt>
