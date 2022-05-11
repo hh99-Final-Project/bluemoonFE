@@ -9,6 +9,7 @@ import useStore from "../zustand/store";
 import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import _ from "lodash";
+import { Layout } from "../components/common";
 
 ChatList.propTypes = {};
 
@@ -145,42 +146,44 @@ function ChatList(props) {
     }
 
     return (
-        <Container>
-            <Header />
-            <CategoryBar />
-            <ChatRoomListBox>
-                <ChatRoomListTitle>
-                    <p>채팅 리스트</p>
-                </ChatRoomListTitle>
-                <ChatRoomWrapper ref={ref} onScroll={InfinityScroll}>
-                    {chatList.map((chat, i) => {
-                        return (
-                            <ChatRoom
-                                roomName={chat.roomName}
-                                onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)}
-                                key={chat.chatRoomUuid}
-                            >
-                                <TiTleLine>
-                                    <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
-                                    <LastChatTime>{chat.dayBefore}</LastChatTime>
-                                </TiTleLine>
-                                <ContentLine>
-                                    <LastChat>{chat.lastMessage}</LastChat>
-                                    <ChatOutButton
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            deleteChat(chat.chatRoomUuid);
-                                        }}
-                                    >
-                                        채팅방 나가기
-                                    </ChatOutButton>
-                                </ContentLine>
-                            </ChatRoom>
-                        );
-                    })}
-                </ChatRoomWrapper>
-            </ChatRoomListBox>
-        </Container>
+        <Layout>
+            <Container>
+                <Header />
+                <CategoryBar />
+                <ChatRoomListBox>
+                    <ChatRoomListTitle>
+                        <p>채팅 리스트</p>
+                    </ChatRoomListTitle>
+                    <ChatRoomWrapper ref={ref} onScroll={InfinityScroll}>
+                        {chatList.map((chat, i) => {
+                            return (
+                                <ChatRoom
+                                    roomName={chat.roomName}
+                                    onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)}
+                                    key={chat.chatRoomUuid}
+                                >
+                                    <TiTleLine>
+                                        <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
+                                        <LastChatTime>{chat.createAt}</LastChatTime>
+                                    </TiTleLine>
+                                    <ContentLine>
+                                        <LastChat>{chat.lastMessage}</LastChat>
+                                        <ChatOutButton
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                deleteChat(chat.chatRoomUuid);
+                                            }}
+                                        >
+                                            채팅방 나가기
+                                        </ChatOutButton>
+                                    </ContentLine>
+                                </ChatRoom>
+                            );
+                        })}
+                    </ChatRoomWrapper>
+                </ChatRoomListBox>
+            </Container>
+        </Layout>
     );
 }
 
@@ -189,7 +192,6 @@ export default ChatList;
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #111b3f;
     overflow: hidden;
 `;
 

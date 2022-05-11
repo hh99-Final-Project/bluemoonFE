@@ -9,8 +9,10 @@ import playIcon from "../../static/images/diary/voicePlay.svg";
 
 const VoicePopup = (props) => {
 
-    const { closePopup, play, onRec, recordVoice, stopRecord, finishRecord, isPlaying } = props;
-    console.log(onRec,"onRec")
+    const { closePopup, play, onRec, recordVoice, stopRecord,
+        finishRecord, isPlaying, isPaused, replay, pause } = props;
+    console.log(isPaused,"isPaused")
+
 
     // 녹음이 시작되면 OnRec은 false
     // 시작 전 (onRec = true && finishRecord false)
@@ -20,7 +22,7 @@ const VoicePopup = (props) => {
 
     return (
         <VoiceContainer>
-            {/*<CloseButton src={closeBtn} onClick={closePopup}/>*/}
+            <CloseButton src={closeBtn} onClick={closePopup}/>
             <RecordStatus>
                 {
                     (!finishRecord && onRec) && <div>녹음하기</div>
@@ -43,6 +45,7 @@ const VoicePopup = (props) => {
             </RecordTime>
             <IconArea>
 
+                {/*처음 화면*/}
                 {
                     (!finishRecord && onRec) &&
                     <OnRecording onClick={recordVoice}>
@@ -50,17 +53,26 @@ const VoicePopup = (props) => {
                     </OnRecording>
                 }
 
+                {/*녹음중*/}
                 {
                     !onRec &&
                         <RecIcons>
-                            <PauseBtn>
-                                <img src={pauseIcon} alt={"pauseIcon"}/>
-                            </PauseBtn>
+                            { isPaused ?
+                                <OnRecording onClick={replay}>
+                                    <img src={onRecIcon} alt={"onRecIcon"}/>
+                                </OnRecording>
+                                :
+                                <PauseBtn onClick={pause}>
+                                    <img src={pauseIcon} alt={"pauseIcon"}/>
+                                </PauseBtn>
+                            }
                             <StopBtn onClick={stopRecord}>
                                 <img src={stopIcon} alt={"stopIcon"}/>
                             </StopBtn>
                         </RecIcons>
                 }
+
+                {/*녹음 완료*/}
                 {
                     (finishRecord && !isPlaying) &&
                         <FinishRecord>
@@ -74,14 +86,19 @@ const VoicePopup = (props) => {
                         </FinishRecord>
                 }
 
+                {/*재생중*/}
                 {
                     isPlaying &&
                         <RecIcons>
                             <StopBtn onClick={stopRecord}>
                                 <img src={stopIcon} alt={"stopIcon"}/>
                             </StopBtn>
-                            <div style={{marginRight:5}}>삭제</div>
-                            <div>업로드</div>
+                            <DeleteBtn>
+                                삭제
+                            </DeleteBtn>
+                            <UploadBtn>
+                                업로드
+                            </UploadBtn>
                         </RecIcons>
                 }
 
@@ -192,11 +209,26 @@ const RecIcons = styled.div`
   justify-content: center;
 `;
 
-const PlayingButton = styled.div``;
+const PlayingButton = styled.div`
+  cursor: pointer;
+`;
 
 const StartRecord = styled.div``;
 const PlaySound = styled.div``;
+
+const DeleteBtn = styled.div`
+  cursor: pointer;
+  margin: 0 10px;
+`;
+
+const UploadBtn = styled.div`
+  cursor: pointer;
+`;
+
 const PauseBtn = styled.div`
+  cursor: pointer;
   margin-right: 10px;
 `;
-const StopBtn = styled.div``;
+const StopBtn = styled.div`
+  cursor: pointer;
+`;

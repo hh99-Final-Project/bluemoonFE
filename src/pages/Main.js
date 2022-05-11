@@ -11,6 +11,8 @@ import { userApi } from "../apis/userApi";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
 import logo from "../static/images/common/logo.svg";
+import starBG from "../static/images/common/starBG.svg";
+import { Layout } from "../components/common";
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -36,66 +38,68 @@ const Main = () => {
     };
 
     return (
-        <Container>
-            <Header />
-            <CategoryBar />
-            <IntroContainer>
-                <ServiceStart>
-                    <Logo>
-                        <img src={logo}/>
-                    </Logo>
-                    <ServiceTitle>Blue Moon</ServiceTitle>
-                    <DiaryWriteButton>
-                        <div onClick={() => navigate("/write")}>고민 털어놓기</div>
-                    </DiaryWriteButton>
-                    <DiaryListButton onClick={() => navigate("/diarylist")}>고민 둘러보기</DiaryListButton>
-                </ServiceStart>
-                <ServiceIntro>
-                    <Slider2 {...settings}>
-                        <FirstSlide>
-                            <BorderCard>
-                                <Border/>
-                                <span>블루문 다이어리 주인께</span>
-                                <Border/>
-                            </BorderCard>
-                        </FirstSlide>
-                        <SecondSlide>
-                            <BorderCard2>
-                                <span>
-                                    달빛이 깃든 이 다이어리는 당신을 <br/>
-                                    주인으로 선택했습니다. 환영합니다.
-                                </span>
-                            </BorderCard2>
-                        </SecondSlide>
-                        <ThirdSlide>
-                            <BorderCard2>
-                                <span>
-                                    이 다이어리를 통해 또 다른 주인들과
-                                    서로 글을 공유하거나, 댓글로 소통할 수 있습니다.
-                                </span>
-                            </BorderCard2>
-                        </ThirdSlide>
-                        <FourthSlide>
-                            <BorderCard2>
-                                <span>
-                                    당신이 원한다면, 원하는 사람과 진중한 대화를 나눌 수 있습니다.
-                                </span>
-                            </BorderCard2>
-                        </FourthSlide>
-                        <FifthSlide>
-                            <BorderCard2>
-                                <span>
-                                    이 다이어리는 주인들과 소통하지 않으면, 빛을 잃게 됩니다.<br/>
-                                    꼭 명심하세요.
-                                </span>
-                            </BorderCard2>
-                        </FifthSlide>
+        <Layout>
+            <Container>
+                <Header />
+                <CategoryBar />
+                <IntroContainer>
+                    <ServiceStart>
+                        <Logo>
+                            <img src={logo}/>
+                        </Logo>
+                        <ServiceTitle>Blue Moon</ServiceTitle>
+                        <DiaryWriteButton>
+                            <div onClick={() => navigate("/write")}>고민 털어놓기</div>
+                        </DiaryWriteButton>
+                        <DiaryListButton onClick={() => navigate("/diarylist")}>고민 둘러보기</DiaryListButton>
+                    </ServiceStart>
+                    <ServiceIntro>
+                        <Slider2 {...settings}>
+                            <FirstSlide>
+                                <BorderCard>
+                                    <Border/>
+                                    <span>블루문 다이어리 주인께</span>
+                                    <Border/>
+                                </BorderCard>
+                            </FirstSlide>
+                            <SecondSlide>
+                                <BorderCard2>
+                                    <span>
+                                        달빛이 깃든 이 다이어리는 당신을 <br/>
+                                        주인으로 선택했습니다. 환영합니다.
+                                    </span>
+                                </BorderCard2>
+                            </SecondSlide>
+                            <ThirdSlide>
+                                <BorderCard2>
+                                    <span>
+                                        이 다이어리를 통해 또 다른 주인들과
+                                        서로 글을 공유하거나, 댓글로 소통할 수 있습니다.
+                                    </span>
+                                </BorderCard2>
+                            </ThirdSlide>
+                            <FourthSlide>
+                                <BorderCard2>
+                                    <span>
+                                        당신이 원한다면, 원하는 사람과 진중한 대화를 나눌 수 있습니다.
+                                    </span>
+                                </BorderCard2>
+                            </FourthSlide>
+                            <FifthSlide>
+                                <BorderCard2>
+                                    <span>
+                                        이 다이어리는 주인들과 소통하지 않으면, 빛을 잃게 됩니다.<br/>
+                                        꼭 명심하세요.
+                                    </span>
+                                </BorderCard2>
+                            </FifthSlide>
 
-                    </Slider2>
+                        </Slider2>
 
-                </ServiceIntro>
-            </IntroContainer>
-        </Container>
+                    </ServiceIntro>
+                </IntroContainer>
+            </Container>
+        </Layout>
     );
 };
 
@@ -104,7 +108,6 @@ export default Main;
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #111b3f;
     overflow: hidden;
 `;
 

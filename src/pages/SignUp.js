@@ -9,6 +9,7 @@ import Popup from "../shared/Popup";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header from "../shared/Header";
+import { Layout } from "../components/common";
 
 SignUp.propTypes = {};
 
@@ -72,7 +73,7 @@ function SignUp(props) {
     }, [nickName]);
 
     return (
-        <React.Fragment>
+        <Layout>
             <Container>
                 <Header />
                 <CategoryBar />
@@ -111,7 +112,7 @@ function SignUp(props) {
                     />
                 )}
             </Container>
-        </React.Fragment>
+        </Layout>
     );
 }
 
@@ -120,7 +121,6 @@ export default SignUp;
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #111b3f;
     overflow: hidden;
 `;
 

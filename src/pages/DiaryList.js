@@ -7,6 +7,7 @@ import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
+import { Layout } from "../components/common";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
@@ -14,6 +15,8 @@ import commentIcon from "../static/images/comment.png";
 import chatIcon from "../static/images/message.png";
 import prevButton from "../static/images/prevDiary.svg";
 import nextButton from "../static/images/nextDiary.svg";
+
+
 
 DiaryList.propTypes = {};
 
@@ -56,53 +59,55 @@ function DiaryList(props) {
     }
 
     return (
-        <DiaryListContainer>
-            <Header />
-            <CategoryBar />
-            <CardContainer>
-                <CardContainerBackGround>
-                    <PrevButton src={prevButton}/>
-                    <NextButton src={nextButton}/>
-                    {diaryList.map((diary) => {
-                        return (
-                            <DiaryCard
-                                onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
-                                <CardLeftPage>
-                                    <CardBackground>
-                                        <CardBorder>
-                                            <DiaryTitle>{diary.title}</DiaryTitle>
-                                            <CommentIcon
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    navigate(`/diary/${diary.postUuid}`);
-                                                }}>
-                                                <img src={commentIcon} alt={"comment"}/>
-                                            </CommentIcon>
-                                        </CardBorder>
-                                    </CardBackground>
-                                </CardLeftPage>
+        <Layout>
+            <DiaryListContainer>
+                <Header />
+                <CategoryBar />
+                <CardContainer>
+                    <CardContainerBackGround>
+                        <PrevButton src={prevButton}/>
+                        <NextButton src={nextButton}/>
+                        {diaryList.map((diary) => {
+                            return (
+                                <DiaryCard
+                                    onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
+                                    <CardLeftPage>
+                                        <CardBackground>
+                                            <CardBorder>
+                                                <DiaryTitle>{diary.title}</DiaryTitle>
+                                                <CommentIcon
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        navigate(`/diary/${diary.postUuid}`);
+                                                    }}>
+                                                    <img src={commentIcon} alt={"comment"}/>
+                                                </CommentIcon>
+                                            </CardBorder>
+                                        </CardBackground>
+                                    </CardLeftPage>
 
-                                <CardRightPage>
-                                    <CardBackground>
-                                        <CardBorderRight>
-                                            <ContentBox>
-                                                {/*<img src={voiceButton} alt={"voice-play"}/>*/}
-                                                <DiaryDesc>{diary.content}</DiaryDesc>
-                                            </ContentBox>
-                                            <ChattingIcon>
-                                                <img src={chatIcon} alt={"chatIcon"}/>
-                                            </ChattingIcon>
-                                        </CardBorderRight>
-                                    </CardBackground>
-                                </CardRightPage>
+                                    <CardRightPage>
+                                        <CardBackground>
+                                            <CardBorderRight>
+                                                <ContentBox>
+                                                    {/*<img src={voiceButton} alt={"voice-play"}/>*/}
+                                                    <DiaryDesc>{diary.content}</DiaryDesc>
+                                                </ContentBox>
+                                                <ChattingIcon>
+                                                    <img src={chatIcon} alt={"chatIcon"}/>
+                                                </ChattingIcon>
+                                            </CardBorderRight>
+                                        </CardBackground>
+                                    </CardRightPage>
 
-                            </DiaryCard>
-                        );
-                    })}
-                    <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
-                </CardContainerBackGround>
-            </CardContainer>
-        </DiaryListContainer>
+                                </DiaryCard>
+                            );
+                        })}
+                        <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
+                    </CardContainerBackGround>
+                </CardContainer>
+            </DiaryListContainer>
+        </Layout>
     );
 }
 
@@ -111,7 +116,6 @@ export default DiaryList;
 const DiaryListContainer = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #081134;
   position: relative;
 `;
 

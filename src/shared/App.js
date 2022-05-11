@@ -5,7 +5,6 @@ import Main from "../pages/Main";
 import SignUp from "../pages/SignUp";
 import WriteDiary from "../pages/WriteDiary";
 import DiaryList from "../pages/DiaryList";
-import SelectMode from "../pages/SelectMode";
 import DiaryDetail from "../pages/DiaryDetail";
 import ChatDetail from "../pages/ChatDetail";
 import ChatList from "../pages/ChatList";
@@ -13,7 +12,7 @@ import MyPage from "../pages/MyPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
-import TestScroll from "../pages/TestScroll";
+import Intro from "../pages/Intro";
 import { getCookie } from "../utils/cookie";
 import { useDispatch } from "react-redux";
 import {loginCheck} from "../redux/modules/userSlice";
@@ -36,7 +35,6 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/write" element={<WriteDiary />} />
                 <Route path="/diarylist" element={<DiaryList />} />
-                <Route path="/select" element={<SelectMode />} />
                 <Route path="/diary/:id" element={<DiaryDetail />} />
                 <Route path="/chat/:id" element={<ChatDetail />} />
                 <Route path="/chatlist" element={<ChatList />} />
@@ -44,7 +42,7 @@ function App() {
                 <Route path="/alert" element={<Notifications />} />
                 <Route path="/lottery" element={<Lottery />} />
                 <Route path={"*"} element={<NotFound />} />
-                <Route path="/scroll" element={<TestScroll />} />
+                <Route path="/intro" element={<Intro/>}/>
             </Routes>
         </QueryClientProvider>
     );
