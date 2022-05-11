@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 // import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
@@ -10,6 +11,7 @@ import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import _ from "lodash";
 import { Layout } from "../components/common";
+import chatOutIcon from "../static/images/chat/more-hor.svg";
 
 ChatList.propTypes = {};
 
@@ -23,6 +25,7 @@ function ChatList(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     console.log(chatList);
 
@@ -151,6 +154,9 @@ function ChatList(props) {
                 <Header />
                 <CategoryBar />
                 <ChatRoomListBox>
+                    <DiaryName>
+                        {userInfo?.nickname} <span>님 다이어리</span>
+                    </DiaryName>
                     <ChatRoomListTitle>
                         <p>채팅 리스트</p>
                     </ChatRoomListTitle>
@@ -168,14 +174,23 @@ function ChatList(props) {
                                     </TiTleLine>
                                     <ContentLine>
                                         <LastChat>{chat.lastMessage}</LastChat>
-                                        <ChatOutButton
+                                        <img
+                                            src={chatOutIcon}
+                                            alt={"채팅방 나가기"}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                deleteChat(chat.chatRoomUuid);
+                                            }}
+                                        />
+
+                                        {/* <ChatOutButton
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 deleteChat(chat.chatRoomUuid);
                                             }}
                                         >
                                             채팅방 나가기
-                                        </ChatOutButton>
+                                        </ChatOutButton> */}
                                     </ContentLine>
                                 </ChatRoom>
                             );
@@ -209,6 +224,19 @@ const ChatRoomListBox = styled.div`
 
     position: relative;
     margin: auto;
+`;
+
+const DiaryName = styled.div`
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    line-height: 19px;
+
+    span {
+        color: #9aebe7;
+    }
 `;
 
 const ChatRoomListTitle = styled.div`
@@ -246,8 +274,7 @@ const ChatRoomWrapper = styled.div`
 
 const ChatRoom = styled.div`
     width: 881px;
-    // 마지막 채팅 온 시간 값 뷰 조정한 뒤, height 값 수정 필요
-    height: 130px;
+    height: 65px;
     border-radius: 5px;
 
     display: flex;
@@ -264,21 +291,21 @@ const TiTleLine = styled.div`
     width: 860px;
     display: flex;
     justify-content: space-between;
-    margin: 10px auto;
+    margin: 5px auto;
 `;
 
 const CharRoomTitle = styled.div`
-    font-family: Inter;
-    font-size: 22px;
+    font-family: "Inter";
+    font-style: normal;
     font-weight: 700;
+    font-size: 16px;
     line-height: 19px;
-    letter-spacing: 0em;
-    text-align: left;
+
     color: #373857;
 `;
 
 const LastChatTime = styled.div`
-    width: 80px;
+    // width: 80px;
     overflow: hidden;
 `;
 
@@ -289,7 +316,13 @@ const ContentLine = styled.div`
     margin: 10px auto;
 `;
 
-const LastChat = styled.div``;
+const LastChat = styled.div`
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+`;
 
 const ChatOutButton = styled.button`
     width: 100px;
