@@ -62,7 +62,7 @@ function Comment(props) {
             </TitleArea>
             <PostContent>
                 {
-                    comment.show ? comment.content : "비밀 댓글 입니다"
+                    comment.lock ? "비밀 댓글 입니다" : comment.content
                 }
                 {/*<img src={playVoice} alt={"playVoice"}/>*/}
             </PostContent>
