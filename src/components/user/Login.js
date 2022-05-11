@@ -89,7 +89,7 @@ function Login(props) {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "rgba(65, 65, 65, 0.5)",
+                        backgroundColor: "rgba(35, 35, 35, 0.46)",
                         zIndex: 20
                     },
                     content: {
@@ -99,19 +99,23 @@ function Login(props) {
                         right: "auto",
                         bottom: "auto",
                         transform: "translate(-50%, -50%)",
-                        width: "595px",
-                        height: "548px",
+                        width: "365px",
+                        height: "264px",
                         border: "none",
-                        background: "#ffffff",
+                        background: "rgba(230, 236, 241, 0.75)",
                         borderRadius: "20px",
                         outline: "none",
-                        padding: "20px",
-                        zIndex: 20
+                        overflow: "hidden",
+                        // padding: "20px",
+                        zIndex: 20,
+                        boxSizing: 'border-box'
                     },
                 }}
             >
-                <CloseButton onClick={closeModal}>X</CloseButton>
-                <LoginText>로그인</LoginText>
+                <LoginText>
+                    다이어리를 가진 사람만<br/>
+                    사용할 수 있어요!
+                </LoginText>
                 <LoginButtons>
                     <KakaoLogin
                         token={String(process.env.REACT_APP_KAKAO_APPKEY)}
@@ -153,38 +157,43 @@ function Login(props) {
 
 export default Login;
 
-const CloseButton = styled.div`
-    text-align: right;
-    font-size: 40px;
-    cursor: pointer;
-`;
 
 const LoginText = styled.div`
-    margin: 80px auto 180px;
-    font-size: 45px;
-    font-weight: bold;
+    font-size: 18px;
+    line-height: 23px;
     text-align: center;
+    margin-top: 38px;
 `;
 
 const LoginButtons = styled.div`
-    margin: auto;
-    width: 400px;
+    margin: 24px auto 0;
+    width: 244px;
 `;
 
 const KaKaoLoginText = styled.div`
-    background-color: #ffd464;
-    height: 60px;
-    font-size: 22px;
-    line-height: 39px;
-    color: #000000;
+    
+    width: 100%;  
+    height: 35px;
+    background-color: #FAE301;
+    border: 1px solid #BBB0B0;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+
+    color: #673904;
+    font-size: 13px;
+    line-height: 16px;
+
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    width: 100%;
+    
 `;
 
 const GoogleLoginText = styled(KaKaoLoginText)`
-    background-color: #176bef;
-    margin-top: 25px;
+      background: #FFFFFF;
+      border: 1px solid #DEDEDE;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+      margin-top: 14px;
+      color: #2D53A9;
 `;
