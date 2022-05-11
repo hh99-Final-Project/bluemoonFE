@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
@@ -24,6 +25,8 @@ function MyPage(props) {
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
     const { setCurrentHeader } = useStore();
+
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postUuid) => {
@@ -103,6 +106,9 @@ function MyPage(props) {
                 {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
                 {/* onscroll 적용 */}
                 <MyPageBox>
+                    <DiaryName>
+                        {userInfo?.nickname} <span>님 다이어리</span>
+                    </DiaryName>
                     <MyPageTitle>
                         <p>내가 쓴 글</p>
                     </MyPageTitle>
@@ -162,6 +168,19 @@ const MyPageBox = styled.div`
 
     position: relative;
     margin: auto;
+`;
+
+const DiaryName = styled.div`
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    line-height: 19px;
+
+    span {
+        color: #9aebe7;
+    }
 `;
 
 const MyPageTitle = styled.div`

@@ -7,9 +7,11 @@ import loterryMoon from "../static/images/Lottery/lotteryMoon.png";
 import lotteryResult from "../static/images/Lottery/lotteryResult.png";
 import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
 import { Layout } from "../components/common";
+import { useSelector } from "react-redux";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     useEffect(() => {
         setCurrentHeader("추첨");
@@ -21,6 +23,9 @@ const Lottery = () => {
                 <Header />
                 <CategoryBar />
                 <ContentBox>
+                    <DiaryName>
+                        {userInfo?.nickname} <span>님 다이어리</span>
+                    </DiaryName>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
                         추첨을 통해 바나나 우유 기프티콘을 드립니다. <br />
@@ -65,6 +70,19 @@ const ContentBox = styled.div`
 
     position: relative;
     margin: auto;
+`;
+
+const DiaryName = styled.div`
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    line-height: 19px;
+
+    span {
+        color: #9aebe7;
+    }
 `;
 
 const Title = styled.div`
