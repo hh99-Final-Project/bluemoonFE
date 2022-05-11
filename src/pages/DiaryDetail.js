@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
+import {useQuery, useQueryClient} from "react-query";
 
 
 DiaryDetail.propTypes = {};
@@ -20,26 +21,27 @@ function DiaryDetail(props) {
     const params = useParams();
     const postId = params.id;
 
-    const [diary, setDiary] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
-
     const isLogin = useSelector((state) => state.userSlice.isLogin);
+    const { isLoading, data } = useQuery('diaryDetail', () => diaryApi.getOneDiary(postId), {
+        refetchOnWindowFocus: false }
+    );
+    console.log(data,"data")
 
-    useEffect(() => {
-        if (isLogin) {
-            diaryApi.getOneDiary(postId).then((response) => {
-                console.log(response);
-                setDiary(response);
-                setIsLoading(false);
-            });
-        } else {
-            diaryApi.getNotLoginUserDetail(postId).then((response) => {
-                console.log(response);
-                setDiary(response.data);
-                setIsLoading(false);
-            });
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (isLogin) {
+    //         diaryApi.getOneDiary(postId).then((response) => {
+    //             console.log(response);
+    //             setDiary(response);
+    //             setIsLoading(false);
+    //         });
+    //     } else {
+    //         diaryApi.getNotLoginUserDetail(postId).then((response) => {
+    //             console.log(response);
+    //             setDiary(response.data);
+    //             setIsLoading(false);
+    //         });
+    //     }
+    // }, []);
 
     if (isLoading) {
         return <Loading />;
@@ -58,12 +60,12 @@ function DiaryDetail(props) {
                             </BackButton>
                             <Title>고민 들어주기</Title>
                         </TitleLeft>
-                        <Time>{convertDate(diary.createdAt)}</Time>
+                        <Time>{convertDate(data.createdAt)}</Time>
                     </TitleContainer>
                     <ContentContainer>
-                        <DiaryContent diary={diary} />
-                        <CommentInput diary={diary} postId={postId} />
-                        <CommentList comments={diary.comments} postId={diary.postId} />
+                        <DiaryContent diary={data} />
+                        <CommentInput diary={data} postId={postId} />
+                        <CommentList comments={data.comments} postId={data.postId} />
                     </ContentContainer>
                 </DetailContent>
             </DetailContainer>

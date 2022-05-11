@@ -11,7 +11,6 @@ DiaryContent.propTypes = {
 
 function DiaryContent(props) {
     const { diary } = props;
-    console.log(diary);
 
     const createChat = (roomname, userId) => {
         chatApi.createChat(roomname, userId).then((response) => {

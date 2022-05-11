@@ -12,13 +12,14 @@ CommentList.propTypes = {
 function CommentList(props) {
 
     const { comments } = props;
+    const reversedComments = comments.reverse();
 
 
     return (
         <React.Fragment>
             <CommentsContainer>
                 {
-                    comments.map((comment) => {
+                    reversedComments.map((comment) => {
                         return <Comment key={comment.commentUuid} comment={comment}/>
                     })
                 }

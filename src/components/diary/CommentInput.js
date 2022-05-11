@@ -8,6 +8,7 @@ import useRecordVoice from "../../hooks/useRecordVoice";
 import lockIcon from "../../static/images/lockIcon.svg";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import { useMutation, useQueryClient } from "react-query";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -19,6 +20,23 @@ function CommentInput(props) {
 
     const { recordVoice, stopRecord, pause, replay, play, audioUrl } = useRecordVoice();
 
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl), {
+        onSuccess: () => {
+            queryClient.invalidateQueries('diaryDetail');
+            setComment("");
+        },
+    });
+
+
+    // if(mutation.isSuccess){
+    //     setComment("");
+    //     window.alert("댓글 저장 성공!");
+    // } else if (mutation.isError) {
+    //     window.alert('오류가 발생했어요! 다시 시도해주세요 😂');
+    // }
+
     const onChangeHandler = (e) => {
         if (e.target.value.length > 150) {
             return;
@@ -28,43 +46,38 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-        diaryApi.createComment(postId, comment, audioUrl).then((response) => {
-            if (response.status === 200) {
-                setComment("");
-            }
-        });
+        mutation.mutate(postId, comment, audioUrl);
     };
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    console.log(userInfo);
 
-    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    let ws = Stomp.over(sock);
+    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    // let ws = Stomp.over(sock);
 
     const onClick = async () => {
-        saveComment();
-        try {
-            // send할 데이터
-            const message = {
-                message: `[${diary.title}]에 댓글이 달렸어요!`,
-                postUuid: postId,
-                userId: diary.userId, // 새 댓글 알람을 받을 사람 입력
-                type: "ENTER",
-            };
-
-            if (comment === "") {
-                return;
-            }
-            // 로딩 중
-            waitForConnection(ws, function () {
-                ws.send(`/pub/chat/message/${diary.userId}`, {}, JSON.stringify(message));
-                console.log(ws.ws.readyState);
-                // setText("");
-            });
-        } catch (error) {
-            console.log(error);
-            console.log(ws.ws.readyState);
-        }
+        // saveComment();
+        // try {
+        //     // send할 데이터
+        //     const message = {
+        //         message: `[${diary.title}]에 댓글이 달렸어요!`,
+        //         postUuid: postId,
+        //         userId: diary.userId, // 새 댓글 알람을 받을 사람 입력
+        //         type: "ENTER",
+        //     };
+        //
+        //     if (comment === "") {
+        //         return;
+        //     }
+        //     // 로딩 중
+        //     waitForConnection(ws, function () {
+        //         ws.send(`/pub/chat/message/${diary.userId}`, {}, JSON.stringify(message));
+        //         console.log(ws.ws.readyState);
+        //         // setText("");
+        //     });
+        // } catch (error) {
+        //     console.log(error);
+        //     console.log(ws.ws.readyState);
+        // }
     };
 
     // const onSend = async () => {
@@ -111,8 +124,8 @@ function CommentInput(props) {
 
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {
-            // saveComment();
-            onClick();
+            saveComment();
+            // onClick();
         }
     };
 

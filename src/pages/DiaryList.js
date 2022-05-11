@@ -10,7 +10,7 @@ import Header from "../shared/Header";
 import { Layout } from "../components/common";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
-import { useQuery } from "react-query";
+import { useQuery, QueryClient } from "react-query";
 import commentIcon from "../static/images/comment.png";
 import chatIcon from "../static/images/message.png";
 import prevButton from "../static/images/prevDiary.svg";
@@ -22,37 +22,69 @@ DiaryList.propTypes = {};
 
 function DiaryList(props) {
     const navigate = useNavigate();
-    const [diaryList, setDiaryList] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
-
-
+    const [count, setCount] = useState(1);
+    const [page, setPage] = useState(1);
     const { currentHeader, setCurrentHeader } = useStore();
-    const getDiaryListAPI = () => {
-        const data = diaryApi.getDiaryList(1);
-        return data.data;
+
+
+    const getPrevDiary = () => {
+        if(count !== 1) {
+            setCount(count => count - 1);
+        } else {
+            //count가 1이면 서버 요청
+            if(page === 1) {
+                window.alert("제일 첫번째 다이어리에요!");
+            } else {
+                if(!isPreviousData){
+                    setPage(prev => prev - 1);
+                    setCount(5);
+                }
+            }
+        }
     };
 
-    //쿼리 테스트는 서버가 올라가 있을때 재개...
-    // const { isLoading, data } = useQuery('diaryList', () => getDiaryListAPI());
-    // console.log(data,"data")
+    const getNextDiary = () => {
 
-    useEffect(() => {
-        if (isLogin) {
-            diaryApi.getDiaryList(1).then((response) => {
-                console.log(response.data);
-                setDiaryList(response.data);
-                setIsLoading(false);
-            });
-        } else {
-            diaryApi.getNotLoginUserDiary().then((response) => {
-                setDiaryList([response.data]);
-                setIsLoading(false);
-            });
+        if(data.data.length === 0) {
+            window.alert("더이상 다이어리가 없어요😂😂")
+            return;
         }
+        if( count !== 5 ) {
+            setCount(count => count + 1);
+        } else {
+            //count가 5면 다음꺼 api 요청
+            if (!isPreviousData) {
+                setPage(prev => prev + 1);
+                setCount(1);
+            }
 
-        setCurrentHeader("고민상담");
-    }, [isLogin]);
+
+
+        }
+    };
+
+    const { isLoading, data, isPreviousData } = useQuery(['diary', page], () => diaryApi.getDiaryList(page),
+        { keepPreviousData : true }
+    );
+
+
+    // useEffect(() => {
+    //     if (isLogin) {
+    //         diaryApi.getDiaryList(1).then((response) => {
+    //             console.log(response.data);
+    //             setDiaryList(response.data);
+    //             setIsLoading(false);
+    //         });
+    //     } else {
+    //         diaryApi.getNotLoginUserDiary().then((response) => {
+    //             setDiaryList([response.data]);
+    //             setIsLoading(false);
+    //         });
+    //     }
+    //
+    //     setCurrentHeader("고민상담");
+    // }, [isLogin]);
 
     if (isLoading) {
         return <Loading />;
@@ -65,44 +97,41 @@ function DiaryList(props) {
                 <CategoryBar />
                 <CardContainer>
                     <CardContainerBackGround>
-                        <PrevButton src={prevButton}/>
-                        <NextButton src={nextButton}/>
-                        {diaryList.map((diary) => {
-                            return (
-                                <DiaryCard
-                                    onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
-                                    <CardLeftPage>
-                                        <CardBackground>
-                                            <CardBorder>
-                                                <DiaryTitle>{diary.title}</DiaryTitle>
-                                                <CommentIcon
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        navigate(`/diary/${diary.postUuid}`);
-                                                    }}>
-                                                    <img src={commentIcon} alt={"comment"}/>
-                                                </CommentIcon>
-                                            </CardBorder>
-                                        </CardBackground>
-                                    </CardLeftPage>
+                        <PrevButton onClick={getPrevDiary} src={prevButton}/>
+                        <NextButton onClick={getNextDiary} src={nextButton}/>
+                            {/*다이어리 영역                    */}
+                            <DiaryCard
+                                onClick={() => navigate(`/diary/${data.data[count].postUuid}`)} key={data.data[count]?.postUuid}>
+                                <CardLeftPage>
+                                    <CardBackground>
+                                        <CardBorder>
+                                            <DiaryTitle>{data.data[count]?.title}</DiaryTitle>
+                                            <CommentIcon
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    navigate(`/diary/${data.data[count].postUuid}`);
+                                                }}>
+                                                <img src={commentIcon} alt={"comment"}/>
+                                            </CommentIcon>
+                                        </CardBorder>
+                                    </CardBackground>
+                                </CardLeftPage>
 
-                                    <CardRightPage>
-                                        <CardBackground>
-                                            <CardBorderRight>
-                                                <ContentBox>
-                                                    {/*<img src={voiceButton} alt={"voice-play"}/>*/}
-                                                    <DiaryDesc>{diary.content}</DiaryDesc>
-                                                </ContentBox>
-                                                <ChattingIcon>
-                                                    <img src={chatIcon} alt={"chatIcon"}/>
-                                                </ChattingIcon>
-                                            </CardBorderRight>
-                                        </CardBackground>
-                                    </CardRightPage>
+                                <CardRightPage>
+                                    <CardBackground>
+                                        <CardBorderRight>
+                                            <ContentBox>
+                                                {/*<img src={voiceButton} alt={"voice-play"}/>*/}
+                                                <DiaryDesc>{data.data[count]?.content}</DiaryDesc>
+                                            </ContentBox>
+                                            <ChattingIcon>
+                                                <img src={chatIcon} alt={"chatIcon"}/>
+                                            </ChattingIcon>
+                                        </CardBorderRight>
+                                    </CardBackground>
+                                </CardRightPage>
+                            </DiaryCard>
 
-                                </DiaryCard>
-                            );
-                        })}
                         <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
                     </CardContainerBackGround>
                 </CardContainer>
