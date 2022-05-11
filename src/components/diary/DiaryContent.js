@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
 import { convertDate } from "../../utils/convertDate";
 import chatIcon from "../../static/images/message.png";
+import { useNavigate } from "react-router-dom";
 
 DiaryContent.propTypes = {
     diary: PropTypes.object,
@@ -11,11 +12,19 @@ DiaryContent.propTypes = {
 
 function DiaryContent(props) {
     const { diary } = props;
+    console.log(diary);
+    const navigate = useNavigate();
 
     const createChat = (roomname, userId) => {
-        chatApi.createChat(roomname, userId).then((response) => {
-            console.log(response);
-        });
+        chatApi
+            .createChat(roomname, userId)
+            .then((response) => {
+                console.log(response);
+                navigate(`/chat/${response.data}`);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const playAudio = () => {
