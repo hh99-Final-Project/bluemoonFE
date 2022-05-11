@@ -18,8 +18,7 @@ function ChatList(props) {
     const ref = useRef();
     const { setCurrentHeader } = useStore();
 
-    // chatList 는 리덕스 툴킷으로 관리
-    // 소켓에서 받는 안 읽은 메시지 수를 chatList
+    // chatList 에 소켓에서 받는 안 읽은 메시지 수를 count 라는 속성에 넣어줘보자.
     const [chatList, setChatList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -33,6 +32,50 @@ function ChatList(props) {
         lastMessage: null,
         lastTime: null,
     };
+
+    // 소켓 연결
+    useEffect(() => {
+        wsConnect();
+
+        return () => {
+            wsDisConnect();
+        };
+    }, []);
+
+    // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
+    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    let ws = Stomp.over(sock);
+
+    // 연결 및 구독. 파라메터로 토큰 넣어야 함
+    // function wsConnect() {
+    //     try {
+    //         ws.connect({ token: token }, () => {
+    //             ws.subscribe(
+    // 구독할 주소 서버분들과 확인 필요!
+    //                 `/sub/chat/room/${roomId}`,
+    //                 (response) => {
+    //                     const newMessage = JSON.parse(response.body);
+    //                     console.log(response);
+    //                     console.log(newMessage);
+    //                     dispatch(subMessage(newMessage));
+    //                 },
+    //                 // {},
+    //             );
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    // function wsDisConnect() {
+    //     try {
+    //         ws.disconnect(() => {
+    //             ws.unsubscribe("sub-0");
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
     // const openModal = () => {
@@ -121,7 +164,7 @@ function ChatList(props) {
                                 >
                                     <TiTleLine>
                                         <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
-                                        <LastChatTime>{chat.createAt}</LastChatTime>
+                                        <LastChatTime>{chat.dayBefore}</LastChatTime>
                                     </TiTleLine>
                                     <ContentLine>
                                         <LastChat>{chat.lastMessage}</LastChat>

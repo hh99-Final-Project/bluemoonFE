@@ -52,7 +52,7 @@ const Header = () => {
             //     wsDisConnect();
             // };
         }
-    }, [userInfo]);
+    }, []);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
@@ -167,28 +167,27 @@ const Point = styled.div`
     font-size: 15px;
     line-height: 18px;
     box-sizing: border-box;
-    color: #D2FFFD;
+    color: #d2fffd;
     display: flex;
     cursor: default;
   span {
       margin: 5px 0 13px;
     }
-     
+
     img {
-      margin: 7px 8px 0 11px;
-      width: 15px;
-      height: 15px;
+        margin: 7px 8px 0 11px;
+        width: 15px;
+        height: 15px;
     }
 `;
 const AlertIcon = styled.div`
     margin-right: 15px;
     cursor: pointer;
     line-height: 34px;
-  
-  img {
-    vertical-align:middle
-  }
-  
+
+    img {
+        vertical-align: middle;
+    }
 `;
 const LoginArea = styled.div`
     cursor: pointer;
@@ -196,7 +195,7 @@ const LoginArea = styled.div`
     margin-top: 9px;
     font-size: 16px;
     line-height: 19px;
-    color: #9AEBE7;
+    color: #9aebe7;
 `;
 
 const Logout = styled(LoginArea)`

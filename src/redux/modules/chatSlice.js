@@ -4,14 +4,26 @@ import { chatApi } from "../../apis/chatApi";
 // 이니셜스테이트
 const initialState = {
     messages: [],
+    chatList: [],
+};
+
+// 참고용 chatList 요소 초기값
+const inicialchatList = {
+    charRoomUuid: null,
+    createAt: null,
+    dayBefore: null,
+    lastMessage: null,
+    roomName: null,
+    count: null, // user 가 안 읽은 메시지 수. 실시간 값 넣어야 함.
 };
 
 // tooklit - thunk 사용 시 아래처럼 사용
-export const getChatMessage = createAsyncThunk("GET_CHAT_MESSAGE", async (arg, thunkAPI) => {
+export const getChatMessage = createAsyncThunk("GET_CHAT_MESSAGE", async (roomId, thunkAPI) => {
     try {
-        const response = chatApi.getChatMessage();
-        return response;
+        console.log(roomId);
+        const response = chatApi.getChatMessage(roomId);
         console.log(response);
+        return response;
     } catch (e) {
         return thunkAPI.rejectWithValue(e.response.data);
     }
@@ -27,7 +39,7 @@ const chatSlice = createSlice({
             state.messages.push(action.payload);
         },
     },
-    // extraReducers 뭐에 쓰는건지 아직 잘 모르겠음.
+    // extraReducers
     extraReducers: (builder) => {
         builder.addCase(getChatMessage.fulfilled, (state, action) => {
             state.messages = action.payload;
