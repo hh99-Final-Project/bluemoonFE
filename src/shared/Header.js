@@ -99,7 +99,7 @@ const Header = () => {
                         <HeaderRightArea>
                             <Point>
                                 <img src={MoonPoint} alt={"point"}/>
-                                <span>1000</span>
+                                <span>{userInfo.myPoint}</span>
                             </Point>
                         <AlertIcon
                             ref={AlertTabRef}
@@ -171,7 +171,7 @@ const Point = styled.div`
     display: flex;
     cursor: default;
   span {
-      margin: 7px 0 11px;
+      margin: 5px 0 13px;
     }
      
     img {
