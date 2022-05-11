@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useRef} from "react";
 
 export default function useRecordVoice() {
 
@@ -7,11 +7,14 @@ export default function useRecordVoice() {
     const [source, setSource] = useState();
     const [onRec, setOnRec] = useState(true);
     const [finishRecord, setFinishRecord] = useState(false);
+    const [isShowSpeaker, setIsShowSpeaker] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [analyser, setAnalyser] = useState();
     const [audioUrl, setAudioUrl] = useState();
     const [audioCtx, setAudioCtx] = useState();
+
+    const [timer, setTimer] = useState(0);
 
     //음성 녹음하기
     const recordVoice = () => {
@@ -48,6 +51,7 @@ export default function useRecordVoice() {
         });
     };
 
+    // console.log(audioCtx?.currentTime,"currentTime")
     const stopRecord = () => {
         media.ondataavailable = function (e) {
             setAudioUrl(e.data);
@@ -72,8 +76,10 @@ export default function useRecordVoice() {
     //녹음 조건 정하기
     if (analyser) {
         analyser.onaudioprocess = function (e) {
-            // 5분(300초) 지나면 자동으로 음성 저장 및 녹음 중지
-            if (e.playbackTime > 300) {
+            // 3분(180초) 지나면 자동으로 음성 저장 및 녹음 중지
+                setTimer(Math.ceil(e.playbackTime));
+
+            if (e.playbackTime > 180) {
                 stream.getAudioTracks().forEach(function (track) {
                     track.stop();
                 });
@@ -93,6 +99,8 @@ export default function useRecordVoice() {
             }
         };
     }
+
+
 
     //일시 정지
     const pause = () => {
@@ -127,6 +135,19 @@ export default function useRecordVoice() {
         setAudioUrl("");
     }
 
+    //녹음을 완전히 끝내기
+    const completeRecord = () => {
+        setIsShowSpeaker(true);
+    }
+
+    //모든 상태 초기화
+    const reset = () => {
+        setOnRec(false);
+        setFinishRecord(false);
+        setIsPlaying(false);
+        setIsPaused(false);
+    }
+
 
     return {
         recordVoice,
@@ -139,6 +160,10 @@ export default function useRecordVoice() {
         onRec,
         finishRecord,
         isPlaying,
-        isPaused
+        isPaused,
+        completeRecord,
+        isShowSpeaker,
+        reset,
+        timer
     }
 }

@@ -16,6 +16,7 @@ import saveIcon from "../static/images/diary/saveDiary.svg";
 import recordIcon from "../static/images/diary/voiceRecordIcon.svg";
 import listenIcon from "../static/images/diary/voiceListenIcon.svg";
 import { Layout } from "../components/common";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 WriteDiary.propTypes = {};
 
@@ -33,7 +34,11 @@ function WriteDiary(props) {
     onRec,
     finishRecord,
     isPlaying,
-    isPaused
+    isPaused,
+    completeRecord,
+    isShowSpeaker,
+    reset,
+    timer
   } = useRecordVoice();
 
   const [title, setTitle] = useState("");
@@ -41,7 +46,8 @@ function WriteDiary(props) {
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
-  const userInfo = useSelector((state) => state.userSlice.userInfo)
+  const userInfo = useSelector((state) => state.userSlice.userInfo);
+  const queryClient = useQueryClient();
 
   const onChangeTitleHandler = (e) => {
     setTitle(e.target.value);
@@ -55,6 +61,22 @@ function WriteDiary(props) {
     setDiary(e.target.value);
   };
 
+  //useMutaion을 통해 등록 및 post가 일어나면 기존 쿼리 무효화
+  const mutation = useMutation(() => diaryApi.createPost(title, diary, audioUrl), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('diary');
+      queryClient.invalidateQueries('reminders');
+    }
+  });
+
+  if(mutation.isSuccess){
+    window.alert('작성 완료에요!');
+    navigate('/mypage');
+  } else if (mutation.isError) {
+    window.alert('작성에 오류가 발생했어요! 다시 시도해주세요 😂')
+  }
+
+
   const onClickHandler = (e) => {
 
     if(!userInfo){
@@ -62,17 +84,9 @@ function WriteDiary(props) {
       return;
     }
 
-    // api 연동 (voice 보내기 or 다이어리 내역 보내기)
-    diaryApi.createPost(title, diary, audioUrl).then((response) => {
-      console.log(response);
-      if(response.status === 200) {
-        window.alert('작성 완료입니다!');
-        navigate('/mypage')
-      } else {
-        window.alert("고민 작성에 실패했어요! 다시 시도해주세요")
-      }
-    });
+    mutation.mutate(title, diary, audioUrl);
   };
+
 
   const closeVoicePopup = () => {
     setIsOpenVoicePopup(false);
@@ -106,6 +120,7 @@ function WriteDiary(props) {
                 placeholder="1000자 내로 작성해주세요"
                 onChange={onChangeContentHandler}
               />
+              {isShowSpeaker && "스피커"}
             </WriteArea>
 
             <VoiceLeft>
@@ -151,6 +166,9 @@ function WriteDiary(props) {
                 onRec={onRec}
                 isPaused={isPaused}
                 replay={replay}
+                completeRecord={completeRecord}
+                reset={reset}
+                timer={timer}
             />
           }
         </WriteContainer>

@@ -9,9 +9,9 @@ import Header from "../shared/Header";
 import CategoryBar from "../shared/CategoryBar";
 import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
+import { Layout } from "../components/common";
 import { getChatMessage, subMessage } from "../redux/modules/chatSlice";
 import { getCookie } from "../utils/cookie";
-import { Layout } from "../components/common";
 import { chatApi } from "../apis/chatApi";
 
 const ChatDetail = () => {

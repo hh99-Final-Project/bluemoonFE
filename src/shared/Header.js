@@ -91,38 +91,41 @@ const Header = () => {
     return (
         <React.Fragment>
             <HeaderContainer>
-                <Logo onClick={() => navigate("/")}>Blue Moon</Logo>
-                {userInfo ? (
-                    <HeaderRightArea>
-                        <Point>
-                            <img src={MoonPoint} alt={"point"} />
-                            <span>1000</span>
-                        </Point>
+                <Logo onClick={() => navigate("/")}>
+                    Blue Moon
+                </Logo>
+                {
+                    userInfo ? (
+                        <HeaderRightArea>
+                            <Point>
+                                <img src={MoonPoint} alt={"point"}/>
+                                <span>{userInfo.myPoint}</span>
+                            </Point>
                         <AlertIcon
                             ref={AlertTabRef}
                             onClick={() => {
                                 setIsOpenNoti(true);
                             }}
                         >
-                            <img src={NewAlertIcon} alt={"NewAlertIcon"} />
+                            <img src={NewAlertIcon} alt={"NewAlertIcon"}/>
                         </AlertIcon>
-                        <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
-                    </HeaderRightArea>
-                ) : (
+                            <Logout onClick={()=>setLogoutPopup(true)}>로그아웃</Logout>
+                        </HeaderRightArea>
+                    ) : (
                     <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
-                )}
-
-                {modalOpen && <Login />}
+                    )
+                }
             </HeaderContainer>
             {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
-            {logoutPopup && (
-                <Popup
-                    title={"정말 로그아웃 하시겠습니까?"}
-                    desc={""}
-                    event={logout}
-                    close={() => setLogoutPopup(false)}
-                />
-            )}
+            {
+                logoutPopup && <Popup
+                title={"정말 로그아웃 하시겠습니까?"}
+                desc={""}
+                event={logout}
+                close={() => setLogoutPopup(false)}
+            />
+            }
+            {modalOpen && <Login />}
         </React.Fragment>
     );
 };
@@ -167,8 +170,8 @@ const Point = styled.div`
     color: #d2fffd;
     display: flex;
     cursor: default;
-    span {
-        margin: 7px 0 11px;
+  span {
+      margin: 5px 0 13px;
     }
 
     img {
