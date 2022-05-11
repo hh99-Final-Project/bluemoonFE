@@ -12,6 +12,7 @@ import ChatInput from "../components/chat/ChatInput";
 import { getChatMessage, subMessage } from "../redux/modules/chatSlice";
 import { getCookie } from "../utils/cookie";
 import { Layout } from "../components/common";
+import { chatApi } from "../apis/chatApi";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -26,10 +27,27 @@ const ChatDetail = () => {
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    // console.log(userInfo);
-    // message state
+
+    // 상대방 정보
+    const [otherUserInfo, setOtherUserInfo] = useState([]);
+    console.log(otherUserInfo);
+
+    // messages
     const messages = useSelector((state) => state.chatSlice.messages);
     // console.log(messages);
+
+    // 상대방 정보 가져오기
+    useEffect(() => {
+        chatApi
+            .enterChatRoom(roomId)
+            .then((response) => {
+                console.log(response);
+                setOtherUserInfo(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     // 채팅방 이전 메시지 가져오기
     useEffect(() => {
@@ -39,7 +57,6 @@ const ChatDetail = () => {
     // 소켓 연결
     useEffect(() => {
         wsConnect();
-
         return () => {
             wsDisConnect();
         };

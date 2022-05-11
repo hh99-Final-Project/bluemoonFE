@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 // import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
@@ -12,22 +12,38 @@ import Loading from "../shared/Loading";
 import _ from "lodash";
 import { Layout } from "../components/common";
 import chatOutIcon from "../static/images/chat/more-hor.svg";
+import { isModalOpen } from "../redux/modules/commonSlice";
+import ChatOutModal from "../components/common/ChatOutModal";
 
 ChatList.propTypes = {};
 
 function ChatList(props) {
     const navigate = useNavigate();
-    const ref = useRef();
+    const dispatch = useDispatch();
     const { setCurrentHeader } = useStore();
 
     // chatList 에 소켓에서 받는 안 읽은 메시지 수를 count 라는 속성에 넣어줘보자.
     const [chatList, setChatList] = useState([]);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+
+    // 무한스크롤
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    const InfinityScrollref = useRef();
 
-    console.log(chatList);
+    // modal
+    const [ModalisOpen, setModalIsOpen] = useState(false);
+    const ChatOutTabRef = useRef();
+
+    const openModal = () => {
+        console.log("open!");
+        setModalIsOpen(true);
+    };
+    const closeModal = () => {
+        console.log("close!");
+        setModalIsOpen(false);
+    };
 
     const inicialRoom = {
         roomename: null,
@@ -80,22 +96,13 @@ function ChatList(props) {
     //     }
     // }
 
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-    // const openModal = () => {
-    //     setIsModalOpen(true);
-    // };
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    // };
-
     // 채팅방 나가기
     const deleteChat = (chatId) => {
         if (window.confirm("정말 이 방을 나가시겠습니까?")) {
             chatApi.deleteChat(chatId).then((response) => {
                 if (response.status === 200) {
                     window.alert("채팅방에서 나가셨습니다.");
-                    //reload를 해주는 이유가 뭘까용? 강제 새로고침은 user UX에 좋지 않을 것 같아요!
-                    window.location.reload();
+                    // 리덕스 charList 에서 delete 처리 해줘야 함.
                 }
             });
         }
@@ -160,12 +167,15 @@ function ChatList(props) {
                     <ChatRoomListTitle>
                         <p>채팅 리스트</p>
                     </ChatRoomListTitle>
-                    <ChatRoomWrapper ref={ref} onScroll={InfinityScroll}>
+                    <ChatRoomWrapper ref={InfinityScrollref} onScroll={InfinityScroll}>
                         {chatList.map((chat, i) => {
                             return (
                                 <ChatRoom
                                     roomName={chat.roomName}
-                                    onClick={() => navigate(`/chat/${chat.chatRoomUuid}`)}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate(`/chat/${chat.chatRoomUuid}`);
+                                    }}
                                     key={chat.chatRoomUuid}
                                 >
                                     <TiTleLine>
@@ -174,14 +184,17 @@ function ChatList(props) {
                                     </TiTleLine>
                                     <ContentLine>
                                         <LastChat>{chat.lastMessage}</LastChat>
-                                        <img
-                                            src={chatOutIcon}
-                                            alt={"채팅방 나가기"}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                deleteChat(chat.chatRoomUuid);
-                                            }}
-                                        />
+                                        <ModalOpenButton ref={ChatOutTabRef}>
+                                            <img
+                                                src={chatOutIcon}
+                                                alt={"채팅방 나가기"}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    openModal();
+                                                    // deleteChat(chat.chatRoomUuid);
+                                                }}
+                                            />
+                                        </ModalOpenButton>
 
                                         {/* <ChatOutButton
                                             onClick={(e) => {
@@ -192,6 +205,15 @@ function ChatList(props) {
                                             채팅방 나가기
                                         </ChatOutButton> */}
                                     </ContentLine>
+
+                                    {ModalisOpen && (
+                                        <ChatOutModal
+                                            ChatOutTabRef={ChatOutTabRef}
+                                            closeModal={closeModal}
+                                            deleteChat={deleteChat}
+                                            charRoomId={chat.chatRoomUuid}
+                                        />
+                                    )}
                                 </ChatRoom>
                             );
                         })}
@@ -323,7 +345,7 @@ const LastChat = styled.div`
     line-height: 16px;
 `;
 
-const ChatOutButton = styled.button`
-    width: 100px;
+const ModalOpenButton = styled.div`
+    // width: 100px;
     cursor: pointer;
 `;
