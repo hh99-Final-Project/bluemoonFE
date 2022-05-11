@@ -106,8 +106,7 @@ function Login(props) {
                         borderRadius: "20px",
                         outline: "none",
                         overflow: "hidden",
-                        // padding: "20px",
-                        zIndex: 20,
+                        zIndex: 100,
                         boxSizing: 'border-box'
                     },
                 }}
@@ -146,9 +145,6 @@ function Login(props) {
                             </GoogleLoginText>
                         )}
                     />
-                    {/*<GoogleLoginText onClick={googleLoginHandler}>*/}
-                    {/*    구글로 로그인하기*/}
-                    {/*</GoogleLoginText>*/}
                 </LoginButtons>
             </Modal>
         </div>
@@ -171,7 +167,6 @@ const LoginButtons = styled.div`
 `;
 
 const KaKaoLoginText = styled.div`
-    
     width: 100%;  
     height: 35px;
     background-color: #FAE301;
@@ -187,7 +182,6 @@ const KaKaoLoginText = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    
 `;
 
 const GoogleLoginText = styled(KaKaoLoginText)`
