@@ -6,12 +6,15 @@ import closeBtn from "../../static/images/diary/closePopup.svg";
 import pauseIcon from "../../static/images/diary/voicePause.svg";
 import stopIcon from "../../static/images/diary/voiceStop.svg";
 import playIcon from "../../static/images/diary/voicePlay.svg";
+import OnRecIconInActive from "../../static/images/diary/onRecording_inactive.svg";
+import PlayInActive from "../../static/images/diary/voicePlay_inactive.svg";
+import BigPlay from "../../static/images/diary/big_play.svg";
+import smallPause from "../../static/images/diary/small_pause.svg";
 
 const VoicePopup = (props) => {
 
     const { closePopup, play, onRec, recordVoice, stopRecord,
         finishRecord, isPlaying, isPaused, replay, pause } = props;
-    console.log(isPaused,"isPaused")
 
 
     // 녹음이 시작되면 OnRec은 false
@@ -28,7 +31,10 @@ const VoicePopup = (props) => {
                     (!finishRecord && onRec) && <div>녹음하기</div>
                 }
                 {
-                    !onRec && <div>녹음중</div>
+                    (!onRec && !isPaused) && <div>녹음중</div>
+                }
+                {
+                    ( isPaused && !onRec) && <div>일시 정지</div>
                 }
                 {
                     (finishRecord && !isPlaying) && <div>음성 녹음 완료</div>
@@ -53,14 +59,17 @@ const VoicePopup = (props) => {
                     </OnRecording>
                 }
 
-                {/*녹음중*/}
+                {/*녹음중 & 일시정지*/}
                 {
                     !onRec &&
                         <RecIcons>
+                            <PlayingButtonInActive>
+                                <img src={PlayInActive} alt={"playIcon"}/>
+                            </PlayingButtonInActive>
                             { isPaused ?
-                                <OnRecording onClick={replay}>
-                                    <img src={onRecIcon} alt={"onRecIcon"}/>
-                                </OnRecording>
+                                <PlayingButton onClick={replay}>
+                                    <img src={BigPlay} alt={"BigPlay"}/>
+                                </PlayingButton>
                                 :
                                 <PauseBtn onClick={pause}>
                                     <img src={pauseIcon} alt={"pauseIcon"}/>
@@ -80,8 +89,12 @@ const VoicePopup = (props) => {
                                 <PlayingButton onClick={play}>
                                     <img src={playIcon} alt={"playIcon"}/>
                                 </PlayingButton>
-                                <div style={{marginRight:5}}>삭제</div>
-                                <div>업로드</div>
+                                <OnRecording onClick={replay}>
+                                    <img style={{marginRight: '13px'}} src={onRecIcon} alt={"onRecIcon"}/>
+                                </OnRecording>
+                                <StopBtn onClick={stopRecord}>
+                                    <img src={stopIcon} alt={"stopIcon"}/>
+                                </StopBtn>
                             </RecIcons>
                         </FinishRecord>
                 }
@@ -90,54 +103,17 @@ const VoicePopup = (props) => {
                 {
                     isPlaying &&
                         <RecIcons>
+                            <PauseBtn onClick={pause}>
+                                <img src={smallPause} alt={"pauseIcon"}/>
+                            </PauseBtn>
+                            <OnRecordingInActive>
+                                <img src={OnRecIconInActive} alt={"onRecIcon"}/>
+                            </OnRecordingInActive>
                             <StopBtn onClick={stopRecord}>
                                 <img src={stopIcon} alt={"stopIcon"}/>
                             </StopBtn>
-                            <DeleteBtn>
-                                삭제
-                            </DeleteBtn>
-                            <UploadBtn>
-                                업로드
-                            </UploadBtn>
                         </RecIcons>
                 }
-
-
-
-
-                {/*{*/}
-                {/*    !onRec ? finishRecord ? (*/}
-                {/*        <FinishRecord>*/}
-                {/*            <RecIcons>*/}
-                {/*                <OnRecording onClick={recordVoice}>*/}
-                {/*                    <img src={onRecIcon} alt={"onRecIcon"}/>*/}
-                {/*                </OnRecording>*/}
-                {/*                <StopBtn onClick={stopRecord}>*/}
-                {/*                    <img src={stopIcon} alt={"stopIcon"}/>*/}
-                {/*                </StopBtn>*/}
-                {/*                <div>삭제</div>*/}
-                {/*            </RecIcons>*/}
-                {/*        </FinishRecord>*/}
-                {/*    ) : (*/}
-                {/*        <RecIcons>*/}
-                {/*            <PauseBtn>*/}
-                {/*                <img src={pauseIcon} alt={"pauseIcon"}/>*/}
-                {/*            </PauseBtn>*/}
-                {/*            <StopBtn onClick={stopRecord}>*/}
-                {/*                <img src={stopIcon} alt={"stopIcon"}/>*/}
-                {/*            </StopBtn>*/}
-                {/*        </RecIcons>*/}
-
-                {/*    ) : (*/}
-                {/*            <OnRecording onClick={recordVoice}>*/}
-                {/*                <img src={onRecIcon} alt={"onRecIcon"}/>*/}
-                {/*            </OnRecording>*/}
-                {/*        )*/}
-
-                {/*}*/}
-                {/*<PlaySound>*/}
-                {/*    <img src={playIcon} alt={"playIcon"}/>*/}
-                {/*</PlaySound>*/}
             </IconArea>
         </VoiceContainer>
     );
@@ -199,6 +175,11 @@ const OnRecording = styled.div`
   cursor: pointer;
 `;
 
+const OnRecordingInActive = styled(OnRecording)`
+  margin-right: 13px;
+  pointer-events: none;
+`;
+
 const FinishRecord = styled.div`
   
 `;
@@ -210,7 +191,12 @@ const RecIcons = styled.div`
 `;
 
 const PlayingButton = styled.div`
+  margin-right: 13px;
   cursor: pointer;
+`;
+
+const PlayingButtonInActive = styled(PlayingButton)`
+  pointer-events: none;
 `;
 
 const StartRecord = styled.div``;
@@ -227,7 +213,7 @@ const UploadBtn = styled.div`
 
 const PauseBtn = styled.div`
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 13px;
 `;
 const StopBtn = styled.div`
   cursor: pointer;
