@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import microphone from "../../static/images/diary/microphone.svg";
 import onRecIcon from "../../static/images/diary/onRecording.svg";
@@ -14,7 +14,7 @@ import smallPause from "../../static/images/diary/small_pause.svg";
 const VoicePopup = (props) => {
 
     const { closePopup, play, onRec, recordVoice, stopRecord,
-        finishRecord, isPlaying, isPaused, replay, pause } = props;
+        finishRecord, isPlaying, isPaused, replay, pause, completeRecord, reset, timer} = props;
 
 
     // 녹음이 시작되면 OnRec은 false
@@ -22,6 +22,12 @@ const VoicePopup = (props) => {
     // 녹음 중 (onRec = false)
     // 녹음 완료 (onRec true && finishRecord true)
     // 재생 중 ( play state를 따로 만들어야 함)
+
+    useEffect(()=>{
+       return () => {
+           reset();
+       }
+    },[])
 
     return (
         <VoiceContainer>
@@ -47,7 +53,7 @@ const VoicePopup = (props) => {
                 <img src={microphone} alt={"voiceIcon"}/>
             </RecordImg>
             <RecordTime>
-                00 : 00
+                {timer}
             </RecordTime>
             <IconArea>
 
@@ -89,10 +95,14 @@ const VoicePopup = (props) => {
                                 <PlayingButton onClick={play}>
                                     <img src={playIcon} alt={"playIcon"}/>
                                 </PlayingButton>
-                                <OnRecording onClick={replay}>
+                                <OnRecording onClick={recordVoice}>
                                     <img style={{marginRight: '13px'}} src={onRecIcon} alt={"onRecIcon"}/>
                                 </OnRecording>
-                                <StopBtn onClick={stopRecord}>
+                                <StopBtn
+                                    onClick={() => {
+                                        completeRecord();
+                                        closePopup();
+                                }}>
                                     <img src={stopIcon} alt={"stopIcon"}/>
                                 </StopBtn>
                             </RecIcons>

@@ -34,7 +34,11 @@ function WriteDiary(props) {
     onRec,
     finishRecord,
     isPlaying,
-    isPaused
+    isPaused,
+    completeRecord,
+    isShowSpeaker,
+    reset,
+    timer
   } = useRecordVoice();
 
   const [title, setTitle] = useState("");
@@ -116,6 +120,7 @@ function WriteDiary(props) {
                 placeholder="1000자 내로 작성해주세요"
                 onChange={onChangeContentHandler}
               />
+              {isShowSpeaker && "스피커"}
             </WriteArea>
 
             <VoiceLeft>
@@ -161,6 +166,9 @@ function WriteDiary(props) {
                 onRec={onRec}
                 isPaused={isPaused}
                 replay={replay}
+                completeRecord={completeRecord}
+                reset={reset}
+                timer={timer}
             />
           }
         </WriteContainer>
