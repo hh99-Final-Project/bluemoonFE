@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import microphone from "../../static/images/diary/microphone.svg";
 import onRecIcon from "../../static/images/diary/onRecording.svg";
@@ -14,13 +14,10 @@ import Timer from "react-compound-timer/build";
 
 const VoicePopup = (props) => {
 
-    const { closePopup, play, onRec, recordVoice, stopRecord,
-        finishRecord, isPlaying, isPaused, replay, recordPause, completeRecord, recordReset, timer} = props;
-
-    const Minutes = Timer.Minutes
-    const Seconds = Timer.Seconds
-
-    console.log(Minutes, + ":" ,Seconds)
+    const { closePopup, play, onRec, recordVoice, stopRecord, SaveRecordTime, deleteVoice, playingPause,
+        finishRecord, isPlaying, isPaused, replay, recordPause, completeRecord, recordReset, setIsPlaying,
+        toggleListening, isListening
+    } = props;
 
 
     // 녹음이 시작되면 OnRec은 false
@@ -28,6 +25,8 @@ const VoicePopup = (props) => {
     // 녹음 중 (onRec = false)
     // 녹음 완료 (onRec true && finishRecord true)
     // 재생 중 ( play state를 따로 만들어야 함)
+
+    const timeRef = useRef();
 
     useEffect(()=>{
        return () => {
@@ -39,9 +38,10 @@ const VoicePopup = (props) => {
         <Timer startImmediately={false}>
             {({start, resume, pause, stop, reset, timerState}) => (
                 <VoiceContainer>
-                    <CloseButton src={closeBtn} onClick={() => {
-                        reset();
-                        closePopup();
+                    <CloseButton src={closeBtn}
+                        onClick={() => {
+                            reset();
+                            closePopup();
                     }}/>
                     <RecordStatus>
                         {
@@ -63,7 +63,7 @@ const VoicePopup = (props) => {
                     <RecordImg>
                         <img src={microphone} alt={"voiceIcon"}/>
                     </RecordImg>
-                    <RecordTime>
+                    <RecordTime ref={timeRef}>
                         <Timer.Minutes
                             formatValue={(text) => (text.toString().length > 1 ? text : "0" + text)} />
                          :
@@ -91,6 +91,7 @@ const VoicePopup = (props) => {
                                     <img src={PlayInActive} alt={"playIcon"}/>
                                 </PlayingButtonInActive>
                                 { isPaused ?
+                                    // 현재 일시정지 상태이니 다시 재개할 수 있는 버튼
                                     <PlayingButton onClick={ () => {
                                         resume();
                                         replay();
@@ -98,15 +99,19 @@ const VoicePopup = (props) => {
                                         <img src={BigPlay} alt={"BigPlay"}/>
                                     </PlayingButton>
                                     :
+                                    // 현재 녹음중인 상태이니 일시정지 할 수 있는 버튼
                                     <PauseBtn onClick={() => {
                                         recordPause();
                                         pause();
-
                                     }}>
                                         <img src={pauseIcon} alt={"pauseIcon"}/>
                                     </PauseBtn>
                                 }
-                                <StopBtn onClick={stopRecord}>
+                                <StopBtn onClick={() => {
+                                    //녹음 완료로 넘어간다. 타이머 중단
+                                    stopRecord();
+                                    stop();
+                                }}>
                                     <img src={stopIcon} alt={"stopIcon"}/>
                                 </StopBtn>
                             </RecIcons>
@@ -117,17 +122,34 @@ const VoicePopup = (props) => {
                             (finishRecord && !isPlaying) &&
                             <FinishRecord>
                                 <RecIcons>
-                                    <PlayingButton onClick={play}>
+                                    {/*방금 녹음한거 듣는 재생버튼 */}
+                                    <PlayingButton onClick={() => {
+                                        play();
+                                        setIsPlaying(true)
+                                    }}>
                                         <img src={playIcon} alt={"playIcon"}/>
                                     </PlayingButton>
-                                    <OnRecording onClick={recordVoice}>
+
+                                    {/*재생 해 봤는데 다시 녹음하고 싶을 때*/}
+                                    <OnRecording onClick={() => {
+                                        deleteVoice();
+                                        recordVoice();
+                                    }}>
                                         <img style={{marginRight: '13px'}} src={onRecIcon} alt={"onRecIcon"}/>
                                     </OnRecording>
+
+                                    {/*완전 녹음이 끝나서 이제 팝업 닫기*/}
                                     <StopBtn
                                         onClick={() => {
+                                            console.log("!!")
                                             completeRecord();
+                                            // stopRecord();
                                             stop();
                                             closePopup();
+                                            if(timeRef.current){
+                                                SaveRecordTime(timeRef.current.innerText)
+                                            }
+
                                         }}>
                                         <img src={stopIcon} alt={"stopIcon"}/>
                                     </StopBtn>
@@ -135,17 +157,40 @@ const VoicePopup = (props) => {
                             </FinishRecord>
                         }
 
-                        {/*재생중*/}
+                        {/*재생중 & 재생 중 일시 정지*/}
                         {
                             isPlaying &&
                             <RecIcons>
-                                <PauseBtn onClick={pause}>
+                                {/*재생을 잠시 일시 정지*/}
+                                { isListening ?
+                                    <PlayingButton onClick={() => {
+                                        play();
+                                        toggleListening();
+                                    }}>
+                                        <img src={playIcon} alt={"playIcon"}/>
+                                    </PlayingButton>
+                                    :
+
+                                    // 재생 중 일시 정지
+                                    <PauseBtn onClick={() => {
+                                        playingPause();
+                                        toggleListening();
+                                    }}>
                                     <img src={smallPause} alt={"pauseIcon"}/>
-                                </PauseBtn>
+                                    </PauseBtn>
+                                }
+
                                 <OnRecordingInActive>
                                     <img src={OnRecIconInActive} alt={"onRecIcon"}/>
                                 </OnRecordingInActive>
-                                <StopBtn onClick={stopRecord}>
+
+                                {/*단순 녹음 종료*/}
+                                <StopBtn onClick={() => {
+                                    completeRecord();
+                                    // stopRecord();
+                                    stop();
+                                    closePopup();
+                                }}>
                                     <img src={stopIcon} alt={"stopIcon"}/>
                                 </StopBtn>
                             </RecIcons>

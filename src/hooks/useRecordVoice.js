@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef} from "react";
+import React, {useState, useCallback, useRef, useEffect} from "react";
 
 export default function useRecordVoice() {
 
@@ -9,12 +9,37 @@ export default function useRecordVoice() {
     const [finishRecord, setFinishRecord] = useState(false);
     const [isShowSpeaker, setIsShowSpeaker] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isListening, setIsListening] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [analyser, setAnalyser] = useState();
     const [audioUrl, setAudioUrl] = useState();
     const [audioCtx, setAudioCtx] = useState();
+    const [myAudio, setMyAudio] = useState();
 
-    const [timer, setTimer] = useState(0);
+
+    useEffect(()=>{
+        if(audioUrl){
+            let audio = new Audio(URL.createObjectURL(audioUrl));
+            console.log(audio,"audio")
+            audio.loop = false;
+            audio.volume = 1;
+
+            //오디오가 종료되면 일시정지에서 다시 재생버튼으로 돌아오세요...
+            audio.onended = (e) => {
+                toggleListening();
+            }
+            setMyAudio(audio);
+        }
+
+
+
+    },[audioUrl])
+
+
+    //재생중인지, 일시정지인지
+    const toggleListening = () => {
+        setIsListening(prev => !prev);
+    }
 
     //음성 녹음하기
     const recordVoice = () => {
@@ -77,8 +102,6 @@ export default function useRecordVoice() {
     if (analyser) {
         analyser.onaudioprocess = function (e) {
             // 3분(180초) 지나면 자동으로 음성 저장 및 녹음 중지
-                setTimer(Math.ceil(e.playbackTime));
-
             if (e.playbackTime > 180) {
                 stream.getAudioTracks().forEach(function (track) {
                     track.stop();
@@ -119,16 +142,24 @@ export default function useRecordVoice() {
         }
     };
 
+
     // 파일 출력 & 재생
+
     const play = useCallback(() => {
-        if (audioUrl){
-            const audio = new Audio(URL.createObjectURL(audioUrl));
-            audio.loop = false;
-            audio.volume = 1;
-            audio.play();
+        if (myAudio){
+            myAudio.play();
             setIsPlaying(true);
         }
+
     }, [audioUrl]);
+
+    const playingPause = useCallback(()=>{
+        if(myAudio){
+            myAudio.pause();
+        };
+
+    },[audioUrl])
+
 
     //파일 삭제
     const deleteVoice = () => {
@@ -142,7 +173,7 @@ export default function useRecordVoice() {
 
     //모든 상태 초기화
     const recordReset = () => {
-        setOnRec(false);
+        setOnRec(true);
         setFinishRecord(false);
         setIsPlaying(false);
         setIsPaused(false);
@@ -164,6 +195,9 @@ export default function useRecordVoice() {
         completeRecord,
         isShowSpeaker,
         recordReset,
-        timer
+        playingPause,
+        setIsPlaying,
+        toggleListening,
+        isListening
     }
 }

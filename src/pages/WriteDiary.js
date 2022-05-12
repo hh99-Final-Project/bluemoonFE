@@ -15,6 +15,7 @@ import backIcon from "../static/images/diary/backToList.svg";
 import saveIcon from "../static/images/diary/saveDiary.svg";
 import recordIcon from "../static/images/diary/voiceRecordIcon.svg";
 import listenIcon from "../static/images/diary/voiceListenIcon.svg";
+import listenVoiceIcon from "../static/images/diary/writePlayButton.svg";
 import { Layout } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
@@ -38,11 +39,15 @@ function WriteDiary(props) {
     completeRecord,
     isShowSpeaker,
     recordReset,
-    timer
+    playingPause,
+    setIsPlaying,
+    toggleListening,
+    isListening
   } = useRecordVoice();
 
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
+  const [recordTime, setRecordTime] = useState("");
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
@@ -61,8 +66,12 @@ function WriteDiary(props) {
     setDiary(e.target.value);
   };
 
+  const SaveRecordTime = (time) => {
+    setRecordTime(time);
+  }
+
   //useMutaion을 통해 등록 및 post가 일어나면 기존 쿼리 무효화
-  const mutation = useMutation(() => diaryApi.createPost(title, diary, audioUrl), {
+  const mutation = useMutation(() => diaryApi.createPost(title, diary, audioUrl, recordTime), {
     onSuccess: () => {
       queryClient.invalidateQueries('diary');
       queryClient.invalidateQueries('reminders');
@@ -76,7 +85,6 @@ function WriteDiary(props) {
     window.alert('작성에 오류가 발생했어요! 다시 시도해주세요 😂')
   }
 
-
   const onClickHandler = (e) => {
 
     if(!userInfo){
@@ -84,7 +92,7 @@ function WriteDiary(props) {
       return;
     }
 
-    mutation.mutate(title, diary, audioUrl);
+    mutation.mutate(title, diary, audioUrl, recordTime);
   };
 
 
@@ -100,7 +108,6 @@ function WriteDiary(props) {
   return (
       <Layout>
         <WriteContainer>
-          {/*<button onClick={() => navigate('/diary/1')}>다이어리 페이지 이동</button>*/}
           <Header/>
           <CategoryBar/>
           <PostAreaContainer>
@@ -117,10 +124,15 @@ function WriteDiary(props) {
                 onChange={onChangeTitleHandler}
               />
               <PostArea
-                placeholder="1000자 내로 작성해주세요"
+                placeholder={ isShowSpeaker ? "" : "1000자 내로 작성해주세요" }
                 onChange={onChangeContentHandler}
               />
-              {isShowSpeaker && "스피커"}
+              {isShowSpeaker &&
+              <div>
+                <SpeakerIcon onClick={play} src={listenVoiceIcon}/>
+                <TimeArea>{recordTime}</TimeArea>
+              </div>
+              }
             </WriteArea>
 
             <VoiceLeft>
@@ -132,14 +144,6 @@ function WriteDiary(props) {
                 <img src={listenIcon} alt={"listen"}/>
                 <div>음성 듣기</div>
               </ListenArea>
-
-              {/*<VoicePlayButton onClick={play}>재생</VoicePlayButton>*/}
-              {/*<VoiceRecordButton onClick={recordVoice}>녹음</VoiceRecordButton>*/}
-              {/*<VoiceStop onClick={stopRecord}>중지</VoiceStop>*/}
-              {/*<VoiceTempStop onClick={pause}>일시정지</VoiceTempStop>*/}
-              {/*<VoiceTempReplay onClick={replay}>다시시작</VoiceTempReplay>*/}
-              {/*<DeleteVoice onClick={deleteVoice}>삭제</DeleteVoice>*/}
-              {/*<OpenPopup onClick={() => setIsOpenVoicePopup(true)}>열기</OpenPopup>*/}
             </VoiceLeft>
             <PostLength>{diary.length}/1000</PostLength>
 
@@ -168,7 +172,12 @@ function WriteDiary(props) {
                 replay={replay}
                 completeRecord={completeRecord}
                 recordReset={recordReset}
-                timer={timer}
+                SaveRecordTime={SaveRecordTime}
+                deleteVoice={deleteVoice}
+                playingPause={playingPause}
+                setIsPlaying={setIsPlaying}
+                toggleListening={toggleListening}
+                isListening={isListening}
             />
           }
         </WriteContainer>
@@ -234,6 +243,7 @@ const SaveDiaryButton = styled.img`
 const WriteArea = styled.div`
   margin-bottom: 10px;
   padding: 0 34px 0 40px;
+  position: relative;
 `;
 
 const PostText = styled.input`
@@ -280,6 +290,19 @@ const PostArea = styled.textarea`
     line-height: 24px;
     color: rgba(8, 16, 93, 0.5);
   }
+`;
+
+const SpeakerIcon = styled.img`
+  position: absolute;
+  left: 67px;
+  top: 77px;
+  cursor: pointer;
+`;
+
+const TimeArea = styled.div`
+  position: absolute;
+  left: 116px;
+  top: 86px;
 `;
 
 
