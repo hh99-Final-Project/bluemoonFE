@@ -26,10 +26,17 @@ function CommentInput(props) {
 
     const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl), {
         onSuccess: () => {
-            queryClient.invalidateQueries('diaryDetail');
+            queryClient.invalidateQueries("diaryDetail");
             setComment("");
         },
     });
+
+    // if(mutation.isSuccess){
+    //     setComment("");
+    //     window.alert("댓글 저장 성공!");
+    // } else if (mutation.isError) {
+    //     window.alert('오류가 발생했어요! 다시 시도해주세요 😂');
+    // }
 
     const onChangeHandler = (e) => {
         if (e.target.value.length > 150) {
@@ -109,9 +116,7 @@ function CommentInput(props) {
                     placeholder="댓글을 남겨주세요"
                 />
                 <IconArea>
-                    <VoiceButton>
-                        {/*<img src={recordIcon} alt={"recordIcon"} />*/}
-                    </VoiceButton>
+                    <VoiceButton>{/*<img src={recordIcon} alt={"recordIcon"} />*/}</VoiceButton>
                     <IconRightArea>
                         <LockIcon>
                             <img src={lockIcon} alt={"lockIcon"} />

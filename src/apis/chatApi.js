@@ -17,6 +17,12 @@ export const chatApi = {
         return data;
     },
 
+    // 채팅방 입장
+    enterChatRoom: async (roomUuid) => {
+        const data = await instance.get(`/api/rooms/otherUserInfo/${roomUuid}`);
+        return data;
+    },
+
     // 채팅방(chat) 이전 메시지 조회
     getChatMessage: async (roomId) => {
         const data = await instance.get(`/api/rooms/${roomId}/messages`);

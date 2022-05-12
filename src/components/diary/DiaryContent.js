@@ -12,7 +12,7 @@ DiaryContent.propTypes = {
 
 function DiaryContent(props) {
     const { diary } = props;
-    console.log(diary);
+    // console.log(diary);
     const navigate = useNavigate();
 
     const createChat = (roomname, userId) => {

@@ -11,8 +11,7 @@ import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
-import {useQuery, useQueryClient} from "react-query";
-
+import { useQuery, useQueryClient } from "react-query";
 
 DiaryDetail.propTypes = {};
 
@@ -22,10 +21,10 @@ function DiaryDetail(props) {
     const postId = params.id;
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
-    const { isLoading, data } = useQuery('diaryDetail', () => diaryApi.getOneDiary(postId), {
-        refetchOnWindowFocus: false }
-    );
-    console.log(data,"data")
+    const { isLoading, data } = useQuery("diaryDetail", () => diaryApi.getOneDiary(postId), {
+        refetchOnWindowFocus: false,
+    });
+    // console.log(data,"data")
 
     // useEffect(() => {
     //     if (isLogin) {
@@ -55,9 +54,7 @@ function DiaryDetail(props) {
                 <DetailContent>
                     <TitleContainer>
                         <TitleLeft>
-                            <BackButton onClick={() => navigate("/diarylist")}>
-                                {/*<img src={} />*/}
-                            </BackButton>
+                            <BackButton onClick={() => navigate("/diarylist")}>{/*<img src={} />*/}</BackButton>
                             <Title>고민 들어주기</Title>
                         </TitleLeft>
                         <Time>{convertDate(data.createdAt)}</Time>

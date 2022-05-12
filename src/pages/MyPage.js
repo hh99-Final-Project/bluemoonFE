@@ -20,12 +20,18 @@ MyPage.propTypes = {};
 
 function MyPage(props) {
     const navigate = useNavigate();
-    const ref = useRef();
+    const { setCurrentHeader } = useStore();
+
     const [myDiary, setMyDiary] = useState([]);
+    const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
-    const { setCurrentHeader } = useStore();
+
+    // console.log(myDiary);
+    // console.log(isLoading);
+    // console.log(page);
+    // console.log(hasNext);
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
@@ -37,7 +43,7 @@ function MyPage(props) {
             diaryApi.deleteDiary(postUuid).then((response) => {
                 if (response.status === 200) {
                     window.alert("삭제 완료되었습니다.");
-                    window.location.reload();
+                    // window.location.reload();
                 }
             });
         }
@@ -52,13 +58,16 @@ function MyPage(props) {
         // console.log(e.target.scrollHeight);
 
         //  // 스크롤 위치
-        //  console.log(e.target.scrollTop);
+        // console.log(e.target.scrollTop);
 
         //  //현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
         // console.log(e.target.clientHeight);
 
-        if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+        console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
+
+        if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
             userApi.getMyPage(page).then((response) => {
+                console.log(response);
                 setMyDiary([...myDiary, ...response]);
                 setIsLoading(false);
                 if (response.length < 5) {
@@ -111,7 +120,7 @@ function MyPage(props) {
                     <MyPageTitle>
                         <p>내가 쓴 글</p>
                     </MyPageTitle>
-                    <DiaryWrapper ref={ref} onScroll={InfinityScroll}>
+                    <DiaryWrapper ref={InfinityScrollref} onScroll={InfinityScroll}>
                         {myDiary.length === 0 && <NoDiaryNotice>아직 작성한 글이 없습니다.</NoDiaryNotice>}
                         {myDiary.length > 0 &&
                             myDiary.map((diary) => {

@@ -16,28 +16,25 @@ import chatIcon from "../static/images/message.png";
 import prevButton from "../static/images/prevDiary.svg";
 import nextButton from "../static/images/nextDiary.svg";
 
-
-
 DiaryList.propTypes = {};
 
 function DiaryList(props) {
     const navigate = useNavigate();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
     const { currentHeader, setCurrentHeader } = useStore();
 
-
     const getPrevDiary = () => {
-        if(count !== 1) {
-            setCount(count => count - 1);
+        if (count !== 1) {
+            setCount((count) => count - 1);
         } else {
             //count가 1이면 서버 요청
-            if(page === 1) {
+            if (page === 1) {
                 window.alert("제일 첫번째 다이어리에요!");
             } else {
-                if(!isPreviousData){
-                    setPage(prev => prev - 1);
+                if (!isPreviousData) {
+                    setPage((prev) => prev - 1);
                     setCount(5);
                 }
             }
@@ -45,29 +42,24 @@ function DiaryList(props) {
     };
 
     const getNextDiary = () => {
-
-        if(data.data.length === 0) {
-            window.alert("더이상 다이어리가 없어요😂😂")
+        if (data.data.length === 0) {
+            window.alert("더이상 다이어리가 없어요😂😂");
             return;
         }
-        if( count !== 5 ) {
-            setCount(count => count + 1);
+        if (count !== 5) {
+            setCount((count) => count + 1);
         } else {
             //count가 5면 다음꺼 api 요청
             if (!isPreviousData) {
-                setPage(prev => prev + 1);
+                setPage((prev) => prev + 1);
                 setCount(1);
             }
-
-
-
         }
     };
 
-    const { isLoading, data, isPreviousData } = useQuery(['diary', page], () => diaryApi.getDiaryList(page),
-        { keepPreviousData : true }
-    );
-
+    const { isLoading, data, isPreviousData } = useQuery(["diary", page], () => diaryApi.getDiaryList(page), {
+        keepPreviousData: true,
+    });
 
     // useEffect(() => {
     //     if (isLogin) {
@@ -97,40 +89,43 @@ function DiaryList(props) {
                 <CategoryBar />
                 <CardContainer>
                     <CardContainerBackGround>
-                        <PrevButton onClick={getPrevDiary} src={prevButton}/>
-                        <NextButton onClick={getNextDiary} src={nextButton}/>
-                            {/*다이어리 영역                    */}
-                            <DiaryCard
-                                onClick={() => navigate(`/diary/${data.data[count].postUuid}`)} key={data.data[count]?.postUuid}>
-                                <CardLeftPage>
-                                    <CardBackground>
-                                        <CardBorder>
-                                            <DiaryTitle>{data.data[count]?.title}</DiaryTitle>
-                                            <CommentIcon
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    navigate(`/diary/${data.data[count].postUuid}`);
-                                                }}>
-                                                <img src={commentIcon} alt={"comment"}/>
-                                            </CommentIcon>
-                                        </CardBorder>
-                                    </CardBackground>
-                                </CardLeftPage>
+                        <PrevButton onClick={getPrevDiary} src={prevButton} />
+                        <NextButton onClick={getNextDiary} src={nextButton} />
+                        {/*다이어리 영역                    */}
+                        <DiaryCard
+                            onClick={() => navigate(`/diary/${data.data[count].postUuid}`)}
+                            key={data.data[count]?.postUuid}
+                        >
+                            <CardLeftPage>
+                                <CardBackground>
+                                    <CardBorder>
+                                        <DiaryTitle>{data.data[count]?.title}</DiaryTitle>
+                                        <CommentIcon
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                navigate(`/diary/${data.data[count].postUuid}`);
+                                            }}
+                                        >
+                                            <img src={commentIcon} alt={"comment"} />
+                                        </CommentIcon>
+                                    </CardBorder>
+                                </CardBackground>
+                            </CardLeftPage>
 
-                                <CardRightPage>
-                                    <CardBackground>
-                                        <CardBorderRight>
-                                            <ContentBox>
-                                                {/*<img src={voiceButton} alt={"voice-play"}/>*/}
-                                                <DiaryDesc>{data.data[count]?.content}</DiaryDesc>
-                                            </ContentBox>
-                                            <ChattingIcon>
-                                                <img src={chatIcon} alt={"chatIcon"}/>
-                                            </ChattingIcon>
-                                        </CardBorderRight>
-                                    </CardBackground>
-                                </CardRightPage>
-                            </DiaryCard>
+                            <CardRightPage>
+                                <CardBackground>
+                                    <CardBorderRight>
+                                        <ContentBox>
+                                            {/*<img src={voiceButton} alt={"voice-play"}/>*/}
+                                            <DiaryDesc>{data.data[count]?.content}</DiaryDesc>
+                                        </ContentBox>
+                                        <ChattingIcon>
+                                            <img src={chatIcon} alt={"chatIcon"} />
+                                        </ChattingIcon>
+                                    </CardBorderRight>
+                                </CardBackground>
+                            </CardRightPage>
+                        </DiaryCard>
 
                         <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
                     </CardContainerBackGround>
@@ -143,9 +138,9 @@ function DiaryList(props) {
 export default DiaryList;
 
 const DiaryListContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-  position: relative;
+    width: 100%;
+    height: 100vh;
+    position: relative;
 `;
 
 const CardContainer = styled.div`
@@ -161,54 +156,54 @@ const CardContainer = styled.div`
 `;
 
 const CardContainerBackGround = styled.div`
-  margin: auto;
-  width: 945px;
-  height: 315px;
-  background-color: #2F3A5F;
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
+    margin: auto;
+    width: 945px;
+    height: 315px;
+    background-color: #2f3a5f;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
 `;
 
 const PrevButton = styled.img`
-  position: absolute;
-  left: 123px;
-  top: 111px;
-  cursor: pointer;
+    position: absolute;
+    left: 123px;
+    top: 111px;
+    cursor: pointer;
 `;
 const NextButton = styled.img`
-  position: absolute;
-  right: 123px;
-  top: 111px;
-  cursor: pointer;
+    position: absolute;
+    right: 123px;
+    top: 111px;
+    cursor: pointer;
 `;
 
 const CardBackground = styled.div`
-  background-color: #C6D3EC;
-  width: 260px;
-  height: 340px;
-  padding: 5px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
+    background-color: #c6d3ec;
+    width: 260px;
+    height: 340px;
+    padding: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
 `;
 
 const ContentBox = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 const CardBorder = styled.div`
-  width: 250px;
-  height: 321px;
-  border: 1px solid #9CAFB7;
-  box-sizing: border-box;
-  border-radius: 16px;
-  padding: 9px 5px 10px;
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
+    width: 250px;
+    height: 321px;
+    border: 1px solid #9cafb7;
+    box-sizing: border-box;
+    border-radius: 16px;
+    padding: 9px 5px 10px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
 `;
 
 const CardBorderRight = styled(CardBorder)`
@@ -229,34 +224,32 @@ const DiaryCard = styled.div`
 `;
 
 const CardLeftPage = styled.div`
-  border: 2px solid #464646;
-  box-sizing: border-box;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  background-color: #08105E;
-  width: 280px;
-  height: 370px;
-  padding: 14px 2px 15px 17px;
-  position: relative;
-
+    border: 2px solid #464646;
+    box-sizing: border-box;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    background-color: #08105e;
+    width: 280px;
+    height: 370px;
+    padding: 14px 2px 15px 17px;
+    position: relative;
 `;
 
 const CardRightPage = styled.div`
-  border: 2px solid #464646;
-  box-sizing: border-box;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  background-color: #08105E;
-  width: 280px;
-  height: 370px;
-  padding: 15px 20px 15px 1.5px;
-  position: relative;
+    border: 2px solid #464646;
+    box-sizing: border-box;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    background-color: #08105e;
+    width: 280px;
+    height: 370px;
+    padding: 15px 20px 15px 1.5px;
+    position: relative;
 `;
 
 const DiaryTitle = styled.div`
     font-size: 18px;
     line-height: 22px;
-
 `;
 
 const DiaryDesc = styled.div`
@@ -264,7 +257,6 @@ const DiaryDesc = styled.div`
     line-height: 21px;
     margin-top: 17px;
 `;
-
 
 const CommentIcon = styled.div`
     position: absolute;
@@ -284,7 +276,7 @@ const DiaryWriteButton = styled.div`
     width: 461px;
     height: 52px;
     background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #84C8CC;
+    border: 2px solid #84c8cc;
     box-sizing: border-box;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 9px;
@@ -292,7 +284,7 @@ const DiaryWriteButton = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #91DDDD;
+    color: #91dddd;
     font-size: 20px;
     line-height: 24px;
     position: absolute;
@@ -301,9 +293,9 @@ const DiaryWriteButton = styled.div`
     transform: translate(-50%, 0);
 
     &:hover {
-      background-color: #CFFDFD;
-      border: 2px solid rgba(41, 50, 82, 0.71);
-      box-shadow: inset 0px 4px 15px rgba(0, 0, 0, 0.5);
-      color: #293252;
+        background-color: #cffdfd;
+        border: 2px solid rgba(41, 50, 82, 0.71);
+        box-shadow: inset 0px 4px 15px rgba(0, 0, 0, 0.5);
+        color: #293252;
     }
 `;

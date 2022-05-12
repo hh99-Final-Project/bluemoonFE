@@ -10,7 +10,7 @@ import { getCookie } from "../../utils/cookie";
 ChatInput.propTypes = {};
 
 function ChatInput(props) {
-    const { roomId, userInfo } = props;
+    const { roomId, userInfo, otherUserInfo } = props;
     // console.log(props);
 
     const [text, setText] = React.useState("");
@@ -25,7 +25,7 @@ function ChatInput(props) {
             const message = {
                 roomId: roomId,
                 message: text,
-                otherUserId: null, // 메시지 받는 상대방
+                otherUserId: otherUserInfo.otherUserId, // 메시지 받는 상대방
                 type: "TALK",
             };
 
