@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
 import useRecordVoice from "../hooks/useRecordVoice";
+import useMovePage from "../hooks/useMovePage";
 
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
@@ -23,7 +24,11 @@ WriteDiary.propTypes = {};
 
 function WriteDiary(props) {
   const navigate = useNavigate();
+  const location  = useLocation();
+
+
   const { setCurrentHeader } = useStore();
+  const { moveToPage } = useMovePage();
   const {
     recordVoice,
     stopRecord,
@@ -52,6 +57,7 @@ function WriteDiary(props) {
   const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
   const userInfo = useSelector((state) => state.userSlice.userInfo);
+  const { diaryContent, setDiaryContent } = useStore();
   const queryClient = useQueryClient();
 
   const onChangeTitleHandler = (e) => {
@@ -64,6 +70,7 @@ function WriteDiary(props) {
       return;
     }
     setDiary(e.target.value);
+    setDiaryContent(e.target.value);
   };
 
   const SaveRecordTime = (time) => {
@@ -100,10 +107,43 @@ function WriteDiary(props) {
     setIsOpenVoicePopup(false);
   }
 
+  const handler = (e) => {
+    if(diary.length > 0 ) {
+      e.preventDefault();
+      e.returnValue = '작성 중인데 정말 나가시겠습니까?';
+    }
+
+  }
 
   useEffect(()=>{
-    setCurrentHeader('포스트')
-  }, [])
+    setCurrentHeader('포스트');
+      window.addEventListener("beforeunload", handler);
+
+    return () => {
+        window.removeEventListener('beforeunload', handler);
+    }
+
+  }, [diary])
+
+
+
+
+  useEffect(()=>{
+
+    console.log(location, "location")
+      if(diary.length > 0){
+        if(window.confirm("작성중인데 나가실 껀가요?")){
+
+        } else {
+          //이동 캔슬, Navigate 이동 감지
+        }
+      }
+
+      return () => {
+
+      }
+
+  },[location])
 
   return (
       <Layout>

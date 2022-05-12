@@ -64,7 +64,7 @@ function CommentInput(props) {
             }
             // 로딩 중
             waitForConnection(ws, function () {
-                ws.send(`/pub/chat/alarm`, { token: token })
+                ws.send(`/pub/chat/alarm`, { token: token }, JSON.stringify(message))
                 console.log(ws.ws.readyState);
                 // setText("");
             });

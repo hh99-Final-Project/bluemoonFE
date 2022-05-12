@@ -13,6 +13,7 @@ import ChatIcon from "../static/images/categoryBar/chatIcon.png";
 import {useSelector} from "react-redux";
 import Login from "../components/user/Login";
 import {isModalOpen} from "../redux/modules/commonSlice";
+import useMovePage from "../hooks/useMovePage";
 
 
 
@@ -23,6 +24,7 @@ function CategoryBar(props) {
     const dispatch = useDispatch();
 
     const { currentHeader, setCurrentHeader } = useStore();
+    const { moveToPage } = useMovePage();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
 
@@ -54,7 +56,7 @@ function CategoryBar(props) {
                 header={currentHeader}
                 onClick={() => {
                     setCurrentHeader("고민상담");
-                    navigate("/diarylist");
+                    moveToPage("/diarylist")
                 }}
             >
                 {currentHeader === '고민상담' ? <div>고민 들어주기</div> : <img src={ListIcon} alt={"ListIcon"}/> }
