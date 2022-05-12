@@ -11,6 +11,7 @@ import lockIcon from "../../static/images/lockIcon.svg";
 import moreIcon from "../../static/images/diary/moreIcon.svg";
 import Modal from "react-modal";
 import { useMutation, useQueryClient } from "react-query";
+import {chatApi} from "../../apis/chatApi";
 
 Comment.propTypes = {
     comment: PropTypes.object
@@ -55,6 +56,19 @@ function Comment(props) {
         }
     }
 
+    const createChat = (userId) => {
+        chatApi
+            .createChat(userId)
+            .then((response) => {
+                console.log(response);
+                navigate(`/chat/${response.data}`);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+
     useEffect(()=>{
         window.addEventListener('mousedown', clickOutSideModal);
 
@@ -76,11 +90,9 @@ function Comment(props) {
                 {
                     comment.lock ? "비밀 댓글 입니다" : comment.content
                 }
-                {/*<img src={playVoice} alt={"playVoice"}/>*/}
             </PostContent>
 
             <IconArea onClick={() => setIsOptionOpen(true)}>
-                <img src={moreIcon} alt={"moreIcon"}/>
 
                 {
                     comment.voiceUrl !== "" &&
@@ -88,14 +100,29 @@ function Comment(props) {
                         onClick={(e) => {
                             e.preventDefault();
                             audioPlay(comment.voiceUrl)}}>
-                    보이스 듣기
+                    듣기
                 </PlayIcon>
                 }
             </IconArea>
 
-            { isOptionOpen &&
-                <OptionModal modalRef={modalRef}
-                             deleteComment={deleteComment} commentId={comment.commentUuid}/>}
+            <OptionBox>
+                <Reply>
+                    답글
+                </Reply>
+                <Chat onClick={() => {
+                    //comment에 userId가 안내려와서 보류
+                    // createChat(comment.userId);
+                }}>
+                    채팅
+                </Chat>
+                { comment.show &&
+                    <Delete
+                        onClick={() => deleteComment(comment.commentUuid)}>
+                        삭제
+                    </Delete>
+                }
+
+            </OptionBox>
 
         </OneCommentContainer>
 
@@ -104,32 +131,17 @@ function Comment(props) {
 
 export default Comment;
 
-const OptionModal = ({modalRef, deleteComment, commentId}) => {
-    return (
-        <ModalContainer ref={modalRef}>
-            <Reply>
-                답글
-            </Reply>
-            <Chat>
-                채팅
-            </Chat>
-            <Delete onClick={() => deleteComment(commentId)}>
-                삭제
-            </Delete>
-        </ModalContainer>
-    )
-}
 
-const ModalContainer = styled.div`
-      width: 164px;
-      height: 40px;
-      background: rgba(198, 211, 236, 0.9);
-      border-radius: 10px;
+const OptionBox = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
       position: absolute;
       right: 31px;
+      bottom: 15px;
+      font-size: 10px;
+      line-height: 12px;
+      color: #36466B;
 `;
 
 
@@ -138,28 +150,10 @@ const Reply = styled.div`
   line-height: 17px;
   color: #08105D;
   cursor: pointer;
-
-  &:after {
-    content: "|";
-    transform: rotate(90deg);
-    width: 1px;
-    height: 21px;
-    color: #959EBE;
-    margin: 0 9px;
-  }
-
+  margin-right: 10px;
 `;
 const Chat = styled(Reply)``;
-const Delete = styled(Reply)`
-  &:after {
-    content: "";
-    transform: rotate(90deg);
-    width: 0;
-    height: 0;
-    color: #959EBE;
-    margin: 0;
-  }
-`;
+const Delete = styled(Reply)``;
 
 const OneCommentContainer = styled.div`
     position: relative;  

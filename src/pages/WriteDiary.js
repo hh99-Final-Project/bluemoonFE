@@ -24,11 +24,8 @@ WriteDiary.propTypes = {};
 
 function WriteDiary(props) {
   const navigate = useNavigate();
-  const location  = useLocation();
-
-
   const { setCurrentHeader } = useStore();
-  const { moveToPage } = useMovePage();
+
   const {
     recordVoice,
     stopRecord,
@@ -57,7 +54,7 @@ function WriteDiary(props) {
   const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
   const userInfo = useSelector((state) => state.userSlice.userInfo);
-  const { diaryContent, setDiaryContent } = useStore();
+  const { setDiaryContent } = useStore();
   const queryClient = useQueryClient();
 
   const onChangeTitleHandler = (e) => {

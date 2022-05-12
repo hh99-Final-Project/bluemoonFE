@@ -4,12 +4,14 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
 import useRecordVoice from "../../hooks/useRecordVoice";
-// import recordIcon from "../../static/images/microphone.svg";
 import lockIcon from "../../static/images/lockIcon.svg";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useMutation, useQueryClient } from "react-query";
 import { getCookie } from "../../utils/cookie";
+import recordIcon from "../../static/images/diary/commentMicIcon.svg";
+import VoicePopup from "./VoicePopup";
+
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -18,13 +20,39 @@ CommentInput.propTypes = {
 function CommentInput(props) {
     const { diary, postId } = props;
     const [comment, setComment] = useState("");
+    const [isLocked, setIsLocked] = useState(false);
+    const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
+    const [recordTime, setRecordTime] = useState("");
     const token = getCookie("authorization");
 
-    const { recordVoice, stopRecord, pause, replay, play, audioUrl } = useRecordVoice();
+    const {
+        recordVoice,
+        stopRecord,
+        recordPause,
+        replay,
+        play,
+        audioUrl,
+        deleteVoice,
+        onRec,
+        finishRecord,
+        isPlaying,
+        isPaused,
+        completeRecord,
+        isShowSpeaker,
+        recordReset,
+        playingPause,
+        setIsPlaying,
+        toggleListening,
+        isListening
+    } = useRecordVoice();
+
+    const lockHandler = () => {
+        setIsLocked(prev => !prev);
+    }
 
     const queryClient = useQueryClient();
 
-    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl), {
+    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked), {
         onSuccess: () => {
             queryClient.invalidateQueries("diaryDetail");
             setComment("");
@@ -47,8 +75,9 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-        mutation.mutate(postId, comment, audioUrl);
+        mutation.mutate(postId, comment, audioUrl, isLocked);
     };
+
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
@@ -104,6 +133,15 @@ function CommentInput(props) {
         }
     };
 
+    const closeVoicePopup = () => {
+        setIsOpenVoicePopup(false);
+    }
+
+    const SaveRecordTime = (time) => {
+        setRecordTime(time);
+    }
+
+
     return (
         <React.Fragment>
             <InputContainer>
@@ -116,17 +154,43 @@ function CommentInput(props) {
                     placeholder="댓글을 남겨주세요"
                 />
                 <IconArea>
-                    <VoiceButton>{/*<img src={recordIcon} alt={"recordIcon"} />*/}</VoiceButton>
+                    <ButtonArea>
+                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={recordIcon}/>
+                        {isShowSpeaker && <PlayButton onClick={play}>듣기</PlayButton>}
+                    </ButtonArea>
                     <IconRightArea>
                         <LockIcon>
                             <img src={lockIcon} alt={"lockIcon"} />
-                            <input type={"checkbox"} />
+                            <input checked={isLocked} onChange={lockHandler} type={"checkbox"} />
                         </LockIcon>
                         <TextLength>{comment.length}/150</TextLength>
                         <PostButton onClick={onClick}>등록하기</PostButton>
                     </IconRightArea>
                 </IconArea>
             </InputContainer>
+            {
+                isOpenVoicePopup &&
+                <VoicePopup
+                    closePopup={closeVoicePopup}
+                    play={play}
+                    recordVoice={recordVoice}
+                    recordPause={recordPause}
+                    stopRecord={stopRecord}
+                    finishRecord={finishRecord}
+                    isPlaying={isPlaying}
+                    onRec={onRec}
+                    isPaused={isPaused}
+                    replay={replay}
+                    completeRecord={completeRecord}
+                    recordReset={recordReset}
+                    SaveRecordTime={SaveRecordTime}
+                    deleteVoice={deleteVoice}
+                    playingPause={playingPause}
+                    setIsPlaying={setIsPlaying}
+                    toggleListening={toggleListening}
+                    isListening={isListening}
+                />
+            }
         </React.Fragment>
     );
 }
@@ -147,7 +211,7 @@ const Input = styled.input`
     width: 856px;
     height: 40px;
     padding: 13px;
-    margin: 11px 10px 8px;
+    margin: 11px 10px 9px;
     border-radius: 3px;
     box-sizing: border-box;
     ::placeholder {
@@ -157,9 +221,20 @@ const Input = styled.input`
     }
 `;
 
-const VoiceButton = styled.div`
+const ButtonArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const VoiceButton = styled.img`
     cursor: pointer;
-    margin-right: 20px;
+    margin-right: 8px;
+`;
+
+const PlayButton = styled.div`
+  cursor: pointer;
+  font-size: 13px;
 `;
 
 const TextLength = styled.div`

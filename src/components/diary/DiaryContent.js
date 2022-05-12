@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useRef} from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
 import { convertDate } from "../../utils/convertDate";
 import chatIcon from "../../static/images/message.png";
 import { useNavigate } from "react-router-dom";
+import voicePlayIcon from "../../static/images/diary/diaryListPlayIcon.svg";
 
 DiaryContent.propTypes = {
     diary: PropTypes.object,
@@ -12,8 +13,8 @@ DiaryContent.propTypes = {
 
 function DiaryContent(props) {
     const { diary } = props;
-    // console.log(diary);
     const navigate = useNavigate();
+    const audioRef = useRef(new Audio(diary.voiceUrl));
 
     const createChat = (roomname, userId) => {
         chatApi
@@ -28,12 +29,15 @@ function DiaryContent(props) {
     };
 
     const playAudio = () => {
-        //diary.voiceUrl
-        let audio = new Audio(diary.voiceUrl);
-        if (audio) {
-            audio.volume = 1;
-            audio.loop = false;
-            audio.play();
+        if (audioRef.current) {
+            audioRef.current.volume = 1;
+            audioRef.current.loop = false;
+
+            if(audioRef.current.paused) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.pause();
+            }
         }
     };
 
@@ -42,9 +46,7 @@ function DiaryContent(props) {
             <DiaryContainer>
                 <ContentsContainer>
                     <Content>{diary.content}</Content>
-                    <VoiceButton onClick={playAudio}>
-                        {/*<img style={{ width: "40px", height: "40px" }} src={voiceButton} />*/}
-                    </VoiceButton>
+                    <VoiceButton onClick={playAudio} src={voicePlayIcon}/>
                 </ContentsContainer>
                 <IconArea>
                     <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
@@ -55,7 +57,7 @@ function DiaryContent(props) {
                         }}
                     >
                         <img style={{ width: "23px", height: "23px" }} src={chatIcon} alt={"chatIcon"} />
-                        <div>대화 신청</div>
+                        <div>대화 신청</div>청
                     </ChattingButton>
                 </IconArea>
             </DiaryContainer>
@@ -88,12 +90,12 @@ const ContentsContainer = styled.div`
 const Content = styled.div`
     font-size: 15px;
     line-height: 18px;
-    padding-top: 37px;
-    margin-bottom: 10px;
+    padding-top: 21px;
 `;
 
-const VoiceButton = styled.div`
+const VoiceButton = styled.img`
     cursor: pointer;
+    margin-top: 21px;
 `;
 const IconArea = styled.div`
     margin-top: 40px;
