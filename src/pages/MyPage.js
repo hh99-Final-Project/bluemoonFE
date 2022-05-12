@@ -143,7 +143,7 @@ function MyPage(props) {
                                                     deleteDiary(diary.postUuid);
                                                 }}
                                             >
-                                                게시물 삭제
+                                                삭제
                                             </DeleteButton>
                                         </ContentLine>
                                     </DiaryCard>
@@ -206,7 +206,8 @@ const MyPageTitle = styled.div`
     color: #ffffff;
 
     & p {
-        margin-left: 20px;
+        margin-left: 24px;
+
         font-size: 20px;
         font-weight: 400;
         line-height: 24px;
@@ -240,14 +241,14 @@ const DiaryWrapper = styled.div`
 `;
 
 const DiaryCard = styled.div`
-    width: 881px;
+    width: 889px;
     // 작성시간 값 뷰 조정한 뒤, height 값 수정 필요
-    height: 100px;
+    height: 65px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     background-color: #959ebe;
-    border: 1px solid black;
+    // border: 1px solid black;
     border-radius: 10px;
     margin: 10px auto;
     padding: 10px;
@@ -258,21 +259,26 @@ const TiTleLine = styled.div`
     width: 860px;
     display: flex;
     justify-content: space-between;
-    margin: 10px auto;
+    margin: 10px auto 14px;
 `;
 
 const DiaryTitle = styled.div`
     font-family: Inter;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 19px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 15px;
     letter-spacing: 0em;
     text-align: left;
     color: #373857;
 `;
 
 const CreatedAt = styled.div`
-    width: 80px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
     overflow: hidden;
 `;
 
@@ -280,13 +286,25 @@ const ContentLine = styled.div`
     width: 860px;
     display: flex;
     justify-content: space-between;
-    margin: 10px auto;
+    margin: 0 auto;
 `;
 
-const CommentCount = styled.div``;
+const CommentCount = styled.div`
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+`;
 
-const DeleteButton = styled.button`
-    width: 100px;
-    height: 20px;
+const DeleteButton = styled.div`
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
     cursor: pointer;
 `;
