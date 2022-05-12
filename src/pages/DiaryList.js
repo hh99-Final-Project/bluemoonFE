@@ -15,14 +15,16 @@ import commentIcon from "../static/images/comment.png";
 import chatIcon from "../static/images/message.png";
 import prevButton from "../static/images/prevDiary.svg";
 import nextButton from "../static/images/nextDiary.svg";
+import voicePlayIcon from "../static/images/diary/diaryListPlayIcon.svg";
 
 DiaryList.propTypes = {};
 
 function DiaryList(props) {
     const navigate = useNavigate();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
     const [page, setPage] = useState(1);
+    const [audio, setAudio] = useState("");
     const { currentHeader, setCurrentHeader } = useStore();
 
     const getPrevDiary = () => {
@@ -61,6 +63,20 @@ function DiaryList(props) {
         keepPreviousData: true,
     });
 
+    const togglePlayVoice = (e) => {
+        e.stopPropagation();
+        // let audioUrl = "https://bluemoon-s3.s3.ap-northeast-2.amazonaws.com/static/a36d1211-ae7b-4f52-baeb-3ab7b0e37a11blob"
+        // let audio = new Audio(audioUrl);
+        // audio.loop = false;
+        // audio.volume = 1;
+
+        if(audio.paused) {
+            audio.play();
+        } else {
+            audio.pause();
+        }
+    }
+
     useEffect(() => {
     //     if (isLogin) {
     //         diaryApi.getDiaryList(1).then((response) => {
@@ -76,6 +92,13 @@ function DiaryList(props) {
     //     }
     //
         setCurrentHeader("고민상담");
+        // let audioUrl = "https://bluemoon-s3.s3.ap-northeast-2.amazonaws.com/static/a36d1211-ae7b-4f52-baeb-3ab7b0e37a11blob"
+        // let audio = new Audio(audioUrl);
+        // audio.loop = false;
+        // audio.volume = 1;
+        // setAudio(audio);
+
+
     }, []);
 
     if (isLoading) {
@@ -93,17 +116,17 @@ function DiaryList(props) {
                         <NextButton onClick={getNextDiary} src={nextButton} />
                         {/*다이어리 영역                    */}
                         <DiaryCard
-                            onClick={() => navigate(`/diary/${data.data[count].postUuid}`)}
-                            key={data.data[count]?.postUuid}
+                            onClick={() => navigate(`/diary/${data.data[count - 1].postUuid}`)}
+                            key={data.data[count - 1]?.postUuid}
                         >
                             <CardLeftPage>
                                 <CardBackground>
                                     <CardBorder>
-                                        <DiaryTitle>{data.data[count]?.title}</DiaryTitle>
+                                        <DiaryTitle>{data.data[count - 1]?.title}</DiaryTitle>
                                         <CommentIcon
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                navigate(`/diary/${data.data[count].postUuid}`);
+                                                navigate(`/diary/${data.data[count - 1].postUuid}`);
                                             }}
                                         >
                                             <img src={commentIcon} alt={"comment"} />
@@ -116,8 +139,8 @@ function DiaryList(props) {
                                 <CardBackground>
                                     <CardBorderRight>
                                         <ContentBox>
-                                            {/*<img src={voiceButton} alt={"voice-play"}/>*/}
-                                            <DiaryDesc>{data.data[count]?.content}</DiaryDesc>
+                                            <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
+                                            <DiaryDesc>{data.data[count - 1]?.content}</DiaryDesc>
                                         </ContentBox>
                                         <ChattingIcon>
                                             <img src={chatIcon} alt={"chatIcon"} />
@@ -252,10 +275,14 @@ const DiaryTitle = styled.div`
     line-height: 22px;
 `;
 
+const VoicePlayIcon = styled.img`
+    cursor: pointer;
+`;
+
 const DiaryDesc = styled.div`
     font-size: 17px;
     line-height: 21px;
-    margin-top: 17px;
+    margin-top: 8px;
 `;
 
 const CommentIcon = styled.div`

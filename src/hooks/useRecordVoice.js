@@ -20,7 +20,6 @@ export default function useRecordVoice() {
     useEffect(()=>{
         if(audioUrl){
             let audio = new Audio(URL.createObjectURL(audioUrl));
-            console.log(audio,"audio")
             audio.loop = false;
             audio.volume = 1;
 
