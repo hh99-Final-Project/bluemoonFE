@@ -57,7 +57,7 @@ function DiaryContent(props) {
                         }}
                     >
                         <img style={{ width: "23px", height: "23px" }} src={chatIcon} alt={"chatIcon"} />
-                        <div>대화 신청</div>청
+                        <div>대화 신청</div>
                     </ChattingButton>
                 </IconArea>
             </DiaryContainer>
