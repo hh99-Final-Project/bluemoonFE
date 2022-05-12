@@ -5,6 +5,7 @@ import { chatApi } from "../../apis/chatApi";
 const initialState = {
     messages: [],
     chatList: [],
+    unreadCount: [],
 };
 
 // 참고용 chatList 요소 초기값
@@ -47,6 +48,10 @@ const chatSlice = createSlice({
             console.log(action.payload);
             state.messages.push(action.payload);
         },
+        getUnreadCount(state, action) {
+            console.log(action.payload);
+            state.unreadCount.push(action.payload);
+        },
     },
     // extraReducers
     extraReducers: (builder) => {
@@ -60,6 +65,6 @@ const chatSlice = createSlice({
 });
 
 //액션 생성함수
-export const { subMessage } = chatSlice.actions;
+export const { subMessage, getUnreadCount } = chatSlice.actions;
 
 export default chatSlice.reducer;

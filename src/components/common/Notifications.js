@@ -10,7 +10,7 @@ Notifications.propTypes = {};
 
 function Notifications(props) {
     const { closeModal, AlertTabRef } = props;
-    let alertList = useSelector((state) => state.commonSlice.alertList);
+    const alertList = useSelector((state) => state.commonSlice.alertList);
 
     // let alertList = [
     //     {
@@ -19,7 +19,6 @@ function Notifications(props) {
     //         createdAt: "2022-04-21 11:23",
     //         id: 1,
     //     },
-    //
     //     {
     //         title: "김김김",
     //         desc: "김김22",

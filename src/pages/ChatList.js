@@ -191,26 +191,26 @@ function ChatList(props) {
                                         </TiTleLine>
                                         <ContentLine>
                                             <LastChat>{chat.lastMessage}</LastChat>
-                                            <ModalOpenButton ref={ChatOutTabRef}>
+                                            {/* <ModalOpenButton ref={ChatOutTabRef}>
                                                 <img
                                                     src={chatOutIcon}
                                                     alt={"채팅방 나가기"}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         openModal();
-                                                        // deleteChat(chat.chatRoomUuid);
+                                                        deleteChat(chat.chatRoomUuid);
                                                     }}
                                                 />
-                                            </ModalOpenButton>
+                                            </ModalOpenButton> */}
 
-                                            {/* <ChatOutButton
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                deleteChat(chat.chatRoomUuid);
-                                            }}
-                                        >
-                                            채팅방 나가기
-                                        </ChatOutButton> */}
+                                            <ChatOutButton
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    deleteChat(chat.chatRoomUuid);
+                                                }}
+                                            >
+                                                나가기
+                                            </ChatOutButton>
                                         </ContentLine>
 
                                         {ModalisOpen && (
@@ -316,7 +316,7 @@ const ChatRoomWrapper = styled.div`
 `;
 
 const ChatRoom = styled.div`
-    width: 881px;
+    width: 889px;
     height: 65px;
     border-radius: 5px;
 
@@ -371,3 +371,5 @@ const ModalOpenButton = styled.div`
     // width: 100px;
     cursor: pointer;
 `;
+
+const ChatOutButton = styled.div``;

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -10,12 +9,11 @@ import ListIcon from "../static/images/categoryBar/diaryListIcon.png";
 import MyPageIcon from "../static/images/categoryBar/mypageIcon.png";
 import LotteryIcon from "../static/images/categoryBar/lotteryIcon.png";
 import ChatIcon from "../static/images/categoryBar/chatIcon.png";
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Login from "../components/user/Login";
-import {isModalOpen} from "../redux/modules/commonSlice";
+import { isModalOpen } from "../redux/modules/commonSlice";
 import useMovePage from "../hooks/useMovePage";
-
-
+import star from "../static/images/categoryBar/Star.svg";
 
 CategoryBar.propTypes = {};
 
@@ -29,8 +27,8 @@ function CategoryBar(props) {
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
 
     const loginCheck = () => {
-        return !!userInfo
-    }
+        return !!userInfo;
+    };
 
     const closeModal = () => {
         dispatch(isModalOpen(false));
@@ -38,30 +36,37 @@ function CategoryBar(props) {
 
     const openModal = () => {
         dispatch(isModalOpen(true));
-    }
+    };
+
+    const diapatch = useDispatch();
+    const unreadCount = useSelector((state) => state.chatSlice.unreadCount);
+    // const ChattingRef = useRef();
+    console.log(unreadCount);
 
     return (
         <HeaderContainer>
             <Home
                 header={currentHeader}
                 onClick={() => {
-                    moveToPage('/')
+                    moveToPage("/");
                     // setCurrentHeader("홈");
                     // navigate("/");
                 }}
             >
-                {currentHeader === '홈' ? <div style={{paddingBottom:'18px'}}>기본 홈</div> :
-                    <img style={{paddingBottom:'13px'}} src={HomeIcon} alt={"home"}/> }
+                {currentHeader === "홈" ? (
+                    <div style={{ paddingBottom: "18px" }}>기본 홈</div>
+                ) : (
+                    <img style={{ paddingBottom: "13px" }} src={HomeIcon} alt={"home"} />
+                )}
             </Home>
             <DiaryList
                 header={currentHeader}
                 onClick={() => {
                     // setCurrentHeader("고민상담");
-                    moveToPage("/diarylist")
+                    moveToPage("/diarylist");
                 }}
             >
-                {currentHeader === '고민상담' ? <div>고민 들어주기</div> : <img src={ListIcon} alt={"ListIcon"}/> }
-
+                {currentHeader === "고민상담" ? <div>고민 들어주기</div> : <img src={ListIcon} alt={"ListIcon"} />}
             </DiaryList>
             <Post
                 header={currentHeader}
@@ -71,27 +76,25 @@ function CategoryBar(props) {
                     moveToPage("/write");
                 }}
             >
-                {currentHeader === '포스트' ? <div>고민 작성하기</div> : <img src={WriteIcon} alt={"WriteIcon"}/> }
-
+                {currentHeader === "포스트" ? <div>고민 작성하기</div> : <img src={WriteIcon} alt={"WriteIcon"} />}
             </Post>
             <MyPage
                 header={currentHeader}
                 onClick={() => {
-                    if(loginCheck()){
+                    if (loginCheck()) {
                         // setCurrentHeader("마이페이지");
-                        moveToPage("/mypage")
+                        moveToPage("/mypage");
                     } else {
                         openModal(true);
                     }
                 }}
             >
-                {currentHeader === '마이페이지' ? <div>마이 페이지</div> : <img src={MyPageIcon} alt={"MyPageIcon"}/> }
-
+                {currentHeader === "마이페이지" ? <div>마이 페이지</div> : <img src={MyPageIcon} alt={"MyPageIcon"} />}
             </MyPage>
             <ChattingList
                 header={currentHeader}
                 onClick={() => {
-                    if(loginCheck()){
+                    if (loginCheck()) {
                         // setCurrentHeader("채팅");
                         // navigate("/chatlist");
                         moveToPage("/chatlist");
@@ -99,9 +102,10 @@ function CategoryBar(props) {
                         openModal(true);
                     }
                 }}
+                // ref={ChattingRef}
             >
-                {currentHeader === '채팅' ? <div>1:1 채팅</div> : <img src={ChatIcon} alt={"ChatIcon"}/> }
-
+                {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={ChatIcon} alt={"ChatIcon"} />}
+                {unreadCount.length > 0 && <Unread src={star}></Unread>}
             </ChattingList>
             <Lottery
                 header={currentHeader}
@@ -111,12 +115,10 @@ function CategoryBar(props) {
                     moveToPage("/lottery");
                 }}
             >
-                {currentHeader === '추첨' ? <div>오픈 이벤트</div> : <img src={LotteryIcon} alt={"LotteryIcon"}/> }
-
+                {currentHeader === "추첨" ? <div>오픈 이벤트</div> : <img src={LotteryIcon} alt={"LotteryIcon"} />}
             </Lottery>
             {modalIsOpen && <Login />}
         </HeaderContainer>
-
     );
 }
 
@@ -141,7 +143,7 @@ const Home = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-    
+
     border-radius: 5px 5px 0 0;
     border: 2px solid #cbcfdc47;
     box-sizing: border-box;
@@ -189,6 +191,13 @@ const ChattingList = styled(Home)`
     color: ${(props) => (props.header === "채팅" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "채팅" ? "#C6D3EC" : "#354468")};
     box-shadow: ${(props) => (props.header === "채팅" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
+    display: relative;
+`;
+
+const Unread = styled.img`
+    position: absolute;
+    top: 5px;
+    right: 10px;
 `;
 const Lottery = styled(Home)`
     top: 0;

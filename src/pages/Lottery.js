@@ -8,6 +8,7 @@ import lotteryResult from "../static/images/Lottery/lotteryResult.png";
 import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
 import { Layout } from "../components/common";
 import { useSelector } from "react-redux";
+import { userApi } from "../apis/userApi";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -16,6 +17,16 @@ const Lottery = () => {
     useEffect(() => {
         setCurrentHeader("추첨");
     }, []);
+
+    const onClickHandler = (e) => {
+        if (!userInfo) {
+            window.alert("로그인 후 참여할 수 있습니다!");
+            return;
+        }
+        userApi.tryLottery().then((response) => {
+            console.log(response);
+        });
+    };
 
     return (
         <Layout>
@@ -38,7 +49,7 @@ const Lottery = () => {
                     <LotteryResultArea>
                         <img src={lotteryResult} />
                     </LotteryResultArea>
-                    <LotteryClick>클릭하기</LotteryClick>
+                    <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>
                     <CountNoti>참여 가능 횟수</CountNoti>
                     <ClickCount>1</ClickCount>
                     <RecommendIcons>친구 추천하기</RecommendIcons>
@@ -145,6 +156,8 @@ const LotteryClick = styled.div`
     color: #ffffff;
 
     z-index: 1;
+
+    cursor: pointer;
 `;
 
 const CountNoti = styled.div`

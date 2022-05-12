@@ -65,6 +65,7 @@ const Message = styled.div`
     border-radius: 10px;
     // border-radius: ${(props) => (props.user ? "10px 0 10px 10px" : "0 10px 10px 10px")};
     background-color: ${(props) => (props.user ? "#293252" : "#707CA4")};
+    margin: ${(props) => (props.user ? "0 0 0 5px" : "0 5px 0 0")};
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
     word-break: break-all;
     color: white;

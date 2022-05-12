@@ -28,7 +28,7 @@ export const userApi = {
     },
 
     isLogin: async () => {
-        const data = await instance.get('/api/user/islogin');
+        const data = await instance.get("/api/user/islogin");
         return data.data;
     },
 
@@ -45,6 +45,11 @@ export const userApi = {
             nickname: nickName,
         };
         const data = await instance.post("/api/user/nickname", req);
+        return data;
+    },
+
+    tryLottery: async () => {
+        const data = await instance.get("/api/lot");
         return data;
     },
 };

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import ChatOutModal from "./ChatOutModal";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import useStore from "../../zustand/store";
 
 Notice.propTypes = {
     alert: PropTypes.object.isRequired,
@@ -10,6 +11,8 @@ Notice.propTypes = {
 
 function Notice(props) {
     const { alert } = props;
+    const { setCurrentHeader } = useStore();
+    const navigate = useNavigate();
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -20,10 +23,10 @@ function Notice(props) {
     return (
         <React.Fragment>
             <AlertSliceContainer
-            // onClick={() => {
-            //     setCurrentHeader("마이페이지");
-            //     Navigate(`/diary/${alert.postUuid}`);
-            // }}
+                onClick={() => {
+                    setCurrentHeader("마이페이지");
+                    navigate(`/diary/${alert.postUuid}`);
+                }}
             >
                 <TitleArea>
                     <CreatedAt>{alert.createdAt}</CreatedAt>
