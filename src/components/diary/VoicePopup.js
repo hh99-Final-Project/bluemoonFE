@@ -10,11 +10,17 @@ import OnRecIconInActive from "../../static/images/diary/onRecording_inactive.sv
 import PlayInActive from "../../static/images/diary/voicePlay_inactive.svg";
 import BigPlay from "../../static/images/diary/big_play.svg";
 import smallPause from "../../static/images/diary/small_pause.svg";
+import Timer from "react-compound-timer/build";
 
 const VoicePopup = (props) => {
 
     const { closePopup, play, onRec, recordVoice, stopRecord,
-        finishRecord, isPlaying, isPaused, replay, pause, completeRecord, reset, timer} = props;
+        finishRecord, isPlaying, isPaused, replay, recordPause, completeRecord, recordReset, timer} = props;
+
+    const Minutes = Timer.Minutes
+    const Seconds = Timer.Seconds
+
+    console.log(Minutes, + ":" ,Seconds)
 
 
     // 녹음이 시작되면 OnRec은 false
@@ -25,107 +31,130 @@ const VoicePopup = (props) => {
 
     useEffect(()=>{
        return () => {
-           reset();
+           recordReset();
        }
     },[])
 
     return (
-        <VoiceContainer>
-            <CloseButton src={closeBtn} onClick={closePopup}/>
-            <RecordStatus>
-                {
-                    (!finishRecord && onRec) && <div>녹음하기</div>
-                }
-                {
-                    (!onRec && !isPaused) && <div>녹음중</div>
-                }
-                {
-                    ( isPaused && !onRec) && <div>일시 정지</div>
-                }
-                {
-                    (finishRecord && !isPlaying) && <div>음성 녹음 완료</div>
-                }
-                {
-                    isPlaying && <div>재생 중</div>
-                }
-            </RecordStatus>
-            <RecordImg>
-                <img src={microphone} alt={"voiceIcon"}/>
-            </RecordImg>
-            <RecordTime>
-                {timer}
-            </RecordTime>
-            <IconArea>
+        <Timer startImmediately={false}>
+            {({start, resume, pause, stop, reset, timerState}) => (
+                <VoiceContainer>
+                    <CloseButton src={closeBtn} onClick={() => {
+                        reset();
+                        closePopup();
+                    }}/>
+                    <RecordStatus>
+                        {
+                            (!finishRecord && onRec) && <div>녹음하기</div>
+                        }
+                        {
+                            (!onRec && !isPaused) && <div>녹음중</div>
+                        }
+                        {
+                            ( isPaused && !onRec) && <div>일시 정지</div>
+                        }
+                        {
+                            (finishRecord && !isPlaying) && <div>음성 녹음 완료</div>
+                        }
+                        {
+                            isPlaying && <div>재생 중</div>
+                        }
+                    </RecordStatus>
+                    <RecordImg>
+                        <img src={microphone} alt={"voiceIcon"}/>
+                    </RecordImg>
+                    <RecordTime>
+                        <Timer.Minutes
+                            formatValue={(text) => (text.toString().length > 1 ? text : "0" + text)} />
+                         :
+                        <Timer.Seconds
+                            formatValue={(text) => (text.toString().length > 1 ? text : "0" + text)}/>
+                    </RecordTime>
+                    <IconArea>
 
-                {/*처음 화면*/}
-                {
-                    (!finishRecord && onRec) &&
-                    <OnRecording onClick={recordVoice}>
-                        <img src={onRecIcon} alt={"onRecIcon"}/>
-                    </OnRecording>
-                }
+                        {/*처음 화면*/}
+                        {
+                            (!finishRecord && onRec) &&
+                            <OnRecording onClick={() => {
+                                start();
+                                recordVoice();
+                            }}>
+                                <img src={onRecIcon} alt={"onRecIcon"}/>
+                            </OnRecording>
+                        }
 
-                {/*녹음중 & 일시정지*/}
-                {
-                    !onRec &&
-                        <RecIcons>
-                            <PlayingButtonInActive>
-                                <img src={PlayInActive} alt={"playIcon"}/>
-                            </PlayingButtonInActive>
-                            { isPaused ?
-                                <PlayingButton onClick={replay}>
-                                    <img src={BigPlay} alt={"BigPlay"}/>
-                                </PlayingButton>
-                                :
-                                <PauseBtn onClick={pause}>
-                                    <img src={pauseIcon} alt={"pauseIcon"}/>
-                                </PauseBtn>
-                            }
-                            <StopBtn onClick={stopRecord}>
-                                <img src={stopIcon} alt={"stopIcon"}/>
-                            </StopBtn>
-                        </RecIcons>
-                }
-
-                {/*녹음 완료*/}
-                {
-                    (finishRecord && !isPlaying) &&
-                        <FinishRecord>
+                        {/*녹음중 & 일시정지*/}
+                        {
+                            !onRec &&
                             <RecIcons>
-                                <PlayingButton onClick={play}>
-                                    <img src={playIcon} alt={"playIcon"}/>
-                                </PlayingButton>
-                                <OnRecording onClick={recordVoice}>
-                                    <img style={{marginRight: '13px'}} src={onRecIcon} alt={"onRecIcon"}/>
-                                </OnRecording>
-                                <StopBtn
-                                    onClick={() => {
-                                        completeRecord();
-                                        closePopup();
-                                }}>
+                                <PlayingButtonInActive>
+                                    <img src={PlayInActive} alt={"playIcon"}/>
+                                </PlayingButtonInActive>
+                                { isPaused ?
+                                    <PlayingButton onClick={ () => {
+                                        resume();
+                                        replay();
+                                    }}>
+                                        <img src={BigPlay} alt={"BigPlay"}/>
+                                    </PlayingButton>
+                                    :
+                                    <PauseBtn onClick={() => {
+                                        recordPause();
+                                        pause();
+
+                                    }}>
+                                        <img src={pauseIcon} alt={"pauseIcon"}/>
+                                    </PauseBtn>
+                                }
+                                <StopBtn onClick={stopRecord}>
                                     <img src={stopIcon} alt={"stopIcon"}/>
                                 </StopBtn>
                             </RecIcons>
-                        </FinishRecord>
-                }
+                        }
 
-                {/*재생중*/}
-                {
-                    isPlaying &&
-                        <RecIcons>
-                            <PauseBtn onClick={pause}>
-                                <img src={smallPause} alt={"pauseIcon"}/>
-                            </PauseBtn>
-                            <OnRecordingInActive>
-                                <img src={OnRecIconInActive} alt={"onRecIcon"}/>
-                            </OnRecordingInActive>
-                            <StopBtn onClick={stopRecord}>
-                                <img src={stopIcon} alt={"stopIcon"}/>
-                            </StopBtn>
-                        </RecIcons>
-                }
-            </IconArea>
-        </VoiceContainer>
+                        {/*녹음 완료*/}
+                        {
+                            (finishRecord && !isPlaying) &&
+                            <FinishRecord>
+                                <RecIcons>
+                                    <PlayingButton onClick={play}>
+                                        <img src={playIcon} alt={"playIcon"}/>
+                                    </PlayingButton>
+                                    <OnRecording onClick={recordVoice}>
+                                        <img style={{marginRight: '13px'}} src={onRecIcon} alt={"onRecIcon"}/>
+                                    </OnRecording>
+                                    <StopBtn
+                                        onClick={() => {
+                                            completeRecord();
+                                            stop();
+                                            closePopup();
+                                        }}>
+                                        <img src={stopIcon} alt={"stopIcon"}/>
+                                    </StopBtn>
+                                </RecIcons>
+                            </FinishRecord>
+                        }
+
+                        {/*재생중*/}
+                        {
+                            isPlaying &&
+                            <RecIcons>
+                                <PauseBtn onClick={pause}>
+                                    <img src={smallPause} alt={"pauseIcon"}/>
+                                </PauseBtn>
+                                <OnRecordingInActive>
+                                    <img src={OnRecIconInActive} alt={"onRecIcon"}/>
+                                </OnRecordingInActive>
+                                <StopBtn onClick={stopRecord}>
+                                    <img src={stopIcon} alt={"stopIcon"}/>
+                                </StopBtn>
+                            </RecIcons>
+                        }
+                    </IconArea>
+                </VoiceContainer>
+            )}
+
+        </Timer>
     );
 };
 

@@ -103,7 +103,7 @@ export default function useRecordVoice() {
 
 
     //일시 정지
-    const pause = () => {
+    const recordPause = () => {
         media.pause();
         setIsPaused(true);
     };
@@ -141,7 +141,7 @@ export default function useRecordVoice() {
     }
 
     //모든 상태 초기화
-    const reset = () => {
+    const recordReset = () => {
         setOnRec(false);
         setFinishRecord(false);
         setIsPlaying(false);
@@ -152,7 +152,7 @@ export default function useRecordVoice() {
     return {
         recordVoice,
         stopRecord,
-        pause,
+        recordPause,
         replay,
         play,
         audioUrl,
@@ -163,7 +163,7 @@ export default function useRecordVoice() {
         isPaused,
         completeRecord,
         isShowSpeaker,
-        reset,
+        recordReset,
         timer
     }
 }

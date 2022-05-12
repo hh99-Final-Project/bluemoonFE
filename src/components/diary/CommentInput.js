@@ -31,14 +31,6 @@ function CommentInput(props) {
         },
     });
 
-
-    // if(mutation.isSuccess){
-    //     setComment("");
-    //     window.alert("댓글 저장 성공!");
-    // } else if (mutation.isError) {
-    //     window.alert('오류가 발생했어요! 다시 시도해주세요 😂');
-    // }
-
     const onChangeHandler = (e) => {
         if (e.target.value.length > 150) {
             return;
@@ -52,35 +44,34 @@ function CommentInput(props) {
     };
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    // console.log(userInfo);
 
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
     let ws = Stomp.over(sock);
 
     const onClick = async () => {
-        // saveComment();
-        // try {
-        //     // 보낼 메시지
-        //     const message = {
-        //         message: `[${diary.title}]에 댓글이 달렸어요!`,
-        //         postUuid: postId,
-        //         otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
-        //         type: "ENTER",
-        //     };
-        //
-        //     if (comment === "") {
-        //         return;
-        //     }
-        //     // 로딩 중
-        //     waitForConnection(ws, function () {
-        //         ws.send(`/pub/chat/alarm`, { token: token },
-        //         console.log(ws.ws.readyState);
-        //         // setText("");
-        //     });
-        // } catch (error) {
-        //     console.log(error);
-        //     console.log(ws.ws.readyState);
-        // }
+        saveComment();
+        try {
+            // 보낼 메시지
+            const message = {
+                message: `[${diary.title}]에 댓글이 달렸어요!`,
+                postUuid: postId,
+                otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
+                type: "ENTER",
+            };
+
+            if (comment === "") {
+                return;
+            }
+            // 로딩 중
+            waitForConnection(ws, function () {
+                ws.send(`/pub/chat/alarm`, { token: token })
+                console.log(ws.ws.readyState);
+                // setText("");
+            });
+        } catch (error) {
+            console.log(error);
+            console.log(ws.ws.readyState);
+        }
     };
 
     // // 웹소켓이 연결될 때 까지 실행
@@ -101,8 +92,8 @@ function CommentInput(props) {
 
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {
-            saveComment();
-            // onClick();
+            // saveComment();
+            onClick();
         }
     };
 

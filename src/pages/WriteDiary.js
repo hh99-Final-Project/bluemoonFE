@@ -26,7 +26,7 @@ function WriteDiary(props) {
   const {
     recordVoice,
     stopRecord,
-    pause,
+    recordPause,
     replay,
     play,
     audioUrl,
@@ -37,7 +37,7 @@ function WriteDiary(props) {
     isPaused,
     completeRecord,
     isShowSpeaker,
-    reset,
+    recordReset,
     timer
   } = useRecordVoice();
 
@@ -159,7 +159,7 @@ function WriteDiary(props) {
                 closePopup={closeVoicePopup}
                 play={play}
                 recordVoice={recordVoice}
-                pause={pause}
+                recordPause={recordPause}
                 stopRecord={stopRecord}
                 finishRecord={finishRecord}
                 isPlaying={isPlaying}
@@ -167,7 +167,7 @@ function WriteDiary(props) {
                 isPaused={isPaused}
                 replay={replay}
                 completeRecord={completeRecord}
-                reset={reset}
+                recordReset={recordReset}
                 timer={timer}
             />
           }
