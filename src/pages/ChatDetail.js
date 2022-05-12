@@ -13,6 +13,7 @@ import { Layout } from "../components/common";
 import { getChatMessage, subMessage } from "../redux/modules/chatSlice";
 import { getCookie } from "../utils/cookie";
 import { chatApi } from "../apis/chatApi";
+import close from "../static/images/chat/close.svg";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -145,7 +146,9 @@ const ChatDetail = () => {
                 <ChatRoom>
                     <ChatRoomTitle>
                         <p> {otherUserInfo.otherUserNickname} 님과의 대화</p>
-                        <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
+                        <BackButton onClick={() => navigate("/chatlist")}>
+                            <img src={close}></img>
+                        </BackButton>
                     </ChatRoomTitle>
 
                     <MessageWrapper>
@@ -196,7 +199,7 @@ const ChatRoom = styled.div`
 const ChatRoomTitle = styled.div`
     position: absolute;
     width: 950px;
-    height: 50px;
+    height: 52px;
     top: 20px;
 
     background: #2f3a5f;
@@ -210,7 +213,7 @@ const ChatRoomTitle = styled.div`
     color: #ffffff;
 
     & p {
-        margin-left: 20px;
+        margin-left: 22px;
         font-size: 20px;
         font-weight: 400;
         line-height: 24px;
@@ -239,11 +242,12 @@ const InputWrpper = styled.div`
 `;
 
 const BackButton = styled.div`
-    width: 184px;
-    height: 65px;
-    background-color: #787878;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute;
+    top: 13px;
+    left: 903px;
+
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
     cursor: pointer;
 `;
