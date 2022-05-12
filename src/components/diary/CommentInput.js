@@ -26,11 +26,10 @@ function CommentInput(props) {
 
     const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl), {
         onSuccess: () => {
-            queryClient.invalidateQueries('diaryDetail');
+            queryClient.invalidateQueries("diaryDetail");
             setComment("");
         },
     });
-
 
     // if(mutation.isSuccess){
     //     setComment("");
@@ -58,29 +57,30 @@ function CommentInput(props) {
     let ws = Stomp.over(sock);
 
     const onClick = async () => {
-        // saveComment();
-        // try {
-        //     // 보낼 메시지
-        //     const message = {
-        //         message: `[${diary.title}]에 댓글이 달렸어요!`,
-        //         postUuid: postId,
-        //         otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
-        //         type: "ENTER",
-        //     };
-        //
-        //     if (comment === "") {
-        //         return;
-        //     }
-        //     // 로딩 중
-        //     waitForConnection(ws, function () {
-        //         ws.send(`/pub/chat/alarm`, { token: token },
-        //         console.log(ws.ws.readyState);
-        //         // setText("");
-        //     });
-        // } catch (error) {
-        //     console.log(error);
-        //     console.log(ws.ws.readyState);
-        // }
+        try {
+            // saveComment();
+
+            // 보낼 메시지
+            const Alert = {
+                message: `[${diary.title}]에 댓글이 달렸어요!`,
+                postUuid: postId,
+                otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
+                type: "ENTER",
+            };
+
+            if (comment === "") {
+                return;
+            }
+            // 로딩 중
+            waitForConnection(ws, function () {
+                ws.send("/pub/chat/alarm", { token: token }, JSON.stringify(Alert));
+                console.log(ws.ws.readyState);
+                // setText("");
+            });
+        } catch (error) {
+            console.log(error);
+            console.log(ws.ws.readyState);
+        }
     };
 
     // // 웹소켓이 연결될 때 까지 실행
@@ -102,7 +102,7 @@ function CommentInput(props) {
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {
             saveComment();
-            // onClick();
+            onClick();
         }
     };
 
@@ -118,9 +118,7 @@ function CommentInput(props) {
                     placeholder="댓글을 남겨주세요"
                 />
                 <IconArea>
-                    <VoiceButton>
-                        {/*<img src={recordIcon} alt={"recordIcon"} />*/}
-                    </VoiceButton>
+                    <VoiceButton>{/*<img src={recordIcon} alt={"recordIcon"} />*/}</VoiceButton>
                     <IconRightArea>
                         <LockIcon>
                             <img src={lockIcon} alt={"lockIcon"} />

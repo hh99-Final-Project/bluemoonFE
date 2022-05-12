@@ -22,11 +22,10 @@ const ChatDetail = () => {
     const roomId = params.id;
     console.log(roomId);
 
-    const token = getCookie("authorization");
-    // console.log(token);
-
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
+    const token = getCookie("authorization");
+    // console.log(token);
 
     // 상대방 정보
     const [otherUserInfo, setOtherUserInfo] = useState([]);
@@ -41,8 +40,8 @@ const ChatDetail = () => {
         chatApi
             .enterChatRoom(roomId)
             .then((response) => {
-                console.log(response);
-                setOtherUserInfo(response);
+                console.log(response.data);
+                setOtherUserInfo(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -61,6 +60,12 @@ const ChatDetail = () => {
             wsDisConnect();
         };
     }, []);
+
+    // 입장 시 enter
+    // roomId 바뀔 때 실행되도록 세팅
+    useEffect(() => {
+        enterMessage();
+    }, [roomId]);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
     let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
@@ -96,41 +101,41 @@ const ChatDetail = () => {
         }
     }
 
-    // const enterMessage = () => {
-    //     try {
-    //         // send할 데이터
-    //         const message = {
-    //             type: "ENTER",
-    //             userId: 1, // 상대방의 userId
-    //         };
+    const enterMessage = () => {
+        try {
+            // send할 데이터
+            const message = {
+                type: "ENTER",
+                roomId: roomId,
+            };
 
-    //         waitForConnection(ws, () => {
-    //             ws.send("/pub/chat/message", {}, JSON.stringify(message));
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+            waitForConnection(ws, () => {
+                ws.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-    // // // 웹소켓이 연결될 때 까지 실행
-    // function waitForConnection(ws, callback) {
-    //     setTimeout(
-    //         function () {
-    //             // 연결되었을 때 콜백함수 실행
-    //             if (ws.ws.readyState === 1) {
-    //                 callback();
-    //                 // 연결이 안 되었으면 재호출
-    //             } else {
-    //                 waitForConnection(ws, callback);
-    //             }
-    //         },
-    //         10, // 밀리초 간격으로 실행
-    //     );
-    // }
+    // // 웹소켓이 연결될 때 까지 실행
+    function waitForConnection(ws, callback) {
+        setTimeout(
+            function () {
+                // 연결되었을 때 콜백함수 실행
+                if (ws.ws.readyState === 1) {
+                    callback();
+                    // 연결이 안 되었으면 재호출
+                } else {
+                    waitForConnection(ws, callback);
+                }
+            },
+            10, // 밀리초 간격으로 실행
+        );
+    }
 
-    // if (messages === null) {
-    //     return;
-    // }
+    if (messages === null) {
+        return;
+    }
 
     return (
         <Layout>
@@ -139,7 +144,7 @@ const ChatDetail = () => {
                 <CategoryBar />
                 <ChatRoom>
                     <ChatRoomTitle>
-                        <p> OO 님과의 대화</p>
+                        <p> {otherUserInfo.otherUserNickname} 님과의 대화</p>
                         <BackButton onClick={() => navigate("/chatlist")}>채팅 리스트로 돌아가기</BackButton>
                     </ChatRoomTitle>
 
@@ -157,7 +162,7 @@ const ChatDetail = () => {
                             })}
                     </MessageWrapper>
                     <InputWrpper>
-                        <ChatInput roomId={roomId} userInfo={userInfo} />
+                        <ChatInput roomId={roomId} userInfo={userInfo} otherUserInfo={otherUserInfo} />
                     </InputWrpper>
                 </ChatRoom>
             </Container>

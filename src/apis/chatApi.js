@@ -19,7 +19,7 @@ export const chatApi = {
 
     // 채팅방 입장
     enterChatRoom: async (roomUuid) => {
-        const data = await instange.get(`/api/rooms/otherUserInfo/${roomUuid}`);
+        const data = await instance.get(`/api/rooms/otherUserInfo/${roomUuid}`);
         return data;
     },
 

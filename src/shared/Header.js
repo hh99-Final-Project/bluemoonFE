@@ -18,11 +18,14 @@ const Header = () => {
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const modalOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    // console.log(userInfo);
 
     const [isOpenNoti, setIsOpenNoti] = useState(false);
     const [logoutPopup, setLogoutPopup] = useState(false);
 
     const AlertTabRef = useRef();
+    const token = getCookie("authorization");
+    // console.log(token);
 
     const loginCheck = () => {
         //로그인 판별하기
@@ -61,7 +64,7 @@ const Header = () => {
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
     function wsConnect() {
         try {
-            ws.connect({}, () => {
+            ws.connect({ token: token }, () => {
                 ws.subscribe(
                     `/sub/chat/room/${userInfo.userId}`,
                     (response) => {
@@ -91,40 +94,36 @@ const Header = () => {
     return (
         <React.Fragment>
             <HeaderContainer>
-                <Logo onClick={() => navigate("/")}>
-                    Blue Moon
-                </Logo>
-                {
-                    userInfo ? (
-                        <HeaderRightArea>
-                            <Point>
-                                <img src={MoonPoint} alt={"point"}/>
-                                <span>{userInfo.myPoint}</span>
-                            </Point>
+                <Logo onClick={() => navigate("/")}>Blue Moon</Logo>
+                {userInfo ? (
+                    <HeaderRightArea>
+                        <Point>
+                            <img src={MoonPoint} alt={"point"} />
+                            <span>{userInfo.myPoint}</span>
+                        </Point>
                         <AlertIcon
                             ref={AlertTabRef}
                             onClick={() => {
                                 setIsOpenNoti(true);
                             }}
                         >
-                            <img src={NewAlertIcon} alt={"NewAlertIcon"}/>
+                            <img src={NewAlertIcon} alt={"NewAlertIcon"} />
                         </AlertIcon>
-                            <Logout onClick={()=>setLogoutPopup(true)}>로그아웃</Logout>
-                        </HeaderRightArea>
-                    ) : (
+                        <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
+                    </HeaderRightArea>
+                ) : (
                     <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
-                    )
-                }
+                )}
             </HeaderContainer>
             {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
-            {
-                logoutPopup && <Popup
-                title={"정말 로그아웃 하시겠습니까?"}
-                desc={""}
-                event={logout}
-                close={() => setLogoutPopup(false)}
-            />
-            }
+            {logoutPopup && (
+                <Popup
+                    title={"정말 로그아웃 하시겠습니까?"}
+                    desc={""}
+                    event={logout}
+                    close={() => setLogoutPopup(false)}
+                />
+            )}
             {modalOpen && <Login />}
         </React.Fragment>
     );
@@ -170,8 +169,8 @@ const Point = styled.div`
     color: #d2fffd;
     display: flex;
     cursor: default;
-  span {
-      margin: 5px 0 13px;
+    span {
+        margin: 5px 0 13px;
     }
 
     img {

@@ -14,13 +14,22 @@ const inicialchatList = {
     dayBefore: null,
     lastMessage: null,
     roomName: null,
-    count: null, // user 가 안 읽은 메시지 수. 실시간 값 넣어야 함.
+    unreadCount: null, // user 가 안 읽은 메시지 수. 실시간 값 넣어야 함.
 };
 
 // tooklit - thunk 사용 시 아래처럼 사용
+export const getChatList = createAsyncThunk("GET_CHAT_LIST", async (page, thunkAPI) => {
+    try {
+        const response = chatApi.getChatList(page);
+        console.log(response);
+        return response;
+    } catch (e) {
+        return thunkAPI.rejectWithValue(e.response.data);
+    }
+});
+
 export const getChatMessage = createAsyncThunk("GET_CHAT_MESSAGE", async (roomId, thunkAPI) => {
     try {
-        console.log(roomId);
         const response = chatApi.getChatMessage(roomId);
         console.log(response);
         return response;
@@ -42,7 +51,10 @@ const chatSlice = createSlice({
     // extraReducers
     extraReducers: (builder) => {
         builder.addCase(getChatMessage.fulfilled, (state, action) => {
-            state.messages = action.payload;
+            state.messages = action.payload.data;
+        });
+        builder.addCase(getChatList.fulfilled, (state, action) => {
+            state.chatList = action.payload;
         });
     },
 });

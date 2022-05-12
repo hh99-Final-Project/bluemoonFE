@@ -22,15 +22,17 @@ function ChatList(props) {
     const dispatch = useDispatch();
     const { setCurrentHeader } = useStore();
 
-    // chatList 에 소켓에서 받는 안 읽은 메시지 수를 count 라는 속성에 넣어줘보자.
-    const [chatList, setChatList] = useState([]);
+    // const chatList = useSelector((state) => state.chatSlice.chatList);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
+    // chatList 에 소켓에서 받는 안 읽은 메시지 수를 count 라는 속성에 넣어줘보자.
+    const [chatList, setChatList] = useState([]);
+
     // 무한스크롤
+    const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
-    const InfinityScrollref = useRef();
 
     // modal
     const [ModalisOpen, setModalIsOpen] = useState(false);
@@ -120,11 +122,14 @@ function ChatList(props) {
         //  //현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
         // console.log(e.target.clientHeight);
 
-        if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+        console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
+
+        if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
             chatApi.getChatList(page).then((response) => {
+                console.log(response);
                 setChatList([...chatList, ...response.data]);
                 setIsLoading(false);
-                if (response.length < 5) {
+                if (response.data.length < 5) {
                     setHasNext(false);
                 } else {
                     setHasNext(true);
@@ -168,35 +173,37 @@ function ChatList(props) {
                         <p>채팅 리스트</p>
                     </ChatRoomListTitle>
                     <ChatRoomWrapper ref={InfinityScrollref} onScroll={InfinityScroll}>
-                        {chatList.map((chat, i) => {
-                            return (
-                                <ChatRoom
-                                    roomName={chat.roomName}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        navigate(`/chat/${chat.chatRoomUuid}`);
-                                    }}
-                                    key={chat.chatRoomUuid}
-                                >
-                                    <TiTleLine>
-                                        <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
-                                        <LastChatTime>{chat.dayBefore}</LastChatTime>
-                                    </TiTleLine>
-                                    <ContentLine>
-                                        <LastChat>{chat.lastMessage}</LastChat>
-                                        <ModalOpenButton ref={ChatOutTabRef}>
-                                            <img
-                                                src={chatOutIcon}
-                                                alt={"채팅방 나가기"}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    openModal();
-                                                    // deleteChat(chat.chatRoomUuid);
-                                                }}
-                                            />
-                                        </ModalOpenButton>
+                        {chatList.length === 0 && <NoChatNotice>아직 개설된 채팅방이 없습니다.</NoChatNotice>}
+                        {chatList.length > 0 &&
+                            chatList.map((chat, i) => {
+                                return (
+                                    <ChatRoom
+                                        roomName={chat.roomName}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(`/chat/${chat.chatRoomUuid}`);
+                                        }}
+                                        key={chat.chatRoomUuid}
+                                    >
+                                        <TiTleLine>
+                                            <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
+                                            <LastChatTime>{chat.dayBefore}</LastChatTime>
+                                        </TiTleLine>
+                                        <ContentLine>
+                                            <LastChat>{chat.lastMessage}</LastChat>
+                                            <ModalOpenButton ref={ChatOutTabRef}>
+                                                <img
+                                                    src={chatOutIcon}
+                                                    alt={"채팅방 나가기"}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        openModal();
+                                                        // deleteChat(chat.chatRoomUuid);
+                                                    }}
+                                                />
+                                            </ModalOpenButton>
 
-                                        {/* <ChatOutButton
+                                            {/* <ChatOutButton
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 deleteChat(chat.chatRoomUuid);
@@ -204,19 +211,19 @@ function ChatList(props) {
                                         >
                                             채팅방 나가기
                                         </ChatOutButton> */}
-                                    </ContentLine>
+                                        </ContentLine>
 
-                                    {ModalisOpen && (
-                                        <ChatOutModal
-                                            ChatOutTabRef={ChatOutTabRef}
-                                            closeModal={closeModal}
-                                            deleteChat={deleteChat}
-                                            charRoomId={chat.chatRoomUuid}
-                                        />
-                                    )}
-                                </ChatRoom>
-                            );
-                        })}
+                                        {ModalisOpen && (
+                                            <ChatOutModal
+                                                ChatOutTabRef={ChatOutTabRef}
+                                                closeModal={closeModal}
+                                                deleteChat={deleteChat}
+                                                charRoomId={chat.chatRoomUuid}
+                                            />
+                                        )}
+                                    </ChatRoom>
+                                );
+                            })}
                     </ChatRoomWrapper>
                 </ChatRoomListBox>
             </Container>
@@ -260,6 +267,21 @@ const DiaryName = styled.div`
     }
 `;
 
+const NoChatNotice = styled.div`
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+
+    color: #d7d7d7;
+`;
 const ChatRoomListTitle = styled.div`
     position: absolute;
     width: 950px;
