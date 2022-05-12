@@ -21,6 +21,7 @@ function CategoryBar(props) {
     const diapatch = useDispatch();
     const unreadCount = useSelector((state) => state.chatSlice.unreadCount);
     // const ChattingRef = useRef();
+    console.log(unreadCount);
 
     return (
         <HeaderContainer>
@@ -73,7 +74,7 @@ function CategoryBar(props) {
                 // ref={ChattingRef}
             >
                 {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={ChatIcon} alt={"ChatIcon"} />}
-                {unreadCount !== [] && <Unread src={star}></Unread>}
+                {unreadCount.length > 0 && <Unread src={star}></Unread>}
             </ChattingList>
             <Lottery
                 header={currentHeader}
