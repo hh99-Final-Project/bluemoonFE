@@ -12,6 +12,7 @@ import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import Popup from "../shared/Popup";
+import useStore from "../zustand/store";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Header = () => {
     const [logoutPopup, setLogoutPopup] = useState(false);
 
     const AlertTabRef = useRef();
+    const { setCurrentHeader } = useStore();
 
     const loginCheck = () => {
         //로그인 판별하기
@@ -38,6 +40,8 @@ const Header = () => {
         dispatch(getUserInfo(null));
         dispatch(isLogined(false));
         setLogoutPopup(false);
+        navigate('/')
+        setCurrentHeader('홈');
     };
 
     const closeNotiModal = () => {

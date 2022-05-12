@@ -24,6 +24,7 @@ function App() {
 
     useEffect(()=>{
         if(cookie){
+            console.log("loginCheck_at App.js")
            dispatch(loginCheck());
         }
     },[])

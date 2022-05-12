@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -9,6 +10,9 @@ import ListIcon from "../static/images/categoryBar/diaryListIcon.png";
 import MyPageIcon from "../static/images/categoryBar/mypageIcon.png";
 import LotteryIcon from "../static/images/categoryBar/lotteryIcon.png";
 import ChatIcon from "../static/images/categoryBar/chatIcon.png";
+import {useSelector} from "react-redux";
+import Login from "../components/user/Login";
+import {isModalOpen} from "../redux/modules/commonSlice";
 
 
 
@@ -16,7 +20,23 @@ CategoryBar.propTypes = {};
 
 function CategoryBar(props) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const { currentHeader, setCurrentHeader } = useStore();
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+
+    const loginCheck = () => {
+        return !!userInfo
+    }
+
+    const closeModal = () => {
+        dispatch(isModalOpen(false));
+    };
+
+    const openModal = () => {
+        dispatch(isModalOpen(true));
+    }
 
     return (
         <HeaderContainer>
@@ -53,8 +73,12 @@ function CategoryBar(props) {
             <MyPage
                 header={currentHeader}
                 onClick={() => {
-                    setCurrentHeader("마이페이지");
-                    navigate("/mypage");
+                    if(loginCheck()){
+                        setCurrentHeader("마이페이지");
+                        navigate("/mypage");
+                    } else {
+                        openModal(true);
+                    }
                 }}
             >
                 {currentHeader === '마이페이지' ? <div>마이 페이지</div> : <img src={MyPageIcon} alt={"MyPageIcon"}/> }
@@ -63,8 +87,12 @@ function CategoryBar(props) {
             <ChattingList
                 header={currentHeader}
                 onClick={() => {
-                    setCurrentHeader("채팅");
-                    navigate("/chatlist");
+                    if(loginCheck()){
+                        setCurrentHeader("채팅");
+                        navigate("/chatlist");
+                    } else {
+                        openModal(true);
+                    }
                 }}
             >
                 {currentHeader === '채팅' ? <div>1:1 채팅</div> : <img src={ChatIcon} alt={"ChatIcon"}/> }
@@ -80,7 +108,9 @@ function CategoryBar(props) {
                 {currentHeader === '추첨' ? <div>오픈 이벤트</div> : <img src={LotteryIcon} alt={"LotteryIcon"}/> }
 
             </Lottery>
+            {modalIsOpen && <Login />}
         </HeaderContainer>
+
     );
 }
 

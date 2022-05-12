@@ -34,8 +34,8 @@ function Login(props) {
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
-                    // 페이지 새로고침
-                    window.location.reload();
+                    //이전에 있었던 페이지로 돌아가요!
+                    navigate(-2);
                 }
             } else {
                 console.log("err");
@@ -55,8 +55,8 @@ function Login(props) {
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
-                    // 페이지 새로고침
-                    window.location.reload();
+                    //이전에 있었던 페이지로 돌아가요!
+                    navigate(-2);
                 }
             } else {
                 console.log("err");
