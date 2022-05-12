@@ -12,6 +12,7 @@ import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import Popup from "../shared/Popup";
+import { getUnreadCount } from "../redux/modules/chatSlice";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -70,8 +71,13 @@ const Header = () => {
                     (response) => {
                         const newAlert = JSON.parse(response.body);
                         // console.log(response);
-                        // console.log(newAlert);
-                        dispatch(getAlertList(newAlert));
+                        console.log(newAlert);
+                        console.log(newAlert.type);
+                        if (newAlert.type === "ALARM") {
+                            dispatch(getAlertList(newAlert));
+                        } else if (newAlert.type === "UNREAD") {
+                            dispatch(getUnreadCount(newAlert));
+                        }
                     },
                     // {},
                 );
