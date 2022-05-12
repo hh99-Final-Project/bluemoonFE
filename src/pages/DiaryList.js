@@ -61,7 +61,7 @@ function DiaryList(props) {
         keepPreviousData: true,
     });
 
-    // useEffect(() => {
+    useEffect(() => {
     //     if (isLogin) {
     //         diaryApi.getDiaryList(1).then((response) => {
     //             console.log(response.data);
@@ -75,8 +75,8 @@ function DiaryList(props) {
     //         });
     //     }
     //
-    //     setCurrentHeader("고민상담");
-    // }, [isLogin]);
+        setCurrentHeader("고민상담");
+    }, []);
 
     if (isLoading) {
         return <Loading />;

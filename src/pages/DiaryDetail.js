@@ -26,6 +26,9 @@ function DiaryDetail(props) {
     });
     // console.log(data,"data")
 
+
+
+
     // useEffect(() => {
     //     if (isLogin) {
     //         diaryApi.getOneDiary(postId).then((response) => {

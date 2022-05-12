@@ -45,8 +45,9 @@ function CategoryBar(props) {
             <Home
                 header={currentHeader}
                 onClick={() => {
-                    setCurrentHeader("홈");
-                    navigate("/");
+                    moveToPage('/')
+                    // setCurrentHeader("홈");
+                    // navigate("/");
                 }}
             >
                 {currentHeader === '홈' ? <div style={{paddingBottom:'18px'}}>기본 홈</div> :
@@ -55,7 +56,7 @@ function CategoryBar(props) {
             <DiaryList
                 header={currentHeader}
                 onClick={() => {
-                    setCurrentHeader("고민상담");
+                    // setCurrentHeader("고민상담");
                     moveToPage("/diarylist")
                 }}
             >
@@ -65,8 +66,9 @@ function CategoryBar(props) {
             <Post
                 header={currentHeader}
                 onClick={() => {
-                    setCurrentHeader("포스트");
-                    navigate("/write");
+                    // setCurrentHeader("포스트");
+                    // navigate("/write");
+                    moveToPage("/write");
                 }}
             >
                 {currentHeader === '포스트' ? <div>고민 작성하기</div> : <img src={WriteIcon} alt={"WriteIcon"}/> }
@@ -76,8 +78,8 @@ function CategoryBar(props) {
                 header={currentHeader}
                 onClick={() => {
                     if(loginCheck()){
-                        setCurrentHeader("마이페이지");
-                        navigate("/mypage");
+                        // setCurrentHeader("마이페이지");
+                        moveToPage("/mypage")
                     } else {
                         openModal(true);
                     }
@@ -90,8 +92,9 @@ function CategoryBar(props) {
                 header={currentHeader}
                 onClick={() => {
                     if(loginCheck()){
-                        setCurrentHeader("채팅");
-                        navigate("/chatlist");
+                        // setCurrentHeader("채팅");
+                        // navigate("/chatlist");
+                        moveToPage("/chatlist");
                     } else {
                         openModal(true);
                     }
@@ -103,8 +106,9 @@ function CategoryBar(props) {
             <Lottery
                 header={currentHeader}
                 onClick={() => {
-                    setCurrentHeader("추첨");
-                    navigate("/lottery");
+                    // setCurrentHeader("추첨");
+                    // navigate("/lottery");
+                    moveToPage("/lottery");
                 }}
             >
                 {currentHeader === '추첨' ? <div>오픈 이벤트</div> : <img src={LotteryIcon} alt={"LotteryIcon"}/> }

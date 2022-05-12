@@ -112,38 +112,23 @@ function WriteDiary(props) {
       e.preventDefault();
       e.returnValue = '작성 중인데 정말 나가시겠습니까?';
     }
-
   }
+
 
   useEffect(()=>{
     setCurrentHeader('포스트');
+  },[])
+
+  useEffect(()=>{
       window.addEventListener("beforeunload", handler);
 
     return () => {
         window.removeEventListener('beforeunload', handler);
+      setDiaryContent("");
     }
 
   }, [diary])
 
-
-
-
-  useEffect(()=>{
-
-    console.log(location, "location")
-      if(diary.length > 0){
-        if(window.confirm("작성중인데 나가실 껀가요?")){
-
-        } else {
-          //이동 캔슬, Navigate 이동 감지
-        }
-      }
-
-      return () => {
-
-      }
-
-  },[location])
 
   return (
       <Layout>

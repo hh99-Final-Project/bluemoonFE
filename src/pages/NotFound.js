@@ -2,32 +2,37 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../components/common";
+import RocketImg from "../static/images/common/notFoundImg.svg";
+import Header from "../shared/Header";
 
 const NotFound = (props) => {
     const navigate = useNavigate();
 
     return (
-        <Layout>
-            <Container>
-                <Grid>
-                    <ContentBox>
-                        <Title>
-                            앗! 막다른 길로 오셨군요! <br /> (404 Error){" "}
-                        </Title>
-                        <Description>
-                            방문을 원하신 페이지의 주소가 잘못되었거나, 변경 혹은 삭제되어 찾을 수 없어요. 찾아오신
-                            주소가 정확한지 확인해주세요:)
-                        </Description>
-                        <ButtonBox>
-                            <BackButton onClick={() => navigate(-1)}>이전 화면으로</BackButton>
-                            <HomeButton onClick={() => navigate("/")}>홈으로 가기</HomeButton>
-                        </ButtonBox>
-                    </ContentBox>
-
-                    <ImageBox>이미지 영역</ImageBox>
-                </Grid>
-            </Container>
-    </Layout>
+        <React.Fragment>
+            <Layout>
+                <Header/>
+                <Container>
+                    <Grid>
+                        <ContentBox>
+                            <Title>
+                                앗! 막다른 길로 오셨군요. <br /> (404 Error){" "}
+                            </Title>
+                            <Description>
+                                방문을 원하신 페이지의 주소가 잘못되었거나, <br/>
+                                변경 혹은 삭제되어 찾을 수 없어요. <br/>
+                                찾아오신 주소가 정확한지 확인해주세요!
+                            </Description>
+                            <ButtonBox>
+                                <BackButton onClick={() => navigate(-1)}>이전 화면으로</BackButton>
+                                <HomeButton onClick={() => navigate("/")}>홈으로 가기</HomeButton>
+                            </ButtonBox>
+                        </ContentBox>
+                        <ImageBox src={RocketImg}/>
+                    </Grid>
+                </Container>
+            </Layout>
+        </React.Fragment>
     );
 };
 
@@ -35,20 +40,20 @@ export default NotFound;
 
 const Container = styled.div`
     width: 100%;
-    height: 100vh;
     overflow: hidden;
 `;
 
 const Grid = styled.div`
-    width: 946px;
-    height: 300px;
-    margin: 300px auto;
+    width: 794px;
+    height: 380px;
+    margin: 198px auto 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 `;
 
 const ContentBox = styled.div`
-    width: 700px;
+    width: 372px;
     color: white;
 `;
 
@@ -58,39 +63,22 @@ const ButtonBox = styled.div`
 `;
 
 const BackButton = styled.div`
-    margin: 40px 0 0 0;
-    background-color: #455277;
-    color: #9aebe7;
-
     height: 51px;
     width: 172px;
-    left: 370px;
-    top: 438px;
+    border: 1px solid #9AEBE7;
     border-radius: 10px;
-
     display: flex;
     align-items: center;
-    font-size: 24px;
     justify-content: center;
     cursor: pointer;
+    color: #9AEBE7;
+    font-size: 20px;
+    line-height: 25px;
 `;
 
-const HomeButton = styled.div`
-    margin: 40px 0 0 60px;
-    background-color: #455277;
-    color: #9aebe7;
 
-    height: 51px;
-    width: 172px;
-    left: 370px;
-    top: 438px;
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    justify-content: center;
-    cursor: pointer;
+const HomeButton = styled(BackButton)`
+    margin-left: 29px;
 `;
 
 const Title = styled.p`
@@ -100,12 +88,15 @@ const Title = styled.p`
     color: white;
 `;
 
-const ImageBox = styled.div`
-    width: 246px;
-    color: white;
-    background-color: gray;
+const ImageBox = styled.img`
+    margin-left: 93px;
 `;
 
 const Description = styled.div`
-    margin: 30px 0 0 0;
+    margin: 59px 0 36px;
+    width: 372px;
+    color: #FFFAFA;
+    font-size: 20px;
+    line-height: 30px;
+    
 `;
