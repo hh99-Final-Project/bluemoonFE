@@ -46,7 +46,10 @@ function DiaryContent(props) {
             <DiaryContainer>
                 <ContentsContainer>
                     <Content>{diary.content}</Content>
-                    <VoiceButton onClick={playAudio} src={voicePlayIcon}/>
+                    { diary.voiceUrl.length > 0 &&
+                        <VoiceButton onClick={playAudio} src={voicePlayIcon}/>
+                    }
+
                 </ContentsContainer>
                 <IconArea>
                     <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
@@ -75,6 +78,7 @@ const DiaryContainer = styled.div`
     border-radius: 5px;
     padding-left: 44px;
     box-sizing: border-box;
+    position: relative;
 `;
 
 const NewBadge = styled.div`
@@ -98,10 +102,12 @@ const VoiceButton = styled.img`
     margin-top: 21px;
 `;
 const IconArea = styled.div`
-    margin-top: 40px;
+    position: absolute;
+    bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: calc(100% - 40px);
 `;
 
 const NicknameArea = styled.div`
