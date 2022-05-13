@@ -12,6 +12,7 @@ import CategoryBar from "../shared/CategoryBar";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
 import { useQuery, useQueryClient } from "react-query";
+import useStore from "../zustand/store";
 
 DiaryDetail.propTypes = {};
 
@@ -25,6 +26,13 @@ function DiaryDetail(props) {
     const { isLoading, data } = useQuery("diaryDetail", () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
     });
+
+    const { setCurrentHeader } = useStore();
+
+
+    useEffect(()=>{
+       setCurrentHeader('고민상담');
+    },[])
 
 
     // useEffect(() => {
