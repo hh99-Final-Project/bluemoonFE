@@ -167,7 +167,7 @@ function ChatList(props) {
                 <CategoryBar />
                 <ChatRoomListBox>
                     <DiaryName>
-                        {userInfo?.nickname} <span>님 다이어리</span>
+                        {userInfo.nickname} <span>님 다이어리</span>
                     </DiaryName>
                     <ChatRoomListTitle>
                         <p>채팅 리스트</p>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { getUserInfo, isLogined } from "../redux/modules/userSlice";
-import { isModalOpen, getAlertList } from "../redux/modules/commonSlice";
+import { isModalOpen, getNewAlert } from "../redux/modules/commonSlice";
 import MoonPoint from "../static/images/header/MoonPoint.svg";
 import NewAlertIcon from "../static/images/header/NewAlertIcon.svg";
 import Login from "../components/user/Login";
@@ -78,7 +78,7 @@ const Header = () => {
                         console.log(newAlert);
                         console.log(newAlert.type);
                         if (newAlert.type === "ALARM") {
-                            dispatch(getAlertList(newAlert));
+                            dispatch(getNewAlert(newAlert));
                         } else if (newAlert.type === "UNREAD") {
                             dispatch(getUnreadCount(newAlert));
                         }

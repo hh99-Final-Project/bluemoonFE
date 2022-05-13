@@ -26,9 +26,10 @@ const commonSlice = createSlice({
         isModalOpen(state, action) {
             state.modalIsOpen = action.payload;
         },
-        getAlertList(state, action) {
+        getNewAlert(state, action) {
             console.log(action.payload);
-            state.alertList.push(action.payload);
+            // 배열의 가장 앞에 실시간 알람 메시지를 추가함
+            state.alertList.unshift(action.payload);
         },
     },
     extraReducers: (builder) => {
@@ -39,7 +40,7 @@ const commonSlice = createSlice({
 });
 
 //액션 생성함수
-export const { isModalOpen, getAlertList } = commonSlice.actions;
+export const { isModalOpen, getNewAlert } = commonSlice.actions;
 
 //리듀서 export
 export default commonSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
@@ -9,25 +9,36 @@ import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
 import { Layout } from "../components/common";
 import { useSelector } from "react-redux";
 import { userApi } from "../apis/userApi";
+import Loading from "../shared/Loading";
+import { isWindows } from "react-device-detect";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
+    const [isClick, setIsClick] = useState(false);
+    const [isWin, setIsWin] = useState(null);
 
     useEffect(() => {
         setCurrentHeader("추첨");
     }, []);
 
     const onClickHandler = (e) => {
-        if (!userInfo) {
-            window.alert("로그인 후 참여할 수 있습니다!");
-            return;
-        }
-        userApi.tryLottery().then((response) => {
-            console.log(response);
-        });
+        // if (!userInfo) {
+        //     window.alert("로그인 후 참여할 수 있습니다!");
+        //     return;
+        // }
+        // userApi.tryLottery().then((response) => {
+        //     // if (response.status === 400) {
+        //     // }
+        //     console.log(response);
+        // });
+        setIsClick(true);
+        setIsWin(true);
     };
 
+    // if (!userInfo) {
+    //     return <Loading></Loading>;
+    // }
     return (
         <Layout>
             <Container>
@@ -35,7 +46,7 @@ const Lottery = () => {
                 <CategoryBar />
                 <ContentBox>
                     <DiaryName>
-                        {userInfo?.nickname} <span>님 다이어리</span>
+                        {userInfo ? userInfo.nickname : ""} <span>님 다이어리</span>
                     </DiaryName>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
@@ -49,11 +60,23 @@ const Lottery = () => {
                     <LotteryResultArea>
                         <img src={lotteryResult} />
                     </LotteryResultArea>
-                    <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>
+                    {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
+
+                    {isWin === true && (
+                        <LotteryResult>
+                            <p>당신에겐 달콤한 여유를 드릴게요.</p>
+                        </LotteryResult>
+                    )}
+                    {isWin === false && (
+                        <LotteryResult>
+                            <p>당신에겐 달빛을 담은 용기를 드릴게요</p>
+                        </LotteryResult>
+                    )}
+
                     <CountNoti>참여 가능 횟수</CountNoti>
-                    <ClickCount>1</ClickCount>
+                    <ClickCount>{userInfo ? userInfo.lottoCount : "0"}</ClickCount>
                     <RecommendIcons>친구 추천하기</RecommendIcons>
-                    <RecommendDesc>친구 추천 1명 → +2회</RecommendDesc>
+                    <RecommendDesc>친구 추천 1명 → +1회</RecommendDesc>
                 </ContentBox>
             </Container>
         </Layout>
@@ -158,6 +181,28 @@ const LotteryClick = styled.div`
     z-index: 1;
 
     cursor: pointer;
+`;
+
+const LotteryResult = styled.div`
+    position: absolute;
+    width: 377px;
+    height: 191px;
+    left: 70px;
+    top: 270px;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+
+    z-index: 1;
+
+    display: relative;
+
+    &: p {
+        position: absolute;
+        top: 18px;
+    }
 `;
 
 const CountNoti = styled.div`
