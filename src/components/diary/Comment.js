@@ -1,4 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
+import { useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import styled from "styled-components";
 import moment from "moment";
@@ -24,6 +25,7 @@ function Comment(props) {
     const modalRef = useRef();
     const queryClient = useQueryClient();
     const [isOptionOpen, setIsOptionOpen] = useState(false);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
 
 
     const audioPlay = (url) => {
@@ -88,7 +90,7 @@ function Comment(props) {
             </TitleArea>
             <PostContent>
                 {
-                    comment.lock ? "비밀 댓글 입니다" : comment.content
+                    (comment.lock && !comment.show) ? "비밀 댓글입니다" : comment.content
                 }
             </PostContent>
 
@@ -109,12 +111,12 @@ function Comment(props) {
                 <Reply>
                     답글
                 </Reply>
-                <Chat onClick={() => {
-                    //comment에 userId가 안내려와서 보류
-                    // createChat(comment.userId);
-                }}>
+                {
+                    userInfo.userId !== comment.userId &&
+                    <Chat onClick={() => createChat(comment.userId)}>
                     채팅
                 </Chat>
+                }
                 { comment.show &&
                     <Delete
                         onClick={() => deleteComment(comment.commentUuid)}>

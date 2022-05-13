@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -24,10 +24,13 @@ function DiaryList(props) {
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const [count, setCount] = useState(1);
     const [page, setPage] = useState(1);
-    const [audio, setAudio] = useState("");
+    const [audio, setAudio] = useState();
     const { currentHeader, setCurrentHeader } = useStore();
+    const audioRef = useRef();
 
     const getPrevDiary = () => {
+        audio.pause();
+
         if (count !== 1) {
             setCount((count) => count - 1);
         } else {
@@ -41,9 +44,14 @@ function DiaryList(props) {
                 }
             }
         }
+
+        setAudio(new Audio(data.data[count - 1].voiceUrl));
+        audio.loop = false;
+        audio.volume = 1;
     };
 
     const getNextDiary = () => {
+        audio.pause();
         if (data.data.length === 0) {
             window.alert("더이상 다이어리가 없어요😂😂");
             return;
@@ -57,19 +65,19 @@ function DiaryList(props) {
                 setCount(1);
             }
         }
+        setAudio(new Audio(data.data[count - 1].voiceUrl));
+        audio.loop = false;
+        audio.volume = 1;
     };
 
     const { isLoading, data, isPreviousData } = useQuery(["diary", page], () => diaryApi.getDiaryList(page), {
         keepPreviousData: true,
     });
 
+    console.log(audioRef.current,"audioRef")
+
     const togglePlayVoice = (e) => {
         e.stopPropagation();
-        // let audioUrl = "https://bluemoon-s3.s3.ap-northeast-2.amazonaws.com/static/a36d1211-ae7b-4f52-baeb-3ab7b0e37a11blob"
-        // let audio = new Audio(audioUrl);
-        // audio.loop = false;
-        // audio.volume = 1;
-
         if(audio.paused) {
             audio.play();
         } else {
