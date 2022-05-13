@@ -23,10 +23,17 @@ function DiaryContent(props) {
             .createChat(userId)
             .then((response) => {
                 console.log(response);
-                navigate(`/chat/${response.data}`);
+                if(response.status === 200){
+                    navigate(`/chat/${response.data}`);
+                }
+
+
             })
             .catch((error) => {
-                console.log(error);
+                console.log(error)
+                if(error.response.data.code === "R005"){
+                    window.alert(error.response.data.message);
+                }
             });
     };
 
