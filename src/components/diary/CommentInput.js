@@ -18,9 +18,10 @@ CommentInput.propTypes = {
 };
 
 function CommentInput(props) {
-    const { diary, postId } = props;
+    const { diary, postId, parentCommentId, replyClickHandler, setParentId } = props;
     const [comment, setComment] = useState("");
     const [isLocked, setIsLocked] = useState(false);
+
     const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
     const [recordTime, setRecordTime] = useState("");
     const token = getCookie("authorization");
@@ -52,8 +53,9 @@ function CommentInput(props) {
 
     const queryClient = useQueryClient();
 
-    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked), {
+    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId), {
         onSuccess: () => {
+            console.log("!")
             queryClient.invalidateQueries("diaryDetail");
             setComment("");
         },
@@ -75,7 +77,9 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-        mutation.mutate(postId, comment, audioUrl, isLocked);
+        replyClickHandler(false);
+        setParentId("");
+        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId);
     };
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -24,52 +24,87 @@ function DiaryList(props) {
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const [count, setCount] = useState(1);
     const [page, setPage] = useState(1);
-    const [audio, setAudio] = useState("");
+    const [audio, setAudio] = useState();
+    const [diaryList, setDiaryList] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     const { currentHeader, setCurrentHeader } = useStore();
 
+    console.log(page,"page")
+    console.log(count,"count")
+
     const getPrevDiary = () => {
+        if(audio){
+            audio.pause();
+        }
+
         if (count !== 1) {
             setCount((count) => count - 1);
+            //이 와중에 page가 1이면?
         } else {
-            //count가 1이면 서버 요청
-            if (page === 1) {
+           //count가 1일때
+            if(page === 1) {
                 window.alert("제일 첫번째 다이어리에요!");
             } else {
-                if (!isPreviousData) {
-                    setPage((prev) => prev - 1);
-                    setCount(5);
-                }
+                getDiaryListAPI(page - 1);
+                setPage(page => page - 1);
+                setCount(5);
             }
+
         }
+
+        // setAudio(new Audio(diaryList[count - 1].voiceUrl));
+        // audio.loop = false;
+        // audio.volume = 1;
     };
 
     const getNextDiary = () => {
-        if (data.data.length === 0) {
+        if(audio){
+            audio.pause();
+        }
+
+        if (diaryList.length === 0) {
             window.alert("더이상 다이어리가 없어요😂😂");
             return;
         }
-        if (count !== 5) {
-            setCount((count) => count + 1);
+
+        if (diaryList.length === count) {
+            console.log("?")
+            getDiaryListAPI(page + 1)
+            setPage((page) => page + 1);
+            setCount(1);
         } else {
-            //count가 5면 다음꺼 api 요청
-            if (!isPreviousData) {
-                setPage((prev) => prev + 1);
-                setCount(1);
-            }
+            //list가 아직 남아있으면 cnt++
+            setCount((count) => count + 1);
         }
+
+        // setAudio(new Audio(diaryList[count - 1].voiceUrl));
+        // audio.loop = false;
+        // audio.volume = 1;
     };
 
-    const { isLoading, data, isPreviousData } = useQuery(["diary", page], () => diaryApi.getDiaryList(page), {
-        keepPreviousData: true,
-    });
+    // const { isLoading, data, isPreviousData } = useQuery(["diary", page], () => diaryApi.getDiaryList(page), {
+    //     keepPreviousData: true,
+    // });
+
+    const getDiaryListAPI = (page) => {
+        diaryApi.getDiaryList(page).then((res) => {
+            if(res){
+                setIsLoading(false);
+                setDiaryList(res);
+            } else {
+                console.log("error")
+            }
+        })
+    }
+
+    useEffect(()=>{
+        getDiaryListAPI(page);
+
+    },[])
+
 
     const togglePlayVoice = (e) => {
         e.stopPropagation();
-        // let audioUrl = "https://bluemoon-s3.s3.ap-northeast-2.amazonaws.com/static/a36d1211-ae7b-4f52-baeb-3ab7b0e37a11blob"
-        // let audio = new Audio(audioUrl);
-        // audio.loop = false;
-        // audio.volume = 1;
-
         if(audio.paused) {
             audio.play();
         } else {
@@ -116,17 +151,24 @@ function DiaryList(props) {
                         <NextButton onClick={getNextDiary} src={nextButton} />
                         {/*다이어리 영역                    */}
                         <DiaryCard
-                            onClick={() => navigate(`/diary/${data.data[count - 1].postUuid}`)}
-                            key={data.data[count - 1]?.postUuid}
+                            onClick={() => navigate(`/diary/${diaryList[count - 1].postUuid}`)}
+                            key={diaryList[count - 1]?.postUuid}
                         >
                             <CardLeftPage>
                                 <CardBackground>
                                     <CardBorder>
-                                        <DiaryTitle>{data.data[count - 1]?.title}</DiaryTitle>
+
+                                        <DiaryTitle>
+                                            { diaryList.length === 0 ?
+                                                "아직 작성된 다이어리가 없어요!"
+                                                :
+                                                diaryList[count - 1]?.title
+                                            }
+                                        </DiaryTitle>
                                         <CommentIcon
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                navigate(`/diary/${data.data[count - 1].postUuid}`);
+                                                navigate(`/diary/${diaryList[count - 1].postUuid}`);
                                             }}
                                         >
                                             <img src={commentIcon} alt={"comment"} />
@@ -139,8 +181,14 @@ function DiaryList(props) {
                                 <CardBackground>
                                     <CardBorderRight>
                                         <ContentBox>
-                                            <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
-                                            <DiaryDesc>{data.data[count - 1]?.content}</DiaryDesc>
+                                            { diaryList[count - 1]?.voiceUrl &&
+                                                <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
+                                            }
+                                            <DiaryDesc>
+                                                {   diaryList.length === 0 ? "다이어리를 작성해주세요!" :
+                                                    diaryList[count - 1]?.content
+                                                }
+                                            </DiaryDesc>
                                         </ContentBox>
                                         <ChattingIcon>
                                             <img src={chatIcon} alt={"chatIcon"} />

@@ -19,7 +19,7 @@ export const diaryApi = {
 
     getDiaryList: async (page) => {
         const data = await instance.get(`/api/posts/${page}`);
-        return data;
+        return data.data;
     },
 
     getOneDiary: async (postId) => {
@@ -32,11 +32,13 @@ export const diaryApi = {
         return data;
     },
 
-  createComment: async (postId, comment, audioUrl, isLocked) => {
+  createComment: async (postId, comment, audioUrl, isLocked, parentCommentId) => {
+      console.log(parentCommentId,"parentCommentId")
     let req = {
       "postUuid": postId,
       "content": comment,
-      "lock": isLocked
+      "lock": isLocked,
+      "parentUuid": parentCommentId
     }
 
     const form = new FormData();

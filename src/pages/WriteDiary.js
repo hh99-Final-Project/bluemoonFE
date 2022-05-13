@@ -133,9 +133,11 @@ function WriteDiary(props) {
           <Header/>
           <CategoryBar/>
           <PostAreaContainer>
-            <DiaryName>
-              {userInfo?.nickname} <span>님 다이어리</span>
-            </DiaryName>
+            { userInfo &&
+              <DiaryName>
+                {userInfo.nickname} 님 다이어리
+              </DiaryName>
+            }
             <PostHeader>
               <BackToListButton src={backIcon}/>
               <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>
@@ -145,7 +147,7 @@ function WriteDiary(props) {
                 placeholder="제목을 작성해주세요"
                 onChange={onChangeTitleHandler}
               />
-              <PostArea
+              <PostArea isShowSpeaker={isShowSpeaker}
                 placeholder={ isShowSpeaker ? "" : "1000자 내로 작성해주세요" }
                 onChange={onChangeContentHandler}
               />
@@ -292,7 +294,7 @@ const PostArea = styled.textarea`
   width: 876px;
   height: 352px;
   box-sizing: border-box;
-  padding: 18px 27px;
+  padding: ${(props) => (props.isShowSpeaker ? "65px 27px" : "18px 27px;")}; 
   background-color: #959EBE;
   border: none;
   font-size: 18px;

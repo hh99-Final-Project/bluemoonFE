@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { DiaryContent, CommentList } from "../components/diary";
+import { DiaryContent, CommentList, CommentContainer } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
 import CommentInput from "../components/diary/CommentInput";
 import Header from "../shared/Header";
@@ -21,12 +21,10 @@ function DiaryDetail(props) {
     const postId = params.id;
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
+
     const { isLoading, data } = useQuery("diaryDetail", () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
     });
-    // console.log(data,"data")
-
-
 
 
     // useEffect(() => {
@@ -64,8 +62,7 @@ function DiaryDetail(props) {
                     </TitleContainer>
                     <ContentContainer>
                         <DiaryContent diary={data} />
-                        <CommentInput diary={data} postId={postId} />
-                        <CommentList comments={data.comments} postId={data.postId} />
+                        <CommentContainer diary={data} postId={postId}/>
                     </ContentContainer>
                 </DetailContent>
             </DetailContainer>

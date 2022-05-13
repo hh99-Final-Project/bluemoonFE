@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect} from "react";
 
 export default function useRecordVoice() {
 
@@ -144,20 +144,18 @@ export default function useRecordVoice() {
 
     // 파일 출력 & 재생
 
-    const play = useCallback(() => {
+    const play = () => {
         if (myAudio){
             myAudio.play();
             setIsPlaying(true);
         }
+    }
 
-    }, [audioUrl]);
-
-    const playingPause = useCallback(()=>{
+    const playingPause = () => {
         if(myAudio){
             myAudio.pause();
         };
-
-    },[audioUrl])
+    }
 
 
     //파일 삭제

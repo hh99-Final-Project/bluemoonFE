@@ -2,9 +2,8 @@ import { instance } from "./config";
 
 export const chatApi = {
     // 채팅방 생성
-    createChat: async (roomname, userId) => {
+    createChat: async (userId) => {
         let req = {
-            roomname: roomname,
             userId: userId,
         };
         const data = await instance.post("/api/rooms", req);
