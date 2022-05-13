@@ -133,9 +133,11 @@ function WriteDiary(props) {
           <Header/>
           <CategoryBar/>
           <PostAreaContainer>
-            <DiaryName>
-              {userInfo?.nickname} <span>님 다이어리</span>
-            </DiaryName>
+            { userInfo &&
+              <DiaryName>
+                {userInfo.nickname} 님 다이어리
+              </DiaryName>
+            }
             <PostHeader>
               <BackToListButton src={backIcon}/>
               <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>

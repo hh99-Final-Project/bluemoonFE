@@ -52,7 +52,7 @@ function Comment(props) {
         setParentId(commentId);
         replyClickHandler(true);
     }
-    console.log(parentCommentId,"parentCommentId")
+
 
 
     const createChat = (userId) => {
@@ -88,18 +88,15 @@ function Comment(props) {
                     }
                 </PostContent>
 
-                <IconArea onClick={() => setIsOptionOpen(true)}>
-
-                    {
-                        comment.voiceUrl !== "" &&
-                        <PlayIcon
-                            onClick={(e) => {
-                                e.preventDefault();
-                                audioPlay(comment.voiceUrl)}}>
+                {
+                    comment.voiceUrl !== "" &&
+                    <PlayIcon
+                        onClick={(e) => {
+                            e.preventDefault();
+                            audioPlay(comment.voiceUrl)}}>
                         듣기
                     </PlayIcon>
-                    }
-                </IconArea>
+                }
 
                 <OptionBox>
                     <Reply onClick={() => reReplyComment(comment.commentUuid)}>
@@ -204,12 +201,6 @@ const PostContent = styled.div`
     }
 `
 
-const IconArea = styled.div`
-    margin-top: 10px;
-    cursor: pointer;
-    position: absolute;
-    right: 31px;
-`
 const DeleteIcon = styled.div`
     margin-right: 20px;
     cursor: pointer;
@@ -221,5 +212,11 @@ const LockIcon = styled(DeleteIcon)`
 const ChatIcon = styled(DeleteIcon)`
 `
 
-const PlayIcon = styled(DeleteIcon)`
+const PlayIcon = styled.div`
+    position: absolute;
+    left: 31px;
+    bottom: 15px;
+    cursor: pointer;
+    font-size: 13px;
+  
 `
