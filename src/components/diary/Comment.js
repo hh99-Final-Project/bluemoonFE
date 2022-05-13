@@ -13,6 +13,7 @@ import moreIcon from "../../static/images/diary/moreIcon.svg";
 import Modal from "react-modal";
 import { useMutation, useQueryClient } from "react-query";
 import {chatApi} from "../../apis/chatApi";
+import ReplyComment from "./ReplyComment";
 
 Comment.propTypes = {
     comment: PropTypes.object
@@ -20,11 +21,10 @@ Comment.propTypes = {
 
 function Comment(props) {
 
-    const { comment } = props;
+    const { comment, setParentId, isReplyClicked, replyClickHandler, parentCommentId } = props;
     const navigate = useNavigate();
-    const modalRef = useRef();
     const queryClient = useQueryClient();
-    const [isOptionOpen, setIsOptionOpen] = useState(false);
+
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
 
@@ -48,15 +48,12 @@ function Comment(props) {
         mutation.mutate(id);
     };
 
-    const closeModal = () => {
-        setIsOptionOpen(false);
+    const reReplyComment = (commentId) => {
+        setParentId(commentId);
+        replyClickHandler(true);
     }
+    console.log(parentCommentId,"parentCommentId")
 
-    const clickOutSideModal = (e) => {
-        if(modalRef.current && !modalRef.current.contains(e.target)){
-            closeModal();
-        }
-    }
 
     const createChat = (userId) => {
         chatApi
@@ -71,62 +68,61 @@ function Comment(props) {
     };
 
 
-    useEffect(()=>{
-        window.addEventListener('mousedown', clickOutSideModal);
 
-        return () => {
-            window.removeEventListener('mousedown', clickOutSideModal);
-        }
-    },[])
 
     return (
-        <OneCommentContainer>
-            <TitleArea>
-                <TitleLeft>
-                    <NicknameArea>{comment.nickname}의 댓글</NicknameArea>
-                    {comment.lock && <img src={lockIcon} alt={"lockIcon"}/>}
-                </TitleLeft>
-                <PostTimeArea>{convertDate(comment.createdAt)}</PostTimeArea>
-            </TitleArea>
-            <PostContent>
-                {
-                    (comment.lock && !comment.show) ? "비밀 댓글입니다" : comment.content
-                }
-            </PostContent>
+        <React.Fragment>
+            <OneCommentContainer style={{
+                backgroundColor: parentCommentId === comment.commentUuid ?  " rgba(149, 158, 190, 0.9)" : "rgba(198, 211, 236, 0.7)"
+            }}>
+                <TitleArea>
+                    <TitleLeft>
+                        <NicknameArea>{comment.nickname}의 댓글</NicknameArea>
+                        {comment.lock && <img src={lockIcon} alt={"lockIcon"}/>}
+                    </TitleLeft>
+                    <PostTimeArea>{convertDate(comment.createdAt)}</PostTimeArea>
+                </TitleArea>
+                <PostContent>
+                    {
+                        (comment.lock && !comment.show) ? "비밀 댓글입니다" : comment.content
+                    }
+                </PostContent>
 
-            <IconArea onClick={() => setIsOptionOpen(true)}>
+                <IconArea onClick={() => setIsOptionOpen(true)}>
 
-                {
-                    comment.voiceUrl !== "" &&
-                    <PlayIcon
-                        onClick={(e) => {
-                            e.preventDefault();
-                            audioPlay(comment.voiceUrl)}}>
-                    듣기
-                </PlayIcon>
-                }
-            </IconArea>
+                    {
+                        comment.voiceUrl !== "" &&
+                        <PlayIcon
+                            onClick={(e) => {
+                                e.preventDefault();
+                                audioPlay(comment.voiceUrl)}}>
+                        듣기
+                    </PlayIcon>
+                    }
+                </IconArea>
 
-            <OptionBox>
-                <Reply>
-                    답글
-                </Reply>
-                {
-                    userInfo.userId !== comment.userId &&
-                    <Chat onClick={() => createChat(comment.userId)}>
-                    채팅
-                </Chat>
-                }
-                { comment.show &&
-                    <Delete
-                        onClick={() => deleteComment(comment.commentUuid)}>
-                        삭제
-                    </Delete>
-                }
+                <OptionBox>
+                    <Reply onClick={() => reReplyComment(comment.commentUuid)}>
+                        답글
+                    </Reply>
+                    {
+                        userInfo.userId !== comment.userId &&
+                        <Chat onClick={() => createChat(comment.userId)}>
+                        채팅
+                    </Chat>
+                    }
+                    { comment.show &&
+                        <Delete
+                            onClick={() => deleteComment(comment.commentUuid)}>
+                            삭제
+                        </Delete>
+                    }
 
-            </OptionBox>
+                </OptionBox>
 
-        </OneCommentContainer>
+            </OneCommentContainer>
+            <ReplyComment replyComments={comment.children} />
+        </React.Fragment>
 
     );
 }
@@ -161,7 +157,7 @@ const OneCommentContainer = styled.div`
     position: relative;  
     width: 876px;
     height: 110px;
-    background-color: #959EBE;
+    background-color: ${(props) => props.isReplyClicked ? "rgba(149, 158, 190, 0.8)" : "rgba(198, 211, 236, 0.7)"};
     border-radius: 5px;
     padding: 18px 44px 0 44px;
     box-sizing: border-box;

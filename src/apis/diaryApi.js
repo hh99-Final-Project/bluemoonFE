@@ -32,11 +32,13 @@ export const diaryApi = {
         return data;
     },
 
-  createComment: async (postId, comment, audioUrl, isLocked) => {
+  createComment: async (postId, comment, audioUrl, isLocked, parentCommentId) => {
+      console.log(parentCommentId,"parentCommentId")
     let req = {
       "postUuid": postId,
       "content": comment,
-      "lock": isLocked
+      "lock": isLocked,
+      "parentUuid": parentCommentId
     }
 
     const form = new FormData();

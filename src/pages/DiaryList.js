@@ -26,10 +26,12 @@ function DiaryList(props) {
     const [page, setPage] = useState(1);
     const [audio, setAudio] = useState();
     const { currentHeader, setCurrentHeader } = useStore();
-    const audioRef = useRef();
 
     const getPrevDiary = () => {
-        audio.pause();
+        if(audio){
+            audio.pause();
+        }
+
 
         if (count !== 1) {
             setCount((count) => count - 1);
@@ -51,7 +53,10 @@ function DiaryList(props) {
     };
 
     const getNextDiary = () => {
-        audio.pause();
+        if(audio){
+            audio.pause();
+        }
+
         if (data.data.length === 0) {
             window.alert("더이상 다이어리가 없어요😂😂");
             return;
@@ -74,7 +79,6 @@ function DiaryList(props) {
         keepPreviousData: true,
     });
 
-    console.log(audioRef.current,"audioRef")
 
     const togglePlayVoice = (e) => {
         e.stopPropagation();

@@ -145,6 +145,7 @@ export default function useRecordVoice() {
     // 파일 출력 & 재생
 
     const play = useCallback(() => {
+        console.log("!")
         if (myAudio){
             myAudio.play();
             setIsPlaying(true);

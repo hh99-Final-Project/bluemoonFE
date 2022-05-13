@@ -11,16 +11,17 @@ CommentList.propTypes = {
 
 function CommentList(props) {
 
-    const { comments } = props;
-    const reversedComments = comments.reverse();
+    const { comments, setParentId, isReplyClicked, replyClickHandler, parentCommentId } = props;
+    // const reversedComments = comments.reverse();
 
 
     return (
         <React.Fragment>
             <CommentsContainer>
                 {
-                    reversedComments.map((comment) => {
-                        return <Comment key={comment.commentUuid} comment={comment}/>
+                    comments.map((comment) => {
+                        return <Comment key={comment.commentUuid} comment={comment} replyClickHandler={replyClickHandler}
+                                        setParentId={setParentId} isReplyClicked={isReplyClicked} parentCommentId={parentCommentId}/>
                     })
                 }
             </CommentsContainer>
