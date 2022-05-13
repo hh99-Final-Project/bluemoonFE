@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
@@ -15,6 +15,8 @@ function DiaryContent(props) {
     const { diary } = props;
     const navigate = useNavigate();
     const audioRef = useRef(new Audio(diary.voiceUrl));
+
+
 
     const createChat = (roomname, userId) => {
         chatApi
@@ -40,6 +42,12 @@ function DiaryContent(props) {
             }
         }
     };
+
+    useEffect(()=>{
+       return () => {
+           audioRef.current.pause();
+       }
+    },[])
 
     return (
         <React.Fragment>

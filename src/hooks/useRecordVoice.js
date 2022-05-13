@@ -42,7 +42,7 @@ export default function useRecordVoice() {
 
     //음성 녹음하기
     const recordVoice = () => {
-        // 음원정보를 담은 노드를 생성하거나 음원을 실행또는 디코딩 시키는 일을 한다
+        // 음원 정보를 담은 노드를 생성한다.
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         // 자바스크립트를 통해 음원의 진행상태에 직접접근에 사용된다.
@@ -62,7 +62,9 @@ export default function useRecordVoice() {
 
         //유저 마이크 사용 권한 획득 후 녹음 시작
         navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+            //사용자가 허용을 눌렀을때, 녹음을 시작할 수 있다. audio stream을 통해 녹음 객체를 만들어준다.
             const mediaRecorder = new MediaRecorder(stream);
+
             mediaRecorder.start();
             setStream(stream);
             setMedia(mediaRecorder);
@@ -75,8 +77,8 @@ export default function useRecordVoice() {
         });
     };
 
-    // console.log(audioCtx?.currentTime,"currentTime")
     const stopRecord = () => {
+        // blob 객체를 내보내는 메서드
         media.ondataavailable = function (e) {
             setAudioUrl(e.data);
             setOnRec(true);
