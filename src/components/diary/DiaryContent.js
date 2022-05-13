@@ -18,9 +18,9 @@ function DiaryContent(props) {
 
 
 
-    const createChat = (roomname, userId) => {
+    const createChat = (userId) => {
         chatApi
-            .createChat(roomname, userId)
+            .createChat(userId)
             .then((response) => {
                 console.log(response);
                 navigate(`/chat/${response.data}`);
@@ -64,7 +64,7 @@ function DiaryContent(props) {
                     <ChattingButton
                         onClick={(e) => {
                             e.stopPropagation();
-                            createChat(diary.nickname, diary.userId);
+                            createChat(diary.userId);
                         }}
                     >
                         <img style={{ width: "23px", height: "23px" }} src={chatIcon} alt={"chatIcon"} />

@@ -14,6 +14,7 @@ import { getChatMessage, subMessage } from "../redux/modules/chatSlice";
 import { getCookie } from "../utils/cookie";
 import { chatApi } from "../apis/chatApi";
 import close from "../static/images/chat/close.svg";
+import useStore from "../zustand/store";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const ChatDetail = () => {
     const params = useParams();
     // console.log(params);
     const roomId = params.id;
-    console.log(roomId);
+    const { setCurrentHeader } = useStore();
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
@@ -38,6 +39,7 @@ const ChatDetail = () => {
 
     // 상대방 정보 가져오기
     useEffect(() => {
+        setCurrentHeader('채팅');
         chatApi
             .enterChatRoom(roomId)
             .then((response) => {
