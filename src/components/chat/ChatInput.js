@@ -37,7 +37,7 @@ function ChatInput(props) {
             waitForConnection(ws, function () {
                 ws.send("/pub/chat/message", { token: token }, JSON.stringify(message));
                 console.log(ws.ws.readyState);
-                // setText("");
+                setText("");
             });
         } catch (error) {
             console.log(error);
@@ -69,7 +69,7 @@ function ChatInput(props) {
 
     return (
         <React.Fragment>
-            <Input type="text" onChange={(e) => setText(e.target.value)} onKeyPress={onKeyPressHandler} />
+            <Input type="text" onChange={(e) => setText(e.target.value)} onKeyPress={onKeyPressHandler} value={text} />
             <SendButton onClick={onSend}>
                 <img src={send}></img>
             </SendButton>

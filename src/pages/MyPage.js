@@ -14,7 +14,7 @@ import useStore from "../zustand/store";
 import _ from "lodash";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
-import {isLogined} from "../redux/modules/userSlice";
+import { isLogined } from "../redux/modules/userSlice";
 
 MyPage.propTypes = {};
 
@@ -36,7 +36,6 @@ function MyPage(props) {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
-
     //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
     const deleteDiary = (postUuid) => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
@@ -48,8 +47,6 @@ function MyPage(props) {
             });
         }
     };
-
-
 
     // 무한스크롤을 함수
     // Grid onScroll 이벤트에 넣어두어, Grid 스크롤 발생 시 실행됨
@@ -115,7 +112,7 @@ function MyPage(props) {
                 {/* onscroll 적용 */}
                 <MyPageBox>
                     <DiaryName>
-                        {userInfo?.nickname} <span>님 다이어리</span>
+                        {userInfo.nickname} <span>님 다이어리</span>
                     </DiaryName>
                     <MyPageTitle>
                         <p>내가 쓴 글</p>
