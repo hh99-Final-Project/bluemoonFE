@@ -28,15 +28,10 @@ function MyPage(props) {
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
 
-    // console.log(myDiary);
-    // console.log(isLoading);
-    // console.log(page);
-    // console.log(hasNext);
-
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
-    //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
+    // 삭제하기
     const deleteDiary = (postUuid) => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             diaryApi.deleteDiary(postUuid).then((response) => {
@@ -93,8 +88,6 @@ function MyPage(props) {
         setCurrentHeader("마이페이지");
     }, []);
 
-    // 리랜더링이 되더라도 기능이 다른 아이들을 구분해서 useEffect 실행하는 게 낫다
-
     if (isLoading) {
         return <Loading />;
     }
@@ -108,8 +101,6 @@ function MyPage(props) {
             <Container>
                 <Header />
                 <CategoryBar />
-                {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
-                {/* onscroll 적용 */}
                 <MyPageBox>
                     <DiaryName>
                         {userInfo.nickname} <span>님 다이어리</span>
@@ -147,7 +138,6 @@ function MyPage(props) {
                             })}
                     </DiaryWrapper>
                 </MyPageBox>
-                {/* </InfinityScroll> */}
             </Container>
         </Layout>
     );

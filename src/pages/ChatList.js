@@ -191,18 +191,6 @@ function ChatList(props) {
                                         </TiTleLine>
                                         <ContentLine>
                                             <LastChat>{chat.lastMessage}</LastChat>
-                                            {/* <ModalOpenButton ref={ChatOutTabRef}>
-                                                <img
-                                                    src={chatOutIcon}
-                                                    alt={"채팅방 나가기"}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        openModal();
-                                                        deleteChat(chat.chatRoomUuid);
-                                                    }}
-                                                />
-                                            </ModalOpenButton> */}
-
                                             <ChatOutButton
                                                 onClick={(e) => {
                                                     e.stopPropagation();

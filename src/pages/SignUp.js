@@ -85,6 +85,7 @@ function SignUp(props) {
                         onChange={onChange}
                     ></NickNameInput>
 
+                    {/* 삼항연산자를 사용하려 했으나, nickname 값이 없을 때 '사용하실 닉네임 입력해주세요' 와 '사용 불가능한 닉네임입니다' 2개 모두 띄워지는 문제 발생 */}
                     {/* {!isValidNickName ? (
                         <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>
                     ) : (
