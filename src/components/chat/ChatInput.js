@@ -17,49 +17,49 @@ function ChatInput(props) {
     const [text, setText] = React.useState("");
     const token = getCookie("authorization");
 
-    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    let ws = Stomp.over(sock);
+    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    // let ws = Stomp.over(sock);
 
-    const onSend = async () => {
-        try {
-            // send할 데이터
-            const message = {
-                roomId: roomId,
-                message: text,
-                otherUserId: otherUserInfo.otherUserId, // 메시지 받는 상대방
-                type: "TALK",
-            };
+    // const onSend = async () => {
+    //     try {
+    //         // send할 데이터
+    //         const message = {
+    //             roomId: roomId,
+    //             message: text,
+    //             otherUserId: otherUserInfo.otherUserId, // 메시지 받는 상대방
+    //             type: "TALK",
+    //         };
 
-            if (text === "") {
-                return;
-            }
-            // 로딩 중
-            waitForConnection(ws, function () {
-                ws.send("/pub/chat/message", { token: token }, JSON.stringify(message));
-                console.log(ws.ws.readyState);
-                setText("");
-            });
-        } catch (error) {
-            console.log(error);
-            console.log(ws.ws.readyState);
-        }
-    };
+    //         if (text === "") {
+    //             return;
+    //         }
+    //         // 로딩 중
+    //         waitForConnection(ws, function () {
+    //             ws.send("/pub/chat/message", { token: token }, JSON.stringify(message));
+    //             console.log(ws.ws.readyState);
+    //             setText("");
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(ws.ws.readyState);
+    //     }
+    // };
 
-    // // 웹소켓이 연결될 때 까지 실행
-    function waitForConnection(ws, callback) {
-        setTimeout(
-            function () {
-                // 연결되었을 때 콜백함수 실행
-                if (ws.ws.readyState === 1) {
-                    callback();
-                    // 연결이 안 되었으면 재호출
-                } else {
-                    waitForConnection(ws, callback);
-                }
-            },
-            10, // 밀리초 간격으로 실행
-        );
-    }
+    // // // 웹소켓이 연결될 때 까지 실행
+    // function waitForConnection(ws, callback) {
+    //     setTimeout(
+    //         function () {
+    //             // 연결되었을 때 콜백함수 실행
+    //             if (ws.ws.readyState === 1) {
+    //                 callback();
+    //                 // 연결이 안 되었으면 재호출
+    //             } else {
+    //                 waitForConnection(ws, callback);
+    //             }
+    //         },
+    //         10, // 밀리초 간격으로 실행
+    //     );
+    // }
 
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {

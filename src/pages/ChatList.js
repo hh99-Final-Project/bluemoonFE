@@ -64,7 +64,7 @@ function ChatList(props) {
     // }, []);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
-    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    // let sock = new SockJS("http://13.209.155.82/stomp/chat");
     // let ws = Stomp.over(sock);
 
     // 연결 및 구독. 파라메터로 토큰 넣어야 함

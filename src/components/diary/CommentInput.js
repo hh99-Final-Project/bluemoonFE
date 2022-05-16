@@ -12,7 +12,6 @@ import { getCookie } from "../../utils/cookie";
 import recordIcon from "../../static/images/diary/commentMicIcon.svg";
 import VoicePopup from "./VoicePopup";
 
-
 CommentInput.propTypes = {
     postId: PropTypes.string,
 };
@@ -44,18 +43,18 @@ function CommentInput(props) {
         playingPause,
         setIsPlaying,
         toggleListening,
-        isListening
+        isListening,
     } = useRecordVoice();
 
     const lockHandler = () => {
-        setIsLocked(prev => !prev);
-    }
+        setIsLocked((prev) => !prev);
+    };
 
     const queryClient = useQueryClient();
 
     const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId), {
         onSuccess: () => {
-            console.log("!")
+            console.log("!");
             queryClient.invalidateQueries("diaryDetail");
             setComment("");
         },
@@ -82,10 +81,9 @@ function CommentInput(props) {
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId);
     };
 
-
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
-    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    let sock = new SockJS("http://13.209.155.82/stomp/chat");
     let ws = Stomp.over(sock);
 
     const onClick = async () => {
@@ -104,7 +102,7 @@ function CommentInput(props) {
             }
             // 로딩 중
             waitForConnection(ws, function () {
-                ws.send(`/pub/chat/alarm`, { token: token }, JSON.stringify(message))
+                ws.send(`/pub/chat/alarm`, { token: token }, JSON.stringify(message));
                 console.log(ws.ws.readyState);
                 // setText("");
             });
@@ -139,12 +137,11 @@ function CommentInput(props) {
 
     const closeVoicePopup = () => {
         setIsOpenVoicePopup(false);
-    }
+    };
 
     const SaveRecordTime = (time) => {
         setRecordTime(time);
-    }
-
+    };
 
     return (
         <React.Fragment>
@@ -159,7 +156,7 @@ function CommentInput(props) {
                 />
                 <IconArea>
                     <ButtonArea>
-                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={recordIcon}/>
+                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={recordIcon} />
                         {isShowSpeaker && <PlayButton onClick={play}>듣기</PlayButton>}
                     </ButtonArea>
                     <IconRightArea>
@@ -172,8 +169,7 @@ function CommentInput(props) {
                     </IconRightArea>
                 </IconArea>
             </InputContainer>
-            {
-                isOpenVoicePopup &&
+            {isOpenVoicePopup && (
                 <VoicePopup
                     closePopup={closeVoicePopup}
                     play={play}
@@ -194,7 +190,7 @@ function CommentInput(props) {
                     toggleListening={toggleListening}
                     isListening={isListening}
                 />
-            }
+            )}
         </React.Fragment>
     );
 }
@@ -226,9 +222,9 @@ const Input = styled.input`
 `;
 
 const ButtonArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const VoiceButton = styled.img`
@@ -237,8 +233,8 @@ const VoiceButton = styled.img`
 `;
 
 const PlayButton = styled.div`
-  cursor: pointer;
-  font-size: 13px;
+    cursor: pointer;
+    font-size: 13px;
 `;
 
 const TextLength = styled.div`

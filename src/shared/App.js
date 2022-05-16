@@ -32,48 +32,6 @@ function App() {
         }
     }, []);
 
-    // useEffect(() => {
-    //     if (userInfo) {
-    //         wsConnect();
-    //         return () => {
-    //             wsDisConnect();
-    //         };
-    //     }
-    // }, []);
-
-    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    // let ws = Stomp.over(sock);
-
-    // function wsConnect() {
-    //     try {
-    //         ws.connect({ token: cookie }, () => {
-    //             ws.subscribe(
-    //                 `/sub/chat/room/${userInfo.userId}`,
-    //                 (response) => {
-    //                     const newAlert = JSON.parse(response.body);
-    //                     console.log(newAlert.type);
-    //                     if (newAlert.type === "ALARM") {
-    //                         dispatch(getAlertList(newAlert));
-    //                     }
-    //                 },
-    //                 // {},
-    //             );
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    // function wsDisConnect() {
-    //     try {
-    //         ws.disconnect(() => {
-    //             ws.unsubscribe("sub-0");
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     return (
         <QueryClientProvider client={queryClient}>
             <Routes>

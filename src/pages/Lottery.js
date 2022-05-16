@@ -33,7 +33,7 @@ const Lottery = () => {
         //     console.log(response);
         // });
         setIsClick(true);
-        setIsWin(true);
+        setTimeout(setIsWin(true), 5000);
     };
 
     // if (!userInfo) {
@@ -48,19 +48,13 @@ const Lottery = () => {
                     <DiaryName>
                         {userInfo ? userInfo.nickname : ""} <span>님 다이어리</span>
                     </DiaryName>
-                    <Title>블루문! 내게 말해줘</Title>
-                    <Desc>
-                        추첨을 통해 바나나 우유 기프티콘을 드립니다. <br />
-                        200포인트로 참여 가능합니다. <br />
-                        포인트는 다이어리 작성 혹은 댓글 작성으로 모을 수 있습니다.
-                    </Desc>
                     <LotteryArea>
                         <img src={loterryMoon} />
                     </LotteryArea>
                     <LotteryResultArea>
                         <img src={lotteryResult} />
+                        {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
                     </LotteryResultArea>
-                    {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
 
                     {isWin === true && (
                         <LotteryResult>
@@ -75,6 +69,14 @@ const Lottery = () => {
 
                     <CountNoti>참여 가능 횟수</CountNoti>
                     <ClickCount>{userInfo ? userInfo.lottoCount : "0"}</ClickCount>
+                    <Title>블루문! 내게 말해줘</Title>
+                    <Desc>
+                        블루문의 세계에서 용기를 내주신 당신을 위해, <br />
+                        푸른 빛이 담긴 선물을 준비했어요. <br />
+                        지금 이 순간, 당신에게 가장 필요한 것을 줄게요. <br />
+                        블루문을 향해 말을 걸어보시겠어요? <br />
+                        어쩌면, 당신에게 특별한 행운이 찾아올지도 몰라요:)
+                    </Desc>
                     <RecommendIcons>친구 추천하기</RecommendIcons>
                     <RecommendDesc>친구 추천 1명 → +1회</RecommendDesc>
                 </ContentBox>
@@ -119,58 +121,30 @@ const DiaryName = styled.div`
     }
 `;
 
-const Title = styled.div`
-    position: absolute;
-    width: 474px;
-    height: 19px;
-    left: 550px;
-    top: 200px;
-
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 29px;
-
-    color: #ffffff;
-`;
-const Desc = styled.div`
-    position: absolute;
-    width: 312px;
-    height: 23px;
-    left: 550px;
-    top: 250px;
-
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-
-    color: #c6d3ec;
-`;
 const LotteryArea = styled.div`
     position: absolute;
     width: 433px;
     height: 433px;
-    left: 50px;
-    top: 40px;
+    top: 39px;
+    left: 77px;
 `;
 
 const LotteryResultArea = styled.div`
     position: absolute;
     width: 377px;
     height: 191px;
-    left: 70px;
-    top: 270px;
+    top: 264px;
+    left: 95px;
 `;
 
 const LotteryClick = styled.div`
     position: absolute;
+    // width: 377px;
     width: 377px;
-    height: 191px;
-    left: 70px;
-    top: 270px;
+    height: 20px;
+
+    top: 69px;
+    margin: 0 auto;
 
     display: flex;
     align-items: center;
@@ -239,12 +213,44 @@ const ClickCount = styled.div`
     background: #c6d3ec;
     border-radius: 5px;
 `;
+
+const Title = styled.div`
+    position: absolute;
+    width: 203px;
+    height: 25px;
+    top: 212px;
+    right: 205px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 30px;
+
+    color: #ffffff;
+`;
+const Desc = styled.div`
+    position: absolute;
+    width: 300px;
+    height: 102px;
+    top: 264px;
+    right: 110px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: #c6d3ec;
+`;
+
 const RecommendIcons = styled.div`
     position: absolute;
     width: 110px;
     height: 25px;
-    left: 770px;
-    top: 420px;
+    top: 430px;
+    right: 50px;
 
     background: #c6d3ec;
     border-radius: 9px;
@@ -256,12 +262,12 @@ const RecommendIcons = styled.div`
 
 const RecommendDesc = styled.div`
     position: absolute;
-    width: 168px;
-    height: 25px;
-    left: 765px;
-    top: 450px;
+    width: 110px;
+    height: 15px;
+    right: 50px;
+    bottom: 50px;
 
-    font-family: "Inter";
+    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

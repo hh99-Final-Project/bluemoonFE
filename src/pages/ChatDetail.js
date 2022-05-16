@@ -55,85 +55,85 @@ const ChatDetail = () => {
         dispatch(getChatMessage(roomId));
     }, []);
 
-    // 소켓 연결
-    useEffect(() => {
-        wsConnect();
-        return () => {
-            wsDisConnect();
-        };
-    }, []);
+    // // 소켓 연결
+    // useEffect(() => {
+    //     wsConnect();
+    //     return () => {
+    //         wsDisConnect();
+    //     };
+    // }, []);
 
-    // 입장 시 enter
-    // roomId 바뀔 때 실행되도록 세팅
-    useEffect(() => {
-        enterMessage();
-    }, [roomId]);
+    // // 입장 시 enter
+    // // roomId 바뀔 때 실행되도록 세팅
+    // useEffect(() => {
+    //     enterMessage();
+    // }, [roomId]);
 
-    // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
-    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    let ws = Stomp.over(sock);
+    // // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
+    // let sock = new SockJS("http://13.209.155.82/stomp/chat");
+    // let ws = Stomp.over(sock);
 
-    // // 연결 및 구독. 파라메터로 토큰 넣어야 함
-    function wsConnect() {
-        try {
-            ws.connect({ token: token, type: "CHAT" }, () => {
-                ws.subscribe(
-                    `/sub/chat/room/${roomId}`,
-                    (response) => {
-                        const newMessage = JSON.parse(response.body);
-                        console.log(response);
-                        console.log(newMessage);
-                        dispatch(subMessage(newMessage));
-                    },
-                    // {},
-                );
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // // // 연결 및 구독. 파라메터로 토큰 넣어야 함
+    // function wsConnect() {
+    //     try {
+    //         ws.connect({ token: token, type: "CHAT" }, () => {
+    //             ws.subscribe(
+    //                 `/sub/chat/room/${roomId}`,
+    //                 (response) => {
+    //                     const newMessage = JSON.parse(response.body);
+    //                     console.log(response);
+    //                     console.log(newMessage);
+    //                     dispatch(subMessage(newMessage));
+    //                 },
+    //                 // {},
+    //             );
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    function wsDisConnect() {
-        try {
-            ws.disconnect(() => {
-                ws.unsubscribe("sub-0");
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // function wsDisConnect() {
+    //     try {
+    //         ws.disconnect(() => {
+    //             ws.unsubscribe("sub-0");
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    const enterMessage = () => {
-        try {
-            // send할 데이터
-            const message = {
-                type: "ENTER",
-                roomId: roomId,
-            };
+    // const enterMessage = () => {
+    //     try {
+    //         // send할 데이터
+    //         const message = {
+    //             type: "ENTER",
+    //             roomId: roomId,
+    //         };
 
-            waitForConnection(ws, () => {
-                ws.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    //         waitForConnection(ws, () => {
+    //             ws.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
-    // // 웹소켓이 연결될 때 까지 실행
-    function waitForConnection(ws, callback) {
-        setTimeout(
-            function () {
-                // 연결되었을 때 콜백함수 실행
-                if (ws.ws.readyState === 1) {
-                    callback();
-                    // 연결이 안 되었으면 재호출
-                } else {
-                    waitForConnection(ws, callback);
-                }
-            },
-            10, // 밀리초 간격으로 실행
-        );
-    }
+    // // // 웹소켓이 연결될 때 까지 실행
+    // function waitForConnection(ws, callback) {
+    //     setTimeout(
+    //         function () {
+    //             // 연결되었을 때 콜백함수 실행
+    //             if (ws.ws.readyState === 1) {
+    //                 callback();
+    //                 // 연결이 안 되었으면 재호출
+    //             } else {
+    //                 waitForConnection(ws, callback);
+    //             }
+    //         },
+    //         10, // 밀리초 간격으로 실행
+    //     );
+    // }
 
     if (messages === null) {
         return;

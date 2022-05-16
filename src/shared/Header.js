@@ -53,53 +53,54 @@ const Header = () => {
         setIsOpenNoti(false);
     };
 
-    useEffect(() => {
-        if (userInfo) {
-            wsConnect();
-            return () => {
-                wsDisConnect();
-            };
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (userInfo) {
+    //         wsConnect();
+    //         return () => {
+    //             wsDisConnect();
+    //         };
+    //     }
+    // }, []);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
-    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    let ws = Stomp.over(sock);
+    // let sock = new SockJS("http://13.209.155.82/stomp/chat");
+    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    // let ws = Stomp.over(sock);
 
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
-    function wsConnect() {
-        try {
-            ws.connect({ token: token }, () => {
-                ws.subscribe(
-                    `/sub/chat/room/${userInfo.userId}`,
-                    (response) => {
-                        const newAlert = JSON.parse(response.body);
-                        // console.log(response);
-                        console.log(newAlert);
-                        console.log(newAlert.type);
-                        if (newAlert.type === "ALARM") {
-                            dispatch(getNewAlert(newAlert));
-                        } else if (newAlert.type === "UNREAD") {
-                            dispatch(getUnreadCount(newAlert));
-                        }
-                    },
-                    // {},
-                );
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // function wsConnect() {
+    //     try {
+    //         ws.connect({ token: token }, () => {
+    //             ws.subscribe(
+    //                 `/sub/chat/room/${userInfo.userId}`,
+    //                 (response) => {
+    //                     const newAlert = JSON.parse(response.body);
+    //                     // console.log(response);
+    //                     console.log(newAlert);
+    //                     console.log(newAlert.type);
+    //                     if (newAlert.type === "ALARM") {
+    //                         dispatch(getNewAlert(newAlert));
+    //                     } else if (newAlert.type === "UNREAD") {
+    //                         dispatch(getUnreadCount(newAlert));
+    //                     }
+    //                 },
+    //                 // {},
+    //             );
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    function wsDisConnect() {
-        try {
-            ws.disconnect(() => {
-                ws.unsubscribe("sub-0");
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // function wsDisConnect() {
+    //     try {
+    //         ws.disconnect(() => {
+    //             ws.unsubscribe("sub-0");
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     return (
         <React.Fragment>
