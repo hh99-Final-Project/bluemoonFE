@@ -16,6 +16,7 @@ import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
 import { isLogined } from "../redux/modules/userSlice";
 import { color } from "../utils/designSystem";
+import Popup from "../shared/Popup";
 
 MyPage.propTypes = {};
 
@@ -28,6 +29,7 @@ function MyPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     // console.log(myDiary);
     // console.log(isLoading);
@@ -37,16 +39,15 @@ function MyPage() {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
-    //더보기 모달의 '삭제하기' 에 onClick으로 연결해준다.
+
     const deleteDiary = (postUuid) => {
-        if (window.confirm("정말 삭제하시겠습니까?")) {
-            diaryApi.deleteDiary(postUuid).then((response) => {
-                if (response.status === 200) {
-                    window.alert("삭제 완료되었습니다.");
-                    // window.location.reload();
-                }
-            });
-        }
+        diaryApi.deleteDiary(postUuid).then((res)=>{
+            if(res.status === 200) {
+                setIsOpenPopup(false);
+            } else {
+                window.alert("에러처리");
+            }
+        });
     };
 
     // 무한스크롤을 함수
@@ -137,12 +138,20 @@ function MyPage() {
                                             <DeleteButton
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    deleteDiary(diary.postUuid);
+                                                    setIsOpenPopup(true);
                                                 }}
                                             >
                                                 삭제
                                             </DeleteButton>
                                         </ContentLine>
+                                        {isOpenPopup &&
+                                            <Popup
+                                                title={"정말로/이야기를 지우시겠습니까?"}
+                                                close={() => setIsOpenPopup(false)}
+                                                event={() => {
+                                                    deleteDiary(diary.postUuid);
+                                                }}/>
+                                        }
                                     </DiaryCard>
                                 );
                             })}

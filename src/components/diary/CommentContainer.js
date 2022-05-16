@@ -5,11 +5,6 @@ import {useQuery} from "react-query";
 import {diaryApi} from "../../apis/diaryApi";
 import PropTypes from "prop-types";
 
-CommentContainer.propTypes = {
-    diary: PropTypes.object,
-    postId: PropTypes.string
-};
-
 const CommentContainer = (props) => {
 
     const { diary, postId } = props;
@@ -25,8 +20,6 @@ const CommentContainer = (props) => {
         setIsReplyClicked(bool);
     };
 
-
-
     return (
         <React.Fragment>
             <CommentInput diary={diary} postId={postId} parentCommentId={parentCommentId}
@@ -35,6 +28,11 @@ const CommentContainer = (props) => {
                          setParentId={setParentId} isReplyClicked={isReplyClicked} parentCommentId={parentCommentId} />
         </React.Fragment>
     );
+};
+
+CommentContainer.propTypes = {
+    diary: PropTypes.object,
+    postId: PropTypes.string
 };
 
 export default CommentContainer;

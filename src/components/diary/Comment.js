@@ -11,6 +11,7 @@ import Modal from "react-modal";
 import { useMutation, useQueryClient } from "react-query";
 import {chatApi} from "../../apis/chatApi";
 import ReplyComment from "./ReplyComment";
+import Popup from "../../shared/Popup";
 
 Comment.propTypes = {
     comment: PropTypes.object,
@@ -28,6 +29,8 @@ function Comment(props) {
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
+
 
     const audioPlay = (url) => {
         const audio = new Audio(url);
@@ -41,11 +44,15 @@ function Comment(props) {
     const mutation = useMutation((id) => diaryApi.deleteComment(id), {
         onSuccess: () => {
             queryClient.invalidateQueries("diaryDetail");
-            window.alert("댓글 삭제 완료입니다!");
         }
     });
 
     const deleteComment = (id) => {
+        setIsOpenPopup(true);
+
+    };
+
+    const deleteHandler = (id) => {
         mutation.mutate(id);
     };
 
@@ -110,13 +117,21 @@ function Comment(props) {
                     }
                     { comment.show &&
                         <Delete
-                            onClick={() => deleteComment(comment.commentUuid)}>
+                            onClick={() => setIsOpenPopup(true)}>
                             삭제
                         </Delete>
                     }
 
                 </OptionBox>
-
+                {
+                    isOpenPopup &&
+                        <Popup
+                            title={"정말로/메모를 지우시겠습니까?"}
+                            close={() => setIsOpenPopup(false)}
+                            event={() => {
+                                deleteHandler(comment.commentUuid);
+                            }}/>
+                }
             </OneCommentContainer>
             <ReplyComment replyComments={comment.children} />
         </React.Fragment>

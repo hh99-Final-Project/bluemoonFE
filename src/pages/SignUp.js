@@ -80,9 +80,7 @@ function SignUp() {
 
                     <NickNameInput
                         placeholder="1~10자 이내로 입력해주세요. (특수문자, 공백 불가)"
-                        onChange={onChange}
-                    ></NickNameInput>
-
+                        onChange={onChange}/>
                     {/* {!isValidNickName ? (
                         <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>
                     ) : (
@@ -104,9 +102,10 @@ function SignUp() {
 
                 {isOpenPopup && (
                     <Popup
-                        title={"닉네임은 한번 설정하면 바꿀 수 없습니다. 계속 진행하시겠습니까?"}
+                        title={"한 번 적은 닉네임은/수정할 수 없습니다./이 닉네임이 맞습니까?"}
                         close={() => setIsOpenPopup(false)}
                         event={saveNickNameDB}
+                        padding={"30px"}
                     />
                 )}
             </Container>

@@ -6,27 +6,6 @@ import { microphone, onRecIcon, closeBtn, pauseIcon,
 import Timer from "react-compound-timer/build";
 import PropTypes from "prop-types";
 
-VoicePopup.propTypes = {
-    closePopup: PropTypes.func,
-    play:PropTypes.func,
-    onRec: PropTypes.func,
-    recordVoice: PropTypes.func,
-    stopRecord: PropTypes.func,
-    SaveRecordTime: PropTypes.func,
-    deleteVoice: PropTypes.func,
-    playingPause: PropTypes.func,
-    finishRecord: PropTypes.func,
-    isPlaying: PropTypes.bool,
-    isPaused: PropTypes.bool,
-    replay: PropTypes.func,
-    recordPause: PropTypes.func,
-    completeRecord: PropTypes.func,
-    recordReset: PropTypes.func,
-    playingHandler: PropTypes.func,
-    toggleListening: PropTypes.func,
-    isListening: PropTypes.bool
-
-};
 
 const VoicePopup = (props) => {
 
@@ -218,6 +197,27 @@ const VoicePopup = (props) => {
     );
 };
 
+VoicePopup.propTypes = {
+    closePopup: PropTypes.func,
+    play:PropTypes.func,
+    onRec: PropTypes.func,
+    recordVoice: PropTypes.func,
+    stopRecord: PropTypes.func,
+    SaveRecordTime: PropTypes.func,
+    deleteVoice: PropTypes.func,
+    playingPause: PropTypes.func,
+    finishRecord: PropTypes.func,
+    isPlaying: PropTypes.bool,
+    isPaused: PropTypes.bool,
+    replay: PropTypes.func,
+    recordPause: PropTypes.func,
+    completeRecord: PropTypes.func,
+    recordReset: PropTypes.func,
+    playingHandler: PropTypes.func,
+    toggleListening: PropTypes.func,
+    isListening: PropTypes.bool
+
+};
 
 export default VoicePopup;
 

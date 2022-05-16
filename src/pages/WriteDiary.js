@@ -46,6 +46,7 @@ function WriteDiary() {
   const [diary, setDiary] = useState("");
   const [recordTime, setRecordTime] = useState("");
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [isOpenSuccessPopup, setIsOpenSuccessPopup] = useState(false);
   const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
   const userInfo = useSelector((state) => state.userSlice.userInfo);
@@ -78,10 +79,11 @@ function WriteDiary() {
   });
 
   if(mutation.isSuccess){
-    window.alert("작성 완료에요!");
+    // window.alert("작성 완료에요!");
+
     navigate("/mypage");
   } else if (mutation.isError) {
-    window.alert("작성에 오류가 발생했어요! 다시 시도해주세요 😂");
+    window.alert("에러처리");
   }
 
   const onClickHandler = (e) => {
@@ -91,6 +93,18 @@ function WriteDiary() {
       return;
     }
 
+    if(title.length === 0) {
+      window.alert("제목을 작성해주세요!");
+      return;
+    }
+    if(audioUrl === "" || diary.length === 0){
+      window.alert("음성 다이어리 혹은 텍스트 다이어리를 작성해주세요");
+      return;
+    }
+    setIsOpenPopup(true);
+  };
+
+  const successHandler = () => {
     mutation.mutate(title, diary, audioUrl, recordTime);
   };
 
@@ -170,12 +184,19 @@ function WriteDiary() {
 
           {isOpenPopup && (
             <Popup
-              title={"작성중이신데 나가실건가요?"}
-              desc={"레알 진짜?"}
+              title={"소중한 이야기를/다이어리에 기록할까요?"}
               close={() => setIsOpenPopup(false)}
-              event={() => navigate("/diarylist")}
+              event={() => successHandler()}
             />
           )}
+          {
+            isOpenSuccessPopup &&
+            <Popup
+                title={"당신의 이야기가/전해졌습니다"}
+                close={() => setIsOpenSuccessPopup(false)}
+                event={() => navigate("/mypage")}
+            />
+          }
           {
             isOpenVoicePopup &&
             <VoicePopup

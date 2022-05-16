@@ -12,6 +12,7 @@ import _ from "lodash";
 import { Layout } from "../components/common";
 import ChatOutModal from "../components/common/ChatOutModal";
 import { color } from "../utils/designSystem";
+import Popup from "../shared/Popup";
 
 ChatList.propTypes = {};
 
@@ -25,6 +26,7 @@ function ChatList(props) {
 
     // chatList 에 소켓에서 받는 안 읽은 메시지 수를 count 라는 속성에 넣어줘보자.
     const [chatList, setChatList] = useState([]);
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     // 무한스크롤
     const InfinityScrollref = useRef();
@@ -98,14 +100,15 @@ function ChatList(props) {
 
     // 채팅방 나가기
     const deleteChat = (chatId) => {
-        if (window.confirm("정말 이 방을 나가시겠습니까?")) {
-            chatApi.deleteChat(chatId).then((response) => {
-                if (response.status === 200) {
-                    window.alert("채팅방에서 나가셨습니다.");
-                    // 리덕스 charList 에서 delete 처리 해줘야 함.
-                }
-            });
-        }
+        chatApi.deleteChat(chatId).then((response) => {
+            if (response.status === 200) {
+                setIsOpenPopup(false);
+                // 리덕스 charList 에서 delete 처리 해줘야 함.
+            } else {
+                window.alert("에러처리");
+            }
+        });
+
     };
 
     // 무한스크롤을 함수
@@ -204,21 +207,20 @@ function ChatList(props) {
                                             <ChatOutButton
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    deleteChat(chat.chatRoomUuid);
-                                                }}
-                                            >
+                                                    setIsOpenPopup(true);
+                                                }}>
                                                 나가기
                                             </ChatOutButton>
                                         </ContentLine>
 
-                                        {ModalisOpen && (
-                                            <ChatOutModal
-                                                ChatOutTabRef={ChatOutTabRef}
-                                                closeModal={closeModal}
-                                                deleteChat={deleteChat}
-                                                charRoomId={chat.chatRoomUuid}
-                                            />
-                                        )}
+                                        {isOpenPopup &&
+                                            <Popup
+                                                title={"정말로/대화를 종료하시겠습니까?"}
+                                                close={() => setIsOpenPopup(false)}
+                                                event={() => {
+                                                    deleteChat(chat.chatRoomUuid);
+                                                }}/>
+                                        }
                                     </ChatRoom>
                                 );
                             })}
