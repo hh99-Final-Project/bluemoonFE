@@ -70,9 +70,9 @@ function ChatInput(props) {
     return (
         <React.Fragment>
             <Input type="text" onChange={(e) => setText(e.target.value)} onKeyPress={onKeyPressHandler} value={text} />
-            <SendButton onClick={onSend}>
+            {/* <SendButton onClick={onSend}>
                 <img src={send}></img>
-            </SendButton>
+            </SendButton> */}
         </React.Fragment>
     );
 }
