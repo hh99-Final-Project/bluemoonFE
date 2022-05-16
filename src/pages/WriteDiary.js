@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
@@ -17,9 +16,8 @@ import { Layout } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {color} from "../utils/designSystem";
 
-WriteDiary.propTypes = {};
 
-function WriteDiary(props) {
+function WriteDiary() {
   const navigate = useNavigate();
   const { setCurrentHeader } = useStore();
 
@@ -39,7 +37,7 @@ function WriteDiary(props) {
     isShowSpeaker,
     recordReset,
     playingPause,
-    setIsPlaying,
+    playingHandler,
     toggleListening,
     isListening
   } = useRecordVoice();
@@ -196,7 +194,7 @@ function WriteDiary(props) {
                 SaveRecordTime={SaveRecordTime}
                 deleteVoice={deleteVoice}
                 playingPause={playingPause}
-                setIsPlaying={setIsPlaying}
+                playingHandler={playingHandler}
                 toggleListening={toggleListening}
                 isListening={isListening}
             />

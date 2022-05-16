@@ -170,6 +170,10 @@ export default function useRecordVoice() {
         setIsShowSpeaker(true);
     };
 
+    const playingHandler = (bool) => {
+        setIsPlaying(bool);
+    };
+
     //모든 상태 초기화
     const recordReset = () => {
         setOnRec(true);
@@ -195,7 +199,7 @@ export default function useRecordVoice() {
         isShowSpeaker,
         recordReset,
         playingPause,
-        setIsPlaying,
+        playingHandler,
         toggleListening,
         isListening
     };

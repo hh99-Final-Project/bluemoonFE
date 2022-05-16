@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import _ from "lodash";
 import styled from "styled-components";
 import { Text } from "../elements/index";
@@ -12,9 +11,7 @@ import Header from "../shared/Header";
 import { Layout } from "../components/common";
 import {color} from "../utils/designSystem";
 
-SignUp.propTypes = {};
-
-function SignUp(props) {
+function SignUp() {
     const [nickName, setNickName] = useState("");
     const [isValidNickName, setIsValidNickName] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);

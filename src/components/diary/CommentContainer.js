@@ -3,11 +3,16 @@ import CommentInput from "./CommentInput";
 import {CommentList} from "./index";
 import {useQuery} from "react-query";
 import {diaryApi} from "../../apis/diaryApi";
+import PropTypes from "prop-types";
 
+CommentContainer.propTypes = {
+    diary: PropTypes.object,
+    postId: PropTypes.string
+};
 
 const CommentContainer = (props) => {
 
-    const {diary, postId} = props;
+    const { diary, postId } = props;
 
     const [parentCommentId, setParentCommentId] = useState("");
     const [isReplyClicked, setIsReplyClicked] = useState(false);

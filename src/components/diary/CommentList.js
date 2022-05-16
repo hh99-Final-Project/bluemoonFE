@@ -2,18 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Comment from "./Comment";
-import CommentInput from "./CommentInput";
 
 
 CommentList.propTypes = {
-    comments: PropTypes.array
+    comments: PropTypes.array,
+    setParentId: PropTypes.func,
+    isReplyClicked: PropTypes.bool,
+    replyClickHandler: PropTypes.func,
+    parentCommentId: PropTypes.string
 };
 
 function CommentList(props) {
 
     const { comments, setParentId, isReplyClicked, replyClickHandler, parentCommentId } = props;
-    // const reversedComments = comments.reverse();
-
 
     return (
         <React.Fragment>

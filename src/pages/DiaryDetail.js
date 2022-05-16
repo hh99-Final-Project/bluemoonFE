@@ -15,7 +15,7 @@ import { color } from "../utils/designSystem";
 
 DiaryDetail.propTypes = {};
 
-function DiaryDetail(props) {
+function DiaryDetail() {
     const navigate = useNavigate();
     const params = useParams();
     const postId = params.id;

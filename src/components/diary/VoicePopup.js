@@ -4,11 +4,34 @@ import { microphone, onRecIcon, closeBtn, pauseIcon,
     stopIcon, playIcon, OnRecIconInActive,
     PlayInActive, BigPlay, smallPause} from "../../static/images/resources";
 import Timer from "react-compound-timer/build";
+import PropTypes from "prop-types";
+
+VoicePopup.propTypes = {
+    closePopup: PropTypes.func,
+    play:PropTypes.func,
+    onRec: PropTypes.func,
+    recordVoice: PropTypes.func,
+    stopRecord: PropTypes.func,
+    SaveRecordTime: PropTypes.func,
+    deleteVoice: PropTypes.func,
+    playingPause: PropTypes.func,
+    finishRecord: PropTypes.func,
+    isPlaying: PropTypes.bool,
+    isPaused: PropTypes.bool,
+    replay: PropTypes.func,
+    recordPause: PropTypes.func,
+    completeRecord: PropTypes.func,
+    recordReset: PropTypes.func,
+    playingHandler: PropTypes.func,
+    toggleListening: PropTypes.func,
+    isListening: PropTypes.bool
+
+};
 
 const VoicePopup = (props) => {
 
     const { closePopup, play, onRec, recordVoice, stopRecord, SaveRecordTime, deleteVoice, playingPause,
-        finishRecord, isPlaying, isPaused, replay, recordPause, completeRecord, recordReset, setIsPlaying,
+        finishRecord, isPlaying, isPaused, replay, recordPause, completeRecord, recordReset, playingHandler,
         toggleListening, isListening
     } = props;
 
@@ -118,7 +141,7 @@ const VoicePopup = (props) => {
                                     {/*방금 녹음한거 듣는 재생버튼 */}
                                     <PlayingButton onClick={() => {
                                         play();
-                                        setIsPlaying(true);
+                                        playingHandler(true);
                                     }}>
                                         <img src={playIcon} alt={"playIcon"}/>
                                     </PlayingButton>

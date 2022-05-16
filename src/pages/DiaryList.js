@@ -19,7 +19,7 @@ import { commentIcon, chatIcon,
 
 DiaryList.propTypes = {};
 
-function DiaryList(props) {
+function DiaryList() {
     const navigate = useNavigate();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const [count, setCount] = useState(1);

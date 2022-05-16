@@ -6,7 +6,10 @@ import Modal from "react-modal";
 import { closeButton } from "../../static/images/resources";
 import { useSelector } from "react-redux";
 
-Notifications.propTypes = {};
+Notifications.propTypes = {
+    closeModal: PropTypes.func,
+    AlertTabRef: PropTypes.shape({ current: PropTypes.any })
+};
 
 function Notifications(props) {
     const { closeModal, AlertTabRef } = props;

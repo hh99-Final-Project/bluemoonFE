@@ -14,6 +14,11 @@ import VoicePopup from "./VoicePopup";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
+    diary: PropTypes.object,
+    parentCommentId: PropTypes.string,
+    replyClickHandler: PropTypes.func,
+    setParentId: PropTypes.func,
+
 };
 
 function CommentInput(props) {

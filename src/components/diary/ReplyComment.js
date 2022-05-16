@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { replyIcon, listenIcon } from "../../static/images/resources";
 import { convertDate } from "../../utils/convertDate";
+import PropTypes from "prop-types";
+
+
 
 
 const ReplyComment = (props) => {
@@ -52,6 +55,10 @@ const ReplyComment = (props) => {
 };
 
 export default ReplyComment;
+
+ReplyComment.propTypes = {
+    replyComments: PropTypes.array,
+};
 
 
 const ReplyCommentList = styled.div`

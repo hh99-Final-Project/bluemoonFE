@@ -13,12 +13,16 @@ import {chatApi} from "../../apis/chatApi";
 import ReplyComment from "./ReplyComment";
 
 Comment.propTypes = {
-    comment: PropTypes.object
+    comment: PropTypes.object,
+    setParentId: PropTypes.func,
+    replyClickHandler: PropTypes.func,
+    parentCommentId: PropTypes.string
+
 };
 
 function Comment(props) {
 
-    const { comment, setParentId, isReplyClicked, replyClickHandler, parentCommentId } = props;
+    const { comment, setParentId, replyClickHandler, parentCommentId } = props;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 

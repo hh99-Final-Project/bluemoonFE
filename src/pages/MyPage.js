@@ -19,7 +19,7 @@ import { color } from "../utils/designSystem";
 
 MyPage.propTypes = {};
 
-function MyPage(props) {
+function MyPage() {
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
 

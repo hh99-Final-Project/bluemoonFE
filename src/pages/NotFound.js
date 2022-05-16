@@ -5,7 +5,7 @@ import { Layout } from "../components/common";
 import { notFoundImg } from "../static/images/resources";
 import Header from "../shared/Header";
 
-const NotFound = (props) => {
+const NotFound = () => {
     const navigate = useNavigate();
 
     return (
