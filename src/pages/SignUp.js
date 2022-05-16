@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import styled from "styled-components";
-import { Text } from "../elements/index";
 import { userApi } from "../apis/userApi";
 import Popup from "../shared/Popup";
 import CategoryBar from "../shared/CategoryBar";

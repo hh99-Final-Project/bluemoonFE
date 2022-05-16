@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
-import { Button } from "../elements/index";
 import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
