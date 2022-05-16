@@ -10,6 +10,7 @@ import Header from "../shared/Header";
 import { Layout } from "../components/common";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
+import { color } from "../utils/designSystem";
 import { useQuery, QueryClient } from "react-query";
 
 import { commentIcon, chatIcon,
@@ -27,9 +28,6 @@ function DiaryList(props) {
     const [diaryList, setDiaryList] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const { currentHeader, setCurrentHeader } = useStore();
-
-    console.log(page,"page")
-    console.log(count,"count")
 
     const getPrevDiary = () => {
         if(audio){
@@ -144,11 +142,11 @@ function DiaryList(props) {
             <DiaryListContainer>
                 <Header />
                 <CategoryBar />
-                <CardContainer>
+                <CardContainer BgColor={color.containerBoxColor}>
                     <CardContainerBackGround>
                         <PrevButton onClick={getPrevDiary} src={prevButton} />
                         <NextButton onClick={getNextDiary} src={nextButton} />
-                        {/*다이어리 영역                    */}
+                        {/*다이어리 영역*/}
                         <DiaryCard
                             onClick={() => navigate(`/diary/${diaryList[count - 1].postUuid}`)}
                             key={diaryList[count - 1]?.postUuid}
@@ -217,7 +215,7 @@ const CardContainer = styled.div`
     width: 950px;
     height: 530px;
     margin: auto;
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
     box-shadow: 0 0 70px #465981;

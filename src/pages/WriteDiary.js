@@ -15,6 +15,7 @@ import VoicePopup from "../components/diary/VoicePopup";
 import { backIcon, saveIcon, recordIcon, listenIcon, listenVoiceIcon } from "../static/images/resources";
 import { Layout } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import {color} from "../utils/designSystem";
 
 WriteDiary.propTypes = {};
 
@@ -128,7 +129,7 @@ function WriteDiary(props) {
         <WriteContainer>
           <Header/>
           <CategoryBar/>
-          <PostAreaContainer>
+          <PostAreaContainer BgColor={color.containerBoxColor}>
             { userInfo &&
               <DiaryName>
                 {userInfo.nickname} 님 다이어리
@@ -218,7 +219,7 @@ const PostAreaContainer = styled.div`
   margin: auto;
   width: 950px;
   height: 530px;
-  background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+  background: ${props => props.BgColor};
   border: 2px solid rgba(255, 255, 255, 0.3);
   box-sizing: border-box;
   box-shadow: 0 0 70px #465981;

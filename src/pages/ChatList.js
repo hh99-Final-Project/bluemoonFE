@@ -11,6 +11,7 @@ import Loading from "../shared/Loading";
 import _ from "lodash";
 import { Layout } from "../components/common";
 import ChatOutModal from "../components/common/ChatOutModal";
+import { color } from "../utils/designSystem";
 
 ChatList.propTypes = {};
 
@@ -162,7 +163,7 @@ function ChatList(props) {
             <Container>
                 <Header />
                 <CategoryBar />
-                <ChatRoomListBox>
+                <ChatRoomListBox BgColor={color.containerBoxColor}>
                     <DiaryName>
                         {userInfo.nickname} <span>님 다이어리</span>
                     </DiaryName>
@@ -239,8 +240,7 @@ const Container = styled.div`
 const ChatRoomListBox = styled.div`
     width: 950px;
     height: 530px;
-
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);

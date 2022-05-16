@@ -10,6 +10,7 @@ import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header from "../shared/Header";
 import { Layout } from "../components/common";
+import {color} from "../utils/designSystem";
 
 SignUp.propTypes = {};
 
@@ -77,7 +78,7 @@ function SignUp(props) {
             <Container>
                 <Header />
                 <CategoryBar />
-                <SignUpBOx>
+                <SignUpBox BgColor={color.containerBoxColor}>
                     <SignUpBoxTitle>사용하실 닉네임을 입력해주세요</SignUpBoxTitle>
 
                     <NickNameInput
@@ -102,7 +103,7 @@ function SignUp(props) {
 
                     <QuestionButton>?</QuestionButton>
                     <ServiceDescription>서비스 설명</ServiceDescription>
-                </SignUpBOx>
+                </SignUpBox>
 
                 {isOpenPopup && (
                     <Popup
@@ -124,11 +125,10 @@ const Container = styled.div`
     overflow: hidden;
 `;
 
-const SignUpBOx = styled.div`
+const SignUpBox = styled.div`
     width: 950px;
     height: 530px;
-
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     border: 2px solid #ffffff4d;
     box-shadow: 0 0 70px #465981;
 

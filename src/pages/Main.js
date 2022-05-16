@@ -13,6 +13,7 @@ import Header from "../shared/Header";
 import { logo } from "../static/images/resources";
 import starBG from "../static/images/common/starBG.svg";
 import { Layout } from "../components/common";
+import { color } from "../utils/designSystem";
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const Main = () => {
             <Container>
                 <Header />
                 <CategoryBar />
-                <IntroContainer>
+                <IntroContainer BgColor={color.containerBoxColor}>
                     <ServiceStart>
                         <Logo>
                             <img src={logo}/>
@@ -120,7 +121,7 @@ const IntroContainer = styled.div`
     box-shadow: 0 0 70px #465981;
     backdrop-filter: blur(80px);
     border-radius: 25px;
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     display: flex;
     justify-content: space-between;
     padding: 51px 48px 39px 51px;

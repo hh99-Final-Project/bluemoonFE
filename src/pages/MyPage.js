@@ -15,6 +15,7 @@ import _ from "lodash";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
 import { isLogined } from "../redux/modules/userSlice";
+import { color } from "../utils/designSystem";
 
 MyPage.propTypes = {};
 
@@ -110,7 +111,7 @@ function MyPage(props) {
                 <CategoryBar />
                 {/* <InfinityScroll callNext={MoreDiary} hasNext={hasNext} isLoading={isLoading}> */}
                 {/* onscroll 적용 */}
-                <MyPageBox>
+                <MyPageBox BgColor={color.containerBoxColor}>
                     <DiaryName>
                         {userInfo.nickname} <span>님 다이어리</span>
                     </DiaryName>
@@ -163,8 +164,7 @@ const Container = styled.div`
 const MyPageBox = styled.div`
     width: 950px;
     height: 530px;
-
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     border: 2px solid #ffffff4d;
     box-shadow: 0 0 70px #465981;
     backdrop-filter: blur(80px);

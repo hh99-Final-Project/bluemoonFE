@@ -15,6 +15,7 @@ import { getCookie } from "../utils/cookie";
 import { chatApi } from "../apis/chatApi";
 import close from "../static/images/chat/close.svg";
 import useStore from "../zustand/store";
+import {color} from "../utils/designSystem";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -145,7 +146,7 @@ const ChatDetail = () => {
             <Container>
                 <Header />
                 <CategoryBar />
-                <ChatRoom>
+                <ChatRoom BgColor={color.containerBoxColor}>
                     <ChatRoomTitle>
                         <p> {otherUserInfo.otherUserNickname} 님과의 대화</p>
                         <BackButton onClick={() => navigate("/chatlist")}>
@@ -186,8 +187,7 @@ const Container = styled.div`
 const ChatRoom = styled.div`
     width: 950px;
     height: 530px;
-
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);
