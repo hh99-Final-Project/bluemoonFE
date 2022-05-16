@@ -2,7 +2,6 @@ import React, {useState, useRef, useEffect} from 'react';
 import { useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import styled from "styled-components";
-import moment from "moment";
 import { diaryApi } from "../../apis/diaryApi";
 import useStore from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
