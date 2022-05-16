@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import CategoryBar from "../shared/CategoryBar";
+
+import { Layout } from "../components/common";
 import Header from "../shared/Header";
+import CategoryBar from "../shared/CategoryBar";
+
 import useStore from "../zustand/store";
 import loterryMoon from "../static/images/Lottery/lotteryMoon.png";
 import lotteryResult from "../static/images/Lottery/lotteryResult.png";
 import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
 import star from "../static/images/Lottery/star.png";
-import { Layout } from "../components/common";
+
 import { useSelector } from "react-redux";
 import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";

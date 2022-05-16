@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import _ from "lodash";
@@ -31,6 +31,8 @@ function SignUp(props) {
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
         const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
         //통과하지 않았을때의 에러처리에 대한것은 기획에 없을까용? 없다면 디자인과 의논해서 있어야할 것 같아용 else로
+        //통과하지 않았을 때는 input 아래에 사용할 수 없다고 안내하고, 제출 버튼 비활성화 합니다!
+        //작업할게요!
         if (result) {
             userApi.nickNameCheck(nickName).then((response) => {
                 if (response.data === true) {
@@ -44,8 +46,7 @@ function SignUp(props) {
         }
     }, 1000);
 
-    //import React, {useCallback} ~ 을 추가하면 React 생략 가능해요~!
-    const nickNameCheckDB = React.useCallback(debounce, []);
+    const nickNameCheckDB = useCallback(debounce, []);
 
     const onClickHandler = () => {
         if (nickName === "") {
@@ -82,6 +83,7 @@ function SignUp(props) {
                     <NickNameInput
                         placeholder="1~10자 이내로 입력해주세요. (특수문자, 공백 불가)"
                         onChange={onChange}
+                        value={nickName}
                     ></NickNameInput>
 
                     {/* 삼항연산자를 사용하려 했으나, nickname 값이 없을 때 '사용하실 닉네임 입력해주세요' 와 '사용 불가능한 닉네임입니다' 2개 모두 띄워지는 문제 발생 */}
@@ -257,7 +259,7 @@ const Button = styled.button`
     background-color: rgba(255, 255, 255, 0.1);
     border: 2px solid #84c8cc;
     border-radius: 10px;
-    // pointer-events: ${(props) => (props.isvalid === true ? "auto" : "none")};
+    // pointer-events: ${(props) => (props.isvalid ? "auto" : "none")};
 
     position: absolute;
     bottom: 20px;

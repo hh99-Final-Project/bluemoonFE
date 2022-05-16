@@ -12,6 +12,7 @@ import MyPage from "../pages/MyPage";
 import { Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
+import LotteryWin from "../pages/LotteryWin";
 import Intro from "../pages/Intro";
 import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/alert" element={<Notifications />} />
                 <Route path="/lottery" element={<Lottery />} />
+                <Route path="/lotterywin" element={<LotteryWin />} />
                 <Route path={"*"} element={<NotFound />} />
                 <Route path="/intro" element={<Intro />} />
             </Routes>
