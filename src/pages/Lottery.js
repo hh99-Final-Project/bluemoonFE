@@ -202,9 +202,8 @@ const LotteryResult = styled(LotteryClick)`
     display: block;
 
     p {
-        // false일 시
-        ${(props) => (props.isWin ? "" : `font-size: "10px"`)};
-        ${(props) => (props.isWin ? "" : `line-height: "13px"`)};
+      font-size: ${(props) => !props.isWin && "10px"};
+      line-height: ${(props) => !props.isWin && "13px"};
     }
 
     cursor: default;

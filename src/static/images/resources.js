@@ -1,7 +1,7 @@
 import React from "react";
 
 // categoryBar
-export const categoryWrite = require('./categoryBar/writeIcon.png');
+export const categoryWrite = require("./categoryBar/writeIcon.png");
 export const categoryChatList = require("./categoryBar/chatIcon.png");
 export const categoryDiaryList = require("./categoryBar/diaryListIcon.png");
 export const categoryHome = require("./categoryBar/homeIcon.png");
@@ -9,15 +9,15 @@ export const categoryLottery = require("./categoryBar/lotteryIcon.png");
 export const categoryMyPage = require("./categoryBar/mypageIcon.png");
 
 //common
-export const logo = require('./common/logo.svg').default;
-export const notFoundImg = require('./common/notFoundImg.svg').default;
-export const startBG = require('./common/starBG.svg').default;
+export const logo = require("./common/logo.svg").default;
+export const notFoundImg = require("./common/notFoundImg.svg").default;
+export const startBG = require("./common/starBG.svg").default;
 export const spinner = require("./common/spinner.gif");
-export const halfMoon = require('./common/halfMoon.svg').default;
+export const halfMoon = require("./common/halfMoon.svg").default;
 
 //header
-export const moonPoint = require('./header/MoonPoint.svg').default;
-export const newAlertIcon = require('./header/NewAlertIcon.svg').default;
+export const moonPoint = require("./header/MoonPoint.svg").default;
+export const newAlertIcon = require("./header/NewAlertIcon.svg").default;
 
 //lottery
 

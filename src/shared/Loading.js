@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 import { spinner } from "../static/images/resources";
 
@@ -7,8 +7,8 @@ const Loading = () => {
         <LoadingContainer>
             <img src={spinner} alt={"loading-spinner"}/>
         </LoadingContainer>
-    )
-}
+    );
+};
 
 export default Loading;
 
