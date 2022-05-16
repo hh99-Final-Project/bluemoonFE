@@ -10,22 +10,18 @@ const CommentContainer = (props) => {
     const { diary, postId } = props;
 
     const [parentCommentId, setParentCommentId] = useState("");
-    const [isReplyClicked, setIsReplyClicked] = useState(false);
 
     const setParentId = (id) => {
         setParentCommentId(id);
     };
 
-    const replyClickHandler = (bool) => {
-        setIsReplyClicked(bool);
-    };
 
     return (
         <React.Fragment>
             <CommentInput diary={diary} postId={postId} parentCommentId={parentCommentId}
-                          replyClickHandler={replyClickHandler} setParentId={setParentId} />
-            <CommentList comments={diary.comments} postId={diary.postId} replyClickHandler={replyClickHandler}
-                         setParentId={setParentId} isReplyClicked={isReplyClicked} parentCommentId={parentCommentId} />
+                          setParentId={setParentId} />
+            <CommentList comments={diary.comments} postId={diary.postId}
+                         setParentId={setParentId} parentCommentId={parentCommentId} />
         </React.Fragment>
     );
 };

@@ -23,7 +23,7 @@ Comment.propTypes = {
 
 function Comment(props) {
 
-    const { comment, setParentId, replyClickHandler, parentCommentId } = props;
+    const { comment, setParentId, parentCommentId } = props;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
@@ -47,18 +47,12 @@ function Comment(props) {
         }
     });
 
-    const deleteComment = (id) => {
-        setIsOpenPopup(true);
-
-    };
-
     const deleteHandler = (id) => {
         mutation.mutate(id);
     };
 
     const reReplyComment = (commentId) => {
         setParentId(commentId);
-        replyClickHandler(true);
     };
 
 
@@ -106,7 +100,13 @@ function Comment(props) {
                 }
 
                 <OptionBox>
-                    <Reply onClick={() => reReplyComment(comment.commentUuid)}>
+                    <Reply onClick={() => {
+                        if(comment.commentUuid === parentCommentId ){
+                            reReplyComment("");
+                        } else {
+                            reReplyComment(comment.commentUuid);
+                        }
+                    }}>
                         답글
                     </Reply>
                     {
@@ -132,8 +132,10 @@ function Comment(props) {
                                 deleteHandler(comment.commentUuid);
                             }}/>
                 }
+
             </OneCommentContainer>
             <ReplyComment replyComments={comment.children} />
+
         </React.Fragment>
 
     );

@@ -16,13 +16,12 @@ CommentInput.propTypes = {
     postId: PropTypes.string,
     diary: PropTypes.object,
     parentCommentId: PropTypes.string,
-    replyClickHandler: PropTypes.func,
     setParentId: PropTypes.func,
 
 };
 
 function CommentInput(props) {
-    const { diary, postId, parentCommentId, replyClickHandler, setParentId } = props;
+    const { diary, postId, parentCommentId, setParentId } = props;
     const [comment, setComment] = useState("");
     const [isLocked, setIsLocked] = useState(false);
 
@@ -80,7 +79,6 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-        replyClickHandler(false);
         setParentId("");
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId);
     };
@@ -135,7 +133,6 @@ function CommentInput(props) {
 
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {
-            // saveComment();
             onClick();
         }
     };
