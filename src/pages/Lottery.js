@@ -198,9 +198,7 @@ const LotteryResult = styled.div`
 
     z-index: 1;
 
-    display: relative;
-
-    &: p {
+    p {
         position: absolute;
         top: 18px;
     }

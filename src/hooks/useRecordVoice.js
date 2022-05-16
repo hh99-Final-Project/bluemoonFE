@@ -26,19 +26,19 @@ export default function useRecordVoice() {
             //오디오가 종료되면 일시정지에서 다시 재생버튼으로 돌아오세요...
             audio.onended = (e) => {
                 toggleListening();
-            }
+            };
             setMyAudio(audio);
         }
 
 
 
-    },[audioUrl])
+    },[audioUrl]);
 
 
     //재생중인지, 일시정지인지
     const toggleListening = () => {
         setIsListening(prev => !prev);
-    }
+    };
 
     //음성 녹음하기
     const recordVoice = () => {
@@ -151,24 +151,24 @@ export default function useRecordVoice() {
             myAudio.play();
             setIsPlaying(true);
         }
-    }
+    };
 
     const playingPause = () => {
         if(myAudio){
             myAudio.pause();
         };
-    }
+    };
 
 
     //파일 삭제
     const deleteVoice = () => {
         setAudioUrl("");
-    }
+    };
 
     //녹음을 완전히 끝내기
     const completeRecord = () => {
         setIsShowSpeaker(true);
-    }
+    };
 
     //모든 상태 초기화
     const recordReset = () => {
@@ -176,7 +176,7 @@ export default function useRecordVoice() {
         setFinishRecord(false);
         setIsPlaying(false);
         setIsPaused(false);
-    }
+    };
 
 
     return {
@@ -198,5 +198,5 @@ export default function useRecordVoice() {
         setIsPlaying,
         toggleListening,
         isListening
-    }
+    };
 }

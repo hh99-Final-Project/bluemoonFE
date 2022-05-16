@@ -8,8 +8,8 @@ const Layout = ({children}) => {
         <Container bgColor={color.backgroundColor}>
             {children}
         </Container>
-    )
-}
+    );
+};
 
 export default Layout;
 

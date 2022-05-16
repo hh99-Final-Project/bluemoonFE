@@ -48,13 +48,12 @@ function CommentInput(props) {
 
     const lockHandler = () => {
         setIsLocked(prev => !prev);
-    }
+    };
 
     const queryClient = useQueryClient();
 
     const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId), {
         onSuccess: () => {
-            console.log("!")
             queryClient.invalidateQueries("diaryDetail");
             setComment("");
         },
@@ -64,7 +63,7 @@ function CommentInput(props) {
     //     setComment("");
     //     window.alert("댓글 저장 성공!");
     // } else if (mutation.isError) {
-    //     window.alert('오류가 발생했어요! 다시 시도해주세요 😂');
+    //     window.alert("오류가 발생했어요! 다시 시도해주세요 😂");
     // }
 
     const onChangeHandler = (e) => {
@@ -103,7 +102,7 @@ function CommentInput(props) {
             }
             // 로딩 중
             waitForConnection(ws, function () {
-                ws.send(`/pub/chat/alarm`, { token: token }, JSON.stringify(message))
+                ws.send("/pub/chat/alarm", { token: token }, JSON.stringify(message));
                 console.log(ws.ws.readyState);
                 // setText("");
             });
@@ -138,11 +137,11 @@ function CommentInput(props) {
 
     const closeVoicePopup = () => {
         setIsOpenVoicePopup(false);
-    }
+    };
 
     const SaveRecordTime = (time) => {
         setRecordTime(time);
-    }
+    };
 
 
     return (

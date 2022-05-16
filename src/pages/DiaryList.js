@@ -65,8 +65,7 @@ function DiaryList(props) {
         }
 
         if (diaryList.length === count) {
-            console.log("?")
-            getDiaryListAPI(page + 1)
+            getDiaryListAPI(page + 1);
             setPage((page) => page + 1);
             setCount(1);
         } else {
@@ -89,15 +88,15 @@ function DiaryList(props) {
                 setIsLoading(false);
                 setDiaryList(res);
             } else {
-                console.log("error")
+                console.log("error");
             }
-        })
-    }
+        });
+    };
 
     useEffect(()=>{
         getDiaryListAPI(page);
 
-    },[])
+    },[]);
 
 
     const togglePlayVoice = (e) => {
@@ -107,7 +106,7 @@ function DiaryList(props) {
         } else {
             audio.pause();
         }
-    }
+    };
 
     useEffect(() => {
     //     if (isLogin) {
@@ -148,8 +147,9 @@ function DiaryList(props) {
                         <NextButton onClick={getNextDiary} src={nextButton} />
                         {/*다이어리 영역*/}
                         <DiaryCard
-                            onClick={() => navigate(`/diary/${diaryList[count - 1].postUuid}`)}
-                            key={diaryList[count - 1]?.postUuid}
+                            onClick={
+                                () => navigate(`/diary/${diaryList[count - 1].postUuid}`)}
+                                key={diaryList[count - 1].postUuid}
                         >
                             <CardLeftPage>
                                 <CardBackground>
@@ -159,7 +159,7 @@ function DiaryList(props) {
                                             { diaryList.length === 0 ?
                                                 "아직 작성된 다이어리가 없어요!"
                                                 :
-                                                diaryList[count - 1]?.title
+                                                diaryList[count - 1].title
                                             }
                                         </DiaryTitle>
                                         <CommentIcon
@@ -178,12 +178,12 @@ function DiaryList(props) {
                                 <CardBackground>
                                     <CardBorderRight>
                                         <ContentBox>
-                                            { diaryList[count - 1]?.voiceUrl &&
+                                            { diaryList[count - 1].voiceUrl &&
                                                 <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
                                             }
                                             <DiaryDesc>
                                                 {   diaryList.length === 0 ? "다이어리를 작성해주세요!" :
-                                                    diaryList[count - 1]?.content
+                                                    diaryList[count - 1].content
                                                 }
                                             </DiaryDesc>
                                         </ContentBox>

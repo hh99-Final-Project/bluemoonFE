@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Comment from "./Comment";
 import CommentInput from "./CommentInput";
@@ -20,13 +20,15 @@ function CommentList(props) {
             <CommentsContainer>
                 {
                     comments.map((comment) => {
-                        return <Comment key={comment.commentUuid} comment={comment} replyClickHandler={replyClickHandler}
-                                        setParentId={setParentId} isReplyClicked={isReplyClicked} parentCommentId={parentCommentId}/>
+                        return (
+                            <Comment key={comment.commentUuid} comment={comment} replyClickHandler={replyClickHandler}
+                                     setParentId={setParentId} isReplyClicked={isReplyClicked} parentCommentId={parentCommentId}/>
+                        );
                     })
                 }
             </CommentsContainer>
         </React.Fragment>
-    )
+    );
 }
 
 export default CommentList;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { replyIcon, listenIcon } from "../../static/images/resources"
+import { replyIcon, listenIcon } from "../../static/images/resources";
 import { convertDate } from "../../utils/convertDate";
 
 
@@ -42,14 +42,14 @@ const ReplyComment = (props) => {
                                 </OptionIconArea>
                             </IconArea>
                         </OneReplyComment>
-                        )
+                        );
 
                 })
 
             }
         </ReplyCommentList>
-    )
-}
+    );
+};
 
 export default ReplyComment;
 

@@ -1,6 +1,6 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from "react";
 import { useSelector } from "react-redux";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
 import useStore from "../../zustand/store";
@@ -32,12 +32,12 @@ function Comment(props) {
             audio.loop = false;
             audio.play();
         }
-    }
+    };
 
     const mutation = useMutation((id) => diaryApi.deleteComment(id), {
         onSuccess: () => {
-            queryClient.invalidateQueries('diaryDetail');
-            window.alert("댓글 삭제 완료입니다!")
+            queryClient.invalidateQueries("diaryDetail");
+            window.alert("댓글 삭제 완료입니다!");
         }
     });
 
@@ -48,7 +48,7 @@ function Comment(props) {
     const reReplyComment = (commentId) => {
         setParentId(commentId);
         replyClickHandler(true);
-    }
+    };
 
 
 
@@ -88,7 +88,8 @@ function Comment(props) {
                     <PlayIcon
                         onClick={(e) => {
                             e.preventDefault();
-                            audioPlay(comment.voiceUrl)}}>
+                            audioPlay(comment.voiceUrl);
+                        }}>
                         듣기
                     </PlayIcon>
                 }
@@ -155,7 +156,7 @@ const OneCommentContainer = styled.div`
     box-sizing: border-box;
     margin-top: 8px;
     
-`
+`;
 
 const TitleArea = styled.div`
     display: flex;
@@ -177,11 +178,11 @@ const TitleLeft = styled.div`
 const NicknameArea = styled.div`
   font-size: 17px;
   line-height: 21px;
-`
+`;
 const PostTimeArea = styled.div`
   font-size: 13px;
   line-height: 16px;
-`
+`;
 const PostContent = styled.div`
     margin: 9px 0 0;
     font-size: 13px;
@@ -194,18 +195,18 @@ const PostContent = styled.div`
       height: 18px;
       margin-left: 5px;
     }
-`
+`;
 
 const DeleteIcon = styled.div`
     margin-right: 20px;
     cursor: pointer;
     font-weight: bold;
-`
+`;
 const LockIcon = styled(DeleteIcon)`
-`
+`;
 
 const ChatIcon = styled(DeleteIcon)`
-`
+`;
 
 const PlayIcon = styled.div`
     position: absolute;
@@ -214,4 +215,4 @@ const PlayIcon = styled.div`
     cursor: pointer;
     font-size: 13px;
   
-`
+`;

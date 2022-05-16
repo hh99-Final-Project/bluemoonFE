@@ -15,8 +15,8 @@ const Intro = () => {
                     </Desc>
             </IntroContainer>
         </Layout>
-    )
-}
+    );
+};
 
 export default Intro;
 

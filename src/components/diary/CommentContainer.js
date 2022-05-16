@@ -14,11 +14,11 @@ const CommentContainer = (props) => {
 
     const setParentId = (id) => {
         setParentCommentId(id);
-    }
+    };
 
     const replyClickHandler = (bool) => {
         setIsReplyClicked(bool);
-    }
+    };
 
 
 
@@ -29,7 +29,7 @@ const CommentContainer = (props) => {
             <CommentList comments={diary.comments} postId={diary.postId} replyClickHandler={replyClickHandler}
                          setParentId={setParentId} isReplyClicked={isReplyClicked} parentCommentId={parentCommentId} />
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default CommentContainer;

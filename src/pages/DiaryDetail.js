@@ -30,8 +30,8 @@ function DiaryDetail(props) {
 
 
     useEffect(()=>{
-       setCurrentHeader('고민상담');
-    },[])
+       setCurrentHeader("고민상담");
+    },[]);
 
 
     // useEffect(() => {

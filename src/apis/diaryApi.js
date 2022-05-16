@@ -2,17 +2,16 @@ import { instance, fileInstance } from "./config";
 
 export const diaryApi = {
   createPost: async (title, content, audioUrl, recordTime) => {
-      console.log(audioUrl,"audioUrl")
     let req = {
       title: title,
       content: content,
       timer: recordTime
-    }
-    let json = JSON.stringify(req)
+    };
+    let json = JSON.stringify(req);
     const form = new FormData();
-    const blob = new Blob([json], { type: "application/json" })
-    form.append('requestDto', blob);
-    audioUrl !== undefined && form.append('file', audioUrl);
+    const blob = new Blob([json], { type: "application/json" });
+    form.append("requestDto", blob);
+    audioUrl !== undefined && form.append("file", audioUrl);
         const data = await fileInstance.post("/api/posts", form);
         return data;
     },
@@ -33,19 +32,19 @@ export const diaryApi = {
     },
 
   createComment: async (postId, comment, audioUrl, isLocked, parentCommentId) => {
-      console.log(parentCommentId,"parentCommentId")
+      console.log(parentCommentId,"parentCommentId");
     let req = {
       "postUuid": postId,
       "content": comment,
       "lock": isLocked,
       "parentUuid": parentCommentId
-    }
+    };
 
     const form = new FormData();
-    let json = JSON.stringify(req)
-    const blob = new Blob([json], { type: "application/json" })
-    form.append('requestDto',blob);
-    audioUrl !== undefined && form.append('file', audioUrl);
+    let json = JSON.stringify(req);
+    const blob = new Blob([json], { type: "application/json" });
+    form.append("requestDto",blob);
+    audioUrl !== undefined && form.append("file", audioUrl);
 
 
     const data = await fileInstance.post("/api/comments", form);

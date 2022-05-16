@@ -24,8 +24,8 @@ const VoicePopup = (props) => {
     useEffect(()=>{
        return () => {
            recordReset();
-       }
-    },[])
+       };
+    },[]);
 
     return (
         <Timer startImmediately={false}>
@@ -118,7 +118,7 @@ const VoicePopup = (props) => {
                                     {/*방금 녹음한거 듣는 재생버튼 */}
                                     <PlayingButton onClick={() => {
                                         play();
-                                        setIsPlaying(true)
+                                        setIsPlaying(true);
                                     }}>
                                         <img src={playIcon} alt={"playIcon"}/>
                                     </PlayingButton>
@@ -134,13 +134,12 @@ const VoicePopup = (props) => {
                                     {/*완전 녹음이 끝나서 이제 팝업 닫기*/}
                                     <StopBtn
                                         onClick={() => {
-                                            console.log("!!")
                                             completeRecord();
                                             // stopRecord();
                                             stop();
                                             closePopup();
                                             if(timeRef.current){
-                                                SaveRecordTime(timeRef.current.innerText)
+                                                SaveRecordTime(timeRef.current.innerText);
                                             }
 
                                         }}>

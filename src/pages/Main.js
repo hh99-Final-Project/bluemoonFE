@@ -210,7 +210,7 @@ const Slider2 = styled(Slider)`
   .slick-dots li.slick-active button:before {
     color: #9aebe7;
   }
-`
+`;
 
 
 

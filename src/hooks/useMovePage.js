@@ -12,28 +12,28 @@ export default function useMovePage() {
 
     const setCategoryBarName = (path) => {
         switch (path) {
-            case '/diarylist' :
-                setCurrentHeader('고민상담');
+            case "/diarylist" :
+                setCurrentHeader("고민상담");
                 break;
-            case '/wtire' :
-                setCurrentHeader('포스트');
+            case "/wtire" :
+                setCurrentHeader("포스트");
                 break;
-            case '/' :
-                setCurrentHeader('홈');
+            case "/" :
+                setCurrentHeader("홈");
                 break;
-            case '/mypage' :
-                setCurrentHeader('마이페이지');
+            case "/mypage" :
+                setCurrentHeader("마이페이지");
                 break;
-            case '/chatlist' :
-                setCurrentHeader('채팅');
+            case "/chatlist" :
+                setCurrentHeader("채팅");
                 break;
-            case '/lottery':
-                setCurrentHeader('추첨');
+            case "/lottery":
+                setCurrentHeader("추첨");
                 break;
             // default :
-            //     setCurrentHeader('홈')
+            //     setCurrentHeader("홈")
         }
-    }
+    };
 
     const moveToPage = (path) => {
 
@@ -61,10 +61,10 @@ export default function useMovePage() {
         }
 
 
-    }
+    };
 
     return {
         moveToPage
 
-    }
+    };
 }

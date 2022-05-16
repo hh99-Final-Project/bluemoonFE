@@ -69,27 +69,27 @@ function WriteDiary(props) {
 
   const SaveRecordTime = (time) => {
     setRecordTime(time);
-  }
+  };
 
   //useMutaion을 통해 등록 및 post가 일어나면 기존 쿼리 무효화
   const mutation = useMutation(() => diaryApi.createPost(title, diary, audioUrl, recordTime), {
     onSuccess: () => {
-      queryClient.invalidateQueries('diary');
-      queryClient.invalidateQueries('reminders');
+      queryClient.invalidateQueries("diary");
+      queryClient.invalidateQueries("reminders");
     }
   });
 
   if(mutation.isSuccess){
-    window.alert('작성 완료에요!');
-    navigate('/mypage');
+    window.alert("작성 완료에요!");
+    navigate("/mypage");
   } else if (mutation.isError) {
-    window.alert('작성에 오류가 발생했어요! 다시 시도해주세요 😂')
+    window.alert("작성에 오류가 발생했어요! 다시 시도해주세요 😂");
   }
 
   const onClickHandler = (e) => {
 
     if(!userInfo){
-      window.alert('로그인하셔야 등록 가능합니다!')
+      window.alert("로그인하셔야 등록 가능합니다!");
       return;
     }
 
@@ -99,29 +99,29 @@ function WriteDiary(props) {
 
   const closeVoicePopup = () => {
     setIsOpenVoicePopup(false);
-  }
+  };
 
   const handler = (e) => {
     if(diary.length > 0 ) {
       e.preventDefault();
-      e.returnValue = '작성 중인데 정말 나가시겠습니까?';
+      e.returnValue = "작성 중인데 정말 나가시겠습니까?";
     }
-  }
+  };
 
 
   useEffect(()=>{
-    setCurrentHeader('포스트');
-  },[])
+    setCurrentHeader("포스트");
+  },[]);
 
   useEffect(()=>{
       window.addEventListener("beforeunload", handler);
 
     return () => {
-        window.removeEventListener('beforeunload', handler);
+        window.removeEventListener("beforeunload", handler);
       setDiaryContent("");
-    }
+    };
 
-  }, [diary])
+  }, [diary]);
 
 
   return (
