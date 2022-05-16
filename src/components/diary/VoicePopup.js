@@ -1,15 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import microphone from "../../static/images/diary/microphone.svg";
-import onRecIcon from "../../static/images/diary/onRecording.svg";
-import closeBtn from "../../static/images/diary/closePopup.svg";
-import pauseIcon from "../../static/images/diary/voicePause.svg";
-import stopIcon from "../../static/images/diary/voiceStop.svg";
-import playIcon from "../../static/images/diary/voicePlay.svg";
-import OnRecIconInActive from "../../static/images/diary/onRecording_inactive.svg";
-import PlayInActive from "../../static/images/diary/voicePlay_inactive.svg";
-import BigPlay from "../../static/images/diary/big_play.svg";
-import smallPause from "../../static/images/diary/small_pause.svg";
+import { microphone, onRecIcon, closeBtn, pauseIcon,
+    stopIcon, playIcon, OnRecIconInActive,
+    PlayInActive, BigPlay, smallPause} from "../../static/images/resources";
 import Timer from "react-compound-timer/build";
 
 const VoicePopup = (props) => {
@@ -135,7 +128,7 @@ const VoicePopup = (props) => {
                                         deleteVoice();
                                         recordVoice();
                                     }}>
-                                        <img style={{marginRight: '13px'}} src={onRecIcon} alt={"onRecIcon"}/>
+                                        <img src={onRecIcon} alt={"onRecIcon"}/>
                                     </OnRecording>
 
                                     {/*완전 녹음이 끝나서 이제 팝업 닫기*/}
@@ -258,6 +251,10 @@ const IconArea = styled.div`
 `;
 const OnRecording = styled.div`
   cursor: pointer;
+  
+  img {
+    margin-right: 13px;
+  }
 `;
 
 const OnRecordingInActive = styled(OnRecording)`

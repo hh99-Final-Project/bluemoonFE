@@ -1,6 +1,6 @@
 import React from 'react';
-import spinner from "../static/images/spinner.gif";
 import styled from "styled-components";
+import { spinner } from "../static/images/resources";
 
 const Loading = () => {
     return (

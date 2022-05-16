@@ -1,11 +1,9 @@
 import React, {useEffect, useRef} from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
-import { convertDate } from "../../utils/convertDate";
-import chatIcon from "../../static/images/message.png";
-import { useNavigate } from "react-router-dom";
-import voicePlayIcon from "../../static/images/diary/diaryListPlayIcon.svg";
+import { chatIcon, voicePlayIcon } from "../../static/images/resources";
 
 DiaryContent.propTypes = {
     diary: PropTypes.object,
@@ -74,7 +72,7 @@ function DiaryContent(props) {
                             createChat(diary.userId);
                         }}
                     >
-                        <img style={{ width: "23px", height: "23px" }} src={chatIcon} alt={"chatIcon"} />
+                        <img src={chatIcon} alt={"chatIcon"} />
                         <div>대화 신청</div>
                     </ChattingButton>
                 </IconArea>
@@ -141,6 +139,11 @@ const ChattingButton = styled.div`
     div {
         font-size: 11px;
         margin-top: 3px;
+    }
+  
+    img {
+      width: 23px;
+      height: 23px;
     }
 `;
 

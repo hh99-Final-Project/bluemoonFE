@@ -10,7 +10,7 @@ import Login from "../components/user/Login";
 import { userApi } from "../apis/userApi";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
-import logo from "../static/images/common/logo.svg";
+import { logo } from "../static/images/resources";
 import starBG from "../static/images/common/starBG.svg";
 import { Layout } from "../components/common";
 

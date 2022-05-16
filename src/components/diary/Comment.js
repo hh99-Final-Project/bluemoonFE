@@ -7,9 +7,7 @@ import { diaryApi } from "../../apis/diaryApi";
 import useStore from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
 import { convertDate } from "../../utils/convertDate";
-import lockIcon from "../../static/images/lockIcon.svg";
-// import playVoice from "../../static/images/voicePlayButton.svg";
-import moreIcon from "../../static/images/diary/moreIcon.svg";
+import lockIcon from "../../static/images/diary/lockIcon.svg";
 import Modal from "react-modal";
 import { useMutation, useQueryClient } from "react-query";
 import {chatApi} from "../../apis/chatApi";
@@ -72,9 +70,7 @@ function Comment(props) {
 
     return (
         <React.Fragment>
-            <OneCommentContainer style={{
-                backgroundColor: parentCommentId === comment.commentUuid ?  " rgba(149, 158, 190, 0.9)" : "rgba(198, 211, 236, 0.7)"
-            }}>
+            <OneCommentContainer parentCommentId={parentCommentId} commentUuid={comment.commentUuid}>
                 <TitleArea>
                     <TitleLeft>
                         <NicknameArea>{comment.nickname}의 댓글</NicknameArea>
@@ -154,7 +150,7 @@ const OneCommentContainer = styled.div`
     position: relative;  
     width: 876px;
     height: 110px;
-    background-color: ${(props) => props.isReplyClicked ? "rgba(149, 158, 190, 0.8)" : "rgba(198, 211, 236, 0.7)"};
+    background-color: ${(props) => props.parentCommentId === props.commentUuid? "rgba(149, 158, 190, 0.9)" : "rgba(198, 211, 236, 0.7)"};
     border-radius: 5px;
     padding: 18px 44px 0 44px;
     box-sizing: border-box;

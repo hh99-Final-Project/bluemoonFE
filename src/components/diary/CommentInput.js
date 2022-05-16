@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
 import useRecordVoice from "../../hooks/useRecordVoice";
-import lockIcon from "../../static/images/lockIcon.svg";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useMutation, useQueryClient } from "react-query";
 import { getCookie } from "../../utils/cookie";
-import recordIcon from "../../static/images/diary/commentMicIcon.svg";
+import { recordIcon, lockIcon } from "../../static/images/resources";
 import VoicePopup from "./VoicePopup";
 
 
@@ -85,8 +84,8 @@ function CommentInput(props) {
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
-    let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
-    let ws = Stomp.over(sock);
+    // let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
+    // let ws = Stomp.over(sock);
 
     const onClick = async () => {
         saveComment();

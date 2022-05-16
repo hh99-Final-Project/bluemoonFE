@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import halfMoon from "../static/images/halfMoon.svg";
+import { halfMoon } from "../static/images/resources";
 import { Layout } from "../components/common";
 
 const Intro = () => {

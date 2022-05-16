@@ -11,11 +11,10 @@ import { Layout } from "../components/common";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { useQuery, QueryClient } from "react-query";
-import commentIcon from "../static/images/comment.png";
-import chatIcon from "../static/images/message.png";
-import prevButton from "../static/images/prevDiary.svg";
-import nextButton from "../static/images/nextDiary.svg";
-import voicePlayIcon from "../static/images/diary/diaryListPlayIcon.svg";
+
+import { commentIcon, chatIcon,
+    prevButton, nextButton, voicePlayIcon
+} from "../static/images/resources";
 
 DiaryList.propTypes = {};
 

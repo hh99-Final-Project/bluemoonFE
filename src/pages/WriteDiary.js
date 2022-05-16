@@ -12,11 +12,7 @@ import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
 import {useSelector} from "react-redux";
 import VoicePopup from "../components/diary/VoicePopup";
-import backIcon from "../static/images/diary/backToList.svg";
-import saveIcon from "../static/images/diary/saveDiary.svg";
-import recordIcon from "../static/images/diary/voiceRecordIcon.svg";
-import listenIcon from "../static/images/diary/voiceListenIcon.svg";
-import listenVoiceIcon from "../static/images/diary/writePlayButton.svg";
+import { backIcon, saveIcon, recordIcon, listenIcon, listenVoiceIcon } from "../static/images/resources";
 import { Layout } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 

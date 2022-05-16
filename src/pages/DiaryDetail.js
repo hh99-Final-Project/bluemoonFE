@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { DiaryContent, CommentList, CommentContainer } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
-import CommentInput from "../components/diary/CommentInput";
 import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import { useSelector } from "react-redux";

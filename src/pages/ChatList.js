@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-// import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -11,8 +10,6 @@ import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import _ from "lodash";
 import { Layout } from "../components/common";
-import chatOutIcon from "../static/images/chat/more-hor.svg";
-import { isModalOpen } from "../redux/modules/commonSlice";
 import ChatOutModal from "../components/common/ChatOutModal";
 
 ChatList.propTypes = {};
