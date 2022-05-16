@@ -83,50 +83,50 @@ function CommentInput(props) {
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
-    let sock = new SockJS("http://13.209.155.82/stomp/chat");
-    let ws = Stomp.over(sock);
+    // let sock = new SockJS("http://13.209.155.82/stomp/chat");
+    // let ws = Stomp.over(sock);
 
-    const onClick = async () => {
-        saveComment();
-        try {
-            // 보낼 메시지
-            const message = {
-                message: `[${diary.title}]에 댓글이 달렸어요!`,
-                postUuid: postId,
-                otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
-                type: "ENTER",
-            };
+    // const onClick = async () => {
+    //     saveComment();
+    //     try {
+    //         // 보낼 메시지
+    //         const message = {
+    //             message: `[${diary.title}]에 댓글이 달렸어요!`,
+    //             postUuid: postId,
+    //             otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
+    //             type: "ENTER",
+    //         };
 
-            if (comment === "") {
-                return;
-            }
-            // 로딩 중
-            waitForConnection(ws, function () {
-                ws.send(`/pub/chat/alarm`, { token: token }, JSON.stringify(message));
-                console.log(ws.ws.readyState);
-                // setText("");
-            });
-        } catch (error) {
-            console.log(error);
-            console.log(ws.ws.readyState);
-        }
-    };
+    //         if (comment === "") {
+    //             return;
+    //         }
+    //         // 로딩 중
+    //         waitForConnection(ws, function () {
+    //             ws.send(`/pub/chat/alarm`, { token: token }, JSON.stringify(message));
+    //             console.log(ws.ws.readyState);
+    //             // setText("");
+    //         });
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log(ws.ws.readyState);
+    //     }
+    // };
 
-    // // 웹소켓이 연결될 때 까지 실행
-    function waitForConnection(ws, callback) {
-        setTimeout(
-            function () {
-                // 연결되었을 때 콜백함수 실행
-                if (ws.ws.readyState === 1) {
-                    callback();
-                    // 연결이 안 되었으면 재호출
-                } else {
-                    waitForConnection(ws, callback);
-                }
-            },
-            10, // 밀리초 간격으로 실행
-        );
-    }
+    // // // 웹소켓이 연결될 때 까지 실행
+    // function waitForConnection(ws, callback) {
+    //     setTimeout(
+    //         function () {
+    //             // 연결되었을 때 콜백함수 실행
+    //             if (ws.ws.readyState === 1) {
+    //                 callback();
+    //                 // 연결이 안 되었으면 재호출
+    //             } else {
+    //                 waitForConnection(ws, callback);
+    //             }
+    //         },
+    //         10, // 밀리초 간격으로 실행
+    //     );
+    // }
 
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {

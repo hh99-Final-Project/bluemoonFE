@@ -6,6 +6,7 @@ import useStore from "../zustand/store";
 import loterryMoon from "../static/images/Lottery/lotteryMoon.png";
 import lotteryResult from "../static/images/Lottery/lotteryResult.png";
 import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
+import star from "../static/images/Lottery/star.png";
 import { Layout } from "../components/common";
 import { useSelector } from "react-redux";
 import { userApi } from "../apis/userApi";
@@ -15,7 +16,8 @@ import { isWindows } from "react-device-detect";
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const [isClick, setIsClick] = useState(false);
+    const [isClick, setIsClick] = useState(null);
+    const [isLoading, setIsLoading] = useState(null);
     const [isWin, setIsWin] = useState(null);
 
     useEffect(() => {
@@ -23,17 +25,34 @@ const Lottery = () => {
     }, []);
 
     const onClickHandler = (e) => {
-        // if (!userInfo) {
-        //     window.alert("로그인 후 참여할 수 있습니다!");
-        //     return;
-        // }
-        // userApi.tryLottery().then((response) => {
-        //     // if (response.status === 400) {
-        //     // }
-        //     console.log(response);
-        // });
-        setIsClick(true);
-        setTimeout(setIsWin(true), 5000);
+        if (!userInfo) {
+            window.alert("로그인 후 참여할 수 있습니다!");
+            return;
+        }
+
+        userApi
+            .tryLottery()
+            .then((response) => {
+                setIsClick(true);
+                setTimeout(() => setIsLoading(true), 1000);
+                setTimeout(() => setIsLoading(false), 4000);
+                if (response.result === true) {
+                    setTimeout(() => setIsWin(true), 5000);
+                } else if (response.result === false) {
+                    setTimeout(() => setIsWin(false), 5000);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                const result = error.response.data;
+                if (result.status === 400) {
+                    if (result.message === "오늘 참여가능 횟수 부족") {
+                        window.alert("오늘 참여 가능 횟수가 부족합니다");
+                    } else if (result.message === "포인트 부족") {
+                        window.alert("포인트가 부족합니다");
+                    }
+                }
+            });
     };
 
     // if (!userInfo) {
@@ -48,27 +67,35 @@ const Lottery = () => {
                     <DiaryName>
                         {userInfo ? userInfo.nickname : ""} <span>님 다이어리</span>
                     </DiaryName>
-                    <LotteryArea>
+                    <MoonArea>
                         <img src={loterryMoon} />
-                    </LotteryArea>
-                    <LotteryResultArea>
+                    </MoonArea>
+                    <LotteryArea>
                         <img src={lotteryResult} />
                         {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
-                    </LotteryResultArea>
-
-                    {isWin === true && (
-                        <LotteryResult>
-                            <p>당신에겐 달콤한 여유를 드릴게요.</p>
-                        </LotteryResult>
-                    )}
-                    {isWin === false && (
-                        <LotteryResult>
-                            <p>당신에겐 달빛을 담은 용기를 드릴게요</p>
-                        </LotteryResult>
-                    )}
+                        {isLoading && <LotteryLoading>모습을 비추고 있어요..</LotteryLoading>}
+                        {isClick && isWin === true && (
+                            <>
+                                <LotteryResult isWin={isWin}>당신에겐 달콤한 여유를 드릴게요.</LotteryResult>
+                                <BananaMilkIcon>
+                                    <img src={bananaMilkIkon}></img>
+                                </BananaMilkIcon>
+                                <GetBananaMilkButton>받으러 가기</GetBananaMilkButton>
+                            </>
+                        )}
+                        {isClick && isWin === false && (
+                            <>
+                                <LotteryResult isWin={isWin}>당신에겐 달빛을 담은 용기를 드릴게요</LotteryResult>
+                                <TryNextNoti>다음 기회에 도전해주세요!</TryNextNoti>
+                            </>
+                        )}
+                    </LotteryArea>
 
                     <CountNoti>참여 가능 횟수</CountNoti>
                     <ClickCount>{userInfo ? userInfo.lottoCount : "0"}</ClickCount>
+                    <Star>
+                        <img src={star}></img>
+                    </Star>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
                         블루문의 세계에서 용기를 내주신 당신을 위해, <br />
@@ -121,7 +148,7 @@ const DiaryName = styled.div`
     }
 `;
 
-const LotteryArea = styled.div`
+const MoonArea = styled.div`
     position: absolute;
     width: 433px;
     height: 433px;
@@ -129,7 +156,7 @@ const LotteryArea = styled.div`
     left: 77px;
 `;
 
-const LotteryResultArea = styled.div`
+const LotteryArea = styled.div`
     position: absolute;
     width: 377px;
     height: 191px;
@@ -139,12 +166,9 @@ const LotteryResultArea = styled.div`
 
 const LotteryClick = styled.div`
     position: absolute;
-    // width: 377px;
     width: 377px;
     height: 20px;
-
     top: 69px;
-    margin: 0 auto;
 
     display: flex;
     align-items: center;
@@ -155,37 +179,99 @@ const LotteryClick = styled.div`
     z-index: 1;
 
     cursor: pointer;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+
+    text-align: center;
+
+    color: #ffffff;
 `;
 
-const LotteryResult = styled.div`
-    position: absolute;
-    width: 377px;
-    height: 191px;
-    left: 70px;
-    top: 270px;
+const LotteryLoading = styled(LotteryClick)`
+    cursor: default;
+`;
 
-    align-items: center;
+const LotteryResult = styled(LotteryClick)`
+    height: 17px;
+    top: ${(props) => (props.isWin ? "18px" : "59px")};
+    display: block;
+
+    p {
+        // false일 시
+        ${(props) => (props.isWin ? "" : `font-size: "10px"`)};
+        ${(props) => (props.isWin ? "" : `line-height: "13px"`)};
+    }
+
+    cursor: default;
+`;
+
+const BananaMilkIcon = styled.div`
+    position: absolute;
+    left: 167px;
+    top: 47px;
+
+    display: flex;
     justify-content: center;
+    align-items: center;
+`;
+
+const GetBananaMilkButton = styled.div`
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 84px;
+    height: 20px;
+    bottom: 35px;
+    left: 144px;
+
+    border: 1px solid #fffafa;
+    border-radius: 5px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 10px;
+    text-align: center;
 
     color: #ffffff;
 
-    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    display: relative;
+    cursor: pointer;
+`;
 
-    &: p {
-        position: absolute;
-        top: 18px;
-    }
+const TryNextNoti = styled.div`
+    position: absolute;
+
+    width: 111px;
+    height: 12px;
+    top: 90px;
+    left: 128px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+
+    color: rgba(255, 255, 255, 0.8);
 `;
 
 const CountNoti = styled.div`
     position: absolute;
     height: 24px;
-    left: 45px;
+    left: 50px;
     top: 420px;
 
-    font-family: "Inter";
+    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -204,7 +290,7 @@ const ClickCount = styled.div`
     width: 77px;
     height: 34px;
     left: 50px;
-    top: 450px;
+    bottom: 50px;
 
     display: flex;
     align-items: center;
@@ -212,6 +298,21 @@ const ClickCount = styled.div`
 
     background: #c6d3ec;
     border-radius: 5px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 19px;
+    text-align: center;
+
+    color: #000000;
+`;
+
+const Star = styled.div`
+    position: absolute;
+    top: 114px;
+    right: 333px;
 `;
 
 const Title = styled.div`
