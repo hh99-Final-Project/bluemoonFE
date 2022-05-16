@@ -1,23 +1,24 @@
-import axios from 'axios';
-import { getCookie } from '../utils/cookie';
+import axios from "axios";
+import { getCookie } from "../utils/cookie";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        "Content-Type": "application/json;charset=utf-8",
+        "Access-Control-Allow-Headers": "*"
     }
 });
 
 export const fileInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
-        'Content-Type': 'multipart/form-data'
+        "Content-Type": "multipart/form-data"
     }
-})
+});
 
 fileInstance.interceptors.request.use(
     config => {
-        const accessToken = getCookie('authorization');
+        const accessToken = getCookie("authorization");
         if (accessToken) {
             config.headers["authorization"] = accessToken;
             return config;
@@ -32,7 +33,7 @@ fileInstance.interceptors.request.use(
 
 instance.interceptors.request.use(
     config => {
-        const accessToken = getCookie('authorization');
+        const accessToken = getCookie("authorization");
         if (accessToken) {
             config.headers["authorization"] = accessToken;
             return config;

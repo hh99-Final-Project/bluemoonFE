@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import useStore from "../zustand/store";
-import HomeIcon from "../static/images/categoryBar/homeIcon.png";
-import WriteIcon from "../static/images/categoryBar/writeIcon.png";
-import ListIcon from "../static/images/categoryBar/diaryListIcon.png";
-import MyPageIcon from "../static/images/categoryBar/mypageIcon.png";
-import LotteryIcon from "../static/images/categoryBar/lotteryIcon.png";
-import ChatIcon from "../static/images/categoryBar/chatIcon.png";
+import {
+    categoryWrite,
+    categoryChatList,
+    categoryHome,
+    categoryLottery,
+    categoryMyPage, categoryDiaryList,
+} from "../static/images/resources";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "../components/user/Login";
 import { isModalOpen } from "../redux/modules/commonSlice";
@@ -18,7 +19,6 @@ import star from "../static/images/categoryBar/Star.svg";
 CategoryBar.propTypes = {};
 
 function CategoryBar(props) {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const { currentHeader, setCurrentHeader } = useStore();
@@ -41,7 +41,6 @@ function CategoryBar(props) {
     const diapatch = useDispatch();
     const unreadCount = useSelector((state) => state.chatSlice.unreadCount);
     // const ChattingRef = useRef();
-    console.log(unreadCount);
 
     return (
         <HeaderContainer>
@@ -54,9 +53,9 @@ function CategoryBar(props) {
                 }}
             >
                 {currentHeader === "홈" ? (
-                    <div style={{ paddingBottom: "18px" }}>기본 홈</div>
+                    <span>기본 홈</span>
                 ) : (
-                    <img style={{ paddingBottom: "13px" }} src={HomeIcon} alt={"home"} />
+                    <img src={categoryHome} alt={"home"} />
                 )}
             </Home>
             <DiaryList
@@ -66,7 +65,7 @@ function CategoryBar(props) {
                     moveToPage("/diarylist");
                 }}
             >
-                {currentHeader === "고민상담" ? <div>고민 들어주기</div> : <img src={ListIcon} alt={"ListIcon"} />}
+                {currentHeader === "고민상담" ? <div>고민 들어주기</div> : <img src={categoryDiaryList} alt={"ListIcon"} />}
             </DiaryList>
             <Post
                 header={currentHeader}
@@ -76,7 +75,10 @@ function CategoryBar(props) {
                     moveToPage("/write");
                 }}
             >
-                {currentHeader === "포스트" ? <div>고민 작성하기</div> : <img src={WriteIcon} alt={"WriteIcon"} />}
+                {currentHeader === "포스트" ?
+                    <div>고민 작성하기</div>
+                    :
+                    <img src={categoryWrite} alt={"writeIcon"} />}
             </Post>
             <MyPage
                 header={currentHeader}
@@ -89,7 +91,7 @@ function CategoryBar(props) {
                     }
                 }}
             >
-                {currentHeader === "마이페이지" ? <div>마이 페이지</div> : <img src={MyPageIcon} alt={"MyPageIcon"} />}
+                {currentHeader === "마이페이지" ? <div>마이 페이지</div> : <img src={categoryMyPage} alt={"MyPageIcon"} />}
             </MyPage>
             <ChattingList
                 header={currentHeader}
@@ -104,7 +106,7 @@ function CategoryBar(props) {
                 }}
                 // ref={ChattingRef}
             >
-                {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={ChatIcon} alt={"ChatIcon"} />}
+                {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={categoryChatList} alt={"ChatIcon"} />}
                 {unreadCount.length > 0 && <Unread src={star}></Unread>}
             </ChattingList>
             <Lottery
@@ -115,7 +117,7 @@ function CategoryBar(props) {
                     moveToPage("/lottery");
                 }}
             >
-                {currentHeader === "추첨" ? <div>오픈 이벤트</div> : <img src={LotteryIcon} alt={"LotteryIcon"} />}
+                {currentHeader === "추첨" ? <div>오픈 이벤트</div> : <img src={categoryLottery} alt={"LotteryIcon"} />}
             </Lottery>
             {modalIsOpen && <Login />}
         </HeaderContainer>
@@ -143,6 +145,14 @@ const Home = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
+  
+    span {
+      padding-bottom: 18px;
+    }
+  
+    img {
+      padding-bottom: 18px;
+    }
 
     border-radius: 5px 5px 0 0;
     border: 2px solid #cbcfdc47;
@@ -166,9 +176,13 @@ const Post = styled(Home)`
     color: ${(props) => (props.header === "포스트" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "포스트" ? "#C6D3EC" : "#354468")};
     box-shadow: ${(props) => (props.header === "포스트" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
+
+  img {
+    padding-bottom: 0;
+  }
 `;
 
-const DiaryList = styled(Home)`
+const DiaryList = styled(Post)`
     top: 0;
     width: ${(props) => (props.header === "고민상담" ? "132px" : "58px")};
     height: ${(props) => (props.header === "고민상담" ? "46px" : "40px")};
@@ -176,7 +190,7 @@ const DiaryList = styled(Home)`
     background-color: ${(props) => (props.header === "고민상담" ? "#C6D3EC" : "#354468")};
     box-shadow: ${(props) => (props.header === "고민상담" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
-const MyPage = styled(Home)`
+const MyPage = styled(Post)`
     top: 0;
     width: ${(props) => (props.header === "마이페이지" ? "132px" : "58px")};
     height: ${(props) => (props.header === "마이페이지" ? "46px" : "40px")};
@@ -184,14 +198,14 @@ const MyPage = styled(Home)`
     background-color: ${(props) => (props.header === "마이페이지" ? "#C6D3EC" : "#354468")};
     box-shadow: ${(props) => (props.header === "마이페이지" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 `;
-const ChattingList = styled(Home)`
+const ChattingList = styled(Post)`
     top: 0;
     width: ${(props) => (props.header === "채팅" ? "132px" : "58px")};
     height: ${(props) => (props.header === "채팅" ? "46px" : "40px")};
     color: ${(props) => (props.header === "채팅" ? "#08105D" : "#C6D3EC")};
     background-color: ${(props) => (props.header === "채팅" ? "#C6D3EC" : "#354468")};
     box-shadow: ${(props) => (props.header === "채팅" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
-    display: relative;
+    position: relative;
 `;
 
 const Unread = styled.img`
@@ -199,7 +213,7 @@ const Unread = styled.img`
     top: 5px;
     right: 10px;
 `;
-const Lottery = styled(Home)`
+const Lottery = styled(Post)`
     top: 0;
     width: ${(props) => (props.header === "추첨" ? "132px" : "58px")};
     height: ${(props) => (props.header === "추첨" ? "46px" : "40px")};

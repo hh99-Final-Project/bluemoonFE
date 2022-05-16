@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import _ from "lodash";
 import styled from "styled-components";
 import { userApi } from "../apis/userApi";
@@ -9,10 +8,9 @@ import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header from "../shared/Header";
 import { Layout } from "../components/common";
+import {color} from "../utils/designSystem";
 
-SignUp.propTypes = {};
-
-function SignUp(props) {
+function SignUp() {
     const [nickName, setNickName] = useState("");
     const [isValidNickName, setIsValidNickName] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -76,15 +74,12 @@ function SignUp(props) {
             <Container>
                 <Header />
                 <CategoryBar />
-                <SignUpBOx>
+                <SignUpBox BgColor={color.containerBoxColor}>
                     <SignUpBoxTitle>사용하실 닉네임을 입력해주세요</SignUpBoxTitle>
 
                     <NickNameInput
                         placeholder="1~10자 이내로 입력해주세요. (특수문자, 공백 불가)"
-                        onChange={onChange}
-                    ></NickNameInput>
-
-                    {/* 삼항연산자를 사용하려 했으나, nickname 값이 없을 때 '사용하실 닉네임 입력해주세요' 와 '사용 불가능한 닉네임입니다' 2개 모두 띄워지는 문제 발생 */}
+                        onChange={onChange}/>
                     {/* {!isValidNickName ? (
                         <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>
                     ) : (
@@ -102,13 +97,14 @@ function SignUp(props) {
 
                     <QuestionButton>?</QuestionButton>
                     <ServiceDescription>서비스 설명</ServiceDescription>
-                </SignUpBOx>
+                </SignUpBox>
 
                 {isOpenPopup && (
                     <Popup
-                        title={"닉네임은 한번 설정하면 바꿀 수 없습니다. 계속 진행하시겠습니까?"}
+                        title={"한 번 적은 닉네임은/수정할 수 없습니다./이 닉네임이 맞습니까?"}
                         close={() => setIsOpenPopup(false)}
                         event={saveNickNameDB}
+                        padding={"30px"}
                     />
                 )}
             </Container>
@@ -124,11 +120,10 @@ const Container = styled.div`
     overflow: hidden;
 `;
 
-const SignUpBOx = styled.div`
+const SignUpBox = styled.div`
     width: 950px;
     height: 530px;
-
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     border: 2px solid #ffffff4d;
     box-shadow: 0 0 70px #465981;
 

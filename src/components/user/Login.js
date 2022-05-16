@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -11,11 +10,8 @@ import { userApi } from "../../apis/userApi";
 import { setCookie } from "../../utils/cookie";
 import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
 
-Login.propTypes = {};
 
-// const gapi = window.gapi;
-
-function Login(props) {
+function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
@@ -107,7 +103,7 @@ function Login(props) {
                         outline: "none",
                         overflow: "hidden",
                         zIndex: 100,
-                        boxSizing: 'border-box'
+                        boxSizing: "border-box"
                     },
                 }}
             >

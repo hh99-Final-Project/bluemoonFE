@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";
 import { isWindows } from "react-device-detect";
+import { color } from "../utils/designSystem";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -63,7 +64,7 @@ const Lottery = () => {
             <Container>
                 <Header />
                 <CategoryBar />
-                <ContentBox>
+                <ContentBox BgColor={color.containerBoxColor}>
                     <DiaryName>
                         {userInfo ? userInfo.nickname : ""} <span>님 다이어리</span>
                     </DiaryName>
@@ -124,11 +125,11 @@ const ContentBox = styled.div`
     width: 950px;
     height: 530px;
 
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);
-
+    background: ${props => props.BgColor};
     border-radius: 25px;
 
     position: relative;
@@ -243,6 +244,7 @@ const GetBananaMilkButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
 
     cursor: pointer;
 `;

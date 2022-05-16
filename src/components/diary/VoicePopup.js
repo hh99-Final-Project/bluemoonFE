@@ -1,21 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import microphone from "../../static/images/diary/microphone.svg";
-import onRecIcon from "../../static/images/diary/onRecording.svg";
-import closeBtn from "../../static/images/diary/closePopup.svg";
-import pauseIcon from "../../static/images/diary/voicePause.svg";
-import stopIcon from "../../static/images/diary/voiceStop.svg";
-import playIcon from "../../static/images/diary/voicePlay.svg";
-import OnRecIconInActive from "../../static/images/diary/onRecording_inactive.svg";
-import PlayInActive from "../../static/images/diary/voicePlay_inactive.svg";
-import BigPlay from "../../static/images/diary/big_play.svg";
-import smallPause from "../../static/images/diary/small_pause.svg";
+import { microphone, onRecIcon, closeBtn, pauseIcon,
+    stopIcon, playIcon, OnRecIconInActive,
+    PlayInActive, BigPlay, smallPause} from "../../static/images/resources";
 import Timer from "react-compound-timer/build";
+import PropTypes from "prop-types";
+
 
 const VoicePopup = (props) => {
 
     const { closePopup, play, onRec, recordVoice, stopRecord, SaveRecordTime, deleteVoice, playingPause,
-        finishRecord, isPlaying, isPaused, replay, recordPause, completeRecord, recordReset, setIsPlaying,
+        finishRecord, isPlaying, isPaused, replay, recordPause, completeRecord, recordReset, playingHandler,
         toggleListening, isListening
     } = props;
 
@@ -31,8 +26,8 @@ const VoicePopup = (props) => {
     useEffect(()=>{
        return () => {
            recordReset();
-       }
-    },[])
+       };
+    },[]);
 
     return (
         <Timer startImmediately={false}>
@@ -125,7 +120,7 @@ const VoicePopup = (props) => {
                                     {/*방금 녹음한거 듣는 재생버튼 */}
                                     <PlayingButton onClick={() => {
                                         play();
-                                        setIsPlaying(true)
+                                        playingHandler(true);
                                     }}>
                                         <img src={playIcon} alt={"playIcon"}/>
                                     </PlayingButton>
@@ -135,19 +130,18 @@ const VoicePopup = (props) => {
                                         deleteVoice();
                                         recordVoice();
                                     }}>
-                                        <img style={{marginRight: '13px'}} src={onRecIcon} alt={"onRecIcon"}/>
+                                        <img src={onRecIcon} alt={"onRecIcon"}/>
                                     </OnRecording>
 
                                     {/*완전 녹음이 끝나서 이제 팝업 닫기*/}
                                     <StopBtn
                                         onClick={() => {
-                                            console.log("!!")
                                             completeRecord();
                                             // stopRecord();
                                             stop();
                                             closePopup();
                                             if(timeRef.current){
-                                                SaveRecordTime(timeRef.current.innerText)
+                                                SaveRecordTime(timeRef.current.innerText);
                                             }
 
                                         }}>
@@ -203,6 +197,27 @@ const VoicePopup = (props) => {
     );
 };
 
+VoicePopup.propTypes = {
+    closePopup: PropTypes.func,
+    play:PropTypes.func,
+    onRec: PropTypes.func,
+    recordVoice: PropTypes.func,
+    stopRecord: PropTypes.func,
+    SaveRecordTime: PropTypes.func,
+    deleteVoice: PropTypes.func,
+    playingPause: PropTypes.func,
+    finishRecord: PropTypes.func,
+    isPlaying: PropTypes.bool,
+    isPaused: PropTypes.bool,
+    replay: PropTypes.func,
+    recordPause: PropTypes.func,
+    completeRecord: PropTypes.func,
+    recordReset: PropTypes.func,
+    playingHandler: PropTypes.func,
+    toggleListening: PropTypes.func,
+    isListening: PropTypes.bool
+
+};
 
 export default VoicePopup;
 
@@ -258,6 +273,10 @@ const IconArea = styled.div`
 `;
 const OnRecording = styled.div`
   cursor: pointer;
+  
+  img {
+    margin-right: 13px;
+  }
 `;
 
 const OnRecordingInActive = styled(OnRecording)`

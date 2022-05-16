@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../components/common";
-import RocketImg from "../static/images/common/notFoundImg.svg";
+import { notFoundImg } from "../static/images/resources";
 import Header from "../shared/Header";
 
-const NotFound = (props) => {
+const NotFound = () => {
     const navigate = useNavigate();
 
     return (
@@ -28,7 +28,7 @@ const NotFound = (props) => {
                                 <HomeButton onClick={() => navigate("/")}>홈으로 가기</HomeButton>
                             </ButtonBox>
                         </ContentBox>
-                        <ImageBox src={RocketImg}/>
+                        <ImageBox src={notFoundImg}/>
                     </Grid>
                 </Container>
             </Layout>

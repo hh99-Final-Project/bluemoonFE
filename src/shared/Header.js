@@ -6,8 +6,8 @@ import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { getUserInfo, isLogined } from "../redux/modules/userSlice";
 import { isModalOpen, getNewAlert } from "../redux/modules/commonSlice";
-import MoonPoint from "../static/images/header/MoonPoint.svg";
-import NewAlertIcon from "../static/images/header/NewAlertIcon.svg";
+import { newAlertIcon, moonPoint } from "../static/images/resources";
+
 import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -63,8 +63,7 @@ const Header = () => {
     // }, []);
 
     // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
-    // let sock = new SockJS("http://13.209.155.82/stomp/chat");
-    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    // let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
     // let ws = Stomp.over(sock);
 
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
@@ -109,7 +108,7 @@ const Header = () => {
                 {userInfo ? (
                     <HeaderRightArea>
                         <Point>
-                            <img src={MoonPoint} alt={"point"} />
+                            <img src={moonPoint} alt={"point"} />
                             <span>{userInfo.myPoint}</span>
                         </Point>
                         <AlertIcon
@@ -118,7 +117,7 @@ const Header = () => {
                                 setIsOpenNoti(true);
                             }}
                         >
-                            <img src={NewAlertIcon} alt={"NewAlertIcon"} />
+                            <img src={newAlertIcon} alt={"NewAlertIcon"} />
                         </AlertIcon>
                         <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
                     </HeaderRightArea>

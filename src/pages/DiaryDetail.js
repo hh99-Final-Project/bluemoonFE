@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { DiaryContent, CommentList, CommentContainer } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
-import CommentInput from "../components/diary/CommentInput";
 import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import { useSelector } from "react-redux";
@@ -13,10 +11,11 @@ import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
 import { useQuery, useQueryClient } from "react-query";
 import useStore from "../zustand/store";
+import { color } from "../utils/designSystem";
 
 DiaryDetail.propTypes = {};
 
-function DiaryDetail(props) {
+function DiaryDetail() {
     const navigate = useNavigate();
     const params = useParams();
     const postId = params.id;
@@ -31,8 +30,8 @@ function DiaryDetail(props) {
 
 
     useEffect(()=>{
-       setCurrentHeader('고민상담');
-    },[])
+       setCurrentHeader("고민상담");
+    },[]);
 
 
     // useEffect(() => {
@@ -60,7 +59,7 @@ function DiaryDetail(props) {
             <DetailContainer>
                 <Header />
                 <CategoryBar />
-                <DetailContent>
+                <DetailContent BgColor={color.containerBoxColor}>
                     <TitleContainer>
                         <TitleLeft>
                             <BackButton onClick={() => navigate("/diarylist")}>{/*<img src={} />*/}</BackButton>
@@ -89,7 +88,7 @@ const DetailContent = styled.div`
     width: 950px;
     height: 530px;
     padding-right: 5px;
-    background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+    background: ${props => props.BgColor};
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
     box-shadow: 0 0 70px #465981;

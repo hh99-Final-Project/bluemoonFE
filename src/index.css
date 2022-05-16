@@ -7,6 +7,8 @@
         url("./static/fonts/SpoqaHanSansNeo-Light.ttf") format('woff2')
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Jura&display=swap");
+
 
 * {
   font-family: 'spoqa';

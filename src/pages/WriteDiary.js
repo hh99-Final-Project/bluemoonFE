@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
@@ -12,17 +11,13 @@ import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
 import {useSelector} from "react-redux";
 import VoicePopup from "../components/diary/VoicePopup";
-import backIcon from "../static/images/diary/backToList.svg";
-import saveIcon from "../static/images/diary/saveDiary.svg";
-import recordIcon from "../static/images/diary/voiceRecordIcon.svg";
-import listenIcon from "../static/images/diary/voiceListenIcon.svg";
-import listenVoiceIcon from "../static/images/diary/writePlayButton.svg";
+import { backIcon, saveIcon, recordIcon, listenIcon, listenVoiceIcon } from "../static/images/resources";
 import { Layout } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import {color} from "../utils/designSystem";
 
-WriteDiary.propTypes = {};
 
-function WriteDiary(props) {
+function WriteDiary() {
   const navigate = useNavigate();
   const { setCurrentHeader } = useStore();
 
@@ -42,7 +37,7 @@ function WriteDiary(props) {
     isShowSpeaker,
     recordReset,
     playingPause,
-    setIsPlaying,
+    playingHandler,
     toggleListening,
     isListening
   } = useRecordVoice();
@@ -51,6 +46,7 @@ function WriteDiary(props) {
   const [diary, setDiary] = useState("");
   const [recordTime, setRecordTime] = useState("");
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [isOpenSuccessPopup, setIsOpenSuccessPopup] = useState(false);
   const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
   const userInfo = useSelector((state) => state.userSlice.userInfo);
@@ -72,59 +68,72 @@ function WriteDiary(props) {
 
   const SaveRecordTime = (time) => {
     setRecordTime(time);
-  }
+  };
 
   //useMutaion을 통해 등록 및 post가 일어나면 기존 쿼리 무효화
   const mutation = useMutation(() => diaryApi.createPost(title, diary, audioUrl, recordTime), {
     onSuccess: () => {
-      queryClient.invalidateQueries('diary');
-      queryClient.invalidateQueries('reminders');
+      queryClient.invalidateQueries("diary");
+      queryClient.invalidateQueries("reminders");
     }
   });
 
   if(mutation.isSuccess){
-    window.alert('작성 완료에요!');
-    navigate('/mypage');
+    // window.alert("작성 완료에요!");
+
+    navigate("/mypage");
   } else if (mutation.isError) {
-    window.alert('작성에 오류가 발생했어요! 다시 시도해주세요 😂')
+    window.alert("에러처리");
   }
 
   const onClickHandler = (e) => {
 
     if(!userInfo){
-      window.alert('로그인하셔야 등록 가능합니다!')
+      window.alert("로그인하셔야 등록 가능합니다!");
       return;
     }
 
+    if(title.length === 0) {
+      window.alert("제목을 작성해주세요!");
+      return;
+    }
+    if(audioUrl === "" || diary.length === 0){
+      window.alert("음성 다이어리 혹은 텍스트 다이어리를 작성해주세요");
+      return;
+    }
+    setIsOpenPopup(true);
+  };
+
+  const successHandler = () => {
     mutation.mutate(title, diary, audioUrl, recordTime);
   };
 
 
   const closeVoicePopup = () => {
     setIsOpenVoicePopup(false);
-  }
+  };
 
   const handler = (e) => {
     if(diary.length > 0 ) {
       e.preventDefault();
-      e.returnValue = '작성 중인데 정말 나가시겠습니까?';
+      e.returnValue = "작성 중인데 정말 나가시겠습니까?";
     }
-  }
+  };
 
 
   useEffect(()=>{
-    setCurrentHeader('포스트');
-  },[])
+    setCurrentHeader("포스트");
+  },[]);
 
   useEffect(()=>{
       window.addEventListener("beforeunload", handler);
 
     return () => {
-        window.removeEventListener('beforeunload', handler);
+        window.removeEventListener("beforeunload", handler);
       setDiaryContent("");
-    }
+    };
 
-  }, [diary])
+  }, [diary]);
 
 
   return (
@@ -132,7 +141,7 @@ function WriteDiary(props) {
         <WriteContainer>
           <Header/>
           <CategoryBar/>
-          <PostAreaContainer>
+          <PostAreaContainer BgColor={color.containerBoxColor}>
             { userInfo &&
               <DiaryName>
                 {userInfo.nickname} 님 다이어리
@@ -175,12 +184,19 @@ function WriteDiary(props) {
 
           {isOpenPopup && (
             <Popup
-              title={"작성중이신데 나가실건가요?"}
-              desc={"레알 진짜?"}
+              title={"소중한 이야기를/다이어리에 기록할까요?"}
               close={() => setIsOpenPopup(false)}
-              event={() => navigate("/diarylist")}
+              event={() => successHandler()}
             />
           )}
+          {
+            isOpenSuccessPopup &&
+            <Popup
+                title={"당신의 이야기가/전해졌습니다"}
+                close={() => setIsOpenSuccessPopup(false)}
+                event={() => navigate("/mypage")}
+            />
+          }
           {
             isOpenVoicePopup &&
             <VoicePopup
@@ -199,7 +215,7 @@ function WriteDiary(props) {
                 SaveRecordTime={SaveRecordTime}
                 deleteVoice={deleteVoice}
                 playingPause={playingPause}
-                setIsPlaying={setIsPlaying}
+                playingHandler={playingHandler}
                 toggleListening={toggleListening}
                 isListening={isListening}
             />
@@ -222,7 +238,7 @@ const PostAreaContainer = styled.div`
   margin: auto;
   width: 950px;
   height: 530px;
-  background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
+  background: ${props => props.BgColor};
   border: 2px solid rgba(255, 255, 255, 0.3);
   box-sizing: border-box;
   box-shadow: 0 0 70px #465981;

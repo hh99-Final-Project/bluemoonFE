@@ -4,20 +4,23 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
 import useRecordVoice from "../../hooks/useRecordVoice";
-import lockIcon from "../../static/images/lockIcon.svg";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useMutation, useQueryClient } from "react-query";
 import { getCookie } from "../../utils/cookie";
-import recordIcon from "../../static/images/diary/commentMicIcon.svg";
+import { recordIcon, lockIcon } from "../../static/images/resources";
 import VoicePopup from "./VoicePopup";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
+    diary: PropTypes.object,
+    parentCommentId: PropTypes.string,
+    setParentId: PropTypes.func,
+
 };
 
 function CommentInput(props) {
-    const { diary, postId, parentCommentId, replyClickHandler, setParentId } = props;
+    const { diary, postId, parentCommentId, setParentId } = props;
     const [comment, setComment] = useState("");
     const [isLocked, setIsLocked] = useState(false);
 
@@ -47,14 +50,13 @@ function CommentInput(props) {
     } = useRecordVoice();
 
     const lockHandler = () => {
-        setIsLocked((prev) => !prev);
+        setIsLocked(prev => !prev);
     };
 
     const queryClient = useQueryClient();
 
     const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId), {
         onSuccess: () => {
-            console.log("!");
             queryClient.invalidateQueries("diaryDetail");
             setComment("");
         },
@@ -64,7 +66,7 @@ function CommentInput(props) {
     //     setComment("");
     //     window.alert("댓글 저장 성공!");
     // } else if (mutation.isError) {
-    //     window.alert('오류가 발생했어요! 다시 시도해주세요 😂');
+    //     window.alert("오류가 발생했어요! 다시 시도해주세요 😂");
     // }
 
     const onChangeHandler = (e) => {
@@ -76,14 +78,13 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-        replyClickHandler(false);
         setParentId("");
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId);
     };
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
-    // let sock = new SockJS("http://13.209.155.82/stomp/chat");
+    // let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
     // let ws = Stomp.over(sock);
 
     // const onClick = async () => {
@@ -102,7 +103,7 @@ function CommentInput(props) {
     //         }
     //         // 로딩 중
     //         waitForConnection(ws, function () {
-    //             ws.send(`/pub/chat/alarm`, { token: token }, JSON.stringify(message));
+    //             ws.send("/pub/chat/alarm", { token: token }, JSON.stringify(message));
     //             console.log(ws.ws.readyState);
     //             // setText("");
     //         });
@@ -130,7 +131,6 @@ function CommentInput(props) {
 
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {
-            // saveComment();
             onClick();
         }
     };
@@ -156,7 +156,7 @@ function CommentInput(props) {
                 />
                 <IconArea>
                     <ButtonArea>
-                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={recordIcon} />
+                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={recordIcon}/>
                         {isShowSpeaker && <PlayButton onClick={play}>듣기</PlayButton>}
                     </ButtonArea>
                     <IconRightArea>
@@ -169,7 +169,8 @@ function CommentInput(props) {
                     </IconRightArea>
                 </IconArea>
             </InputContainer>
-            {isOpenVoicePopup && (
+            {
+                isOpenVoicePopup &&
                 <VoicePopup
                     closePopup={closeVoicePopup}
                     play={play}
@@ -190,7 +191,7 @@ function CommentInput(props) {
                     toggleListening={toggleListening}
                     isListening={isListening}
                 />
-            )}
+            }
         </React.Fragment>
     );
 }

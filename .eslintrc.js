@@ -21,7 +21,9 @@ module.exports = {
     },
     plugins: ["react"],
     rules: {
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"]
         // 추가하고 싶은 rule을 더 추가
     }
 };

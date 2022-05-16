@@ -17,7 +17,7 @@ function ChatInput(props) {
     const [text, setText] = React.useState("");
     const token = getCookie("authorization");
 
-    // let sock = new SockJS("http://121.139.34.35:8080/stomp/chat");
+    // let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
     // let ws = Stomp.over(sock);
 
     // const onSend = async () => {

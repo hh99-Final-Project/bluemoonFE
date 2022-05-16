@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import ReplyIcon from "../../static/images/diary/replyIcon.svg";
-import voiceIcon from "../../static/images/diary/voiceListenIcon.svg";
+import { replyIcon, listenIcon } from "../../static/images/resources";
 import { convertDate } from "../../utils/convertDate";
+import PropTypes from "prop-types";
+
+
 
 
 const ReplyComment = (props) => {
@@ -18,7 +20,7 @@ const ReplyComment = (props) => {
                         <OneReplyComment key={idx}>
                             <NickNameArea>
                                 <NickNameAreaLeft>
-                                    <ReplyImg src={ReplyIcon}/>
+                                    <ReplyImg src={replyIcon}/>
                                     <Nickname>
                                         {comment.nickname}의 답글
                                     </Nickname>
@@ -32,7 +34,7 @@ const ReplyComment = (props) => {
                                 {comment.content}
                             </Content>
                             <IconArea>
-                                <VoiceIcon src={voiceIcon}/>
+                                <VoiceIcon src={listenIcon}/>
                                 <OptionIconArea>
                                     <ChattingIcon>
                                         채팅
@@ -43,16 +45,20 @@ const ReplyComment = (props) => {
                                 </OptionIconArea>
                             </IconArea>
                         </OneReplyComment>
-                        )
+                        );
 
                 })
 
             }
         </ReplyCommentList>
-    )
-}
+    );
+};
 
 export default ReplyComment;
+
+ReplyComment.propTypes = {
+    replyComments: PropTypes.array,
+};
 
 
 const ReplyCommentList = styled.div`

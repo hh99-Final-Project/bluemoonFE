@@ -1,33 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect} from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Comment from "./Comment";
-import CommentInput from "./CommentInput";
 
 
-CommentList.propTypes = {
-    comments: PropTypes.array
-};
+const CommentList = (props) => {
 
-function CommentList(props) {
-
-    const { comments, setParentId, isReplyClicked, replyClickHandler, parentCommentId } = props;
-    // const reversedComments = comments.reverse();
-
+    const { comments, setParentId, parentCommentId } = props;
 
     return (
         <React.Fragment>
             <CommentsContainer>
                 {
                     comments.map((comment) => {
-                        return <Comment key={comment.commentUuid} comment={comment} replyClickHandler={replyClickHandler}
-                                        setParentId={setParentId} isReplyClicked={isReplyClicked} parentCommentId={parentCommentId}/>
+                        return (
+                            <Comment key={comment.commentUuid} comment={comment}
+                                     setParentId={setParentId} parentCommentId={parentCommentId}/>
+                        );
                     })
                 }
             </CommentsContainer>
         </React.Fragment>
-    )
-}
+    );
+};
+
+CommentList.propTypes = {
+    comments: PropTypes.array,
+    setParentId: PropTypes.func,
+    isReplyClicked: PropTypes.bool,
+    replyClickHandler: PropTypes.func,
+    parentCommentId: PropTypes.string
+};
 
 export default CommentList;
 
