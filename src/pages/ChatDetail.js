@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -16,26 +16,26 @@ import close from "../static/images/chat/close.svg";
 import useStore from "../zustand/store";
 import {color} from "../utils/designSystem";
 
+
 const ChatDetail = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-    // console.log(params);
     const roomId = params.id;
     const { setCurrentHeader } = useStore();
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const token = getCookie("authorization");
-    // console.log(token);
+    const [text, setText] = React.useState("");
+    const scrollRef = useRef();
+    const ws = useRef();
 
     // 상대방 정보
     const [otherUserInfo, setOtherUserInfo] = useState([]);
-    console.log(otherUserInfo);
 
     // messages
     const messages = useSelector((state) => state.chatSlice.messages);
-    // console.log(messages);
 
     // 상대방 정보 가져오기
     useEffect(() => {
@@ -43,7 +43,6 @@ const ChatDetail = () => {
         chatApi
             .enterChatRoom(roomId)
             .then((response) => {
-                console.log(response.data);
                 setOtherUserInfo(response.data);
             })
             .catch((error) => {
@@ -53,72 +52,102 @@ const ChatDetail = () => {
 
     // 채팅방 이전 메시지 가져오기
     useEffect(() => {
+        let sock = new SockJS("http://13.209.155.82/stomp/chat");
+        let client = Stomp.over(sock);
+        ws.current = client;
+
         dispatch(getChatMessage(roomId));
     }, []);
 
-    // // 소켓 연결
-    // useEffect(() => {
-    //     wsConnect();
-    //     return () => {
-    //         wsDisConnect();
-    //     };
-    // }, []);
+    // 소켓 연결
+    useEffect(() => {
+        wsConnect();
+        return () => {
+            wsDisConnect();
+        };
+    }, []);
 
-    // // 입장 시 enter
-    // // roomId 바뀔 때 실행되도록 세팅
-    // useEffect(() => {
-    //     enterMessage();
-    // }, [roomId]);
+    // 입장 시 enter
+    // roomId 바뀔 때 실행되도록 세팅
+    useEffect(() => {
+        enterMessage();
+        scrollRef.current.scrollIntoView({behavior: "smooth", block: "end"});
+    }, []);
 
-    // // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
-    // let sock = new SockJS("http://13.209.155.82/stomp/chat");
-    // let ws = Stomp.over(sock);
+    useEffect(()=>{
+        scrollRef.current.scrollIntoView({behavior: "smooth", block:"end"});
+    },[messages]);
+
 
     // // // 연결 및 구독. 파라메터로 토큰 넣어야 함
-    // function wsConnect() {
-    //     try {
-    //         ws.connect({ token: token, type: "CHAT" }, () => {
-    //             ws.subscribe(
-    //                 `/sub/chat/room/${roomId}`,
-    //                 (response) => {
-    //                     const newMessage = JSON.parse(response.body);
-    //                     console.log(response);
-    //                     console.log(newMessage);
-    //                     dispatch(subMessage(newMessage));
-    //                 },
-    //                 // {},
-    //             );
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    function wsConnect() {
+        try {
+            ws.current.connect({ token: token, type: "CHAT" }, () => {
+                console.log("socket connected");
+                ws.current.subscribe(
+                    `/sub/chat/room/${roomId}`,
+                    (response) => {
+                        const newMessage = JSON.parse(response.body);
+                        console.log(response);
+                        console.log(newMessage);
+                        dispatch(subMessage(newMessage));
+                    },
+                );
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    // function wsDisConnect() {
-    //     try {
-    //         ws.disconnect(() => {
-    //             ws.unsubscribe("sub-0");
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    function wsDisConnect() {
+        try {
+            ws.current.disconnect(() => {
+                ws.current.unsubscribe("sub-0");
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    // const enterMessage = () => {
-    //     try {
-    //         // send할 데이터
-    //         const message = {
-    //             type: "ENTER",
-    //             roomId: roomId,
-    //         };
+    const enterMessage = () => {
+        try {
+            // send할 데이터
+            const message = {
+                type: "ENTER",
+                roomId: roomId,
+            };
 
-    //         waitForConnection(ws, () => {
-    //             ws.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+            // waitForConnection(ws, () => {
+            ws.current.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
+            // });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const onSend = async () => {
+        try {
+            // send할 데이터
+            const message = {
+                roomId: roomId,
+                message: text,
+                otherUserId: otherUserInfo.otherUserId, // 메시지 받는 상대방
+                type: "TALK",
+            };
+
+            if (text === "") {
+                return;
+            }
+            // 로딩 중
+            // waitForConnection(ws, function () {
+                ws.current.send("/pub/chat/message", { token: token }, JSON.stringify(message));
+                console.log(ws.current.ws.readyState);
+                setText("");
+            // });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     // // // 웹소켓이 연결될 때 까지 실행
     // function waitForConnection(ws, callback) {
@@ -149,7 +178,7 @@ const ChatDetail = () => {
                     <ChatRoomTitle>
                         <p> {otherUserInfo.otherUserNickname} 님과의 대화</p>
                         <BackButton onClick={() => navigate("/chatlist")}>
-                            <img src={close}></img>
+                            <img src={close}/>
                         </BackButton>
                     </ChatRoomTitle>
 
@@ -165,9 +194,10 @@ const ChatDetail = () => {
                                     />
                                 );
                             })}
+                        <div ref={scrollRef}/>
                     </MessageWrapper>
                     <InputWrpper>
-                        <ChatInput roomId={roomId} userInfo={userInfo} otherUserInfo={otherUserInfo} />
+                        <ChatInput userInfo={userInfo} onSend={onSend} text={text} setText={setText}/>
                     </InputWrpper>
                 </ChatRoom>
             </Container>

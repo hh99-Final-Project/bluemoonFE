@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -10,40 +10,12 @@ import send from "../../static/images/chat/send.svg";
 
 ChatInput.propTypes = {};
 
+
 function ChatInput(props) {
-    const { roomId, userInfo, otherUserInfo } = props;
-    // console.log(props);
+    const { onSend, text, setText } = props;
+    const ws = useRef();
 
-    const [text, setText] = React.useState("");
     const token = getCookie("authorization");
-
-    // let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
-    // let ws = Stomp.over(sock);
-
-    // const onSend = async () => {
-    //     try {
-    //         // send할 데이터
-    //         const message = {
-    //             roomId: roomId,
-    //             message: text,
-    //             otherUserId: otherUserInfo.otherUserId, // 메시지 받는 상대방
-    //             type: "TALK",
-    //         };
-
-    //         if (text === "") {
-    //             return;
-    //         }
-    //         // 로딩 중
-    //         waitForConnection(ws, function () {
-    //             ws.send("/pub/chat/message", { token: token }, JSON.stringify(message));
-    //             console.log(ws.ws.readyState);
-    //             setText("");
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         console.log(ws.ws.readyState);
-    //     }
-    // };
 
     // // // 웹소켓이 연결될 때 까지 실행
     // function waitForConnection(ws, callback) {
@@ -77,7 +49,7 @@ function ChatInput(props) {
     );
 }
 
-export default ChatInput;
+export default React.memo(ChatInput);
 
 const Input = styled.input`
     // position: absolute;

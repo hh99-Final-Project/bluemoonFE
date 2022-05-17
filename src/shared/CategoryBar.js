@@ -107,7 +107,7 @@ function CategoryBar(props) {
                 // ref={ChattingRef}
             >
                 {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={categoryChatList} alt={"ChatIcon"} />}
-                {unreadCount.length > 0 && <Unread src={star}></Unread>}
+                {unreadCount.length > 0 && <Unread src={star}/>}
             </ChattingList>
             <Lottery
                 header={currentHeader}

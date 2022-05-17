@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useRef, useState, useEffect} from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -54,6 +54,7 @@ function CommentInput(props) {
     };
 
     const queryClient = useQueryClient();
+    const ws = useRef();
 
     const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId), {
         onSuccess: () => {
@@ -82,36 +83,31 @@ function CommentInput(props) {
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId);
     };
 
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
 
-    // let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
-    // let ws = Stomp.over(sock);
 
-    // const onClick = async () => {
-    //     saveComment();
-    //     try {
-    //         // 보낼 메시지
-    //         const message = {
-    //             message: `[${diary.title}]에 댓글이 달렸어요!`,
-    //             postUuid: postId,
-    //             otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
-    //             type: "ENTER",
-    //         };
+    const onClick = async () => {
+        saveComment();
+        try {
+            // 보낼 메시지
+            const message = {
+                message: `[${diary.title}]에 댓글이 달렸어요!`,
+                postUuid: postId,
+                otherUserId: diary.userId, // 새 댓글 알람을 받을 사람 입력
+                type: "ENTER",
+            };
 
-    //         if (comment === "") {
-    //             return;
-    //         }
-    //         // 로딩 중
-    //         waitForConnection(ws, function () {
-    //             ws.send("/pub/chat/alarm", { token: token }, JSON.stringify(message));
-    //             console.log(ws.ws.readyState);
-    //             // setText("");
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         console.log(ws.ws.readyState);
-    //     }
-    // };
+            if (comment === "") {
+                return;
+            }
+            // 로딩 중
+            // waitForConnection(ws, function () {
+                ws.current.send("/pub/chat/alarm", { token: token }, JSON.stringify(message));
+                setText("");
+            // });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     // // // 웹소켓이 연결될 때 까지 실행
     // function waitForConnection(ws, callback) {
@@ -142,6 +138,16 @@ function CommentInput(props) {
     const SaveRecordTime = (time) => {
         setRecordTime(time);
     };
+
+    useEffect(()=>{
+        let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
+        let client = Stomp.over(sock);
+        ws.current = client;
+        
+        return () => {
+            ws.current = null;
+        };
+    },[]);
 
     return (
         <React.Fragment>
