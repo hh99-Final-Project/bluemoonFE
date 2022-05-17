@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import useStore from "../zustand/store";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { isWindows } from "react-device-detect";
+import { userApi } from "../apis/userApi";
 
 import { Layout } from "../components/common";
 import Header from "../shared/Header";
 import CategoryBar from "../shared/CategoryBar";
-
-import useStore from "../zustand/store";
-import loterryMoon from "../static/images/Lottery/lotteryMoon.png";
-import lotteryResult from "../static/images/Lottery/lotteryResult.png";
-import bananaMilkIkon from "../static/images/Lottery/bananaMilkIcon.png";
-import star from "../static/images/Lottery/star.png";
-
-import { useSelector } from "react-redux";
-import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";
-import { isWindows } from "react-device-detect";
+
 import { color } from "../utils/designSystem";
+import { lotteryMoon, lotteryResult, bananaMilkIcon, star } from "../static/images/resources";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -23,6 +20,7 @@ const Lottery = () => {
     const [isClick, setIsClick] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
     const [isWin, setIsWin] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setCurrentHeader("추첨");
@@ -72,7 +70,7 @@ const Lottery = () => {
                         {userInfo ? userInfo.nickname : ""} <span>님 다이어리</span>
                     </DiaryName>
                     <MoonArea>
-                        <img src={loterryMoon} />
+                        <img src={lotteryMoon} alt="lotteryMoon" />
                     </MoonArea>
                     <LotteryArea>
                         <img src={lotteryResult} />
@@ -82,9 +80,16 @@ const Lottery = () => {
                             <>
                                 <LotteryResult isWin={isWin}>당신에겐 달콤한 여유를 드릴게요.</LotteryResult>
                                 <BananaMilkIcon>
-                                    <img src={bananaMilkIkon}></img>
+                                    <img src={bananaMilkIcon}></img>
                                 </BananaMilkIcon>
-                                <GetBananaMilkButton>받으러 가기</GetBananaMilkButton>
+                                <GetBananaMilkButton
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate("/lotterywin");
+                                    }}
+                                >
+                                    받으러 가기
+                                </GetBananaMilkButton>
                             </>
                         )}
                         {isClick && isWin === false && (
@@ -128,11 +133,10 @@ const ContentBox = styled.div`
     width: 950px;
     height: 530px;
 
-    
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);
-    background: ${props => props.BgColor};
+    background: ${(props) => props.BgColor};
     border-radius: 25px;
 
     position: relative;
@@ -205,8 +209,8 @@ const LotteryResult = styled(LotteryClick)`
     display: block;
 
     p {
-      font-size: ${(props) => !props.isWin && "10px"};
-      line-height: ${(props) => !props.isWin && "13px"};
+        font-size: ${(props) => !props.isWin && "10px"};
+        line-height: ${(props) => !props.isWin && "13px"};
     }
 
     cursor: default;
@@ -246,7 +250,6 @@ const GetBananaMilkButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
 
     cursor: pointer;
 `;

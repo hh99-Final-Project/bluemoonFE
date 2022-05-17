@@ -21,7 +21,6 @@ function ChatList(props) {
     const dispatch = useDispatch();
     const { setCurrentHeader } = useStore();
 
-    // const chatList = useSelector((state) => state.chatSlice.chatList);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     // chatList 에 소켓에서 받는 안 읽은 메시지 수를 count 라는 속성에 넣어줘보자.
@@ -108,7 +107,6 @@ function ChatList(props) {
                 window.alert("에러처리");
             }
         });
-
     };
 
     // 무한스크롤을 함수
@@ -196,19 +194,21 @@ function ChatList(props) {
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setIsOpenPopup(true);
-                                                }}>
+                                                }}
+                                            >
                                                 나가기
                                             </ChatOutButton>
                                         </ContentLine>
 
-                                        {isOpenPopup &&
+                                        {isOpenPopup && (
                                             <Popup
                                                 title={"정말로/대화를 종료하시겠습니까?"}
                                                 close={() => setIsOpenPopup(false)}
                                                 event={() => {
                                                     deleteChat(chat.chatRoomUuid);
-                                                }}/>
-                                        }
+                                                }}
+                                            />
+                                        )}
                                     </ChatRoom>
                                 );
                             })}
@@ -230,7 +230,7 @@ const Container = styled.div`
 const ChatRoomListBox = styled.div`
     width: 950px;
     height: 530px;
-    background: ${props => props.BgColor};
+    background: ${(props) => props.BgColor};
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);

@@ -8,6 +8,9 @@ export const categoryHome = require("./categoryBar/homeIcon.png");
 export const categoryLottery = require("./categoryBar/lotteryIcon.png");
 export const categoryMyPage = require("./categoryBar/mypageIcon.png");
 
+// chat
+export const close = require("./chat/close.svg");
+
 //common
 export const logo = require("./common/logo.svg").default;
 export const notFoundImg = require("./common/notFoundImg.svg").default;
@@ -18,8 +21,6 @@ export const halfMoon = require("./common/halfMoon.svg").default;
 //header
 export const moonPoint = require("./header/MoonPoint.svg").default;
 export const newAlertIcon = require("./header/NewAlertIcon.svg").default;
-
-//lottery
 
 //diary
 //voice
@@ -58,8 +59,10 @@ export const lockIcon = require("./diary/lockIcon.svg").default;
 export const closeButton = require("./chat/close_24px.svg");
 
 //lottery
-
-
-
+export const bananaMilkIcon = require("./lottery/bananaMilkIcon.png");
+export const lotteryMoon = require("./lottery/lotteryMoon.png");
+export const lotteryResult = require("./lottery/lotteryResult.png");
+export const lotteryWinIcon = require("./lottery/lotteryWinIcon.svg").default;
+export const star = require("./lottery/star.png");
 
 // export const = require();

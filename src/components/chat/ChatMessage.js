@@ -11,11 +11,9 @@ ChatMessage.propTypes = {
 
 function ChatMessage(props) {
     const { message, userId, createdAt } = props;
-    // const cookie = getCookie("authorization");
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    // console.log(userInfo);
 
     // 채팅 메시지 보낸 사람과 현재 로그인한 사람을 비교하여 같은 사람이면 true 다르면 false
     // 본인이 보낸 채팅 메시지는 오른쪽에 표시, 아닌 사람은 왼쪽에 표시한다.
@@ -23,13 +21,6 @@ function ChatMessage(props) {
 
     return (
         <React.Fragment>
-            {/* <Box user={user}>
-                <div className="messageBox">
-                    <Message>{message}</Message>
-                    <div>{createdAt}</div>
-                </div>
-            </Box> */}
-
             <Box user={user}>
                 <MessageBox user={user}>
                     <Message user={user}>{message}</Message>
@@ -41,10 +32,6 @@ function ChatMessage(props) {
 }
 
 export default ChatMessage;
-
-const Nickname = styled.div`
-    display: flex;
-`;
 
 const Box = styled.div`
     align-items: ${(props) => (props.user ? "flex-end" : "flex-start")};

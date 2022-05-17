@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-
-import { Layout } from "../components/common";
-import Header from "../shared/Header";
-import CategoryBar from "../shared/CategoryBar";
-import lotteryWinIcon from "../static/images/Lottery/lotteryWinIcon.svg";
-
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+import Header from "../shared/Header";
+import CategoryBar from "../shared/CategoryBar";
+import { Layout } from "../components/common";
+import { lotteryWinIcon } from "../static/images/resources";
 
 const LotteryWin = () => {
     const { setCurrentHeader } = useStore();
