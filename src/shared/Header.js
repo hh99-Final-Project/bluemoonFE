@@ -15,20 +15,23 @@ import Popup from "../shared/Popup";
 import useStore from "../zustand/store";
 import { getUnreadCount } from "../redux/modules/chatSlice";
 
+
+
 const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const modalOpen = useSelector((state) => state.commonSlice.modalIsOpen);
-    // console.log(userInfo);
 
     const [isOpenNoti, setIsOpenNoti] = useState(false);
     const [logoutPopup, setLogoutPopup] = useState(false);
 
     const AlertTabRef = useRef();
+    const ws = useRef();
     const { setCurrentHeader } = useStore();
     const token = getCookie("authorization");
-    // console.log(token);
+
+
 
     const loginCheck = () => {
         //로그인 판별하기
@@ -49,57 +52,56 @@ const Header = () => {
     };
 
     const closeNotiModal = () => {
-        console.log("close!");
         setIsOpenNoti(false);
     };
 
-    // useEffect(() => {
-    //     if (userInfo) {
-    //         wsConnect();
-    //         return () => {
-    //             wsDisConnect();
-    //         };
-    //     }
-    // }, []);
+    useEffect(()=>{
+        let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
+        let client = Stomp.over(sock);
+         ws.current = client;
+    },[]);
 
-    // 1. stomp 프로토콜 위에서 sockJS 가 작동되도록 클라이언트 생성
-    // let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
-    // let ws = Stomp.over(sock);
+    useEffect(() => {
+        if (userInfo) {
+            wsConnect();
+            return () => {
+                wsDisConnect();
+            };
+        }
+    }, []);
+
 
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
-    // function wsConnect() {
-    //     try {
-    //         ws.connect({ token: token }, () => {
-    //             ws.subscribe(
-    //                 `/sub/chat/room/${userInfo.userId}`,
-    //                 (response) => {
-    //                     const newAlert = JSON.parse(response.body);
-    //                     // console.log(response);
-    //                     console.log(newAlert);
-    //                     console.log(newAlert.type);
-    //                     if (newAlert.type === "ALARM") {
-    //                         dispatch(getNewAlert(newAlert));
-    //                     } else if (newAlert.type === "UNREAD") {
-    //                         dispatch(getUnreadCount(newAlert));
-    //                     }
-    //                 },
-    //                 // {},
-    //             );
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    function wsConnect() {
+        try {
+            ws.current.connect({ token: token }, () => {
+                ws.current.subscribe(
+                    `/sub/chat/room/${userInfo.userId}`,
+                    (response) => {
+                        const newAlert = JSON.parse(response.body);
+                        if (newAlert.type === "ALARM") {
+                            dispatch(getNewAlert(newAlert));
+                        } else if (newAlert.type === "UNREAD") {
+                            dispatch(getUnreadCount(newAlert));
+                        }
+                    },
+                    // {},
+                );
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    // function wsDisConnect() {
-    //     try {
-    //         ws.disconnect(() => {
-    //             ws.unsubscribe("sub-0");
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    function wsDisConnect() {
+        try {
+            ws.current.disconnect(() => {
+                ws.current.unsubscribe("sub-0");
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <React.Fragment>
@@ -139,7 +141,7 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default React.memo(Header);
 
 const HeaderContainer = styled.div`
     display: flex;
