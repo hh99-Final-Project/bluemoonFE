@@ -14,6 +14,10 @@ export const notFoundImg = require("./common/notFoundImg.svg").default;
 export const startBG = require("./common/starBG.svg").default;
 export const spinner = require("./common/spinner.gif");
 export const halfMoon = require("./common/halfMoon.svg").default;
+export const mainMoonIcon = require("./common/mainMoonIcon.svg").default;
+export const doubleQuoteLeft = require("./common/doubleQuoteLeft.svg").default;
+export const doubleQuoteRight = require("./common/doubleQuoteRight.svg").default;
+export const moonIconTransparent = require("./common/moonIconTransparent.svg").default;
 
 //header
 export const moonPoint = require("./header/MoonPoint.svg").default;

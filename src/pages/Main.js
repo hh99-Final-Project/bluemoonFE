@@ -10,7 +10,7 @@ import Login from "../components/user/Login";
 import { userApi } from "../apis/userApi";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
-import { logo } from "../static/images/resources";
+import { logo, mainMoonIcon, doubleQuoteLeft, doubleQuoteRight, moonIconTransparent } from "../static/images/resources";
 import starBG from "../static/images/common/starBG.svg";
 import { Layout } from "../components/common";
 import { color } from "../utils/designSystem";
@@ -58,42 +58,68 @@ const Main = () => {
                         <Slider2 {...settings}>
                             <FirstSlide>
                                 <BorderCard>
+                                    <SubTitle>블/루/문 다/이/어/리/의</SubTitle>
                                     <Border/>
-                                    <span>블루문 다이어리 주인께</span>
+                                    <Border2/>
+                                    <MainTitle>
+                                        <span>주</span>
+                                        <span>인</span>
+                                        <span>에</span>
+                                        <span>게</span>
+                                    </MainTitle>
                                     <Border/>
+                                    <Border2/>
+                                    <MoonIcon src={mainMoonIcon}/>
                                 </BorderCard>
                             </FirstSlide>
-                            {/*<SecondSlide>*/}
-                            {/*    <BorderCard2>*/}
-                            {/*        <span>*/}
-                            {/*            달빛이 깃든 이 다이어리는 당신을 <br/>*/}
-                            {/*            주인으로 선택했습니다. 환영합니다.*/}
-                            {/*        </span>*/}
-                            {/*    </BorderCard2>*/}
-                            {/*</SecondSlide>*/}
-                            {/*<ThirdSlide>*/}
-                            {/*    <BorderCard2>*/}
-                            {/*        <span>*/}
-                            {/*            이 다이어리를 통해 또 다른 주인들과*/}
-                            {/*            서로 글을 공유하거나, 댓글로 소통할 수 있습니다.*/}
-                            {/*        </span>*/}
-                            {/*    </BorderCard2>*/}
-                            {/*</ThirdSlide>*/}
-                            {/*<FourthSlide>*/}
-                            {/*    <BorderCard2>*/}
-                            {/*        <span>*/}
-                            {/*            당신이 원한다면, 원하는 사람과 진중한 대화를 나눌 수 있습니다.*/}
-                            {/*        </span>*/}
-                            {/*    </BorderCard2>*/}
-                            {/*</FourthSlide>*/}
-                            {/*<FifthSlide>*/}
-                            {/*    <BorderCard2>*/}
-                            {/*        <span>*/}
-                            {/*            이 다이어리는 주인들과 소통하지 않으면, 빛을 잃게 됩니다.<br/>*/}
-                            {/*            꼭 명심하세요.*/}
-                            {/*        </span>*/}
-                            {/*    </BorderCard2>*/}
-                            {/*</FifthSlide>*/}
+                            <SecondSlide>
+                                <BorderCard2>
+                                    <span>
+                                        <Quote src={doubleQuoteLeft}/>
+                                        푸른 달빛이 깃든 이 다이어리는 <br/>
+                                        당신을 주인으로 선택했습니다. <br/>
+                                        환영합니다.
+                                        <Quote src={doubleQuoteRight}/>
+                                    </span>
+                                    <MoonIcon2 src={moonIconTransparent}/>
+                                </BorderCard2>
+                            </SecondSlide>
+                            <ThirdSlide>
+                                <BorderCard2>
+                                    <span>
+                                        <Quote src={doubleQuoteLeft}/>
+                                        이 다이어리를 통해 <br/>
+                                        또 다른 주인들과 서로의 이야기를<br/>
+                                        공유하거나 소통할 수 있습니다.
+                                        <Quote src={doubleQuoteRight}/>
+                                        <MoonIcon2 src={moonIconTransparent}/>
+                                    </span>
+                                </BorderCard2>
+                            </ThirdSlide>
+                            <FourthSlide>
+                                <BorderCard2>
+                                    <span>
+                                        <Quote src={doubleQuoteLeft}/>
+                                        당신이 원한다면,<br/>
+                                        원하는 사람과 깊이 있는 대화를<br/>
+                                        나눌 수 있습니다.
+                                        <Quote src={doubleQuoteRight}/>
+                                        <MoonIcon2 src={moonIconTransparent}/>
+                                    </span>
+                                </BorderCard2>
+                            </FourthSlide>
+                            <FifthSlide>
+                                <BorderCard2>
+                                    <span>
+                                        <Quote src={doubleQuoteLeft}/>
+                                        주인들과 소통하지 않으면<br/>
+                                        다이어리는 빛을 잃게 됩니다.<br/>
+                                        꼭 명심하세요.
+                                        <Quote src={doubleQuoteRight}/>
+                                        <MoonIcon2 src={moonIconTransparent}/>
+                                    </span>
+                                </BorderCard2>
+                            </FifthSlide>
 
                         </Slider2>
 
@@ -124,80 +150,126 @@ const IntroContainer = styled.div`
     background: ${props => props.BgColor};
     display: flex;
     justify-content: space-between;
-    padding: 51px 48px 39px 51px;
-    position: relative;  
+    padding: 45px 53px;
+    position: relative;
     z-index: 2;
 `;
 
 const ServiceStart = styled.div`
-    margin-right: 20px;
+    margin-right: 26px;
     width: 477px;
     height: 440px;
-    background-color: #1f2449;
+    background-color: rgba(31, 36, 73, 0.8);
     border: 2px solid #43567e;
     box-sizing: border-box;
     border-radius: 20px;
 `;
 
 const ServiceIntro = styled.div`
-    width: 342px;
+    width: 341px;
     height: 440px;
     box-sizing: border-box;
     border-radius: 20px;
     margin: auto;
+    background-color: rgba(31, 36, 73, 0.8);
 `;
 
 const Logo = styled.div`
-    margin: 89px auto 0;
-    width: 141px;
+    margin: 74px auto 0;
+    text-align: center;
+  
+    img {
+      width: 141px;
+    }
 `;
 
 const ServiceTitle = styled.div`
-    width: 300px;
     font-size: 30px;
     line-height: 35px;
-    font-weight: bold;
-    margin: -40px auto 102px;
     text-align: center;
     color: #ffffff;
-    font-family: 'Jura', sans-serif;
+    font-family: 'Jura';
+    width: 151px;
+    margin: 0 auto 83px;
+  
 `;
 
 
 const Border = styled.div`
-  width: 212px;
-  border: 1px solid #91A6A8;
-  margin: 9px auto;
+  width: 208px;
+  border: 1px solid #9AEBE7;
+  margin: 0 auto 5px;
+  border-collapse: collapse;
+`;
+
+const Border2 = styled(Border)`
+  margin: auto;
+`;
+
+const SubTitle = styled.div`
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.19em;
+  margin-bottom: 6px;
+  margin-top: 135px;
+`;
+
+const MoonIcon = styled.img`
+  margin: 135px auto;
+`;
+
+const MoonIcon2 = styled.img`
+  margin: 100px auto 0;
 `;
 
 const BorderCard = styled.div`
-  width: 312px;
-  height: 414px;
-  margin: 7px auto 0;
+  width: 310px;
+  height: 410px;
   box-sizing: border-box;
-  border: 1px solid #91A6A8;
-  border-radius: 15px;
-  padding-top: 40%;
   font-size: 18px;
   line-height: 22px;
   background-color: rgba(31, 36, 73, 0.8);
+  border: 1px solid #9AEBE7;
+  border-radius: 15px;
+  margin-top: 15px;
+  margin-left: 15px;
 `;
 
 const BorderCard2 = styled(BorderCard)`
-  margin: 13px auto 0;
-  border: 1px solid #91A6A8;
-  color: #000000;
-  padding: 50% 13px;
+  background-color: rgba(198, 211, 236, 0.8);
+  border: 1px solid #1F2449;
+  padding: 113px 28px 100px 28px;
+`;
 
+const Quote = styled.img`
+  margin: 17px auto;
+`;
+
+const MainTitle = styled.div`
+  border-collapse: collapse;
+  display: table;
+  text-align: center;
+  margin: 8px auto;
+  span {
+    width: 40px;
+    height: 40px;
+    border-right: 1px solid #9AEBE7;
+    border-left: 1px solid #9AEBE7;
+    box-sizing: border-box;
+    font-size: 18px;
+    line-height: 18px;
+    padding: 9px 11px;
+    border-collapse: collapse;
+  }
 `;
 
 const Slider2 = styled(Slider)`
-  width: 342px;
+  width: 341px;
   height: 440px;
   box-sizing: border-box;
   
   .slick-dots {
-    top: 368px;
+    top: 396px;
   }
   .slick-dots li {
     margin: 0 -6px;
@@ -235,6 +307,11 @@ const FirstSlide = styled.div`
 
 const SecondSlide = styled(FirstSlide)`
   background-color: #C0CDE7;
+  font-size: 18px;
+  line-height: 23px;
+  color: #08105D;
+  height: 440px;
+  width: 341px !important;
 `;
 
 const ThirdSlide = styled(SecondSlide)``;
@@ -245,19 +322,19 @@ const FifthSlide = styled(SecondSlide)``;
 const DiaryWriteButton = styled.div`
     width: 395px;
     height: 46px;
-    background-color: #c0cde6;
-    margin: 50px auto 0;
-    border: 2px solid #43567e;
+    margin: auto;
+    border: 2px solid #91DDDD;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 9px;
     box-sizing: border-box;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 9px;
-    font-size: 19px;
+    font-size: 18px;
     line-height: 23px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #060e32;
+    color: #9AEBE7;
 `;
 
 const DiaryListButton = styled(DiaryWriteButton)`
