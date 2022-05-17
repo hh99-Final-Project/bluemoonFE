@@ -33,6 +33,7 @@ export const listenVoiceIcon = require("./diary/writePlayButton.svg").default;
 export const voicePlayIcon = require("./diary/diaryListPlayIcon.svg").default;
 export const replyIcon = require("./diary/replyIcon.svg").default;
 export const microphone = require("./diary/microphone.svg").default;
+export const microphoneBlue = require("./diary/microphoneBlue.svg").default;
 export const onRecIcon = require("./diary/onRecording.svg").default;
 export const pauseIcon = require("./diary/voicePause.svg").default;
 export const stopIcon = require("./diary/voiceStop.svg").default;
