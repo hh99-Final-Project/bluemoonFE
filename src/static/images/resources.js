@@ -20,6 +20,10 @@ export const notFoundImg = require("./common/notFoundImg.svg").default;
 export const startBG = require("./common/starBG.svg").default;
 export const spinner = require("./common/spinner.gif");
 export const halfMoon = require("./common/halfMoon.svg").default;
+export const mainMoonIcon = require("./common/mainMoonIcon.svg").default;
+export const doubleQuoteLeft = require("./common/doubleQuoteLeft.svg").default;
+export const doubleQuoteRight = require("./common/doubleQuoteRight.svg").default;
+export const moonIconTransparent = require("./common/moonIconTransparent.svg").default;
 
 //header
 export const moonPoint = require("./header/MoonPoint.svg").default;
@@ -33,6 +37,7 @@ export const listenVoiceIcon = require("./diary/writePlayButton.svg").default;
 export const voicePlayIcon = require("./diary/diaryListPlayIcon.svg").default;
 export const replyIcon = require("./diary/replyIcon.svg").default;
 export const microphone = require("./diary/microphone.svg").default;
+export const microphoneBlue = require("./diary/microphoneBlue.svg").default;
 export const onRecIcon = require("./diary/onRecording.svg").default;
 export const pauseIcon = require("./diary/voicePause.svg").default;
 export const stopIcon = require("./diary/voiceStop.svg").default;
@@ -48,10 +53,10 @@ export const saveIcon = require("./diary/saveDiary.svg").default;
 export const closeBtn = require("./diary/closePopup.svg").default;
 
 //diary-content
-export const chatIcon = require("./diary/message.png");
+export const chatIcon = require("./diary/chatIcon.svg").default;
 
 //diary-list
-export const commentIcon = require("./diary/comment.png");
+export const commentIcon = require("./diary/comment.svg").default;
 export const prevButton = require("./diary/prevDiary.svg").default;
 export const nextButton = require("./diary/nextDiary.svg").default;
 

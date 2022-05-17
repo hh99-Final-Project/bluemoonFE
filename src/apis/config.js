@@ -1,5 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../utils/cookie";
+import { store } from "../redux/store";
+import { showError } from "../redux/modules/errorSlice";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -44,3 +46,13 @@ instance.interceptors.request.use(
         return;
     },
 );
+
+instance.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    console.log(error,"error");
+    store.dispatch(showError({ isOpen: true, message: error.response.data.message }));
+    return Promise.reject(error);
+});
+
+

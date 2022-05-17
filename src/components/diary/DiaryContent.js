@@ -11,7 +11,6 @@ DiaryContent.propTypes = {
 
 function DiaryContent(props) {
     const { diary } = props;
-    console.log(diary,"diary");
     const navigate = useNavigate();
     const audioRef = useRef(new Audio(diary.voiceUrl));
 
@@ -65,18 +64,17 @@ function DiaryContent(props) {
                     }
 
                 </ContentsContainer>
-                <IconArea>
-                    <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
-                    <ChattingButton
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            createChat(diary.userId);
-                        }}
-                    >
-                        <img src={chatIcon} alt={"chatIcon"} />
-                        <div>대화 신청</div>
-                    </ChattingButton>
-                </IconArea>
+                <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
+                <ChattingButton
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        createChat(diary.userId);
+                    }}
+                >
+                    <img src={chatIcon} alt={"chatIcon"} />
+                    <div>대화 신청</div>
+                </ChattingButton>
+
             </DiaryContainer>
             <DottedLine />
         </React.Fragment>
@@ -95,51 +93,49 @@ const DiaryContainer = styled.div`
     position: relative;
 `;
 
-const NewBadge = styled.div`
-    width: 113px;
-    height: 41px;
-    background-color: #c4c4c4;
-`;
-
 const ContentsContainer = styled.div`
     width: 100%;
 `;
 
 const Content = styled.div`
-    font-size: 15px;
+    font-size: 14px;
     line-height: 18px;
+    color: #08105D;
     padding-top: 21px;
+    max-width: 791px;
+    max-height: 216px;
 `;
 
 const VoiceButton = styled.img`
     cursor: pointer;
     margin-top: 21px;
 `;
-const IconArea = styled.div`
-    position: absolute;
-    bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: calc(100% - 40px);
-`;
+
 
 const NicknameArea = styled.div`
     font-size: 10px;
     line-height: 12px;
     color: #373737;
+    position: absolute;
+    bottom: 21px;
+    left: 48px;
 `;
 
 const ChattingButton = styled.div`
+    position: absolute;
+    bottom: 21px;
+    right: 48px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 25px;
+  
 
     div {
-        font-size: 11px;
-        margin-top: 3px;
+      font-size: 10px;
+      line-height: 13px;
+      margin-top: 2px;
+      color: #354569;
     }
   
     img {
@@ -150,6 +146,6 @@ const ChattingButton = styled.div`
 
 const DottedLine = styled.div`
     border: 1px dashed #c6d3ec;
-    margin: 14px 0 0;
+    margin: 12px 0 11px;
     width: 876px;
 `;

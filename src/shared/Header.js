@@ -30,6 +30,7 @@ const Header = () => {
     const ws = useRef();
     const { setCurrentHeader } = useStore();
     const token = getCookie("authorization");
+    const path = window.location.pathname;
 
 
 
@@ -106,7 +107,7 @@ const Header = () => {
     return (
         <React.Fragment>
             <HeaderContainer>
-                <Logo onClick={() => navigate("/")}>Blue Moon</Logo>
+                {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
                 {userInfo ? (
                     <HeaderRightArea>
                         <Point>
@@ -124,7 +125,7 @@ const Header = () => {
                         <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
                     </HeaderRightArea>
                 ) : (
-                    <LoginArea onClick={() => loginCheck()}>로그인/회원가입</LoginArea>
+                    <LoginArea onClick={() => loginCheck()}>로그인 / 회원가입</LoginArea>
                 )}
             </HeaderContainer>
             {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
@@ -202,11 +203,17 @@ const AlertIcon = styled.div`
 `;
 const LoginArea = styled.div`
     cursor: pointer;
-    margin-right: 20px;
-    margin-top: 9px;
-    font-size: 16px;
-    line-height: 19px;
-    color: #9aebe7;
+    margin-top: 13px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #9AEBE7;
+    width: 150px;
+    height: 35px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const Logout = styled(LoginArea)`

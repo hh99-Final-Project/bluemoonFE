@@ -8,7 +8,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useMutation, useQueryClient } from "react-query";
 import { getCookie } from "../../utils/cookie";
-import { recordIcon, lockIcon } from "../../static/images/resources";
+import {recordIcon, lockIcon, microphone, microphoneBlue} from "../../static/images/resources";
 import VoicePopup from "./VoicePopup";
 
 CommentInput.propTypes = {
@@ -141,6 +141,7 @@ function CommentInput(props) {
                 <IconArea>
                     <ButtonArea>
                         <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={recordIcon} />
+                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue}/>
                         {isShowSpeaker && <PlayButton onClick={play}>듣기</PlayButton>}
                     </ButtonArea>
                     <IconRightArea>
@@ -182,9 +183,8 @@ function CommentInput(props) {
 export default CommentInput;
 
 const InputContainer = styled.div`
-    margin-top: 10px;
-    width: 877px;
-    height: 86px;
+    width: 884px;
+    height: 87px;
     border-radius: 5px;
     background-color: #bcc4de;
 `;
@@ -192,12 +192,13 @@ const InputContainer = styled.div`
 const Input = styled.input`
     outline: none;
     border: none;
-    width: 856px;
-    height: 40px;
-    padding: 13px;
-    margin: 11px 10px 9px;
+    width: 842px;
+    height: 43px;
+    padding-left: 18px;
+    margin: 13px 21px 9px;
     border-radius: 3px;
     box-sizing: border-box;
+  
     ::placeholder {
         font-size: 13px;
         line-height: 16px;
@@ -213,7 +214,8 @@ const ButtonArea = styled.div`
 
 const VoiceButton = styled.img`
     cursor: pointer;
-    margin-right: 8px;
+    width: 12px;
+    height: 16px;
 `;
 
 const PlayButton = styled.div`
@@ -222,9 +224,11 @@ const PlayButton = styled.div`
 `;
 
 const TextLength = styled.div`
-    margin: 0 10px;
-    font-size: 10px;
-    line-height: 12px;
+      margin-right: 21px;
+      font-size: 10px;
+      line-height: 13px;
+      color: #354569;
+      padding-top: 3px;
 `;
 
 const PostButton = styled.div`
@@ -232,30 +236,34 @@ const PostButton = styled.div`
     background-color: #08105d;
     border-radius: 3px;
     font-size: 10px;
-    line-height: 12px;
+    line-height: 13px;
     text-align: center;
     color: #ffffff;
-    padding: 7px 10px 6px;
+    height: 17px;
+    width: 56px;
+    padding-top: 3px;
+    box-sizing: border-box;
 `;
 
 const IconArea = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 21px;
 `;
 const IconRightArea = styled.div`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 `;
 
 const LockIcon = styled.div`
     img {
-        margin-right: 4px;
+        margin-right: 9px;
     }
 
     input {
         width: 15px;
         height: 15px;
+        margin-right: 21px;
     }
 `;

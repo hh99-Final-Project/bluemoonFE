@@ -12,6 +12,7 @@ import { Layout } from "../components/common";
 import { useQuery, useQueryClient } from "react-query";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
+import {backIcon} from "../static/images/resources";
 
 DiaryDetail.propTypes = {};
 
@@ -49,8 +50,8 @@ function DiaryDetail() {
                 <DetailContent BgColor={color.containerBoxColor}>
                     <TitleContainer>
                         <TitleLeft>
-                            <BackButton onClick={() => navigate("/diarylist")}/>
-                            <Title>고민 들어주기</Title>
+                            <BackButton src={backIcon} onClick={() => navigate("/diarylist")}/>
+                            <Title>{isLogin ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
                         </TitleLeft>
                         <Time>{convertDate(isLogin ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}</Time>
                     </TitleContainer>
@@ -122,22 +123,25 @@ const TitleLeft = styled.div`
     justify-content: center;
 `;
 
-const BackButton = styled.div`
+const BackButton = styled.img`
     cursor: pointer;
-    margin: 0 23px 0 40px;
+    margin: 0 21px 0 40px;
 `;
 
 const Title = styled.div`
     margin: auto;
     font-size: 18px;
-    line-height: 22px;
+    line-height: 18px;
     color: #d0cccc;
-    font-weight: bold;
+    max-width: 700px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 `;
 
 const Time = styled.div`
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 12px;
+    line-height: 15px;
     color: #c6d3ec;
-    margin-right: 55px;
+    margin-right: 32px;
 `;

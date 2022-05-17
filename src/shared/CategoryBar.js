@@ -24,7 +24,10 @@ function CategoryBar(props) {
     const { currentHeader, setCurrentHeader } = useStore();
     const { moveToPage } = useMovePage();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+
+    const path = window.location.pathname;
 
     const loginCheck = () => {
         return !!userInfo;
@@ -44,81 +47,88 @@ function CategoryBar(props) {
 
     return (
         <HeaderContainer>
-            <Home
-                header={currentHeader}
-                onClick={() => {
-                    moveToPage("/");
-                    // setCurrentHeader("홈");
-                    // navigate("/");
-                }}
-            >
-                {currentHeader === "홈" ? (
-                    <span>기본 홈</span>
-                ) : (
-                    <img src={categoryHome} alt={"home"} />
-                )}
-            </Home>
-            <DiaryList
-                header={currentHeader}
-                onClick={() => {
-                    // setCurrentHeader("고민상담");
-                    moveToPage("/diarylist");
-                }}
-            >
-                {currentHeader === "고민상담" ? <div>고민 들어주기</div> : <img src={categoryDiaryList} alt={"ListIcon"} />}
-            </DiaryList>
-            <Post
-                header={currentHeader}
-                onClick={() => {
-                    // setCurrentHeader("포스트");
-                    // navigate("/write");
-                    moveToPage("/write");
-                }}
-            >
-                {currentHeader === "포스트" ?
-                    <div>고민 작성하기</div>
-                    :
-                    <img src={categoryWrite} alt={"writeIcon"} />}
-            </Post>
-            <MyPage
-                header={currentHeader}
-                onClick={() => {
-                    if (loginCheck()) {
-                        // setCurrentHeader("마이페이지");
-                        moveToPage("/mypage");
-                    } else {
-                        openModal(true);
-                    }
-                }}
-            >
-                {currentHeader === "마이페이지" ? <div>마이 페이지</div> : <img src={categoryMyPage} alt={"MyPageIcon"} />}
-            </MyPage>
-            <ChattingList
-                header={currentHeader}
-                onClick={() => {
-                    if (loginCheck()) {
-                        // setCurrentHeader("채팅");
-                        // navigate("/chatlist");
-                        moveToPage("/chatlist");
-                    } else {
-                        openModal(true);
-                    }
-                }}
-                // ref={ChattingRef}
-            >
-                {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={categoryChatList} alt={"ChatIcon"} />}
-                {unreadCount.length > 0 && <Unread src={star}/>}
-            </ChattingList>
-            <Lottery
-                header={currentHeader}
-                onClick={() => {
-                    // setCurrentHeader("추첨");
-                    // navigate("/lottery");
-                    moveToPage("/lottery");
-                }}
-            >
-                {currentHeader === "추첨" ? <div>오픈 이벤트</div> : <img src={categoryLottery} alt={"LotteryIcon"} />}
-            </Lottery>
+            <CategoryLeft>
+                <Home
+                    header={currentHeader}
+                    onClick={() => {
+                        moveToPage("/");
+                        // setCurrentHeader("홈");
+                        // navigate("/");
+                    }}
+                >
+                    {currentHeader === "홈" ? (
+                        <span>기본 홈</span>
+                    ) : (
+                        <img src={categoryHome} alt={"home"} />
+                    )}
+                </Home>
+                <DiaryList
+                    header={currentHeader}
+                    onClick={() => {
+                        // setCurrentHeader("고민상담");
+                        moveToPage("/diarylist");
+                    }}
+                >
+                    {currentHeader === "고민상담" ? <div>고민 상담소</div> : <img src={categoryDiaryList} alt={"ListIcon"} />}
+                </DiaryList>
+                <Post
+                    header={currentHeader}
+                    onClick={() => {
+                        // setCurrentHeader("포스트");
+                        // navigate("/write");
+                        moveToPage("/write");
+                    }}
+                >
+                    {currentHeader === "포스트" ?
+                        <div>고민 작성하기</div>
+                        :
+                        <img src={categoryWrite} alt={"writeIcon"} />}
+                </Post>
+                <MyPage
+                    header={currentHeader}
+                    onClick={() => {
+                        if (loginCheck()) {
+                            // setCurrentHeader("마이페이지");
+                            moveToPage("/mypage");
+                        } else {
+                            openModal(true);
+                        }
+                    }}
+                >
+                    {currentHeader === "마이페이지" ? <div>마이 페이지</div> : <img src={categoryMyPage} alt={"MyPageIcon"} />}
+                </MyPage>
+                <ChattingList
+                    header={currentHeader}
+                    onClick={() => {
+                        if (loginCheck()) {
+                            // setCurrentHeader("채팅");
+                            // navigate("/chatlist");
+                            moveToPage("/chatlist");
+                        } else {
+                            openModal(true);
+                        }
+                    }}
+                    // ref={ChattingRef}
+                >
+                    {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={categoryChatList} alt={"ChatIcon"} />}
+                    {unreadCount.length > 0 && <Unread src={star}/>}
+                </ChattingList>
+                <Lottery
+                    header={currentHeader}
+                    onClick={() => {
+                        // setCurrentHeader("추첨");
+                        // navigate("/lottery");
+                        moveToPage("/lottery");
+                    }}
+                >
+                    {currentHeader === "추첨" ? <div>오픈 이벤트</div> : <img src={categoryLottery} alt={"LotteryIcon"} />}
+                </Lottery>
+            </CategoryLeft>
+
+            <CategoryRight>
+                { isLogin ? <div><span> {userInfo.nickname} </span>님의 다이어리</div> : <span></span> }
+            </CategoryRight>
+
             {modalIsOpen && <Login />}
         </HeaderContainer>
     );
@@ -133,8 +143,24 @@ const HeaderContainer = styled.div`
     width: 950px;
     display: flex;
     align-items: flex-end;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin: 0 auto;
+`;
+
+const CategoryLeft = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+`;
+const CategoryRight = styled.div`
+  color: #9AEBE7;
+  margin-bottom: 9px;
+  cursor: default;
+  
+  span {
+    color: #ffffff;
+  }
+
 `;
 
 const Home = styled.div`

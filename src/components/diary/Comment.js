@@ -12,6 +12,8 @@ import { useMutation, useQueryClient } from "react-query";
 import {chatApi} from "../../apis/chatApi";
 import ReplyComment from "./ReplyComment";
 import Popup from "../../shared/Popup";
+import ErrorModal from "../../shared/ErrorModal";
+import {voicePlayIcon} from "../../static/images/resources";
 
 Comment.propTypes = {
     comment: PropTypes.object,
@@ -90,13 +92,17 @@ function Comment(props) {
 
                 {
                     comment.voiceUrl !== "" &&
-                    <PlayIcon
-                        onClick={(e) => {
-                            e.preventDefault();
-                            audioPlay(comment.voiceUrl);
-                        }}>
-                        듣기
-                    </PlayIcon>
+                        <PlayVoiceArea>
+                            <img src={voicePlayIcon}/>
+                            <PlayIcon
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    audioPlay(comment.voiceUrl);
+                                }}>
+                
+                                음성 듣기
+                            </PlayIcon>
+                        </PlayVoiceArea>
                 }
 
                 <OptionBox>
@@ -149,31 +155,30 @@ const OptionBox = styled.div`
       align-items: center;
       justify-content: center;
       position: absolute;
-      right: 31px;
+      right: 48px;
       bottom: 15px;
-      font-size: 10px;
-      line-height: 12px;
-      color: #36466B;
 `;
 
 
 const Reply = styled.div`
-  font-size: 14px;
-  line-height: 17px;
-  color: #08105D;
+  font-size: 10px;
+  line-height: 13px;
+  color: #36466B;
   cursor: pointer;
-  margin-right: 10px;
 `;
-const Chat = styled(Reply)``;
-const Delete = styled(Reply)``;
+const Chat = styled(Reply)`
+  margin-left: 10px;
+`;
+const Delete = styled(Reply)`
+  margin-left: 10px;
+`;
 
 const OneCommentContainer = styled.div`
     position: relative;  
-    width: 876px;
-    height: 110px;
+    width: 884px;
     background-color: ${(props) => props.parentCommentId === props.commentUuid? "rgba(149, 158, 190, 0.9)" : "rgba(198, 211, 236, 0.7)"};
     border-radius: 5px;
-    padding: 18px 44px 0 44px;
+    padding: 15px 48px;
     box-sizing: border-box;
     margin-top: 8px;
     
@@ -197,19 +202,24 @@ const TitleLeft = styled.div`
   }
 `;
 const NicknameArea = styled.div`
-  font-size: 17px;
-  line-height: 21px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #08105D;
 `;
 const PostTimeArea = styled.div`
-  font-size: 13px;
-  line-height: 16px;
+      font-size: 10px;
+      line-height: 13px;
+      color: #354569;
 `;
 const PostContent = styled.div`
-    margin: 9px 0 0;
-    font-size: 13px;
-    line-height: 16px;
-    display: flex;
-    align-items: center;
+      margin: 15px 0;
+      font-size: 10px;
+      line-height: 13px;
+      color: #08105D;
+      display: flex;
+      align-items: center;
+      max-width: 664px;
+      word-break: break-all;
     
     img {
       width: 18px;
@@ -217,23 +227,20 @@ const PostContent = styled.div`
       margin-left: 5px;
     }
 `;
-
-const DeleteIcon = styled.div`
-    margin-right: 20px;
-    cursor: pointer;
-    font-weight: bold;
+const PlayVoiceArea = styled.div`
+  display: flex;
+  align-items: center;
+  img {
+    width: 18px;
+    height: 18px;
+    margin-right: 3px;
+  }
 `;
-const LockIcon = styled(DeleteIcon)`
-`;
-
-const ChatIcon = styled(DeleteIcon)`
-`;
-
 const PlayIcon = styled.div`
-    position: absolute;
-    left: 31px;
-    bottom: 15px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 8px;
+    line-height: 10px;
+    color: #08105D;
   
+
 `;
