@@ -12,7 +12,7 @@ import { Layout } from "../components/common";
 import { getChatMessage, subMessage } from "../redux/modules/chatSlice";
 import { getCookie } from "../utils/cookie";
 import { chatApi } from "../apis/chatApi";
-import close from "../static/images/chat/close.svg";
+import { close } from "../static/images/resources";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 
@@ -66,16 +66,17 @@ const ChatDetail = () => {
         };
     }, []);
 
-    // roomId 바뀔 때 실행되도록 세팅
+    // 방 입장 시 스크롤 아래로 이동
     useEffect(() => {
         scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }, []);
 
+    // 메시지 state 변경 시 스크롤 아래로 이동
     useEffect(() => {
         scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }, [messages]);
 
-    // 연결 및 구독. 파라메터로 토큰 넣어야 함
+    // 소켓 연결
     function wsConnect() {
         try {
             ws.current.connect({ token: token, type: "CHAT" }, () => {
@@ -94,7 +95,6 @@ const ChatDetail = () => {
                     type: "ENTER",
                     roomId: roomId,
                 };
-                // send 메소드 사용
                 ws.current.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
             });
         } catch (error) {
@@ -102,6 +102,7 @@ const ChatDetail = () => {
         }
     }
 
+    // 소켓 연결 끊기
     function wsDisConnect() {
         try {
             ws.current.disconnect(() => {
@@ -112,6 +113,7 @@ const ChatDetail = () => {
         }
     }
 
+    // 메시지 발신
     const onSend = async () => {
         try {
             // send할 데이터
@@ -125,32 +127,14 @@ const ChatDetail = () => {
             if (text === "") {
                 return;
             }
-            // 로딩 중
-            // waitForConnection(ws, function () {
+            // send 메소드 호출
             ws.current.send("/pub/chat/message", { token: token }, JSON.stringify(message));
             console.log(ws.current.ws.readyState);
             setText("");
-            // });
         } catch (error) {
             console.log(error);
         }
     };
-
-    // // // 웹소켓이 연결될 때 까지 실행
-    // function waitForConnection(ws, callback) {
-    //     setTimeout(
-    //         function () {
-    //             // 연결되었을 때 콜백함수 실행
-    //             if (ws.ws.readyState === 1) {
-    //                 callback();
-    //                 // 연결이 안 되었으면 재호출
-    //             } else {
-    //                 waitForConnection(ws, callback);
-    //             }
-    //         },
-    //         10, // 밀리초 간격으로 실행
-    //     );
-    // }
 
     if (messages === null) {
         return;

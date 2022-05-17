@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { getCookie } from "../../utils/cookie";
-import send from "../../static/images/chat/send.svg";
+import { send } from "../../static/images/resources";
 
 ChatInput.propTypes = {};
 
@@ -22,12 +22,16 @@ function ChatInput(props) {
         }
     };
 
+    const onClick = (e) => {
+        onSend();
+    };
+
     return (
         <React.Fragment>
             <Input type="text" onChange={(e) => setText(e.target.value)} onKeyPress={onKeyPressHandler} value={text} />
-            {/* <SendButton onClick={onSend}>
+            <SendButton onClick={onClick}>
                 <img src={send}></img>
-            </SendButton> */}
+            </SendButton>
         </React.Fragment>
     );
 }
