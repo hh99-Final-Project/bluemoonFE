@@ -167,9 +167,6 @@ function ChatList(props) {
                 <Header />
                 <CategoryBar />
                 <ChatRoomListBox BgColor={color.containerBoxColor}>
-                    <DiaryName>
-                        {userInfo.nickname} <span>님 다이어리</span>
-                    </DiaryName>
                     <ChatRoomListTitle>
                         <p>채팅 리스트</p>
                     </ChatRoomListTitle>
@@ -241,18 +238,6 @@ const ChatRoomListBox = styled.div`
     margin: auto;
 `;
 
-const DiaryName = styled.div`
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 10px);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 16px;
-    line-height: 19px;
-
-    span {
-        color: #9aebe7;
-    }
-`;
 
 const NoChatNotice = styled.div`
     position: absolute;

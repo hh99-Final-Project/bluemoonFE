@@ -48,10 +48,10 @@ export const saveIcon = require("./diary/saveDiary.svg").default;
 export const closeBtn = require("./diary/closePopup.svg").default;
 
 //diary-content
-export const chatIcon = require("./diary/message.png");
+export const chatIcon = require("./diary/chatIcon.svg").default;
 
 //diary-list
-export const commentIcon = require("./diary/comment.png");
+export const commentIcon = require("./diary/comment.svg").default;
 export const prevButton = require("./diary/prevDiary.svg").default;
 export const nextButton = require("./diary/nextDiary.svg").default;
 

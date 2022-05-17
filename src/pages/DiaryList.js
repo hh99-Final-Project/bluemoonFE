@@ -29,7 +29,8 @@ function DiaryList() {
     const [isLoading, setIsLoading] = useState(true);
     const { currentHeader, setCurrentHeader } = useStore();
 
-    const getPrevDiary = () => {
+    const getPrevDiary = (e) => {
+        e.stopPropagation();
         if(audio){
             audio.pause();
         }
@@ -54,7 +55,8 @@ function DiaryList() {
         // audio.volume = 1;
     };
 
-    const getNextDiary = () => {
+    const getNextDiary = (e) => {
+        e.stopPropagation();
         if(audio){
             audio.pause();
         }
@@ -139,8 +141,6 @@ function DiaryList() {
                 <CategoryBar />
                 <CardContainer BgColor={color.containerBoxColor}>
                     <CardContainerBackGround>
-                        {isLogin && <PrevButton onClick={getPrevDiary} src={prevButton} />}
-                        {isLogin && <NextButton onClick={getNextDiary} src={nextButton} />}
                         {/*다이어리 영역*/}
                         <DiaryCard
                             onClick={
@@ -154,6 +154,7 @@ function DiaryList() {
                                 key={isLogin ? diaryList[count - 1].postUuid : diaryList[0].postUuid}
                         >
                             <CardLeftPage>
+                                {isLogin && <PrevButton onClick={getPrevDiary} src={prevButton} />}
                                 <CardBackground>
                                     <CardBorder>
 
@@ -177,6 +178,7 @@ function DiaryList() {
                             </CardLeftPage>
 
                             <CardRightPage>
+                                {isLogin && <NextButton onClick={getNextDiary} src={nextButton} />}
                                 <CardBackground>
                                     <CardBorderRight>
                                         <ContentBox>
@@ -196,10 +198,10 @@ function DiaryList() {
                                 </CardBackground>
                             </CardRightPage>
                         </DiaryCard>
-
-                        <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
                     </CardContainerBackGround>
+                    <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
                 </CardContainer>
+
             </DiaryListContainer>
         </Layout>
     );
@@ -237,23 +239,26 @@ const CardContainerBackGround = styled.div`
 
 const PrevButton = styled.img`
     position: absolute;
-    left: 123px;
-    top: 111px;
+    left: -71px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
 `;
 const NextButton = styled.img`
     position: absolute;
-    right: 123px;
-    top: 111px;
+    right: -71px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
 `;
 
 const CardBackground = styled.div`
-    background-color: #c6d3ec;
+    background: #C6D3EC;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
     width: 260px;
     height: 340px;
-    padding: 5px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.5);
+    padding: 10px;
     box-sizing: border-box;
 `;
 
@@ -289,37 +294,36 @@ const DiaryCard = styled.div`
     box-sizing: border-box;
     position: absolute;
     left: 50%;
-    top: -40px;
+    top: -50px;
     transform: translate(-50%, 0);
 `;
 
 const CardLeftPage = styled.div`
-    border: 2px solid #464646;
-    box-sizing: border-box;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    background-color: #08105e;
-    width: 280px;
-    height: 370px;
-    padding: 14px 2px 15px 17px;
-    position: relative;
+      background-color: #08105E;
+      box-sizing: border-box;
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      width: 280px;
+      height: 370px;
+      padding: 15px 5px 15px 15px;
+      position: relative;
 `;
 
 const CardRightPage = styled.div`
-    border: 2px solid #464646;
-    box-sizing: border-box;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    background-color: #08105e;
-    width: 280px;
-    height: 370px;
-    padding: 15px 20px 15px 1.5px;
-    position: relative;
+      background-color: #08105E;
+      box-sizing: border-box;
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      width: 280px;
+      height: 370px;
+      padding: 15px 14px 15px 6px;
+      position: relative;
 `;
 
 const DiaryTitle = styled.div`
-    font-size: 18px;
-    line-height: 22px;
+  font-size: 18px;
+  line-height: 23px;
+  color: #08105D;
 `;
 
 const VoicePlayIcon = styled.img`
@@ -327,43 +331,49 @@ const VoicePlayIcon = styled.img`
 `;
 
 const DiaryDesc = styled.div`
-    font-size: 17px;
-    line-height: 21px;
-    margin-top: 8px;
+    margin-top: 9px;
+    font-size: 12px;
+    line-height: 15px;
+    color: #08105D;
+    width: 178px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 `;
 
 const CommentIcon = styled.div`
     position: absolute;
-    bottom: 37.5px;
-    left: 31px;
+    bottom: 33px;
+    left: 33px;
     cursor: pointer;
 `;
 
 const ChattingIcon = styled.div`
     position: absolute;
-    bottom: 32.5px;
-    right: 34px;
+    bottom: 35px;
+    right: 32px;
     cursor: pointer;
 `;
 
 const DiaryWriteButton = styled.div`
-    width: 461px;
+    width: 462px;
     height: 52px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #84c8cc;
-    box-sizing: border-box;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border: 2px solid #9AEBE7;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 9px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #91dddd;
-    font-size: 20px;
-    line-height: 24px;
+    color: #9AEBE7;
+    font-size: 18px;
+    line-height: 23px;
     position: absolute;
     left: 50%;
-    bottom: -90px;
+    bottom: 27px;
     transform: translate(-50%, 0);
 
     &:hover {

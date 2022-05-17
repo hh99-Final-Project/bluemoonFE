@@ -142,11 +142,6 @@ function WriteDiary() {
           <Header/>
           <CategoryBar/>
           <PostAreaContainer BgColor={color.containerBoxColor}>
-            { userInfo &&
-              <DiaryName>
-                {userInfo.nickname} 님 다이어리
-              </DiaryName>
-            }
             <PostHeader>
               <BackToListButton src={backIcon}/>
               <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>
@@ -245,19 +240,6 @@ const PostAreaContainer = styled.div`
   backdrop-filter: blur(80px);
   border-radius: 25px;
   position: relative;
-`;
-
-const DiaryName = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 10px);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 16px;
-  line-height: 19px;
-  
-  span {
-   color: #9AEBE7; 
-  }
 `;
 
 

@@ -104,9 +104,6 @@ function MyPage() {
                 <Header />
                 <CategoryBar />
                 <MyPageBox BgColor={color.containerBoxColor}>
-                    <DiaryName>
-                        {userInfo.nickname} <span>님 다이어리</span>
-                    </DiaryName>
                     <MyPageTitle>
                         <p>내가 쓴 글</p>
                     </MyPageTitle>
@@ -174,18 +171,6 @@ const MyPageBox = styled.div`
     margin: auto;
 `;
 
-const DiaryName = styled.div`
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 10px);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 16px;
-    line-height: 19px;
-
-    span {
-        color: #9aebe7;
-    }
-`;
 
 const MyPageTitle = styled.div`
     position: absolute;
