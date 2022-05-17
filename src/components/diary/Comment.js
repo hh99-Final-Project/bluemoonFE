@@ -116,12 +116,12 @@ function Comment(props) {
                         채팅
                     </Chat>
                     }
-                    {/*{ comment.show &&*/}
+                    { comment.show &&
                         <Delete
                             onClick={() => setIsOpenPopup(true)}>
                             삭제
                         </Delete>
-                    {/*}*/}
+                    }
 
                 </OptionBox>
                 {
