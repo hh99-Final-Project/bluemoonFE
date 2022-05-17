@@ -11,6 +11,7 @@ DiaryContent.propTypes = {
 
 function DiaryContent(props) {
     const { diary } = props;
+    console.log(diary,"diary");
     const navigate = useNavigate();
     const audioRef = useRef(new Audio(diary.voiceUrl));
 

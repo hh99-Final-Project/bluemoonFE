@@ -93,9 +93,29 @@ function DiaryList() {
         });
     };
 
-    useEffect(()=>{
-        getDiaryListAPI(page);
+    const getAnonymousListApi = () => {
+        diaryApi.getNotLoginUserDiary().then((res) =>{
+            if(res){
+                setIsLoading(false);
+                let tmp = [];
+                tmp.push(res.data);
+                setDiaryList(tmp);
+            } else {
+                console.log("error");
+            };
+        });
+    };
 
+    useEffect(()=>{
+        setCurrentHeader("고민상담");
+
+        if(isLogin) {
+            console.log("isLogin");
+            getDiaryListAPI(page);
+        } else {
+            console.log("not isLogin");
+            getAnonymousListApi();
+        }
     },[]);
 
 
@@ -108,30 +128,6 @@ function DiaryList() {
         }
     };
 
-    useEffect(() => {
-    //     if (isLogin) {
-    //         diaryApi.getDiaryList(1).then((response) => {
-    //             console.log(response.data);
-    //             setDiaryList(response.data);
-    //             setIsLoading(false);
-    //         });
-    //     } else {
-    //         diaryApi.getNotLoginUserDiary().then((response) => {
-    //             setDiaryList([response.data]);
-    //             setIsLoading(false);
-    //         });
-    //     }
-    //
-        setCurrentHeader("고민상담");
-        // let audioUrl = "https://bluemoon-s3.s3.ap-northeast-2.amazonaws.com/static/a36d1211-ae7b-4f52-baeb-3ab7b0e37a11blob"
-        // let audio = new Audio(audioUrl);
-        // audio.loop = false;
-        // audio.volume = 1;
-        // setAudio(audio);
-
-
-    }, []);
-
     if (isLoading) {
         return <Loading />;
     }
@@ -143,13 +139,19 @@ function DiaryList() {
                 <CategoryBar />
                 <CardContainer BgColor={color.containerBoxColor}>
                     <CardContainerBackGround>
-                        <PrevButton onClick={getPrevDiary} src={prevButton} />
-                        <NextButton onClick={getNextDiary} src={nextButton} />
+                        {isLogin && <PrevButton onClick={getPrevDiary} src={prevButton} />}
+                        {isLogin && <NextButton onClick={getNextDiary} src={nextButton} />}
                         {/*다이어리 영역*/}
                         <DiaryCard
                             onClick={
-                                () => navigate(`/diary/${diaryList[count - 1].postUuid}`)}
-                                key={diaryList[count - 1].postUuid}
+                                () => {
+                                    if(isLogin) {
+                                        navigate(`/diary/${diaryList[count - 1].postUuid}`);
+                                    } else {
+                                        navigate(`/diary/${diaryList[0].postUuid}`);
+                                    }
+                                }}
+                                key={isLogin ? diaryList[count - 1].postUuid : diaryList[0].postUuid}
                         >
                             <CardLeftPage>
                                 <CardBackground>
@@ -159,7 +161,7 @@ function DiaryList() {
                                             { diaryList.length === 0 ?
                                                 "아직 작성된 다이어리가 없어요!"
                                                 :
-                                                diaryList[count - 1].title
+                                                isLogin ? diaryList[count - 1].title : diaryList[0].title
                                             }
                                         </DiaryTitle>
                                         <CommentIcon
@@ -183,7 +185,7 @@ function DiaryList() {
                                             }
                                             <DiaryDesc>
                                                 {   diaryList.length === 0 ? "다이어리를 작성해주세요!" :
-                                                    diaryList[count - 1].content
+                                                    isLogin ? diaryList[count - 1].content : diaryList[0].content
                                                 }
                                             </DiaryDesc>
                                         </ContentBox>

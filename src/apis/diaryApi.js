@@ -65,6 +65,6 @@ export const diaryApi = {
     //비로그인한 사용자 게시글 detail
     getNotLoginUserDetail: async () => {
         const data = await instance.get("/api/posts/anonymous/one");
-        return data;
+        return data.data;
     },
 };

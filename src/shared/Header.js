@@ -131,9 +131,9 @@ const Header = () => {
             {logoutPopup && (
                 <Popup
                     title={"정말 로그아웃 하시겠습니까?"}
-                    desc={""}
                     event={logout}
                     close={() => setLogoutPopup(false)}
+                    height={"220px"}
                 />
             )}
             {modalOpen && <Login />}

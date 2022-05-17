@@ -22,10 +22,14 @@ function DiaryDetail() {
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
-    const { isLoading, data } = useQuery("diaryDetail", () => diaryApi.getOneDiary(postId), {
+    const loginDetail = useQuery("diaryDetail", () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
+        enabled: isLogin
     });
 
+    const nonLoginDetail = useQuery("diaryDetail2", () => diaryApi.getNotLoginUserDetail(), {
+        enabled: !isLogin
+    });
     const { setCurrentHeader } = useStore();
 
 
@@ -33,24 +37,7 @@ function DiaryDetail() {
        setCurrentHeader("고민상담");
     },[]);
 
-
-    // useEffect(() => {
-    //     if (isLogin) {
-    //         diaryApi.getOneDiary(postId).then((response) => {
-    //             console.log(response);
-    //             setDiary(response);
-    //             setIsLoading(false);
-    //         });
-    //     } else {
-    //         diaryApi.getNotLoginUserDetail(postId).then((response) => {
-    //             console.log(response);
-    //             setDiary(response.data);
-    //             setIsLoading(false);
-    //         });
-    //     }
-    // }, []);
-
-    if (isLoading) {
+    if (loginDetail.isLoading || nonLoginDetail.isLoading) {
         return <Loading />;
     }
 
@@ -62,14 +49,14 @@ function DiaryDetail() {
                 <DetailContent BgColor={color.containerBoxColor}>
                     <TitleContainer>
                         <TitleLeft>
-                            <BackButton onClick={() => navigate("/diarylist")}>{/*<img src={} />*/}</BackButton>
+                            <BackButton onClick={() => navigate("/diarylist")}/>
                             <Title>고민 들어주기</Title>
                         </TitleLeft>
-                        <Time>{convertDate(data.createdAt)}</Time>
+                        <Time>{convertDate(isLogin ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}</Time>
                     </TitleContainer>
                     <ContentContainer>
-                        <DiaryContent diary={data} />
-                        <CommentContainer diary={data} postId={postId}/>
+                        <DiaryContent diary={isLogin ? loginDetail.data : nonLoginDetail.data} />
+                        <CommentContainer diary={isLogin ? loginDetail.data : nonLoginDetail.data} postId={postId}/>
                     </ContentContainer>
                 </DetailContent>
             </DetailContainer>
