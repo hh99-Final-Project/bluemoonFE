@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from "react-query";
 import {chatApi} from "../../apis/chatApi";
 import ReplyComment from "./ReplyComment";
 import Popup from "../../shared/Popup";
+import ErrorModal from "../../shared/ErrorModal";
 
 Comment.propTypes = {
     comment: PropTypes.object,
@@ -115,12 +116,12 @@ function Comment(props) {
                         채팅
                     </Chat>
                     }
-                    { comment.show &&
+                    {/*{ comment.show &&*/}
                         <Delete
                             onClick={() => setIsOpenPopup(true)}>
                             삭제
                         </Delete>
-                    }
+                    {/*}*/}
 
                 </OptionBox>
                 {

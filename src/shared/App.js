@@ -14,6 +14,7 @@ import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
 import LotteryWin from "../pages/LotteryWin";
 import Intro from "../pages/Intro";
+import ErrorModal from "../shared/ErrorModal";
 import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
@@ -50,6 +51,7 @@ function App() {
                 <Route path={"*"} element={<NotFound />} />
                 <Route path="/intro" element={<Intro />} />
             </Routes>
+            <ErrorModal/>
         </QueryClientProvider>
     );
 }
