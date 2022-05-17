@@ -52,4 +52,13 @@ export const userApi = {
         const data = await instance.get("/api/lot");
         return data;
     },
+
+    EnterInfo: async (phoneNumber, isChecked) => {
+        let req = {
+            phoneNumber: phoneNumber,
+            personalInfo: isChecked,
+        };
+        const data = await instance.put("/api/lot/info", req);
+        return data;
+    },
 };

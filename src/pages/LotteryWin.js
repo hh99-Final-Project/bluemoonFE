@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { userApi } from "../apis/userApi";
+
 import styled from "styled-components";
 
 import Header from "../shared/Header";
@@ -12,7 +14,7 @@ import { lotteryWinIcon } from "../static/images/resources";
 const LotteryWin = () => {
     const { setCurrentHeader } = useStore();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const [phoneNumber, setPhoneNumber] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [isChecked, setIsChecked] = useState(false);
 
     const onChange = (e) => {
@@ -24,25 +26,29 @@ const LotteryWin = () => {
         setIsChecked(e.target.checked);
     };
 
-    const debounce = _.debounce((phoneNumber) => {
-        if (phoneNumber === "") {
+    console.log(phoneNumber);
+    console.log(phoneNumber.length);
+    console.log(phoneNumber.length !== 11);
+    console.log(isChecked);
+
+    const EnterInfo = () => {
+        userApi.EnterInfo(phoneNumber, isChecked).then((response) => {
+            console.log(response);
+            Navigate(-1);
+        });
+    };
+
+    const onClick = () => {
+        if (phoneNumber.length !== 11) {
+            window.alert("전화번호 11자리를 모두 입력해주세요");
             return;
         }
-        // 정규 표현식 숫자 10~11글자
-        const result = /^[0-9]{10,11}$/.test(phoneNumber);
-        //통과하지 않았을 때 에러처리
-        if (result) {
-            userApi.nickNameCheck(nickName).then((response) => {
-                if (response.data === true) {
-                    setIsValidNickName(true);
-                } else {
-                    setIsValidNickName(false);
-                }
-            });
-        } else {
-            setIsValidNickName(false);
+        if (isChecked === false) {
+            window.alert("개인정보 수집 및 이용 동의는 필수입니다");
+            return;
         }
-    }, 1000);
+        EnterInfo();
+    };
 
     useEffect(() => {
         setCurrentHeader("추첨");
@@ -59,10 +65,10 @@ const LotteryWin = () => {
                     </LotteryWinIcon>
                     <Title>당첨을 축하합니다!</Title>
                     <Input
-                        placeholder="기프티콘을 전송받으실 연락처를 입력해주세요. (휴대전화 숫자만 입력)"
                         onChange={onChange}
                         value={phoneNumber}
-                    ></Input>
+                        placeholder="기프티콘을 전송받으실 휴대전화 번호 11자리를 입력해주세요. (숫자만 입력)"
+                    />
                     <AgreeTitle>개인정보 수집 동의</AgreeTitle>
                     <AgreeCheck type="checkbox" checked={isChecked} onChange={onChangeCheck}></AgreeCheck>
                     <AgreeDesc>
@@ -70,7 +76,7 @@ const LotteryWin = () => {
                         않습니다. ㆍ기프티콘 발송은 00월00일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.
                     </AgreeDesc>
 
-                    <SubmitButton>입력완료</SubmitButton>
+                    <SubmitButton onClick={onClick}>입력완료</SubmitButton>
                 </ContentBox>
             </Container>
         </Layout>

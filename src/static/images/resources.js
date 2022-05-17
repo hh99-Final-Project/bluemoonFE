@@ -10,6 +10,9 @@ export const categoryMyPage = require("./categoryBar/mypageIcon.png");
 
 // chat
 export const close = require("./chat/close.svg");
+export const moreHor = require("./chat/moreHor.svg").default;
+export const send = require("./chat/send.svg").default;
+export const unreadCount = require("./chat/unreadCount.svg").default;
 
 //common
 export const logo = require("./common/logo.svg").default;
