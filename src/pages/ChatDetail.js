@@ -14,8 +14,7 @@ import { getCookie } from "../utils/cookie";
 import { chatApi } from "../apis/chatApi";
 import close from "../static/images/chat/close.svg";
 import useStore from "../zustand/store";
-import {color} from "../utils/designSystem";
-
+import { color } from "../utils/designSystem";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -67,32 +66,36 @@ const ChatDetail = () => {
         };
     }, []);
 
-    // 입장 시 enter
     // roomId 바뀔 때 실행되도록 세팅
     useEffect(() => {
-        enterMessage();
-        scrollRef.current.scrollIntoView({behavior: "smooth", block: "end"});
+        scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }, []);
 
-    useEffect(()=>{
-        scrollRef.current.scrollIntoView({behavior: "smooth", block:"end"});
-    },[messages]);
+    useEffect(() => {
+        scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, [messages]);
 
-
-    // // // 연결 및 구독. 파라메터로 토큰 넣어야 함
+    // 연결 및 구독. 파라메터로 토큰 넣어야 함
     function wsConnect() {
         try {
             ws.current.connect({ token: token, type: "CHAT" }, () => {
                 console.log("socket connected");
-                ws.current.subscribe(
-                    `/sub/chat/room/${roomId}`,
-                    (response) => {
-                        const newMessage = JSON.parse(response.body);
-                        console.log(response);
-                        console.log(newMessage);
-                        dispatch(subMessage(newMessage));
-                    },
-                );
+                // connect 이후 subscribe
+                ws.current.subscribe(`/sub/chat/room/${roomId}`, (response) => {
+                    const newMessage = JSON.parse(response.body);
+                    console.log(response);
+                    console.log(newMessage);
+                    dispatch(subMessage(newMessage));
+                });
+
+                // 입장 시 enter 메시지 발신
+                // 이 메시지를 기준으로 서버에서 unReadCount 판별
+                const message = {
+                    type: "ENTER",
+                    roomId: roomId,
+                };
+                // send 메소드 사용
+                ws.current.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
             });
         } catch (error) {
             console.log(error);
@@ -109,22 +112,6 @@ const ChatDetail = () => {
         }
     }
 
-    const enterMessage = () => {
-        try {
-            // send할 데이터
-            const message = {
-                type: "ENTER",
-                roomId: roomId,
-            };
-
-            // waitForConnection(ws, () => {
-            ws.current.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
-            // });
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const onSend = async () => {
         try {
             // send할 데이터
@@ -140,9 +127,9 @@ const ChatDetail = () => {
             }
             // 로딩 중
             // waitForConnection(ws, function () {
-                ws.current.send("/pub/chat/message", { token: token }, JSON.stringify(message));
-                console.log(ws.current.ws.readyState);
-                setText("");
+            ws.current.send("/pub/chat/message", { token: token }, JSON.stringify(message));
+            console.log(ws.current.ws.readyState);
+            setText("");
             // });
         } catch (error) {
             console.log(error);
@@ -178,7 +165,7 @@ const ChatDetail = () => {
                     <ChatRoomTitle>
                         <p> {otherUserInfo.otherUserNickname} 님과의 대화</p>
                         <BackButton onClick={() => navigate("/chatlist")}>
-                            <img src={close}/>
+                            <img src={close} />
                         </BackButton>
                     </ChatRoomTitle>
 
@@ -194,10 +181,10 @@ const ChatDetail = () => {
                                     />
                                 );
                             })}
-                        <div ref={scrollRef}/>
+                        <div ref={scrollRef} />
                     </MessageWrapper>
                     <InputWrpper>
-                        <ChatInput userInfo={userInfo} onSend={onSend} text={text} setText={setText}/>
+                        <ChatInput userInfo={userInfo} onSend={onSend} text={text} setText={setText} />
                     </InputWrpper>
                 </ChatRoom>
             </Container>
@@ -216,7 +203,7 @@ const Container = styled.div`
 const ChatRoom = styled.div`
     width: 950px;
     height: 530px;
-    background: ${props => props.BgColor};
+    background: ${(props) => props.BgColor};
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);
