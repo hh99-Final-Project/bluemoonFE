@@ -7,19 +7,19 @@ export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
         "Content-Type": "application/json;charset=utf-8",
-        "Access-Control-Allow-Headers": "*"
-    }
+        "Access-Control-Allow-Headers": "*",
+    },
 });
 
 export const fileInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
-        "Content-Type": "multipart/form-data"
-    }
+        "Content-Type": "multipart/form-data",
+    },
 });
 
 fileInstance.interceptors.request.use(
-    config => {
+    (config) => {
         const accessToken = getCookie("authorization");
         if (accessToken) {
             config.headers["authorization"] = accessToken;
@@ -27,14 +27,13 @@ fileInstance.interceptors.request.use(
         }
         return config;
     },
-    error => {
+    (error) => {
         return;
     },
 );
-
 
 instance.interceptors.request.use(
-    config => {
+    (config) => {
         const accessToken = getCookie("authorization");
         if (accessToken) {
             config.headers["authorization"] = accessToken;
@@ -42,17 +41,18 @@ instance.interceptors.request.use(
         }
         return config;
     },
-    error => {
+    (error) => {
         return;
     },
 );
 
-instance.interceptors.response.use(function (response) {
-    return response;
-}, function (error) {
-    console.log(error,"error");
-    // store.dispatch(showError({ isOpen: true, message: error.response.data.message }));
-    return Promise.reject(error);
-});
-
-
+instance.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        console.log(error, "error");
+        store.dispatch(showError({ isOpen: true, message: error.response.data.message }));
+        return Promise.reject(error);
+    },
+);

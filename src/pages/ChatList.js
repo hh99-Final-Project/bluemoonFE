@@ -16,6 +16,7 @@ import Popup from "../shared/Popup";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { deleteUnreadCount } from "../redux/modules/chatSlice";
+import { unreadCount } from "../static/images/resources";
 
 ChatList.propTypes = {};
 
@@ -145,21 +146,32 @@ function ChatList(props) {
                                         }}
                                         key={chat.chatRoomUuid}
                                     >
-                                        <TiTleLine>
+                                        <TitleLine>
                                             <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
-                                            <LastChatTime>{chat.dayBefore}</LastChatTime>
-                                        </TiTleLine>
-                                        <ContentLine>
-                                            <LastChat>{chat.lastMessage}</LastChat>
-                                            <ChatOutButton
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setIsOpenPopup(true);
-                                                }}
-                                            >
-                                                나가기
-                                            </ChatOutButton>
-                                        </ContentLine>
+                                            <UnreadCount>
+                                                {chat.unreadCount !== 0 ? (
+                                                    <UnreadCountNum>{chat.unreadCount}</UnreadCountNum>
+                                                ) : (
+                                                    ""
+                                                )}
+                                                {chat.unreadCount !== 0 && (
+                                                    <UnreadCountIcon src={unreadCount}></UnreadCountIcon>
+                                                )}
+                                            </UnreadCount>
+                                        </TitleLine>
+
+                                        <LastChatTime>{chat.dayBefore}</LastChatTime>
+                                        <LastChat>{chat.lastMessage}</LastChat>
+                                        <ChatOutButton
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setIsOpenPopup(true);
+                                            }}
+                                        >
+                                            나가기
+                                        </ChatOutButton>
+                                        {/* <TiTleLine></TiTleLine>
+                                        <ContentLine></ContentLine> */}
 
                                         {isOpenPopup && (
                                             <Popup
@@ -233,78 +245,172 @@ const ChatRoomListTitle = styled.div`
     color: #ffffff;
 
     & p {
-        margin-left: 20px;
-        font-size: 20px;
+        margin-left: 23px;
+        font-family: "Spoqa Han Sans Neo";
+        font-style: normal;
         font-weight: 400;
-        line-height: 24px;
-        letter-spacing: 0em;
-        text-align: left;
+        font-size: 20px;
+        line-height: 25px;
+        display: flex;
+        align-items: center;
+
+        color: #ffffff;
     }
 `;
 
 const ChatRoomWrapper = styled.div`
-    width: 950px;
-    height: 420px;
+    width: 915px;
+    height: 414px;
     position: absolute;
-    top: 80px;
+    top: 94px;
+    left: 25px;
     overflow-y: auto;
+
+    &:: -webkit-scrollbar {
+        width: 6px;
+    }
+
+    &:: -webkit-scrollbar-thumb {
+        background-color: #d3d3d3;
+        border-radius: 50px;
+    }
+
+    &:: -webkit-scrollbar-track {
+        background-color: #08105d;
+        border-radius: 50px;
+    }
 `;
 
 const ChatRoom = styled.div`
+    position: relative;
     width: 889px;
     height: 65px;
     border-radius: 5px;
+    background: #959ebe;
 
-    display: flex;
-    flex-direction: column;
-    background-color: #959ebe;
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 10px auto;
-    padding: 10px;
+    margin: 0 0 5px;
+    // padding: 16px;
+    box-sizing: border-box;
     cursor: pointer;
 `;
 
-const TiTleLine = styled.div`
-    width: 860px;
+const TitleLine = styled.div`
+    position: absolute;
     display: flex;
-    justify-content: space-between;
-    margin: 5px auto;
+    flex-direction: row;
+    margin: 12px 0 0 16px;
 `;
 
 const CharRoomTitle = styled.div`
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
+    // position: absolute;
+    // top: 12px;
+    // left: 16px;
 
-    color: #373857;
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+
+    color: #354569;
+`;
+
+const UnreadCount = styled.div`
+    position: relative;
+    // top: 14px;
+    // left: 125px;
+
+    margin: 0 0 0 11px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+
+    color: #c6d3ec;
+`;
+
+const UnreadCountNum = styled.div`
+    // position: absolute;
+    z-index: 1;
+    margin-left: 4px;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+`;
+
+const UnreadCountIcon = styled.img`
+    position: absolute;
+    // top: 14px;
+    // left: 0px;
+    // width: 14px;
+    // height: 14px;
+    // margin: 0 0 0 11px;
 `;
 
 const LastChatTime = styled.div`
-    // width: 80px;
-    overflow: hidden;
-`;
+    position: absolute;
+    top: 12px;
+    right: 16px;
 
-const ContentLine = styled.div`
-    width: 860px;
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
     display: flex;
-    justify-content: space-between;
-    margin: 10px auto;
+    align-items: center;
+    text-align: center;
+
+    color: #354569;
 `;
 
 const LastChat = styled.div`
-    font-family: "Inter";
+    position: absolute;
+    top: 42px;
+    left: 16px;
+
+    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+
+    color: #354569;
 `;
 
-const ModalOpenButton = styled.div`
-    // width: 100px;
-    cursor: pointer;
+const ChatOutButton = styled.div`
+    position: absolute;
+    top: 44px;
+    right: 16px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #354569;
 `;
 
-const ChatOutButton = styled.div``;
+// const ContentLine = styled.div`
+//     width: 860px;
+//     display: flex;
+//     justify-content: space-between;
+//     margin: 10px auto;
+// `;
+
+// const ModalOpenButton = styled.div`
+//     // width: 100px;
+//     cursor: pointer;
+// `;

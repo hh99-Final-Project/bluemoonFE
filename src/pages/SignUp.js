@@ -10,6 +10,8 @@ import Header from "../shared/Header";
 import { Layout } from "../components/common";
 import { color } from "../utils/designSystem";
 import ResultPopup from "../components/common/ResultPopup";
+import Main from "./Main";
+import { useSelector } from "react-redux";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
@@ -19,6 +21,9 @@ function SignUp() {
     const { setCurrentHeader } = useStore();
     const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [isOpenResultPopup, setIsOpenResultPopup] = useState(false);
+
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+
     const navigate = useNavigate();
 
     const onChange = (e) => {
@@ -36,9 +41,7 @@ function SignUp() {
         }
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
         const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
-        //통과하지 않았을때의 에러처리에 대한것은 기획에 없을까용? 없다면 디자인과 의논해서 있어야할 것 같아용 else로
-        //통과하지 않았을 때는 input 아래에 사용할 수 없다고 안내하고, 제출 버튼 비활성화 합니다!
-        //작업할게요!
+        //통과하지 않았을 때는 사용할 수 없는 닉네임이라고 안내하고, 시작하기 버튼 비활성화
         if (result) {
             userApi.nickNameCheck(nickName).then((response) => {
                 console.log(response);
@@ -86,6 +89,11 @@ function SignUp() {
     useEffect(() => {
         nickNameCheckDB(nickName);
     }, [nickName]);
+
+    // nickname 있는 유저가 signup 들어올 경우 Main 으로 이동시킴
+    if (userInfo?.nickname !== "") {
+        return <Main />;
+    }
 
     return (
         <Layout>
