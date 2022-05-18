@@ -218,9 +218,8 @@ const DiaryWrapper = styled.div`
     width: 915px;
     height: 414px;
     position: absolute;
-    top: 80px;
+    top: 94px;
     left: 25px;
-    margin-top: 19px;
     overflow-y: auto;
 
     &:: -webkit-scrollbar {
@@ -245,8 +244,8 @@ const DiaryCard = styled.div`
     border-radius: 5px;
     background-color: #959ebe;
 
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
 
     margin: 0 0 5px;
     padding: 16px;
