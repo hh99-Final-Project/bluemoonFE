@@ -15,8 +15,6 @@ import Popup from "../shared/Popup";
 import useStore from "../zustand/store";
 import { getUnreadCount } from "../redux/modules/chatSlice";
 
-
-
 const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -31,8 +29,6 @@ const Header = () => {
     const { setCurrentHeader } = useStore();
     const token = getCookie("authorization");
     const path = window.location.pathname;
-
-
 
     const loginCheck = () => {
         //로그인 판별하기
@@ -56,11 +52,13 @@ const Header = () => {
         setIsOpenNoti(false);
     };
 
-    useEffect(()=>{
-        let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
-        let client = Stomp.over(sock);
-         ws.current = client;
-    },[]);
+    useEffect(() => {
+        if (userInfo) {
+            let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
+            let client = Stomp.over(sock);
+            ws.current = client;
+        }
+    }, []);
 
     useEffect(() => {
         if (userInfo) {
@@ -70,7 +68,6 @@ const Header = () => {
             };
         }
     }, []);
-
 
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
     function wsConnect() {
@@ -180,7 +177,7 @@ const Point = styled.div`
     font-size: 15px;
     line-height: 18px;
     box-sizing: border-box;
-    color: #9AEBE7;
+    color: #9aebe7;
     display: flex;
     cursor: default;
     span {
@@ -206,7 +203,7 @@ const LoginArea = styled.div`
     margin-top: 13px;
     font-size: 14px;
     line-height: 18px;
-    color: #9AEBE7;
+    color: #9aebe7;
     width: 150px;
     height: 35px;
     border: 2px solid rgba(255, 255, 255, 0.8);

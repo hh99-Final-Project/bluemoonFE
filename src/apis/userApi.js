@@ -40,9 +40,10 @@ export const userApi = {
         return data;
     },
 
-    saveNickName: async (nickName) => {
+    saveNickName: async (nickName, recommender) => {
         let req = {
             nickname: nickName,
+            recommender: recommender,
         };
         const data = await instance.post("/api/user/nickname", req);
         return data;
