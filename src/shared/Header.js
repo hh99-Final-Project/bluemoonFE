@@ -169,21 +169,22 @@ const Logo = styled.div`
     color: rgba(255, 255, 255, 0.8);
     font-size: 32px;
     line-height: 38px;
+    font-family: "Jura";
 `;
 const Point = styled.div`
-    margin-right: 13px;
+    margin-right: 20px;
     width: 96px;
-    height: 31px;
+    height: 35px;
     border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 23px;
     font-size: 15px;
     line-height: 18px;
     box-sizing: border-box;
-    color: #d2fffd;
+    color: #9AEBE7;
     display: flex;
     cursor: default;
     span {
-        margin: 5px 0 13px;
+        margin: 6px 0 13px;
     }
 
     img {
@@ -193,12 +194,11 @@ const Point = styled.div`
     }
 `;
 const AlertIcon = styled.div`
-    margin-right: 15px;
+    margin-right: 20px;
     cursor: pointer;
-    line-height: 34px;
-
     img {
         vertical-align: middle;
+        height: 35px;
     }
 `;
 const LoginArea = styled.div`
@@ -218,4 +218,6 @@ const LoginArea = styled.div`
 
 const Logout = styled(LoginArea)`
     margin-top: 0;
+    width: 97px;
+    box-sizing: border-box;
 `;

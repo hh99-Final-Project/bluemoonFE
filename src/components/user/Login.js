@@ -98,7 +98,7 @@ function Login() {
                         width: "365px",
                         height: "264px",
                         border: "none",
-                        background: "rgba(198, 211, 236, 0.9)",
+                        backgroundColor: "rgba(198, 211, 236, 0.9)",
                         borderRadius: "10px",
                         outline: "none",
                         overflow: "hidden",
@@ -125,7 +125,7 @@ function Login() {
                                         onClick();
                                     }}
                                 >
-                                    카카오로 로그인하기
+                                    카카오로 시작하기
                                 </KaKaoLoginText>
                             );
                         }}
@@ -137,7 +137,7 @@ function Login() {
                         cookiePolicy={"single_host_origin"}
                         render={(renderProps) => (
                             <GoogleLoginText onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                                구글로 로그인하기
+                                Google로 시작하기
                             </GoogleLoginText>
                         )}
                     />
@@ -155,6 +155,7 @@ const LoginText = styled.div`
     line-height: 23px;
     text-align: center;
     margin-top: 38px;
+    color: #08105D;
 `;
 
 const LoginButtons = styled.div`
@@ -171,13 +172,14 @@ const KaKaoLoginText = styled.div`
     border-radius: 5px;
 
     color: #673904;
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 12px;
+    line-height: 15px;
 
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    box-sizing: border-box;
 `;
 
 const GoogleLoginText = styled(KaKaoLoginText)`
