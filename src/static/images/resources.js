@@ -12,7 +12,7 @@ export const categoryMyPage = require("./categoryBar/mypageIcon.png");
 export const close = require("./chat/close.svg");
 export const moreHor = require("./chat/moreHor.svg").default;
 export const send = require("./chat/send.svg").default;
-export const unreadCount = require("./chat/unreadcount.svg").default;
+export const unreadCount = require("./chat/unreadCount.svg").default;
 
 //common
 export const logo = require("./common/logo.svg").default;
@@ -67,10 +67,10 @@ export const lockIcon = require("./diary/lockIcon.svg").default;
 export const closeButton = require("./chat/close_24px.svg");
 
 //lottery
-export const bananaMilkIcon = require("./Lottery/bananaMilkIcon.png");
-export const lotteryMoon = require("./Lottery/lotteryMoon.png");
-export const lotteryResult = require("./Lottery/lotteryResult.png");
-export const lotteryWinIcon = require("./Lottery/lotteryWinIcon.svg").default;
-export const star = require("./Lottery/star.png");
+export const bananaMilkIcon = require("./lottery/bananaMilkIcon.png");
+export const lotteryMoon = require("./lottery/lotteryMoon.png");
+export const lotteryResult = require("./lottery/lotteryResult.png");
+export const lotteryWinIcon = require("./lottery/lotteryWinIcon.svg").default;
+export const star = require("./lottery/star.png");
 
 // export const = require();
