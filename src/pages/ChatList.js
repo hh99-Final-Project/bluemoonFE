@@ -15,6 +15,7 @@ import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import { deleteUnreadCount } from "../redux/modules/chatSlice";
 
 ChatList.propTypes = {};
 
@@ -95,6 +96,11 @@ function ChatList(props) {
             });
         }
     }, 300);
+
+    // 카테고리바에 별 표시 삭제
+    useEffect(() => {
+        dispatch(deleteUnreadCount());
+    }, []);
 
     // 채팅방 리스트 조회 api
     useEffect(() => {
@@ -195,7 +201,6 @@ const ChatRoomListBox = styled.div`
     position: relative;
     margin: auto;
 `;
-
 
 const NoChatNotice = styled.div`
     position: absolute;
