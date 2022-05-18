@@ -48,17 +48,32 @@ const MessageBox = styled.div`
 
 const Message = styled.div`
     max-width: 70%;
-    padding: 15px;
+    padding: 10px 15px;
     border-radius: 10px;
-    // border-radius: ${(props) => (props.user ? "10px 0 10px 10px" : "0 10px 10px 10px")};
-    background-color: ${(props) => (props.user ? "#293252" : "#707CA4")};
+    background-color: ${(props) => (props.user ? "rgba(8, 17, 52, 0.6);" : "rgba(163, 171, 199, 0.6);")};
     margin: ${(props) => (props.user ? "0 0 0 5px" : "0 5px 0 0")};
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
-    word-break: break-all;
-    color: white;
+    word-break: keep-all;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: #ffffff;
 `;
 
 const CreatedAt = styled.div`
     display: table-cell;
     vertical-align: middle;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+
+    color: #c6d3ec;
 `;
