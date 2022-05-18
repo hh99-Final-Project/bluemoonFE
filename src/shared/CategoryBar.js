@@ -80,7 +80,7 @@ function CategoryBar(props) {
                     }}
                 >
                     {currentHeader === "포스트" ?
-                        <div>고민 작성하기</div>
+                        <div>고민 접수</div>
                         :
                         <img src={categoryWrite} alt={"writeIcon"} />}
                 </Post>

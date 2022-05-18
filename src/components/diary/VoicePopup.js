@@ -40,7 +40,7 @@ const VoicePopup = (props) => {
                     }}/>
                     <RecordStatus>
                         {
-                            (!finishRecord && onRec) && <div>녹음하기</div>
+                            (!finishRecord && onRec) && <div>녹음 하기</div>
                         }
                         {
                             (!onRec && !isPaused) && <div>녹음중</div>
@@ -61,7 +61,7 @@ const VoicePopup = (props) => {
                     <RecordTime ref={timeRef}>
                         <Timer.Minutes
                             formatValue={(text) => (text.toString().length > 1 ? text : "0" + text)} />
-                         :
+                        &nbsp;:&nbsp;
                         <Timer.Seconds
                             formatValue={(text) => (text.toString().length > 1 ? text : "0" + text)}/>
                     </RecordTime>
@@ -126,12 +126,12 @@ const VoicePopup = (props) => {
                                     </PlayingButton>
 
                                     {/*재생 해 봤는데 다시 녹음하고 싶을 때*/}
-                                    <OnRecording onClick={() => {
+                                    <OnRecording2 onClick={() => {
                                         deleteVoice();
                                         recordVoice();
                                     }}>
                                         <img src={onRecIcon} alt={"onRecIcon"}/>
-                                    </OnRecording>
+                                    </OnRecording2>
 
                                     {/*완전 녹음이 끝나서 이제 팝업 닫기*/}
                                     <StopBtn
@@ -200,7 +200,7 @@ const VoicePopup = (props) => {
 VoicePopup.propTypes = {
     closePopup: PropTypes.func,
     play:PropTypes.func,
-    onRec: PropTypes.func,
+    onRec: PropTypes.bool,
     recordVoice: PropTypes.func,
     stopRecord: PropTypes.func,
     SaveRecordTime: PropTypes.func,
@@ -226,7 +226,7 @@ const VoiceContainer = styled.div`
   width: 266px;
   height: 265px;
   background: rgba(198, 211, 236, 0.9);
-  border-radius: 20px;
+  border-radius: 10px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -236,33 +236,32 @@ const VoiceContainer = styled.div`
 
 const CloseButton = styled.img`
   position: absolute;
-  right: 16px;
-  top: 19px;
+  right: 20px;
+  top: 20px;
   cursor: pointer;
 `;
 
 const RecordStatus = styled.div`
   font-size: 20px;
-  line-height: 24px;
+  line-height: 25px;
   text-align: center;
   color: #43567E;
-  margin-top: 37px;
+  margin-top: 32px;
 `;
 const RecordImg = styled.div`
   text-align: center;
   margin-top: 17px;
   img {
-    width: 74px;
-    height: 74px;
+    width: 58px;
+    height: 83px;
   }
 `;
 const RecordTime = styled.div`
   font-size: 24px;
-  line-height: 29px;
+  line-height: 30px;
   text-align: center;
-  color: #000000;
+  color: #08105D;
   margin-top: 5px;
-  font-weight: 400;
 `;
 
 const IconArea = styled.div`
@@ -273,7 +272,9 @@ const IconArea = styled.div`
 `;
 const OnRecording = styled.div`
   cursor: pointer;
-  
+`;
+
+const OnRecording2 = styled(OnRecording)`
   img {
     margin-right: 13px;
   }

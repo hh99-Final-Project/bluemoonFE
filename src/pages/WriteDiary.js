@@ -50,7 +50,6 @@ function WriteDiary() {
   const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
 
   const userInfo = useSelector((state) => state.userSlice.userInfo);
-  const { setDiaryContent } = useStore();
   const queryClient = useQueryClient();
 
   const onChangeTitleHandler = (e) => {
@@ -58,12 +57,11 @@ function WriteDiary() {
   };
 
   const onChangeContentHandler = (e) => {
-    //일단 최대 길이를 800자로만 설정했습니다. 기획에 따라 변동합니다.
-    if (diary.length > 800) {
+    //일단 최대 길이를 500자로만 설정했습니다. 기획에 따라 변동합니다.
+    if (e.target.value.length > 500) {
       return;
     }
     setDiary(e.target.value);
-    setDiaryContent(e.target.value);
   };
 
   const SaveRecordTime = (time) => {
@@ -130,7 +128,6 @@ function WriteDiary() {
 
     return () => {
         window.removeEventListener("beforeunload", handler);
-      setDiaryContent("");
     };
 
   }, [diary]);
@@ -152,14 +149,15 @@ function WriteDiary() {
                 onChange={onChangeTitleHandler}
               />
               <PostArea isShowSpeaker={isShowSpeaker}
-                placeholder={ isShowSpeaker ? "" : "1000자 내로 작성해주세요" }
+                placeholder={ isShowSpeaker ? "" : "500자 내로 작성해주세요" }
                 onChange={onChangeContentHandler}
+                value={diary}
               />
               {isShowSpeaker &&
-              <div>
-                <SpeakerIcon onClick={play} src={listenVoiceIcon}/>
-                <TimeArea>{recordTime}</TimeArea>
-              </div>
+              <SoundPlayIcon>
+                  <SpeakerIcon onClick={play} src={listenIcon}/>
+                  <TimeArea>{recordTime}</TimeArea>
+              </SoundPlayIcon>
               }
             </WriteArea>
 
@@ -173,7 +171,7 @@ function WriteDiary() {
                 <div>음성 듣기</div>
               </ListenArea>
             </VoiceLeft>
-            <PostLength>{diary.length}/1000</PostLength>
+            <PostLength>{diary.length}/500</PostLength>
 
           </PostAreaContainer>
 
@@ -246,7 +244,7 @@ const PostAreaContainer = styled.div`
 const PostHeader = styled.div`
   width: 100%;
   height: 52px;
-  background-color: #2F3A5F;
+  background-color: rgba(8, 17, 52, 0.3);
   margin: 23px 0 16px;
   display: flex;
   align-items: center;
@@ -274,16 +272,16 @@ const PostText = styled.input`
   background-color: #959EBE;
   outline: none;
   border: none;
-  padding: 14px 27px;
+  padding: 13px 27px;
   border-radius: 10px;
   box-sizing: border-box;
   margin-bottom: 10px;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 23px;
   
   ::placeholder {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 23px;
     color: rgba(8, 16, 93, 0.5);
   }
 `;
@@ -292,11 +290,11 @@ const PostArea = styled.textarea`
   width: 876px;
   height: 352px;
   box-sizing: border-box;
-  padding: ${(props) => (props.isShowSpeaker ? "65px 27px" : "18px 27px;")}; 
+  padding: ${(props) => (props.isShowSpeaker ? "86px 27px 20px" : "20px 27px")}; 
   background-color: #959EBE;
   border: none;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 18px;
   color: #000000;
   resize: none;
   outline: none;
@@ -308,38 +306,44 @@ const PostArea = styled.textarea`
   }
   
   ::placeholder {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 14px;
+    line-height: 18px;
     color: rgba(8, 16, 93, 0.5);
   }
 `;
 
-const SpeakerIcon = styled.img`
+const SoundPlayIcon = styled.div`
   position: absolute;
   left: 67px;
   top: 77px;
+  display: flex;
+`;
+
+
+const SpeakerIcon = styled.img`
   cursor: pointer;
+  width: 40px;
+  height: 40px;
+  margin-right: 9px;
 `;
 
 const TimeArea = styled.div`
-  position: absolute;
-  left: 116px;
-  top: 86px;
+  padding-top: 11px;
 `;
 
 
 const VoiceLeft = styled.div`
   display: flex;
   position: absolute;
-  bottom: 45px;
-  left: 69px;
+  bottom: 30px;
+  left: 67px;
 `;
 
 const RecordArea = styled.div`
   color: #08105D;
   font-size: 8px;
   line-height: 10px;
-  margin-right: 18px;
+  margin-right: 19px;
   text-align: center;
   
   img {
@@ -356,46 +360,10 @@ const ListenArea = styled(RecordArea)``;
 const PostLength = styled.div`
   position: absolute;
   bottom: 50px;
-  right: 65px;
+  right: 60px;
   font-size: 14px;
-  line-height: 17px;
+  line-height: 18px;
   color: #08105D;
 `;
 
 
-const VoicePlayButton = styled.div`
-  width: 70px;
-  height: 50px;
-  background-color: #828282;
-  margin-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-const VoiceRecordButton = styled(VoicePlayButton)``;
-
-const VoiceStop = styled(VoicePlayButton)``;
-const VoiceTempStop = styled(VoicePlayButton)``;
-const VoiceTempReplay = styled(VoicePlayButton)``;
-const OpenPopup = styled(VoicePlayButton)``;
-const DeleteVoice = styled(VoicePlayButton)``;
-
-
-const PostButton = styled.a`
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 100px;
-  height: 60px;
-  margin: 50px auto 100px;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: #c4c4c4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9px;
-  cursor: pointer;
-`;
