@@ -1,17 +1,17 @@
 import { instance, fileInstance } from "./config";
 
 export const diaryApi = {
-  createPost: async (title, content, audioUrl, recordTime) => {
-    let req = {
-      title: title,
-      content: content,
-      timer: recordTime
-    };
-    let json = JSON.stringify(req);
-    const form = new FormData();
-    const blob = new Blob([json], { type: "application/json" });
-    form.append("requestDto", blob);
-    audioUrl !== undefined && form.append("file", audioUrl);
+    createPost: async (title, content, audioUrl, recordTime) => {
+        let req = {
+            title: title,
+            content: content,
+            timer: recordTime,
+        };
+        let json = JSON.stringify(req);
+        const form = new FormData();
+        const blob = new Blob([json], { type: "application/json" });
+        form.append("requestDto", blob);
+        audioUrl !== undefined && form.append("file", audioUrl);
         const data = await fileInstance.post("/api/posts", form);
         return data;
     },
@@ -31,25 +31,24 @@ export const diaryApi = {
         return data;
     },
 
-  createComment: async (postId, comment, audioUrl, isLocked, parentCommentId) => {
-      console.log(parentCommentId,"parentCommentId");
-    let req = {
-      "postUuid": postId,
-      "content": comment,
-      "lock": isLocked,
-      "parentUuid": parentCommentId
-    };
+    createComment: async (postId, comment, audioUrl, isLocked, parentCommentId) => {
+        console.log(parentCommentId, "parentCommentId");
+        let req = {
+            postUuid: postId,
+            content: comment,
+            lock: isLocked,
+            parentUuid: parentCommentId,
+        };
 
-    const form = new FormData();
-    let json = JSON.stringify(req);
-    const blob = new Blob([json], { type: "application/json" });
-    form.append("requestDto",blob);
-    audioUrl !== undefined && form.append("file", audioUrl);
+        const form = new FormData();
+        let json = JSON.stringify(req);
+        const blob = new Blob([json], { type: "application/json" });
+        form.append("requestDto", blob);
+        audioUrl !== undefined && form.append("file", audioUrl);
 
-
-    const data = await fileInstance.post("/api/comments", form);
-    return data;
-  },
+        const data = await fileInstance.post("/api/comments", form);
+        return data;
+    },
 
     deleteComment: async (commentId) => {
         const data = await instance.delete(`/api/comments/${commentId}`);
@@ -66,5 +65,11 @@ export const diaryApi = {
     getNotLoginUserDetail: async () => {
         const data = await instance.get("/api/posts/anonymous/one");
         return data.data;
+    },
+
+    // 댓글 알람 리스트 조회
+    getCommentAlertList: async (page) => {
+        const data = await instance.get(`/api/alarm/${page}`);
+        return data;
     },
 };

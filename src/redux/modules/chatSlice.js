@@ -48,9 +48,14 @@ const chatSlice = createSlice({
             console.log(action.payload);
             state.messages.push(action.payload);
         },
+        // 사이트에 체류 중 새로운 채팅 메시지를 받으면 리덕스에 저장
         getUnreadCount(state, action) {
             console.log(action.payload);
             state.unreadCount.push(action.payload);
+        },
+        // chatList 메뉴 클릭 시 해당 액션이 실행되게 하여 별 표시를 삭제하게 한다
+        deleteUnreadCount(state, action) {
+            state.unreadCount = [];
         },
     },
     // extraReducers
@@ -65,6 +70,6 @@ const chatSlice = createSlice({
 });
 
 //액션 생성함수
-export const { subMessage, getUnreadCount } = chatSlice.actions;
+export const { subMessage, getUnreadCount, deleteUnreadCount } = chatSlice.actions;
 
 export default chatSlice.reducer;
