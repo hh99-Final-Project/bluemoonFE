@@ -71,8 +71,8 @@ export const closeButton = require("./chat/close_24px.svg").default;
 
 //lottery
 export const bananaMilkIcon = require("./lottery/bananaMilkIcon.png");
-export const lotteryMoon = require("./lottery/lotteryMoon.png");
-export const lotteryResult = require("./lottery/lotteryResult.png");
+export const lotteryMoon = require("./lottery/lotteryMoon.svg").default;
+export const lotteryhalfMoon = require("./lottery/lotteryhalfMoon.svg").default;
 export const lotteryWinIcon = require("./lottery/lotteryWinIcon.svg").default;
 export const star = require("./lottery/star.png");
 

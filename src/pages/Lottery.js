@@ -12,7 +12,7 @@ import CategoryBar from "../shared/CategoryBar";
 import Loading from "../shared/Loading";
 
 import { color } from "../utils/designSystem";
-import { lotteryMoon, lotteryResult, bananaMilkIcon, star } from "../static/images/resources";
+import { lotteryMoon, lotteryhalfMoon, bananaMilkIcon, star } from "../static/images/resources";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -139,7 +139,6 @@ const ContentBox = styled.div`
     position: relative;
     margin: auto;
 `;
-
 
 const MoonArea = styled.div`
     position: absolute;
