@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "react-modal";
 import KakaoLogin from "react-kakao-login";
@@ -14,8 +14,10 @@ import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
+
 
     const kakaoLoginHandler = (res) => {
         userApi.kakaoLogin(res.response.access_token).then((response) => {
@@ -30,8 +32,13 @@ function Login() {
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
-                    //이전에 있었던 페이지로 돌아가요!
-                    navigate(-2);
+                    //현재 있었던 페이지로 돌아간다.
+                    if(pathname === "/") {
+                        navigate("/diarylist");
+                    } else {
+                        navigate(pathname);
+                    }
+
                 }
             } else {
                 console.log("err");
@@ -51,8 +58,12 @@ function Login() {
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
-                    //이전에 있었던 페이지로 돌아가요!
-                    navigate(-2);
+                    //현재 있었던 페이지로 돌아가요!
+                    if(pathname === "/") {
+                        navigate("/diarylist");
+                    } else {
+                        navigate(pathname);
+                    }
                 }
             } else {
                 console.log("err");

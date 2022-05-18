@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
 import useRecordVoice from "../hooks/useRecordVoice";
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import VoicePopup from "../components/diary/VoicePopup";
 import { backIcon, saveIcon, recordIcon, listenIcon, listenVoiceIcon } from "../static/images/resources";
 import { Layout } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {color} from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
+import { isModalOpen } from "../redux/modules/commonSlice";
 
 
 function WriteDiary() {
@@ -54,6 +55,7 @@ function WriteDiary() {
 
   const userInfo = useSelector((state) => state.userSlice.userInfo);
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const onChangeTitleHandler = (e) => {
     setTitle(e.target.value);
@@ -90,7 +92,7 @@ function WriteDiary() {
   const onClickHandler = (e) => {
 
     if(!userInfo){
-      window.alert("로그인하셔야 등록 가능합니다!");
+      dispatch(isModalOpen(true));
       return;
     }
 
