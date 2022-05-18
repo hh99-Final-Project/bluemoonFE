@@ -8,8 +8,9 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useMutation, useQueryClient } from "react-query";
 import { getCookie } from "../../utils/cookie";
-import {recordIcon, lockIcon, microphone, microphoneBlue} from "../../static/images/resources";
+import {lockIcon, microphoneBlue, listenIcon} from "../../static/images/resources";
 import VoicePopup from "./VoicePopup";
+import { useTimer } from "react-timer-hook";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -24,7 +25,9 @@ function CommentInput(props) {
     const [isLocked, setIsLocked] = useState(false);
 
     const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
-    const [recordTime, setRecordTime] = useState("");
+    const [recordTime, setRecordTime] = useState(0);
+    const [time, setTime] = useState("");
+    const [expireTime, setExpireTime] = useState();
     const token = getCookie("authorization");
 
     const {
@@ -48,14 +51,32 @@ function CommentInput(props) {
         isListening,
     } = useRecordVoice();
 
+    const {
+        seconds,
+        minutes,
+        isRunning,
+        start,
+        restart,
+        pause
+    } = useTimer({
+        expireTime,
+        onExpire: () => console.warn("onExpire called"),
+        autoStart: false
+    });
+
+
+    console.log(seconds,"seconds");
+
     const lockHandler = () => {
         setIsLocked((prev) => !prev);
     };
 
+    console.log(recordTime,"recordTime");
+
     const queryClient = useQueryClient();
     const ws = useRef();
 
-    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId), {
+    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId, time), {
         onSuccess: () => {
             queryClient.invalidateQueries("diaryDetail");
             setComment("");
@@ -77,9 +98,13 @@ function CommentInput(props) {
         setComment(e.target.value);
     };
 
+
+
     const saveComment = () => {
+        let timeToServer = `${Math.floor(recordTime / 60) + ":" + (recordTime % 60)}`;
+        setTime(timeToServer);
         setParentId("");
-        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId);
+        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, time);
     };
 
     const onClick = async () => {
@@ -130,18 +155,38 @@ function CommentInput(props) {
     return (
         <React.Fragment>
             <InputContainer>
-                {/*<VoiceButton onClick={recordVoice}>음성녹음</VoiceButton>*/}
-                {/*<StopButton onClick={stopRecord}>중지</StopButton>*/}
                 <Input
                     onChange={onChangeHandler}
                     onKeyPress={onKeyPressHandler}
                     value={comment}
-                    placeholder="댓글을 남겨주세요"
+                    placeholder={isShowSpeaker ? "" : "댓글을 남겨주세요"}
                 />
                 <IconArea>
                     <ButtonArea>
                         <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue}/>
-                        {isShowSpeaker && <PlayButton onClick={play}>듣기</PlayButton>}
+
+                        {isShowSpeaker &&
+                            <PlayArea>
+                                <PlayButton />
+                                <img onClick={() => {
+                                    const now = new Date();
+                                    let addedNow = now.setSeconds(now.getSeconds() + recordTime);
+                                    setExpireTime(new Date(addedNow));
+                                    play();
+                                    restart(new Date(addedNow));
+                                }} src={listenIcon} alt={"listenIcon"}/>
+                                <TimeArea>
+                                    {
+                                        isRunning ? seconds
+                                            :
+                                        Math.floor(recordTime / 60) + ":" + recordTime % 60
+                                    }
+                                </TimeArea>
+                            </PlayArea>
+
+
+                        }
+
                     </ButtonArea>
                     <IconRightArea>
                         <LockIcon>
@@ -168,6 +213,7 @@ function CommentInput(props) {
                     completeRecord={completeRecord}
                     recordReset={recordReset}
                     SaveRecordTime={SaveRecordTime}
+                    recordTime={recordTime}
                     deleteVoice={deleteVoice}
                     playingPause={playingPause}
                     setIsPlaying={setIsPlaying}
@@ -224,6 +270,7 @@ const ButtonArea = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 `;
 
 const VoiceButton = styled.img`
@@ -233,8 +280,34 @@ const VoiceButton = styled.img`
 `;
 
 const PlayButton = styled.div`
+    font-size: 12px;
+    margin-left: 5px;
+`;
+
+const PlayArea = styled.div`
+  position: absolute;
+  bottom: 30px;
+  left: 5px;
+  background-color: rgba(198, 211, 236, 0.8);
+  border-radius: 10px;
+  width: 76px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 26px;
+    height: 26px;
     cursor: pointer;
-    font-size: 13px;
+    
+  }
+  
+`;
+const TimeArea = styled.div`
+  font-size: 12px;
+  line-height: 15px;
+  color: #08105D;
+  margin-left: 4px;
 `;
 
 const TextLength = styled.div`

@@ -31,13 +31,14 @@ export const diaryApi = {
         return data;
     },
 
-    createComment: async (postId, comment, audioUrl, isLocked, parentCommentId) => {
+    createComment: async (postId, comment, audioUrl, isLocked, parentCommentId, time) => {
         console.log(parentCommentId, "parentCommentId");
         let req = {
             postUuid: postId,
             content: comment,
             lock: isLocked,
             parentUuid: parentCommentId,
+            timer: time
         };
 
         const form = new FormData();

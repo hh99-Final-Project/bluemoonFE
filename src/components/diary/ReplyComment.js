@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 const ReplyComment = (props) => {
 
     const { replyComments } = props;
-    // const reversedList = replyComments.reverse();
 
     return (
         <ReplyCommentList>
