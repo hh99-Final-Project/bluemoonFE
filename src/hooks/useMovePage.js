@@ -37,28 +37,28 @@ export default function useMovePage() {
 
     const moveToPage = (path) => {
 
-        if (path !== "/write") {
-            if (diaryContent.length > 0) {
-                if (window.confirm("작성중인데 나가시겠습니까?")) {
-                    navigate(path);
-                    setCategoryBarName(path);
-                    setDiaryContent("");
-                } else {
-                    return;
-                }
-            } else {
-                navigate(path);
-                setCategoryBarName(path);
-            }
-        } else {
+        // if (path !== "/write") {
+        //     // if (diaryContent.length > 0) {
+        //         if (window.confirm("작성중인데 나가시겠습니까?")) {
+        //             navigate(path);
+        //             setCategoryBarName(path);
+        //             setDiaryContent("");
+        //         } else {
+        //             return;
+        //         }
+        //     } else {
+        //         navigate(path);
+        //         setCategoryBarName(path);
+        //     }
+        // } else {
             //현재 다이어리 페이지에서 작성중일때,
-            if(diaryContent.length > 0) {
-                return;
-            } else {
+            // if(diaryContent.length > 0) {
+            //     return;
+            // } else {
                 navigate(path);
                 setCategoryBarName(path);
-            }
-        }
+            // }
+        // }
 
 
     };

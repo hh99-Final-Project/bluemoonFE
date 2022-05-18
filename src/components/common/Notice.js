@@ -11,6 +11,10 @@ Notice.propTypes = {
 
 function Notice(props) {
     const { alert } = props;
+    console.log(alert.message,"alert.message");
+    const contentName = alert.message.split("]")[0].length > 22 ?
+        alert.message.split("]")[0].substring(0, 20) + "...] " + alert.message.split("]")[1] : alert.message;
+
     const { setCurrentHeader } = useStore();
     const navigate = useNavigate();
 
@@ -32,7 +36,7 @@ function Notice(props) {
                     <CreatedAt>{alert.createdAt}</CreatedAt>
                 </TitleArea>
                 <ContentArea>
-                    <Desc>{alert.message}</Desc>
+                    <Desc>{contentName}</Desc>
                 </ContentArea>
             </AlertSliceContainer>
         </React.Fragment>
@@ -48,7 +52,7 @@ const AlertSliceContainer = styled.div`
     background-color: #d0d5e3;
     margin-bottom: 8px;
     border-radius: 5px;
-    padding: 7px;
+    padding: 10px 17px;
     cursor: pointer;
 `;
 const TitleArea = styled.div`
@@ -59,10 +63,11 @@ const TitleArea = styled.div`
     font-size: 10px;
     line-height: 12px;
 `;
-const Title = styled.div``;
+
 const CreatedAt = styled.div`
-    font-size: 10px;
-    line-height: 12px;
+      font-size: 8px;
+      line-height: 10px;
+      color: rgba(53, 69, 105, 0.8);
 `;
 const ContentArea = styled.div`
     display: flex;
@@ -71,8 +76,10 @@ const ContentArea = styled.div`
 `;
 
 const Desc = styled.div`
-    font-size: 12px;
-    line-height: 15px;
+      font-size: 10px;
+      line-height: 13px;
+      color: #354569;
+  
 `;
 
 const MoreIcon = styled.div``;

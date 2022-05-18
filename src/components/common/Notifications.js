@@ -15,60 +15,6 @@ function Notifications(props) {
     const { closeModal, AlertTabRef } = props;
     const alertList = useSelector((state) => state.commonSlice.alertList);
 
-    // let alertList = [
-    //     {
-    //         title: "곽혜미",
-    //         desc: "라라라",
-    //         createdAt: "2022-04-21 11:23",
-    //         id: 1,
-    //     },
-    //     {
-    //         title: "김김김",
-    //         desc: "김김22",
-    //         createdAt: "2022-01-21 11:23",
-    //         id: 2,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 3,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 4,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 5,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 6,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 7,
-    //     },
-    //     {
-    //         title: "원숭이",
-    //         desc: "재주부리다 넘어짐",
-    //         createdAt: "2022-03-21 11:23",
-    //         id: 8,
-    //     },
-    // ];
-
-    // console.log(AlertTabRef.current.getBoundingClientRect().top,"AlertTabRef")
-    // console.log(AlertTabRef.current.getBoundingClientRect().left,"AlertTabRef")
-
     return (
         <div>
             <Modal
@@ -89,18 +35,18 @@ function Notifications(props) {
                     content: {
                         position: "absolute",
                         zIndex: 10,
-                        top: AlertTabRef.current.getBoundingClientRect().top - 10,
-                        left: AlertTabRef.current.getBoundingClientRect().left - 80,
+                        top: AlertTabRef.current.getBoundingClientRect().top + 38,
+                        left: AlertTabRef.current.getBoundingClientRect().left,
                         right: "auto",
                         bottom: "auto",
                         width: "248px",
-                        height: "610px",
+                        height: "586px",
                         border: "none",
                         boxSizing: "border-box",
-                        background: "#99A5BC",
+                        background: "rgba(198, 211, 236, 0.8)",
                         borderRadius: "10px",
                         outline: "none",
-                        padding: alertList.length > 7 ? "0 7px 26px 13px" : "0 9px 26px 13px",
+                        padding: "0 7px 26px 0",
                         overflowY: "hidden",
                     },
                 }}
@@ -127,25 +73,26 @@ export default Notifications;
 const NotiHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    margin: 8px 0 20px;
 `;
 
 const Title = styled.div`
-    font-size: 18px;
-    line-height: 22px;
-    color: #000000;
-    margin: 5px 0 19px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #08105D;
+    margin: 18px 0 18px 14px;
 `;
 
 const CloseButton = styled.div`
     cursor: pointer;
+    margin: 16px 9px 0 0;
 `;
 
 const Content = styled.div`
     height: 530px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: ${(props) => (props.length > 7 ? "6px" : "4px")};
+    padding-left: 15px;
+    padding-right: 7px;
     box-sizing: border-box;
 
     &::-webkit-scrollbar {
@@ -155,10 +102,11 @@ const Content = styled.div`
     &::-webkit-scrollbar-thumb {
         background-color: #d3d3d3;
         border-radius: 5px;
+      
     }
 
     &::-webkit-scrollbar-track {
-        background-color: #616b7d;
+        background-color: #08105D;
         border-radius: 5px;
     }
 `;

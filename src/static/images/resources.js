@@ -64,7 +64,7 @@ export const nextButton = require("./diary/nextDiary.svg").default;
 export const lockIcon = require("./diary/lockIcon.svg").default;
 
 //noti
-export const closeButton = require("./chat/close_24px.svg");
+export const closeButton = require("./chat/close_24px.svg").default;
 
 //lottery
 export const bananaMilkIcon = require("./Lottery/bananaMilkIcon.png");
