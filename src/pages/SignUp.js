@@ -9,21 +9,29 @@ import useStore from "../zustand/store";
 import Header from "../shared/Header";
 import { Layout } from "../components/common";
 import { color } from "../utils/designSystem";
+import ResultPopup from "../components/common/ResultPopup";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
     const [isValidNickName, setIsValidNickName] = useState(null);
-    const [isOpenPopup, setIsOpenPopup] = useState(false);
-    const navigate = useNavigate();
+    const [recommender, setRecommender] = useState("");
+
     const { setCurrentHeader } = useStore();
-    const [isLoading, setIsLoading] = useState(null);
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const [isOpenResultPopup, setIsOpenResultPopup] = useState(false);
+    const navigate = useNavigate();
 
     const onChange = (e) => {
         setNickName(e.target.value);
     };
 
+    const onChangeRecommender = (e) => {
+        setRecommender(e.target.value);
+    };
+
     const debounce = _.debounce((nickName) => {
         if (nickName === "") {
+            setIsValidNickName(null);
             return;
         }
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
@@ -33,6 +41,8 @@ function SignUp() {
         //작업할게요!
         if (result) {
             userApi.nickNameCheck(nickName).then((response) => {
+                console.log(response);
+
                 if (response.data === true) {
                     setIsValidNickName(true);
                 } else {
@@ -42,8 +52,9 @@ function SignUp() {
         } else {
             setIsValidNickName(false);
         }
-    }, 1000);
+    }, 200);
 
+    // useCallback 은 ?
     const nickNameCheckDB = useCallback(debounce, []);
 
     const onClickHandler = () => {
@@ -55,10 +66,16 @@ function SignUp() {
     };
 
     const saveNickNameDB = () => {
-        userApi.saveNickName(nickName).then((response) => {
+        userApi.saveNickName(nickName, recommender).then((response) => {
             console.log(response);
+            setIsOpenPopup(false);
+            setIsOpenResultPopup(true);
         });
-        navigate(-1);
+    };
+
+    const closeResultPopup = () => {
+        setIsOpenResultPopup(false);
+        navigate("/");
     };
 
     useEffect(() => {
@@ -77,29 +94,21 @@ function SignUp() {
                 <CategoryBar />
                 <SignUpBox BgColor={color.containerBoxColor}>
                     <SignUpBoxTitle>사용하실 닉네임을 입력해주세요</SignUpBoxTitle>
-
                     <NickNameInput
                         placeholder="1~10자 이내로 입력해주세요. (특수문자, 공백 불가)"
                         onChange={onChange}
                         value={nickName}
+                        required
                     ></NickNameInput>
-
                     {/* 삼항연산자를 사용하려 했으나, nickname 값이 없을 때 '사용하실 닉네임 입력해주세요' 와 '사용 불가능한 닉네임입니다' 2개 모두 띄워지는 문제 발생 */}
-                    {/* {!isValidNickName ? (
-                        <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>
-                    ) : (
-                        <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>
-                    )} */}
                     {nickName === "" && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
-                    {isValidNickName === true && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
+                    {isValidNickName && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
                     {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
-
-                    <RecommendPerson>추천인 코드 입력(선택사항)</RecommendPerson>
-                    <RecommendPersonInput></RecommendPersonInput>
-                    <Button isvalid={isValidNickName} onClick={onClickHandler}>
+                    ;<RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
+                    <RecommendPersonInput onChange={onChangeRecommender} value={recommender}></RecommendPersonInput>
+                    <Button isValid={isValidNickName} onClick={onClickHandler}>
                         시작하기
                     </Button>
-
                     <QuestionButton>?</QuestionButton>
                     <ServiceDescription>서비스 설명</ServiceDescription>
                 </SignUpBox>
@@ -111,6 +120,9 @@ function SignUp() {
                         event={saveNickNameDB}
                         padding={"30px"}
                     />
+                )}
+                {isOpenResultPopup && (
+                    <ResultPopup title={"다이어리에 닉네임을 성공적으로 적었습니다!"} close={closeResultPopup} />
                 )}
             </Container>
         </Layout>
@@ -139,57 +151,70 @@ const SignUpBox = styled.div`
 `;
 
 const SignUpBoxTitle = styled.div`
-    width: 950px;
-    height: 50px;
+    position: absolute;
+    width: 946px;
+    height: 52px;
+    top: 54px;
+    left: 2px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin: 50px 0 0 0;
-    color: #ffffff;
     background-color: #2f3a5f;
 
-    font-family: "Inter";
+    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
-    line-height: 24px;
+    line-height: 25px;
     text-align: center;
+
+    color: #ffffff;
 `;
 
 const NickNameInput = styled.input`
-    height: 60px;
-    width: 540px;
-    border-radius: 5px;
+    position: absolute;
+    width: 539.47px;
+    height: 40.85px;
     display: block;
-    margin: 50px auto 0;
-    box-sizing: border-box;
-    border: 1px solid #bbb;
-    background: #b2bad5;
+    top: 173px;
+    left: 205px;
+
+    background: rgba(198, 211, 236, 0.8);
     border-radius: 5px;
 
     &::placeholder {
-        font-family: "Inter";
+        font-family: "Spoqa Han Sans Neo";
         font-style: normal;
         font-weight: 400;
-        font-size: 20px;
-        line-height: 24px;
+        font-size: 14px;
+        line-height: 18px;
+
         text-align: center;
 
-        color: #787878;
+        color: #43567e;
     }
+
+    &::value {
+        position: absolute;
+        padding-top: 12px;
+        padding-left: 23px;
+    }
+
     &:focus {
         border: 1px solid #333333;
     }
 `;
 
 const NickNameCheckResult = styled.div`
-    margin: 10px auto;
-    height: 60px;
-    width: 540px;
+    position: absolute;
+    width: 250px;
+    height: 18px;
+    top: 222px;
+    left: 232px;
+
     display: block;
-    margin: 10px auto;
 
     font-family: "Inter";
     font-style: normal;
@@ -201,69 +226,50 @@ const NickNameCheckResult = styled.div`
 `;
 
 const RecommendPerson = styled.div`
-    width: 404.61px;
-    height: 28.53px;
-    display: block;
-    margin: 10px auto;
+    position: absolute;
+    width: 255px;
+    height: 22px;
+    display: flex;
+    top: 284px;
+    left: 205px;
 
-    font-family: "Inter";
+    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
-    line-height: 22px;
+    line-height: 23px;
 
     color: #ffffff;
-
-    position: absolute;
-    bottom: 200px;
-    left: 204px;
 `;
 
 const RecommendPersonInput = styled.input`
-    height: 40px;
-    width: 540px;
-    border-radius: 5px;
-    display: block;
-    box-sizing: border-box;
-    border: 1px solid #bbb;
-    background: #b2bad5;
-    border-radius: 5px;
-
-    &::placeholder {
-        font-family: "Inter";
-        font-style: normal;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 24px;
-        text-align: center;
-
-        color: #787878;
-    }
-    &:focus {
-        border: 1px solid #333333;
-    }
-
     position: absolute;
-    bottom: 160px;
-    left: 204px;
+    width: 539.47px;
+    height: 40.85px;
+    display: block;
+    top: 314px;
+    left: 205px;
+
+    background: rgba(198, 211, 236, 0.8);
+    border-radius: 5px;
 `;
 
 const Button = styled.button`
-    width: 461px;
-    height: 52px;
+    width: 395px;
+    height: 40px;
 
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     background-color: rgba(255, 255, 255, 0.1);
-    border: 2px solid #84c8cc;
+    border: ${(props) => (props.isValid ? "1px solid #9AEBE7" : "2px solid #08105D")};
     border-radius: 10px;
-    // pointer-events: ${(props) => (props.isvalid ? "auto" : "none")};
+    pointer-events: ${(props) => (props.isValid ? "auto" : "none")};
 
     position: absolute;
-    bottom: 20px;
-    left: 50%;
-    // 정확히 가운데로 옴
-    transform: translate(-50%, 0);
+    bottom: 54px;
+    left: 278px;
+    // // 정확히 가운데로 옴
+    // transform: translate(-50%, 0);
 
     font-family: "Inter";
     font-style: normal;
@@ -274,8 +280,7 @@ const Button = styled.button`
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #91dddd;
-
+    color: ${(props) => (props.isValid ? "#91dddd" : "#08105D")};
     cursor: pointer;
 `;
 

@@ -16,7 +16,6 @@ import useStore from "../zustand/store";
 import { getUnreadCount } from "../redux/modules/chatSlice";
 import { useMediaQuery } from "react-responsive";
 
-
 const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -33,7 +32,7 @@ const Header = () => {
     const path = window.location.pathname;
 
     const isMobile = useMediaQuery({
-        query: "(max-width: 420px)"
+        query: "(max-width: 420px)",
     });
 
     const loginCheck = () => {
@@ -58,11 +57,13 @@ const Header = () => {
         setIsOpenNoti(false);
     };
 
-    useEffect(()=>{
-        let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
-        let client = Stomp.over(sock);
-         ws.current = client;
-    },[]);
+    useEffect(() => {
+        if (userInfo) {
+            let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
+            let client = Stomp.over(sock);
+            ws.current = client;
+        }
+    }, []);
 
     useEffect(() => {
         if (userInfo) {
@@ -72,7 +73,6 @@ const Header = () => {
             };
         }
     }, []);
-
 
     // // 연결 및 구독. 파라메터로 토큰 넣어야 함
     function wsConnect() {
@@ -108,44 +108,36 @@ const Header = () => {
 
     return (
         <React.Fragment>
-            {
-                isMobile ?
-                    <MobileHeaderContainer>
-                        <MobMoreIcon src={mobMoreIcon}>
-
-                        </MobMoreIcon>
-                        <MobLogo>
-                            Blue Moon
-                        </MobLogo>
-                        <MobAlert src={mobAlertIcon}>
-
-                        </MobAlert>
-                    </MobileHeaderContainer>
-                    :
-                    <HeaderContainer>
-                        {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
-                        {userInfo ? (
-                            <HeaderRightArea>
-                                <Point>
-                                    <img src={moonPoint} alt={"point"} />
-                                    <span>{userInfo.myPoint}</span>
-                                </Point>
-                                <AlertIcon
-                                    ref={AlertTabRef}
-                                    onClick={() => {
-                                        setIsOpenNoti(true);
-                                    }}
-                                >
-                                    <img src={newAlertIcon} alt={"NewAlertIcon"} />
-                                </AlertIcon>
-                                <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
-                            </HeaderRightArea>
-                        ) : (
-                            <LoginArea onClick={() => loginCheck()}>로그인 / 회원가입</LoginArea>
-                        )}
-                    </HeaderContainer>
-            }
-
+            {isMobile ? (
+                <MobileHeaderContainer>
+                    <MobMoreIcon src={mobMoreIcon}></MobMoreIcon>
+                    <MobLogo>Blue Moon</MobLogo>
+                    <MobAlert src={mobAlertIcon}></MobAlert>
+                </MobileHeaderContainer>
+            ) : (
+                <HeaderContainer>
+                    {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
+                    {userInfo ? (
+                        <HeaderRightArea>
+                            <Point>
+                                <img src={moonPoint} alt={"point"} />
+                                <span>{userInfo.myPoint}</span>
+                            </Point>
+                            <AlertIcon
+                                ref={AlertTabRef}
+                                onClick={() => {
+                                    setIsOpenNoti(true);
+                                }}
+                            >
+                                <img src={newAlertIcon} alt={"NewAlertIcon"} />
+                            </AlertIcon>
+                            <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
+                        </HeaderRightArea>
+                    ) : (
+                        <LoginArea onClick={() => loginCheck()}>로그인 / 회원가입</LoginArea>
+                    )}
+                </HeaderContainer>
+            )}
 
             {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
             {logoutPopup && (
@@ -183,7 +175,6 @@ const HeaderRightArea = styled.div`
     align-items: center;
 `;
 
-
 const Logo = styled.div`
     cursor: pointer;
     color: rgba(255, 255, 255, 0.8);
@@ -200,7 +191,7 @@ const Point = styled.div`
     font-size: 15px;
     line-height: 18px;
     box-sizing: border-box;
-    color: #9AEBE7;
+    color: #9aebe7;
     display: flex;
     cursor: default;
     span {
@@ -226,7 +217,7 @@ const LoginArea = styled.div`
     margin-top: 13px;
     font-size: 14px;
     line-height: 18px;
-    color: #9AEBE7;
+    color: #9aebe7;
     width: 150px;
     height: 35px;
     border: 2px solid rgba(255, 255, 255, 0.8);
@@ -243,22 +234,22 @@ const Logout = styled(LoginArea)`
 `;
 
 const MobileHeaderContainer = styled.div`
-  width: 320px;
-  height: 30px;
-  margin: 31px auto 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    width: 320px;
+    height: 30px;
+    margin: 31px auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 const MobMoreIcon = styled.img`
-  cursor:pointer;
+    cursor: pointer;
 `;
 const MobLogo = styled.div`
-  font-family: 'Jura';
-  font-size: 24px;
-  line-height: 28px;
-  color: #FFFFFF;
+    font-family: "Jura";
+    font-size: 24px;
+    line-height: 28px;
+    color: #ffffff;
 `;
 const MobAlert = styled.img`
-  cursor:pointer;
+    cursor: pointer;
 `;
