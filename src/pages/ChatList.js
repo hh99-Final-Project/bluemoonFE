@@ -248,6 +248,20 @@ const ChatRoomWrapper = styled.div`
     position: absolute;
     top: 80px;
     overflow-y: auto;
+
+    &:: -webkit-scrollbar {
+        width: 6px;
+    }
+
+    &:: -webkit-scrollbar-thumb {
+        background-color: #d3d3d3;
+        border-radius: 50px;
+    }
+
+    &:: -webkit-scrollbar-track {
+        background-color: #08105d;
+        border-radius: 50px;
+    }
 `;
 
 const ChatRoom = styled.div`
