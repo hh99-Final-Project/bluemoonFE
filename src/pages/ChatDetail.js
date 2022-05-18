@@ -199,10 +199,9 @@ const ChatRoom = styled.div`
 `;
 
 const ChatRoomTitle = styled.div`
-    position: absolute;
-    width: 950px;
+    width: 100%;
     height: 52px;
-    top: 20px;
+    margin-top: 23px;
 
     background: #2f3a5f;
 
@@ -216,19 +215,24 @@ const ChatRoomTitle = styled.div`
 
     & p {
         margin-left: 22px;
-        font-size: 20px;
+        font-family: "Spoqa Han Sans Neo";
+        font-style: normal;
         font-weight: 400;
-        line-height: 24px;
-        letter-spacing: 0em;
-        text-align: left;
+        font-size: 20px;
+        line-height: 25px;
+
+        color: #ffffff;
     }
+`;
+
+const BackButton = styled.div`
+    margin-right: 15px;
+    cursor: pointer;
 `;
 
 const MessageWrapper = styled.div`
     width: 950px;
-    height: 375px;
-    position: absolute;
-    top: 80px;
+    height: 397px;
     overflow-y: auto;
 
     &:: -webkit-scrollbar {
@@ -246,24 +250,11 @@ const MessageWrapper = styled.div`
     }
 `;
 const InputWrpper = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 70px;
-    bottom: 0px;
+    width: 948px;
+    height: 57px;
     background: #2f3a5f;
     border-radius: 0px 0px 25px 25px;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-`;
-
-const BackButton = styled.div`
-    position: absolute;
-    top: 13px;
-    left: 903px;
-
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    cursor: pointer;
 `;

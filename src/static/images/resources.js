@@ -9,7 +9,7 @@ export const categoryLottery = require("./categoryBar/lotteryIcon.png");
 export const categoryMyPage = require("./categoryBar/mypageIcon.png");
 
 // chat
-export const close = require("./chat/close.svg");
+export const close = require("./chat/close.svg").default;
 export const moreHor = require("./chat/moreHor.svg").default;
 export const send = require("./chat/send.svg").default;
 export const unreadCount = require("./chat/unreadCount.svg").default;
