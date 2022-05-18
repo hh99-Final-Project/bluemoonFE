@@ -1,26 +1,25 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import * as commonActions from "../redux/modules/commonSlice";
-import Login from "../components/user/Login";
-import { userApi } from "../apis/userApi";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
 import { logo, mainMoonIcon, doubleQuoteLeft, doubleQuoteRight, moonIconTransparent } from "../static/images/resources";
-import starBG from "../static/images/common/starBG.svg";
 import { Layout } from "../components/common";
 import { color } from "../utils/designSystem";
 import Intro from "../pages/Intro";
+import { useMediaQuery } from "react-responsive";
 
 const Main = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
+
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
 
     const settings = {
         dots: true,
@@ -40,8 +39,8 @@ const Main = () => {
     return (
         <Layout>
             <Container>
-                <Header />
-                <CategoryBar />
+                {!isMobile && <Header />}
+                {!isMobile && <CategoryBar />}
                 <IntroContainer BgColor={color.containerBoxColor}>
                     <ServiceStart>
                         <Logo>
@@ -135,6 +134,10 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     overflow: hidden;
+  
+    @media only screen and (max-width: 420px) {
+  }
+  
 `;
 
 const IntroContainer = styled.div`
@@ -152,6 +155,13 @@ const IntroContainer = styled.div`
     padding: 45px 53px;
     position: relative;
     z-index: 2;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    height: calc(100% - 98px);
+    margin: 68px auto 0;
+    padding: 0;
+  }
 `;
 
 const ServiceStart = styled.div`
@@ -162,6 +172,12 @@ const ServiceStart = styled.div`
     border: 2px solid #43567e;
     box-sizing: border-box;
     border-radius: 20px;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    height: 100%;
+    margin-right: 0;
+  }
 `;
 
 const ServiceIntro = styled.div`
@@ -171,6 +187,10 @@ const ServiceIntro = styled.div`
     border-radius: 20px;
     margin: auto;
     background-color: rgba(31, 36, 73, 0.8);
+
+  @media only screen and (max-width: 420px) {
+     display: none;
+  }
 `;
 
 const Logo = styled.div`
@@ -180,6 +200,10 @@ const Logo = styled.div`
     img {
       width: 141px;
     }
+
+  @media only screen and (max-width: 420px) {
+    margin: 186px auto 0;
+  }
 `;
 
 const ServiceTitle = styled.div`
@@ -190,6 +214,10 @@ const ServiceTitle = styled.div`
     font-family: 'Jura';
     width: 151px;
     margin: 0 auto 83px;
+
+      @media only screen and (max-width: 420px) {
+        margin: 0 auto 184px;
+      }
   
 `;
 
@@ -334,6 +362,13 @@ const DiaryWriteButton = styled.div`
     justify-content: center;
     cursor: pointer;
     color: #9AEBE7;
+
+  @media only screen and (max-width: 420px) {
+    width: 181px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 19px;
+  }
 `;
 
 const DiaryListButton = styled(DiaryWriteButton)`

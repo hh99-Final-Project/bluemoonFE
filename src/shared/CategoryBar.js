@@ -145,6 +145,11 @@ const HeaderContainer = styled.div`
     align-items: flex-end;
     justify-content: space-between;
     margin: 0 auto;
+
+  @media only screen and (max-width: 420px) {
+    display: none;
+
+  }
 `;
 
 const CategoryLeft = styled.div`
