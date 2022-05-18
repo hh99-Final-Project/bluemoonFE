@@ -13,6 +13,7 @@ import { useQuery, useQueryClient } from "react-query";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import {backIcon} from "../static/images/resources";
+import {useMediaQuery} from "react-responsive";
 
 DiaryDetail.propTypes = {};
 
@@ -20,6 +21,11 @@ function DiaryDetail() {
     const navigate = useNavigate();
     const params = useParams();
     const postId = params.id;
+
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
+
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
@@ -46,7 +52,7 @@ function DiaryDetail() {
         <Layout>
             <DetailContainer>
                 <Header />
-                <CategoryBar />
+                {!isMobile ? <CategoryBar /> : <MobileTitle>고민 상담소</MobileTitle>}
                 <DetailContent BgColor={color.containerBoxColor}>
                     <TitleContainer>
                         <TitleLeft>
@@ -83,7 +89,23 @@ const DetailContent = styled.div`
     backdrop-filter: blur(80px);
     border-radius: 25px;
     margin: auto;
+
+    @media only screen and (max-width: 420px) {
+      width: 320px;
+      background: none;
+      box-shadow: none;
+      border: none;
+    }
 `;
+
+const MobileTitle = styled.div`
+  width: 320px;
+  height: 34px;
+  color: #ffffff;
+  margin: auto;
+  text-align: center;
+`;
+
 const TitleContainer = styled.div`
     width: 100%;
     height: 52px;
@@ -92,6 +114,18 @@ const TitleContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     margin: 23px auto 0;
+
+    @media only screen and (max-width: 420px) {
+      width: 320px;
+      height: 43px;
+      background: #3D4A74;
+      border: 1px solid #5C6290;
+      border-radius: 5px;
+      padding: 12px 11px;
+      box-sizing: border-box;
+      margin-bottom: 16px;
+      margin-top: 0;
+  }
 `;
 
 const ContentContainer = styled.div`
@@ -101,6 +135,16 @@ const ContentContainer = styled.div`
     padding: 0 32px 0 37px;
     overflow-x: hidden;
     overflow-y: auto;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    padding: 0;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
 
     &::-webkit-scrollbar {
         width: 6px;
@@ -115,6 +159,8 @@ const ContentContainer = styled.div`
         background-color: #616b7d;
         border-radius: 5px;
     }
+  
+  
 `;
 
 const TitleLeft = styled.div`
@@ -126,6 +172,10 @@ const TitleLeft = styled.div`
 const BackButton = styled.img`
     cursor: pointer;
     margin: 0 21px 0 40px;
+
+  @media only screen and (max-width: 420px) {
+    display: none;
+  }
 `;
 
 const Title = styled.div`
@@ -137,6 +187,13 @@ const Title = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+
+  @media only screen and (max-width: 420px) {
+    font-size: 15px;
+    line-height: 19px;
+    color: #C6D3EC;
+  }
+  
 `;
 
 const Time = styled.div`
@@ -144,4 +201,8 @@ const Time = styled.div`
     line-height: 15px;
     color: #c6d3ec;
     margin-right: 32px;
+
+  @media only screen and (max-width: 420px) {
+    margin-right: 0;
+  }
 `;

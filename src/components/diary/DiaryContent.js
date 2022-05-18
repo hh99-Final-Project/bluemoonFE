@@ -91,6 +91,14 @@ const DiaryContainer = styled.div`
     padding-left: 44px;
     box-sizing: border-box;
     position: relative;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    background: linear-gradient(180deg, #394877 0%, #49526C 100%);
+    border: 1px solid #6B6B6B;
+    border-radius: 5px;
+    padding: 16px 9px 0 11px;
+  }
 `;
 
 const ContentsContainer = styled.div`
@@ -104,6 +112,13 @@ const Content = styled.div`
     padding-top: 21px;
     max-width: 791px;
     max-height: 216px;
+
+    @media only screen and (max-width: 420px) {
+      font-size: 12px;
+      line-height: 15px;
+      color: #C6D3EC;
+      padding-top: 0;
+    }
 `;
 
 const VoiceButton = styled.img`
@@ -119,6 +134,14 @@ const NicknameArea = styled.div`
     position: absolute;
     bottom: 21px;
     left: 48px;
+
+  @media only screen and (max-width: 420px) {
+    font-size: 8px;
+    line-height: 10px;
+    color: #959EBE;
+    bottom: 16px;
+    left: 14px;
+  }
 `;
 
 const ChattingButton = styled.div`
@@ -129,6 +152,11 @@ const ChattingButton = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+  @media only screen and (max-width: 420px) {
+    bottom: 16px;
+    right: 13px;
+  }
   
 
     div {
@@ -136,6 +164,14 @@ const ChattingButton = styled.div`
       line-height: 13px;
       margin-top: 2px;
       color: #354569;
+
+      @media only screen and (max-width: 420px) {
+        font-size: 8px;
+        line-height: 10px;
+        text-align: center;
+        color: #C6D3EC;
+        margin-top: 4px;
+      }
     }
   
     img {

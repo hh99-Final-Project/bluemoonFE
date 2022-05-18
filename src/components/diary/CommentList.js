@@ -36,4 +36,8 @@ export default CommentList;
 
 const CommentsContainer = styled.div`
     width: 876px;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+  }
 `;

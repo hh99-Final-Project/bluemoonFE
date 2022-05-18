@@ -140,7 +140,6 @@ function CommentInput(props) {
                 />
                 <IconArea>
                     <ButtonArea>
-                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={recordIcon} />
                         <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue}/>
                         {isShowSpeaker && <PlayButton onClick={play}>듣기</PlayButton>}
                     </ButtonArea>
@@ -187,6 +186,14 @@ const InputContainer = styled.div`
     height: 87px;
     border-radius: 5px;
     background-color: #bcc4de;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    height: 75px;
+    background: #C6D3EC;
+    border-radius: 5px;
+  }
+  
 `;
 
 const Input = styled.input`
@@ -198,6 +205,13 @@ const Input = styled.input`
     margin: 13px 21px 9px;
     border-radius: 3px;
     box-sizing: border-box;
+
+  @media only screen and (max-width: 420px) {
+    width: 303px;
+    height: 30px;
+    padding: 7px 10px;
+    margin: 10px 9px;
+  }
   
     ::placeholder {
         font-size: 13px;
@@ -250,7 +264,12 @@ const IconArea = styled.div`
     align-items: flex-start;
     justify-content: space-between;
     padding: 0 21px;
+
+  @media only screen and (max-width: 420px) {
+    padding: 0 9px;
+  }
 `;
+
 const IconRightArea = styled.div`
     display: flex;
     align-items: flex-start;

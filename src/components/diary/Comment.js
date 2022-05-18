@@ -156,7 +156,11 @@ const OptionBox = styled.div`
       justify-content: center;
       position: absolute;
       right: 48px;
-      bottom: 15px;
+      bottom: 15px; 
+  
+      @media only screen and (max-width: 420px) {
+        right: 14px;
+      }
 `;
 
 
@@ -181,6 +185,11 @@ const OneCommentContainer = styled.div`
     padding: 15px 48px;
     box-sizing: border-box;
     margin-top: 8px;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    padding: 9px 14px;
+  }
     
 `;
 
@@ -199,17 +208,33 @@ const TitleLeft = styled.div`
     height: 17px;
     margin-left: 5px;
     padding-bottom: 2px;
+    
+    @media only screen and (max-width: 420px) {
+      width: 8px;
+      height: 10px;
+    }
+    
   }
 `;
 const NicknameArea = styled.div`
       font-size: 14px;
       line-height: 18px;
       color: #08105D;
+
+  @media only screen and (max-width: 420px) {
+        font-size: 12px;
+        line-height: 15px;
+  }
 `;
 const PostTimeArea = styled.div`
       font-size: 10px;
       line-height: 13px;
       color: #354569;
+  
+      @media only screen and (max-width: 420px) {
+        font-size: 7px;
+        line-height: 9px;
+      }
 `;
 const PostContent = styled.div`
       margin: 15px 0;

@@ -183,6 +183,7 @@ const HeaderRightArea = styled.div`
     align-items: center;
 `;
 
+
 const Logo = styled.div`
     cursor: pointer;
     color: rgba(255, 255, 255, 0.8);
