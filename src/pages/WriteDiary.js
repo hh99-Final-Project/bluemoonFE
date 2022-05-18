@@ -4,8 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
 import useRecordVoice from "../hooks/useRecordVoice";
-import useMovePage from "../hooks/useMovePage";
-
 import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
@@ -15,11 +13,16 @@ import { backIcon, saveIcon, recordIcon, listenIcon, listenVoiceIcon } from "../
 import { Layout } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {color} from "../utils/designSystem";
+import { useMediaQuery } from "react-responsive";
 
 
 function WriteDiary() {
   const navigate = useNavigate();
   const { setCurrentHeader } = useStore();
+
+  const isMobile = useMediaQuery({
+    query: "(max-width: 420px)"
+  });
 
   const {
     recordVoice,
@@ -137,82 +140,86 @@ function WriteDiary() {
       <Layout>
         <WriteContainer>
           <Header/>
-          <CategoryBar/>
-          <PostAreaContainer BgColor={color.containerBoxColor}>
-            <PostHeader>
-              <BackToListButton src={backIcon}/>
-              <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>
-            </PostHeader>
-            <WriteArea>
-              <PostText
-                placeholder="제목을 작성해주세요"
-                onChange={onChangeTitleHandler}
-              />
-              <PostArea isShowSpeaker={isShowSpeaker}
-                placeholder={ isShowSpeaker ? "" : "500자 내로 작성해주세요" }
-                onChange={onChangeContentHandler}
-                value={diary}
-              />
-              {isShowSpeaker &&
-              <SoundPlayIcon>
-                  <SpeakerIcon onClick={play} src={listenIcon}/>
-                  <TimeArea>{recordTime}</TimeArea>
-              </SoundPlayIcon>
-              }
-            </WriteArea>
+          { !isMobile ? <CategoryBar/> : <MobTitle>글쓰기</MobTitle>}
 
-            <VoiceLeft>
-              <RecordArea onClick={() => setIsOpenVoicePopup(true)}>
-                <img src={recordIcon} alt={"record"}/>
-                <div>음성 등록</div>
-              </RecordArea>
-              <ListenArea>
-                <img src={listenIcon} alt={"listen"}/>
-                <div>음성 듣기</div>
-              </ListenArea>
-            </VoiceLeft>
-            <PostLength>{diary.length}/500</PostLength>
+              <PostAreaContainer BgColor={color.containerBoxColor}>
+                <PostHeader>
+                  <BackToListButton src={backIcon}/>
+                  <SaveDiaryButton onClick={onClickHandler} src={saveIcon}/>
+                </PostHeader>
+                <WriteArea>
+                  <PostText
+                      placeholder="제목을 작성해주세요"
+                      onChange={onChangeTitleHandler}
+                  />
+                  <PostContainer>
+                    <PostArea isShowSpeaker={isShowSpeaker}
+                              placeholder={ isShowSpeaker ? "" : "500자 내로 작성해주세요" }
+                              onChange={onChangeContentHandler}
+                              value={diary}
+                    />
+                    <PostAreaBottomIcons>
+                      <VoiceLeft>
+                        <RecordArea onClick={() => setIsOpenVoicePopup(true)}>
+                          <img src={recordIcon} alt={"record"}/>
+                          <div>음성 등록</div>
+                        </RecordArea>
+                        <ListenArea>
+                          <img src={listenIcon} alt={"listen"}/>
+                          <div>음성 듣기</div>
+                        </ListenArea>
+                      </VoiceLeft>
+                      <PostLength>{diary.length}/500</PostLength>
+                    </PostAreaBottomIcons>
+                  </PostContainer>
 
-          </PostAreaContainer>
+                  {isShowSpeaker &&
+                  <SoundPlayIcon>
+                    <SpeakerIcon onClick={play} src={listenIcon}/>
+                    <TimeArea>{recordTime}</TimeArea>
+                  </SoundPlayIcon>
+                  }
+                </WriteArea>
+              </PostAreaContainer>
 
-          {isOpenPopup && (
-            <Popup
-              title={"소중한 이야기를/다이어리에 기록할까요?"}
-              close={() => setIsOpenPopup(false)}
-              event={() => successHandler()}
-            />
-          )}
-          {
-            isOpenSuccessPopup &&
-            <Popup
-                title={"당신의 이야기가/전해졌습니다"}
-                close={() => setIsOpenSuccessPopup(false)}
-                event={() => navigate("/mypage")}
-            />
-          }
-          {
-            isOpenVoicePopup &&
-            <VoicePopup
-                closePopup={closeVoicePopup}
-                play={play}
-                recordVoice={recordVoice}
-                recordPause={recordPause}
-                stopRecord={stopRecord}
-                finishRecord={finishRecord}
-                isPlaying={isPlaying}
-                onRec={onRec}
-                isPaused={isPaused}
-                replay={replay}
-                completeRecord={completeRecord}
-                recordReset={recordReset}
-                SaveRecordTime={SaveRecordTime}
-                deleteVoice={deleteVoice}
-                playingPause={playingPause}
-                playingHandler={playingHandler}
-                toggleListening={toggleListening}
-                isListening={isListening}
-            />
-          }
+                  {isOpenPopup && (
+                      <Popup
+                          title={"소중한 이야기를/다이어리에 기록할까요?"}
+                          close={() => setIsOpenPopup(false)}
+                          event={() => successHandler()}
+                      />
+                  )}
+                  {
+                    isOpenSuccessPopup &&
+                    <Popup
+                        title={"당신의 이야기가/전해졌습니다"}
+                        close={() => setIsOpenSuccessPopup(false)}
+                        event={() => navigate("/mypage")}
+                    />
+                  }
+                  {
+                    isOpenVoicePopup &&
+                    <VoicePopup
+                        closePopup={closeVoicePopup}
+                        play={play}
+                        recordVoice={recordVoice}
+                        recordPause={recordPause}
+                        stopRecord={stopRecord}
+                        finishRecord={finishRecord}
+                        isPlaying={isPlaying}
+                        onRec={onRec}
+                        isPaused={isPaused}
+                        replay={replay}
+                        completeRecord={completeRecord}
+                        recordReset={recordReset}
+                        SaveRecordTime={SaveRecordTime}
+                        deleteVoice={deleteVoice}
+                        playingPause={playingPause}
+                        playingHandler={playingHandler}
+                        toggleListening={toggleListening}
+                        isListening={isListening}
+                    />
+                  }
         </WriteContainer>
       </Layout>
   );
@@ -224,6 +231,13 @@ const WriteContainer = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
+  
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    overflow: hidden;
+    margin: auto;
+  }
 `;
 
 
@@ -238,6 +252,15 @@ const PostAreaContainer = styled.div`
   backdrop-filter: blur(80px);
   border-radius: 25px;
   position: relative;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    box-shadow: none;
+    padding: 0;
+    border: none;
+    background: none;
+    position: relative;
+  }
 `;
 
 
@@ -249,6 +272,10 @@ const PostHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media only screen and (max-width: 420px) {
+    display: none;
+  }
 `;
 
 const BackToListButton = styled.img`
@@ -264,6 +291,12 @@ const WriteArea = styled.div`
   margin-bottom: 10px;
   padding: 0 34px 0 40px;
   position: relative;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    padding: 0;
+    
+  }
 `;
 
 const PostText = styled.input`
@@ -278,11 +311,38 @@ const PostText = styled.input`
   margin-bottom: 10px;
   font-size: 18px;
   line-height: 23px;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    height: 43px;
+    background: linear-gradient(180deg, #394877 0%, #49526C 100%);
+    border: 1px solid #6B6B6B;
+    padding: 13px 20px;
+    margin-bottom: 16px;
+  }
   
   ::placeholder {
     font-size: 18px;
     line-height: 23px;
     color: rgba(8, 16, 93, 0.5);
+
+    @media only screen and (max-width: 420px) {
+      font-size: 15px;
+      line-height: 18px;
+      color: rgba(227, 229, 255, 0.5);
+    }
+  }
+`;
+
+const PostContainer = styled.div`
+  @media only screen and (max-width: 420px) {
+    position: relative;
+  }
+`;
+const PostAreaBottomIcons = styled.div`
+  @media only screen and (max-width: 420px) {
+    position: absolute;
+    bottom: 20px;
   }
 `;
 
@@ -304,12 +364,28 @@ const PostArea = styled.textarea`
   ::-webkit-scrollbar {
     display: none;
   }
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+    height: calc(100vh - 208px);
+    background: linear-gradient(180deg, #394877 0%, #49526C 100%);
+    border: 1px solid #6B6B6B;
+    padding: 22px 20px;
+  }
   
   ::placeholder {
     font-size: 14px;
     line-height: 18px;
     color: rgba(8, 16, 93, 0.5);
+
+    @media only screen and (max-width: 420px) {
+      font-size: 15px;
+      line-height: 18px;
+      color: rgba(227, 229, 255, 0.5);
+    }
   }
+
+
 `;
 
 const SoundPlayIcon = styled.div`
@@ -337,6 +413,12 @@ const VoiceLeft = styled.div`
   position: absolute;
   bottom: 30px;
   left: 67px;
+
+  @media only screen and (max-width: 420px) {
+    position: absolute;
+    bottom: 0;
+    left: 14px;
+  }
 `;
 
 const RecordArea = styled.div`
@@ -345,6 +427,13 @@ const RecordArea = styled.div`
   line-height: 10px;
   margin-right: 19px;
   text-align: center;
+
+  @media only screen and (max-width: 420px) {
+    margin-right: 13px;
+    font-size: 8px;
+    line-height: 10px;
+    color: rgba(255, 255, 255, 0.8);
+  }
   
   img {
     cursor: pointer;
@@ -352,6 +441,11 @@ const RecordArea = styled.div`
   
   div {
     margin-top: 7px;
+    
+    @media only screen and (max-width: 420px) {
+      width: 40px;
+    }
+    
   }
 
 `;
@@ -359,11 +453,28 @@ const ListenArea = styled(RecordArea)``;
 
 const PostLength = styled.div`
   position: absolute;
-  bottom: 50px;
+  bottom: 20px;
   right: 60px;
   font-size: 14px;
   line-height: 18px;
   color: #08105D;
-`;
 
+  @media only screen and (max-width: 420px) {
+    position: relative;
+    bottom: 0;
+    left: 248px;
+    z-index: 999999;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #959EBE;
+  }
+`;
+      
+const MobTitle = styled.div`
+  width: 320px;
+  height: 34px;
+  color: #ffffff;
+  text-align: center;
+`;
 

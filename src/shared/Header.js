@@ -6,7 +6,7 @@ import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { getUserInfo, isLogined } from "../redux/modules/userSlice";
 import { isModalOpen, getNewAlert } from "../redux/modules/commonSlice";
-import { newAlertIcon, moonPoint } from "../static/images/resources";
+import { newAlertIcon, moonPoint, mobMoreIcon, mobAlertIcon } from "../static/images/resources";
 
 import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
@@ -14,7 +14,7 @@ import Stomp from "stompjs";
 import Popup from "../shared/Popup";
 import useStore from "../zustand/store";
 import { getUnreadCount } from "../redux/modules/chatSlice";
-
+import { useMediaQuery } from "react-responsive";
 
 
 const Header = () => {
@@ -32,7 +32,9 @@ const Header = () => {
     const token = getCookie("authorization");
     const path = window.location.pathname;
 
-
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
 
     const loginCheck = () => {
         //로그인 판별하기
@@ -106,28 +108,45 @@ const Header = () => {
 
     return (
         <React.Fragment>
-            <HeaderContainer>
-                {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
-                {userInfo ? (
-                    <HeaderRightArea>
-                        <Point>
-                            <img src={moonPoint} alt={"point"} />
-                            <span>{userInfo.myPoint}</span>
-                        </Point>
-                        <AlertIcon
-                            ref={AlertTabRef}
-                            onClick={() => {
-                                setIsOpenNoti(true);
-                            }}
-                        >
-                            <img src={newAlertIcon} alt={"NewAlertIcon"} />
-                        </AlertIcon>
-                        <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
-                    </HeaderRightArea>
-                ) : (
-                    <LoginArea onClick={() => loginCheck()}>로그인 / 회원가입</LoginArea>
-                )}
-            </HeaderContainer>
+            {
+                isMobile ?
+                    <MobileHeaderContainer>
+                        <MobMoreIcon src={mobMoreIcon}>
+
+                        </MobMoreIcon>
+                        <MobLogo>
+                            Blue Moon
+                        </MobLogo>
+                        <MobAlert src={mobAlertIcon}>
+
+                        </MobAlert>
+                    </MobileHeaderContainer>
+                    :
+                    <HeaderContainer>
+                        {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
+                        {userInfo ? (
+                            <HeaderRightArea>
+                                <Point>
+                                    <img src={moonPoint} alt={"point"} />
+                                    <span>{userInfo.myPoint}</span>
+                                </Point>
+                                <AlertIcon
+                                    ref={AlertTabRef}
+                                    onClick={() => {
+                                        setIsOpenNoti(true);
+                                    }}
+                                >
+                                    <img src={newAlertIcon} alt={"NewAlertIcon"} />
+                                </AlertIcon>
+                                <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
+                            </HeaderRightArea>
+                        ) : (
+                            <LoginArea onClick={() => loginCheck()}>로그인 / 회원가입</LoginArea>
+                        )}
+                    </HeaderContainer>
+            }
+
+
             {isOpenNoti && <Notifications AlertTabRef={AlertTabRef} closeModal={closeNotiModal} />}
             {logoutPopup && (
                 <Popup
@@ -220,4 +239,25 @@ const Logout = styled(LoginArea)`
     margin-top: 0;
     width: 97px;
     box-sizing: border-box;
+`;
+
+const MobileHeaderContainer = styled.div`
+  width: 320px;
+  height: 30px;
+  margin: 31px auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const MobMoreIcon = styled.img`
+  cursor:pointer;
+`;
+const MobLogo = styled.div`
+  font-family: 'Jura';
+  font-size: 24px;
+  line-height: 28px;
+  color: #FFFFFF;
+`;
+const MobAlert = styled.img`
+  cursor:pointer;
 `;

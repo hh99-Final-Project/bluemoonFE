@@ -39,7 +39,7 @@ const Main = () => {
     return (
         <Layout>
             <Container>
-                {!isMobile && <Header />}
+                <Header />
                 {!isMobile && <CategoryBar />}
                 <IntroContainer BgColor={color.containerBoxColor}>
                     <ServiceStart>
@@ -159,7 +159,7 @@ const IntroContainer = styled.div`
   @media only screen and (max-width: 420px) {
     width: 320px;
     height: calc(100% - 98px);
-    margin: 68px auto 0;
+    margin: 20px auto 0;
     padding: 0;
   }
 `;
