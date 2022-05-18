@@ -51,7 +51,7 @@ instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     console.log(error,"error");
-    store.dispatch(showError({ isOpen: true, message: error.response.data.message }));
+    // store.dispatch(showError({ isOpen: true, message: error.response.data.message }));
     return Promise.reject(error);
 });
 
