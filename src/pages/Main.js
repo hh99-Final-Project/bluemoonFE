@@ -14,18 +14,13 @@ import { logo, mainMoonIcon, doubleQuoteLeft, doubleQuoteRight, moonIconTranspar
 import starBG from "../static/images/common/starBG.svg";
 import { Layout } from "../components/common";
 import { color } from "../utils/designSystem";
+import Intro from "../pages/Intro";
 
 const Main = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // const thunkHandler = () => {
-    //     dispatch(getInfo())
-    //     .then((res) => {
-    //         console.log(res.payload, "res");
-    //     })
-    //     .catch((err) => console.log(err));
-    // };
+    const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
 
     const settings = {
         dots: true,
@@ -37,6 +32,10 @@ const Main = () => {
         slideToShow: 1,
         slidesToScroll: 1,
     };
+
+    if(isAlreadyCheckIntro !== "true") {
+        return <Intro/>;
+    }
 
     return (
         <Layout>
