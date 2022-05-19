@@ -75,5 +75,6 @@ export const lotteryMoon = require("./lottery/lotteryMoon.svg").default;
 export const lotteryhalfMoon = require("./lottery/lotteryhalfMoon.svg").default;
 export const lotteryWinIcon = require("./lottery/lotteryWinIcon.svg").default;
 export const star = require("./lottery/star.png");
+export const check = require("./lottery/check.svg").default;
 
 // export const = require();

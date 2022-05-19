@@ -9,7 +9,7 @@ import styled from "styled-components";
 import Header from "../shared/Header";
 import CategoryBar from "../shared/CategoryBar";
 import { Layout } from "../components/common";
-import { lotteryWinIcon } from "../static/images/resources";
+import { lotteryWinIcon, check } from "../static/images/resources";
 
 const LotteryWin = () => {
     const { setCurrentHeader } = useStore();
@@ -26,9 +26,9 @@ const LotteryWin = () => {
         setIsChecked(e.target.checked);
     };
 
-    console.log(phoneNumber);
-    console.log(phoneNumber.length);
-    console.log(phoneNumber.length !== 11);
+    // console.log(phoneNumber);
+    // console.log(phoneNumber.length);
+    // console.log(phoneNumber.length !== 11);
     console.log(isChecked);
 
     const EnterInfo = () => {
@@ -67,13 +67,24 @@ const LotteryWin = () => {
                     <Input
                         onChange={onChange}
                         value={phoneNumber}
-                        placeholder="기프티콘을 전송받으실 휴대전화 번호 11자리를 입력해주세요. (숫자만 입력)"
+                        placeholder="기프티콘을 받으실 휴대전화번호 11자리를 입력해주세요. (숫자 11자리 입력)"
                     />
-                    <AgreeTitle>개인정보 수집 동의</AgreeTitle>
-                    <AgreeCheck type="checkbox" checked={isChecked} onChange={onChangeCheck}></AgreeCheck>
+                    <AgreeTitle>개인정보 수집 및 이용 동의</AgreeTitle>
+
+                    <StyledLabel checked={isChecked} htmlFor="checkbox">
+                        <AgreeCheckbox
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={onChangeCheck}
+                            id="checkbox"
+                            name="checkbox"
+                        ></AgreeCheckbox>
+                    </StyledLabel>
+
                     <AgreeDesc>
-                        ㆍ입력받은 연락처는 기프티콘 전송을 위한 목적으로만 수집되며, 절대 다른 용도로 사용되지
-                        않습니다. ㆍ기프티콘 발송은 00월00일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.
+                        ㆍ입력받은 연락처는 기프티콘 전송을 위한 목적으로만 수집되며, 다른 용도로 사용되지 않습니다.
+                        <br />
+                        ㆍ기프티콘 발송은 4월00일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.
                     </AgreeDesc>
 
                     <SubmitButton onClick={onClick}>입력완료</SubmitButton>
@@ -102,28 +113,23 @@ const ContentBox = styled.div`
 
     border-radius: 25px;
 
-    // position: relative;
     margin: auto;
 `;
 
 const LotteryWinIcon = styled.div`
-    display: flex;
-    justify-content: center;
-    margin: 83px 0 0 0;
+    margin: 83px 0 0 436px;
 `;
 
 const Title = styled.div`
-    position: absolute;
-    width: 198px;
-    height: 31px;
-    top: 141px;
-    left: 385px;
+    width: 190px;
+    height: 30px;
+    margin: 15px 0 0 385px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
-    font-size: 25px;
-    line-height: 31px;
+    font-size: 24px;
+    line-height: 30px;
 
     color: #ffffff;
 `;
@@ -131,21 +137,22 @@ const Title = styled.div`
 const Input = styled.input`
     width: 645px;
     height: 38px;
-    margin: 50px 0 0 152px;
-    background: #acb9d5;
+    margin: 51px 0 0 152px;
+
+    background: #c6d3ec;
     border-radius: 5px;
 
     &::placeholder {
         font-family: "Spoqa Han Sans Neo";
         font-style: normal;
         font-weight: 400;
-        font-size: 18px;
-        line-height: 23px;
+        font-size: 16px;
+        line-height: 20px;
 
         color: #43567e;
 
         position: absolute;
-        top: 8px;
+        top: 9px;
         left: 21px;
     }
     &:focus {
@@ -155,8 +162,6 @@ const Input = styled.input`
 
 const AgreeTitle = styled.div`
     position: absolute;
-    width: 119px;
-    height: 17px;
     top: 328px;
     left: 153px;
 
@@ -169,26 +174,44 @@ const AgreeTitle = styled.div`
     color: #ffffff;
 `;
 
-const AgreeCheck = styled.input`
+const AgreeCheckbox = styled.input`
+    appearance: none;
+    // position: absolute;
+    width: 17px;
+    height: 17px;
+    // top: 328px;
+    // left: 330px;
+    background-color: white;
+
+    &:checked {
+        background-image: url(${check});
+        background-size: auto;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-color: white;
+        width: 17px;
+        height: 17px;
+    }
+`;
+
+const StyledLabel = styled.label`
     position: absolute;
     width: 17px;
     height: 17px;
     top: 328px;
-    left: 281px;
+    left: 330px;
 `;
 
 const AgreeDesc = styled.div`
     position: absolute;
-    width: 546px;
-    height: 37px;
     top: 362px;
     left: 149px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 12px;
+    line-height: 15px;
 
     color: rgba(198, 211, 236, 0.8);
 `;

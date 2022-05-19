@@ -27,34 +27,34 @@ const Lottery = () => {
     }, []);
 
     const onClickHandler = (e) => {
-        // if (!userInfo) {
-        //     window.alert("로그인 후 참여할 수 있습니다!");
-        //     return;
-        // }
+        if (!userInfo) {
+            window.alert("로그인 후 참여할 수 있습니다!");
+            return;
+        }
 
-        // userApi
-        //     .tryLottery()
-        //     .then((response) => {
-        setIsClick(true);
-        setTimeout(() => setIsLoading(true), 1000);
-        setTimeout(() => setIsLoading(false), 4000);
-        // if (response.result === true) {
-        setTimeout(() => setIsWin(true), 5000);
-        // } else if (response.result === false) {
-        // setTimeout(() => setIsWin(false), 5000);
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        //     const result = error.response.data;
-        //     if (result.status === 400) {
-        //         if (result.message === "오늘 참여가능 횟수 부족") {
-        //             window.alert("오늘 참여 가능 횟수가 부족합니다");
-        //         } else if (result.message === "포인트 부족") {
-        //             window.alert("포인트가 부족합니다");
-        //         }
-        //     }
-        // });
+        userApi
+            .tryLottery()
+            .then((response) => {
+                setIsClick(true);
+                setTimeout(() => setIsLoading(true), 1000);
+                setTimeout(() => setIsLoading(false), 4000);
+                if (response.result === true) {
+                    setTimeout(() => setIsWin(true), 5000);
+                } else if (response.result === false) {
+                    setTimeout(() => setIsWin(false), 5000);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                const result = error.response.data;
+                if (result.status === 400) {
+                    if (result.message === "오늘 참여가능 횟수 부족") {
+                        window.alert("오늘 참여 가능 횟수가 부족합니다");
+                    } else if (result.message === "포인트 부족") {
+                        window.alert("포인트가 부족합니다");
+                    }
+                }
+            });
     };
 
     // if (!userInfo) {
