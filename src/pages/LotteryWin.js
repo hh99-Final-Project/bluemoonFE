@@ -26,6 +26,7 @@ const LotteryWin = () => {
         setIsChecked(e.target.checked);
     };
 
+    console.log(typeof phoneNumber);
     // console.log(phoneNumber);
     // console.log(phoneNumber.length);
     // console.log(phoneNumber.length !== 11);
@@ -189,8 +190,6 @@ const AgreeCheckbox = styled.input`
         background-position: 50%;
         background-repeat: no-repeat;
         background-color: white;
-        width: 17px;
-        height: 17px;
     }
 `;
 

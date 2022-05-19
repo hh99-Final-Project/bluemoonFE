@@ -35,12 +35,16 @@ const Lottery = () => {
         userApi
             .tryLottery()
             .then((response) => {
+                console.log(response);
+                console.log(response.data.result);
+                console.log(typeof response.data.result);
+
                 setIsClick(true);
                 setTimeout(() => setIsLoading(true), 1000);
                 setTimeout(() => setIsLoading(false), 4000);
-                if (response.result === true) {
+                if (response.data.result === true) {
                     setTimeout(() => setIsWin(true), 5000);
-                } else if (response.result === false) {
+                } else if (response.data.result === false) {
                     setTimeout(() => setIsWin(false), 5000);
                 }
             })
