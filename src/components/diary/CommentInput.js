@@ -8,7 +8,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { useMutation, useQueryClient } from "react-query";
 import { getCookie } from "../../utils/cookie";
-import {lockIcon, microphoneBlue, listenIcon} from "../../static/images/resources";
+import { lockIcon, microphoneBlue, listenIcon } from "../../static/images/resources";
 import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
 
@@ -51,37 +51,32 @@ function CommentInput(props) {
         isListening,
     } = useRecordVoice();
 
-    const {
-        seconds,
-        minutes,
-        isRunning,
-        start,
-        restart,
-        pause
-    } = useTimer({
+    const { seconds, minutes, isRunning, start, restart, pause } = useTimer({
         expireTime,
         onExpire: () => console.warn("onExpire called"),
-        autoStart: false
+        autoStart: false,
     });
 
-
-    console.log(seconds,"seconds");
+    console.log(seconds, "seconds");
 
     const lockHandler = () => {
         setIsLocked((prev) => !prev);
     };
 
-    console.log(recordTime,"recordTime");
+    console.log(recordTime, "recordTime");
 
     const queryClient = useQueryClient();
     const ws = useRef();
 
-    const mutation = useMutation(() => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId, time), {
-        onSuccess: () => {
-            queryClient.invalidateQueries("diaryDetail");
-            setComment("");
+    const mutation = useMutation(
+        () => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId, time),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries("diaryDetail");
+                setComment("");
+            },
         },
-    });
+    );
 
     // if(mutation.isSuccess){
     //     setComment("");
@@ -97,8 +92,6 @@ function CommentInput(props) {
 
         setComment(e.target.value);
     };
-
-
 
     const saveComment = () => {
         let timeToServer = `${Math.floor(recordTime / 60) + ":" + (recordTime % 60)}`;
@@ -163,30 +156,27 @@ function CommentInput(props) {
                 />
                 <IconArea>
                     <ButtonArea>
-                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue}/>
+                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue} />
 
-                        {isShowSpeaker &&
+                        {isShowSpeaker && (
                             <PlayArea>
                                 <PlayButton />
-                                <img onClick={() => {
-                                    const now = new Date();
-                                    let addedNow = now.setSeconds(now.getSeconds() + recordTime);
-                                    setExpireTime(new Date(addedNow));
-                                    play();
-                                    restart(new Date(addedNow));
-                                }} src={listenIcon} alt={"listenIcon"}/>
+                                <img
+                                    onClick={() => {
+                                        const now = new Date();
+                                        let addedNow = now.setSeconds(now.getSeconds() + recordTime);
+                                        setExpireTime(new Date(addedNow));
+                                        play();
+                                        restart(new Date(addedNow));
+                                    }}
+                                    src={listenIcon}
+                                    alt={"listenIcon"}
+                                />
                                 <TimeArea>
-                                    {
-                                        isRunning ? seconds
-                                            :
-                                        Math.floor(recordTime / 60) + ":" + recordTime % 60
-                                    }
+                                    {isRunning ? seconds : Math.floor(recordTime / 60) + ":" + (recordTime % 60)}
                                 </TimeArea>
                             </PlayArea>
-
-
-                        }
-
+                        )}
                     </ButtonArea>
                     <IconRightArea>
                         <LockIcon>
@@ -233,13 +223,12 @@ const InputContainer = styled.div`
     border-radius: 5px;
     background-color: #bcc4de;
 
-  @media only screen and (max-width: 420px) {
-    width: 320px;
-    height: 75px;
-    background: #C6D3EC;
-    border-radius: 5px;
-  }
-  
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 75px;
+        background: #c6d3ec;
+        border-radius: 5px;
+    }
 `;
 
 const Input = styled.input`
@@ -252,13 +241,13 @@ const Input = styled.input`
     border-radius: 3px;
     box-sizing: border-box;
 
-  @media only screen and (max-width: 420px) {
-    width: 303px;
-    height: 30px;
-    padding: 7px 10px;
-    margin: 10px 9px;
-  }
-  
+    @media only screen and (max-width: 420px) {
+        width: 303px;
+        height: 30px;
+        padding: 7px 10px;
+        margin: 10px 9px;
+    }
+
     ::placeholder {
         font-size: 13px;
         line-height: 16px;
@@ -285,37 +274,35 @@ const PlayButton = styled.div`
 `;
 
 const PlayArea = styled.div`
-  position: absolute;
-  bottom: 30px;
-  left: 5px;
-  background-color: rgba(198, 211, 236, 0.8);
-  border-radius: 10px;
-  width: 76px;
-  height: 33px;
-  display: flex;
-  align-items: center;
+    position: absolute;
+    bottom: 30px;
+    left: 5px;
+    background-color: rgba(198, 211, 236, 0.8);
+    border-radius: 10px;
+    width: 76px;
+    height: 33px;
+    display: flex;
+    align-items: center;
 
-  img {
-    width: 26px;
-    height: 26px;
-    cursor: pointer;
-    
-  }
-  
+    img {
+        width: 26px;
+        height: 26px;
+        cursor: pointer;
+    }
 `;
 const TimeArea = styled.div`
-  font-size: 12px;
-  line-height: 15px;
-  color: #08105D;
-  margin-left: 4px;
+    font-size: 12px;
+    line-height: 15px;
+    color: #08105d;
+    margin-left: 4px;
 `;
 
 const TextLength = styled.div`
-      margin-right: 21px;
-      font-size: 10px;
-      line-height: 13px;
-      color: #354569;
-      padding-top: 3px;
+    margin-right: 21px;
+    font-size: 10px;
+    line-height: 13px;
+    color: #354569;
+    padding-top: 3px;
 `;
 
 const PostButton = styled.div`
@@ -338,9 +325,9 @@ const IconArea = styled.div`
     justify-content: space-between;
     padding: 0 21px;
 
-  @media only screen and (max-width: 420px) {
-    padding: 0 9px;
-  }
+    @media only screen and (max-width: 420px) {
+        padding: 0 9px;
+    }
 `;
 
 const IconRightArea = styled.div`
