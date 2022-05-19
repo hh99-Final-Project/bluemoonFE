@@ -27,34 +27,34 @@ const Lottery = () => {
     }, []);
 
     const onClickHandler = (e) => {
-        if (!userInfo) {
-            window.alert("로그인 후 참여할 수 있습니다!");
-            return;
-        }
+        // if (!userInfo) {
+        //     window.alert("로그인 후 참여할 수 있습니다!");
+        //     return;
+        // }
 
-        userApi
-            .tryLottery()
-            .then((response) => {
-                setIsClick(true);
-                setTimeout(() => setIsLoading(true), 1000);
-                setTimeout(() => setIsLoading(false), 4000);
-                if (response.result === true) {
-                    setTimeout(() => setIsWin(true), 5000);
-                } else if (response.result === false) {
-                    setTimeout(() => setIsWin(false), 5000);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                const result = error.response.data;
-                if (result.status === 400) {
-                    if (result.message === "오늘 참여가능 횟수 부족") {
-                        window.alert("오늘 참여 가능 횟수가 부족합니다");
-                    } else if (result.message === "포인트 부족") {
-                        window.alert("포인트가 부족합니다");
-                    }
-                }
-            });
+        // userApi
+        //     .tryLottery()
+        //     .then((response) => {
+        setIsClick(true);
+        setTimeout(() => setIsLoading(true), 1000);
+        setTimeout(() => setIsLoading(false), 4000);
+        // if (response.result === true) {
+        setTimeout(() => setIsWin(true), 5000);
+        // } else if (response.result === false) {
+        // setTimeout(() => setIsWin(false), 5000);
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        //     const result = error.response.data;
+        //     if (result.status === 400) {
+        //         if (result.message === "오늘 참여가능 횟수 부족") {
+        //             window.alert("오늘 참여 가능 횟수가 부족합니다");
+        //         } else if (result.message === "포인트 부족") {
+        //             window.alert("포인트가 부족합니다");
+        //         }
+        //     }
+        // });
     };
 
     // if (!userInfo) {
@@ -70,15 +70,13 @@ const Lottery = () => {
                         <img src={lotteryMoon} alt="lotteryMoon" />
                     </MoonArea>
                     <LotteryArea>
-                        <img src={lotteryResult} />
+                        <LotteryhalfMoon src={lotteryhalfMoon} />
                         {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
                         {isLoading && <LotteryLoading>모습을 비추고 있어요..</LotteryLoading>}
                         {isClick && isWin === true && (
-                            <>
-                                <LotteryResult isWin={isWin}>당신에겐 달콤한 여유를 드릴게요.</LotteryResult>
-                                <BananaMilkIcon>
-                                    <img src={bananaMilkIcon}></img>
-                                </BananaMilkIcon>
+                            <LotteryResult isWin={isWin}>
+                                당신에겐 달콤한 여유를 드릴게요.
+                                <BananaMilkIcon src={bananaMilkIcon}></BananaMilkIcon>
                                 <GetBananaMilkButton
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -87,13 +85,13 @@ const Lottery = () => {
                                 >
                                     받으러 가기
                                 </GetBananaMilkButton>
-                            </>
+                            </LotteryResult>
                         )}
                         {isClick && isWin === false && (
-                            <>
-                                <LotteryResult isWin={isWin}>당신에겐 달빛을 담은 용기를 드릴게요</LotteryResult>
-                                <TryNextNoti>다음 기회에 도전해주세요!</TryNextNoti>
-                            </>
+                            <LotteryResult isWin={isWin}>
+                                당신에겐 달빛을 담은 용기를 드릴게요
+                                <p>다음 기회에 도전해주세요!</p>
+                            </LotteryResult>
                         )}
                     </LotteryArea>
 
@@ -110,8 +108,8 @@ const Lottery = () => {
                         블루문을 향해 말을 걸어보시겠어요? <br />
                         어쩌면, 당신에게 특별한 행운이 찾아올지도 몰라요:)
                     </Desc>
-                    <RecommendIcons>친구 추천하기</RecommendIcons>
-                    <RecommendDesc>친구 추천 1명 → +1회</RecommendDesc>
+                    <RecommendDesc>1명 → +1회</RecommendDesc>
+                    <RecommendIcons>친구 추천</RecommendIcons>
                 </ContentBox>
             </Container>
         </Layout>
@@ -150,17 +148,22 @@ const MoonArea = styled.div`
 
 const LotteryArea = styled.div`
     position: absolute;
-    width: 377px;
-    height: 191px;
-    top: 264px;
-    left: 95px;
+    width: 369px;
+    height: 366px;
+    top: 84px;
+    left: 102px;
+`;
+
+const LotteryhalfMoon = styled.img`
+    position: absolute;
+    top: 182px;
+    left: -4px;
 `;
 
 const LotteryClick = styled.div`
     position: absolute;
-    width: 377px;
-    height: 20px;
-    top: 69px;
+    top: 248px;
+    left: 153px;
 
     display: flex;
     align-items: center;
@@ -184,40 +187,76 @@ const LotteryClick = styled.div`
 `;
 
 const LotteryLoading = styled(LotteryClick)`
+    position: absolute;
+    top: 250px;
+    left: 110px;
     cursor: default;
+
+    animation-name: loading;
+    animation-duration: 3s;
+    animation-timingfunction: linear;
+    opacity: 0;
+
+    @keyframes loading {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
 `;
 
 const LotteryResult = styled(LotteryClick)`
-    height: 17px;
-    top: ${(props) => (props.isWin ? "18px" : "59px")};
-    display: block;
+    top: ${(props) => (props.isWin ? "199px" : "240px")};
+    left: ${(props) => (props.isWin ? "101px" : "57px")};
+    font-size: ${(props) => (props.isWin ? "12px" : "16px")};
+    line-height: ${(props) => (props.isWin ? "15px" : "20px")};
+    display: flex;
+    flex-direction: column;
 
     p {
-        font-size: ${(props) => !props.isWin && "10px"};
-        line-height: ${(props) => !props.isWin && "13px"};
+        margin-top: 8px;
+        font-family: "Spoqa Han Sans Neo";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 13px;
+        text-align: center;
+
+        color: rgba(255, 255, 255, 0.8);
     }
 
     cursor: default;
+
+    animation-name: result;
+    animation-duration: 3s;
+    animation-timingfunction: linear;
+
+    @keyframes result {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
 `;
 
-const BananaMilkIcon = styled.div`
-    position: absolute;
-    left: 167px;
-    top: 47px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+const BananaMilkIcon = styled.img`
+    margin-top: 13px;
 `;
 
 const GetBananaMilkButton = styled.div`
     box-sizing: border-box;
 
-    position: absolute;
     width: 84px;
     height: 20px;
-    bottom: 35px;
-    left: 144px;
+    margin-top: 13px;
 
     border: 1px solid #fffafa;
     border-radius: 5px;
@@ -236,24 +275,6 @@ const GetBananaMilkButton = styled.div`
     align-items: center;
 
     cursor: pointer;
-`;
-
-const TryNextNoti = styled.div`
-    position: absolute;
-
-    width: 111px;
-    height: 12px;
-    top: 90px;
-    left: 128px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 13px;
-    text-align: center;
-
-    color: rgba(255, 255, 255, 0.8);
 `;
 
 const CountNoti = styled.div`
@@ -339,25 +360,32 @@ const Desc = styled.div`
 
 const RecommendIcons = styled.div`
     position: absolute;
-    width: 110px;
-    height: 25px;
-    top: 430px;
+    width: 77px;
+    height: 34px;
+    top: 443px;
     right: 50px;
 
-    background: #c6d3ec;
-    border-radius: 9px;
+    border: 1.5px solid #c6d3ec;
+    border-radius: 5px;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: #ffffff;
 `;
 
 const RecommendDesc = styled.div`
     position: absolute;
-    width: 110px;
     height: 15px;
-    right: 50px;
-    bottom: 50px;
+    top: 426px;
+    right: 59px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
