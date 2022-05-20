@@ -8,7 +8,8 @@ import {
     categoryChatList,
     categoryHome,
     categoryLottery,
-    categoryMyPage, categoryDiaryList,
+    categoryMyPage,
+    categoryDiaryList,
 } from "../static/images/resources";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "../components/user/Login";
@@ -42,7 +43,9 @@ function CategoryBar(props) {
     };
 
     const diapatch = useDispatch();
-    const unreadCount = useSelector((state) => state.chatSlice.unreadCount);
+    const unreadCountList = useSelector((state) => state.chatSlice.unreadCountList);
+    console.log(unreadCountList);
+
     // const ChattingRef = useRef();
 
     return (
@@ -56,11 +59,7 @@ function CategoryBar(props) {
                         // navigate("/");
                     }}
                 >
-                    {currentHeader === "홈" ? (
-                        <span>기본 홈</span>
-                    ) : (
-                        <img src={categoryHome} alt={"home"} />
-                    )}
+                    {currentHeader === "홈" ? <span>기본 홈</span> : <img src={categoryHome} alt={"home"} />}
                 </Home>
                 <DiaryList
                     header={currentHeader}
@@ -69,7 +68,11 @@ function CategoryBar(props) {
                         moveToPage("/diarylist");
                     }}
                 >
-                    {currentHeader === "고민상담" ? <div>고민 상담소</div> : <img src={categoryDiaryList} alt={"ListIcon"} />}
+                    {currentHeader === "고민상담" ? (
+                        <div>고민 상담소</div>
+                    ) : (
+                        <img src={categoryDiaryList} alt={"ListIcon"} />
+                    )}
                 </DiaryList>
                 <Post
                     header={currentHeader}
@@ -79,10 +82,7 @@ function CategoryBar(props) {
                         moveToPage("/write");
                     }}
                 >
-                    {currentHeader === "포스트" ?
-                        <div>고민 접수</div>
-                        :
-                        <img src={categoryWrite} alt={"writeIcon"} />}
+                    {currentHeader === "포스트" ? <div>고민 접수</div> : <img src={categoryWrite} alt={"writeIcon"} />}
                 </Post>
                 <MyPage
                     header={currentHeader}
@@ -95,7 +95,11 @@ function CategoryBar(props) {
                         }
                     }}
                 >
-                    {currentHeader === "마이페이지" ? <div>마이 페이지</div> : <img src={categoryMyPage} alt={"MyPageIcon"} />}
+                    {currentHeader === "마이페이지" ? (
+                        <div>마이 페이지</div>
+                    ) : (
+                        <img src={categoryMyPage} alt={"MyPageIcon"} />
+                    )}
                 </MyPage>
                 <ChattingList
                     header={currentHeader}
@@ -111,7 +115,7 @@ function CategoryBar(props) {
                     // ref={ChattingRef}
                 >
                     {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={categoryChatList} alt={"ChatIcon"} />}
-                    {unreadCount.length > 0 && <Unread src={star}/>}
+                    {unreadCountList.length > 0 && <Unread src={star} />}
                 </ChattingList>
                 <Lottery
                     header={currentHeader}
@@ -121,12 +125,22 @@ function CategoryBar(props) {
                         moveToPage("/lottery");
                     }}
                 >
-                    {currentHeader === "추첨" ? <div>오픈 이벤트</div> : <img src={categoryLottery} alt={"LotteryIcon"} />}
+                    {currentHeader === "추첨" ? (
+                        <div>오픈 이벤트</div>
+                    ) : (
+                        <img src={categoryLottery} alt={"LotteryIcon"} />
+                    )}
                 </Lottery>
             </CategoryLeft>
 
             <CategoryRight>
-                { isLogin ? <div><span> {userInfo.nickname} </span>님의 다이어리</div> : <span></span> }
+                {isLogin ? (
+                    <div>
+                        <span> {userInfo.nickname} </span>님의 다이어리
+                    </div>
+                ) : (
+                    <span></span>
+                )}
             </CategoryRight>
 
             {modalIsOpen && <Login />}
@@ -146,26 +160,24 @@ const HeaderContainer = styled.div`
     justify-content: space-between;
     margin: 0 auto;
 
-  @media only screen and (max-width: 420px) {
-    display: none;
-
-  }
+    @media only screen and (max-width: 420px) {
+        display: none;
+    }
 `;
 
 const CategoryLeft = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
 `;
 const CategoryRight = styled.div`
-  color: #9AEBE7;
-  margin-bottom: 9px;
-  cursor: default;
-  
-  span {
-    color: #ffffff;
-  }
+    color: #9aebe7;
+    margin-bottom: 9px;
+    cursor: default;
 
+    span {
+        color: #ffffff;
+    }
 `;
 
 const Home = styled.div`
@@ -176,13 +188,13 @@ const Home = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-  
+
     span {
-      padding-bottom: 18px;
+        padding-bottom: 18px;
     }
-  
+
     img {
-      padding-bottom: 18px;
+        padding-bottom: 18px;
     }
 
     border-radius: 5px 5px 0 0;
@@ -208,9 +220,9 @@ const Post = styled(Home)`
     background-color: ${(props) => (props.header === "포스트" ? "#C6D3EC" : "#354468")};
     box-shadow: ${(props) => (props.header === "포스트" ? "0px 4px 4px rgba(0, 0, 0, 0.25)" : "")};
 
-  img {
-    padding-bottom: 0;
-  }
+    img {
+        padding-bottom: 0;
+    }
 `;
 
 const DiaryList = styled(Post)`

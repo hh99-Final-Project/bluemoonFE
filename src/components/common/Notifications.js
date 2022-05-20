@@ -17,9 +17,11 @@ function Notifications(props) {
     const { closeModal, AlertTabRef } = props;
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const alertList = useSelector((state) => state.commonSlice.commentAlertList);
+
+    const [commentAlertList, setCommentAlertList] = useState();
 
     const dispatch = useDispatch();
+    
     const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -29,8 +31,14 @@ function Notifications(props) {
         diaryApi
             .getCommentAlertList(page)
             .then((response) => {
-                console.log(response);
-                dispatch(getAlertList(response.data));
+               setCommentAlertList([...commentAlertList, ...response.data]);
+               setIsLoading(false);
+               if(response.length < 10) {
+                   setHasNext(false);
+               } else {
+                   setHasNext(true);
+               }
+               setPage(page + 1);
             })
             .catch((error) => {
                 console.log(error);
@@ -79,9 +87,9 @@ function Notifications(props) {
                         <img src={closeButton} alt={"close_alert"} />
                     </CloseButton>
                 </NotiHeader>
-                <Content length={alertList.length}>
-                    {alertList.length > 0 &&
-                        alertList.map((alert) => {
+                <Content length={commentAlertList.length}>
+                    {commentAlertList.length > 0 &&
+                        commentAlertList.map((alert) => {
                             return <Notice key={alert.messageId} alert={alert} />;
                         })}
                 </Content>

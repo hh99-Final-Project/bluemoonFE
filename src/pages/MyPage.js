@@ -33,12 +33,22 @@ function MyPage() {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
+    console.log(myDiary);
+
     // 삭제하기
 
     const deleteDiary = (postUuid) => {
+        
+        
         diaryApi.deleteDiary(postUuid).then((res) => {
+            
+            let filtered = [...myDiary.filter((m) => m.postUuid !== postUuid)];
+            console.log(postUuid);
+            console.log(filtered);
+            setMyDiary(filtered);
             if (res.status === 200) {
-                setIsOpenPopup(false);
+                setIsOpenPopup(false); 
+                // navigate("/myDiary");
             } else {
                 window.alert("에러처리");
             }
@@ -64,7 +74,7 @@ function MyPage() {
                 console.log(response);
                 setMyDiary([...myDiary, ...response]);
                 setIsLoading(false);
-                if (response.length < 5) {
+                if (response.length < 10) {
                     setHasNext(false);
                 } else {
                     setHasNext(true);
@@ -78,7 +88,7 @@ function MyPage() {
         userApi.getMyPage(page).then((response) => {
             console.log(response);
             setMyDiary([...myDiary, ...response]);
-            if (response.length < 5) {
+            if (response.length < 10) {
                 setHasNext(false);
             } else {
                 setHasNext(true);
@@ -128,8 +138,6 @@ function MyPage() {
                                         >
                                             삭제
                                         </DeleteButton>
-                                        {/* <TiTleLine></TiTleLine>
-                                        <ContentLine></ContentLine> */}
                                         {isOpenPopup && (
                                             <Popup
                                                 title={"정말로/이야기를 지우시겠습니까?"}

@@ -71,6 +71,7 @@ const Header = () => {
             wsConnect();
             return () => {
                 wsDisConnect();
+                console.log("새로고침 시에도 cleanup 실행되나요?");
             };
         }
     }, []);

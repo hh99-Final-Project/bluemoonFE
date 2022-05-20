@@ -5,25 +5,28 @@ import { chatApi } from "../../apis/chatApi";
 const initialState = {
     messages: [],
     chatList: [],
-    unreadCount: [],
+    unreadCountList: [],
+    isLoading: false,
+    hasNext: false,
+    page: 1,
 };
 
 // 참고용 chatList 요소 초기값
-const inicialchatList = {
-    charRoomUuid: null,
-    createAt: null,
-    dayBefore: null,
-    lastMessage: null,
-    roomName: null,
-    unreadCount: null, // user 가 안 읽은 메시지 수. 실시간 값 넣어야 함.
-};
+// const inicialchatList = {
+//     charRoomUuid: null,
+//     createAt: null,
+//     dayBefore: null,
+//     lastMessage: null,
+//     roomName: null,
+//     unreadCount: null, // user 가 안 읽은 메시지 수. 실시간 값 넣어야 함.
+// };
 
 // tooklit - thunk 사용 시 아래처럼 사용
 export const getChatList = createAsyncThunk("GET_CHAT_LIST", async (page, thunkAPI) => {
     try {
-        const response = chatApi.getChatList(page);
+        const response = await chatApi.getChatList(page);
         console.log(response);
-        return response;
+        return response.data;
     } catch (e) {
         return thunkAPI.rejectWithValue(e.response.data);
     }
@@ -50,12 +53,30 @@ const chatSlice = createSlice({
         },
         // 사이트에 체류 중 새로운 채팅 메시지를 받으면 리덕스에 저장
         getUnreadCount(state, action) {
-            console.log(action.payload);
-            state.unreadCount.push(action.payload);
+            const findSameRoomId = (u) => {
+                return u.roomId === action.payload.roomId;
+            };
+
+            const unreadCountIndex = state.unreadCountList.findIndex(findSameRoomId);
+
+            // 해당 roomId에 대한 값이 배열에 있으면 해당 요소의 unreadCount 값 업데이트
+            if (unreadCountIndex !== -1) {
+                // state.unreadCountList[unreadCountIndex] = action.payload;
+                const findRoom = (c) => {
+                    c.chatRoomUuid == action.payload.roomId;
+                };
+                console.log(state.chatList.find(findRoom));
+                const chatRoom = state.chatList.find(findRoom);
+                chatRoom.unreadCount = action.payload.unreadCount;
+            }
+            // 해당 roomId 에 대한 값이 배열에 없으면 newAlert를 배열에 더하기
+            else {
+                state.unreadCountList.push(action.payload);
+            }
         },
         // chatList 메뉴 클릭 시 해당 액션이 실행되게 하여 별 표시를 삭제하게 한다
         deleteUnreadCount(state, action) {
-            state.unreadCount = [];
+            state.unreadCountList = [];
         },
     },
     // extraReducers
@@ -64,7 +85,14 @@ const chatSlice = createSlice({
             state.messages = action.payload.data;
         });
         builder.addCase(getChatList.fulfilled, (state, action) => {
-            state.chatList = action.payload;
+            state.chatList = [...state.chatList, ...action.payload];
+            state.isLoading = false;
+            if (action.payload.length < 10) {
+                state.hasNext = false;
+            } else {
+                state.hasNext = true;
+            }
+            state.page += 1;
         });
     },
 });
