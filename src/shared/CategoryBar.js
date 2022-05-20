@@ -149,7 +149,6 @@ const HeaderContainer = styled.div`
 
   @media only screen and (max-width: 420px) {
     display: none;
-
   }
 `;
 

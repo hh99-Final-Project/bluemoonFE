@@ -117,7 +117,8 @@ const Header = () => {
                 <MobileHeaderContainer>
                     <MobMoreIcon onClick={toggleHeaderMenu} src={mobMoreIcon}/>
                     <MobLogo>Blue Moon</MobLogo>
-                    <MobAlert src={mobAlertIcon}/>
+                    <MobAlert onClick={() => setIsOpenNoti(true)}
+                              src={mobAlertIcon}/>
                     { isHeaderMenuOpen && <MobileCategoryBar/>}
                 </MobileHeaderContainer>
 
