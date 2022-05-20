@@ -333,10 +333,8 @@ const Star = styled.div`
 
 const Title = styled.div`
     position: absolute;
-    width: 203px;
-    height: 25px;
     top: 212px;
-    right: 205px;
+    left: 542px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
@@ -348,10 +346,8 @@ const Title = styled.div`
 `;
 const Desc = styled.div`
     position: absolute;
-    width: 300px;
-    height: 102px;
     top: 264px;
-    right: 110px;
+    left: 540px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
