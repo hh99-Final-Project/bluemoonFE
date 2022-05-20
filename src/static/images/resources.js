@@ -25,6 +25,8 @@ export const mainMoonIcon = require("./common/mainMoonIcon.svg").default;
 export const doubleQuoteLeft = require("./common/doubleQuoteLeft.svg").default;
 export const doubleQuoteRight = require("./common/doubleQuoteRight.svg").default;
 export const moonIconTransparent = require("./common/moonIconTransparent.svg").default;
+export const mobBackButton = require("./common/mobileBackButton.svg").default;
+export const mobHomeButton = require("./common/mobileHomeButton.svg").default;
 
 //header
 export const moonPoint = require("./header/MoonPoint.svg").default;
