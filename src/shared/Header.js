@@ -15,6 +15,7 @@ import Popup from "../shared/Popup";
 import useStore from "../zustand/store";
 import { getUnreadCount } from "../redux/modules/chatSlice";
 import { useMediaQuery } from "react-responsive";
+import MobileCategoryBar from "./MobileCategoryBar";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Header = () => {
 
     const AlertTabRef = useRef();
     const ws = useRef();
-    const { setCurrentHeader } = useStore();
+    const { setCurrentHeader, setMobileHeader, isHeaderMenuOpen } = useStore();
     const token = getCookie("authorization");
     const path = window.location.pathname;
 
@@ -55,6 +56,10 @@ const Header = () => {
 
     const closeNotiModal = () => {
         setIsOpenNoti(false);
+    };
+
+    const toggleHeaderMenu = () => {
+        setMobileHeader();
     };
 
     useEffect(() => {
@@ -110,10 +115,12 @@ const Header = () => {
         <React.Fragment>
             {isMobile ? (
                 <MobileHeaderContainer>
-                    <MobMoreIcon src={mobMoreIcon}></MobMoreIcon>
+                    <MobMoreIcon onClick={toggleHeaderMenu} src={mobMoreIcon}/>
                     <MobLogo>Blue Moon</MobLogo>
-                    <MobAlert src={mobAlertIcon}></MobAlert>
+                    <MobAlert src={mobAlertIcon}/>
+                    { isHeaderMenuOpen && <MobileCategoryBar/>}
                 </MobileHeaderContainer>
+
             ) : (
                 <HeaderContainer>
                     {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
@@ -236,7 +243,8 @@ const Logout = styled(LoginArea)`
 const MobileHeaderContainer = styled.div`
     width: 320px;
     height: 30px;
-    margin: 31px auto 18px;
+    margin: 0 auto 18px;
+    padding-top: 31px;
     display: flex;
     align-items: center;
     justify-content: space-between;

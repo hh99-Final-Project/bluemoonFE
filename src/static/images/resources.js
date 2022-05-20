@@ -34,6 +34,16 @@ export const newAlertIcon = require("./header/NewAlertIcon.svg").default;
 export const mobMoreIcon = require("./header/mobMoreIcon.png");
 export const mobAlertIcon = require("./header/mobAlertIcon.png");
 
+export const mobHomeIcon = require("./header/mobHomeIcon.svg").default;
+export const mobListIcon = require("./header/mobListIcon.svg").default;
+export const mobWriteIcon = require("./header/mobWriteIcon.svg").default;
+export const mobMyPageIcon = require("./header/mobMyPageIcon.svg").default;
+export const mobChatIcon = require("./header/mobChatIcon.svg").default;
+export const mobEventIcon = require("./header/mobEventIcon.svg").default;
+export const mobFeedbackIcon = require("./header/mobFeedbackIcon.svg").default;
+export const mobHeaderBackIcon = require("./header/mobHeaderBack.svg").default;
+export const mobMyPointBluemoon = require("./header/pointBlueMoonIcon.svg").default;
+
 //diary
 //voice
 export const recordIcon = require("./diary/voiceRecordIcon.svg").default;

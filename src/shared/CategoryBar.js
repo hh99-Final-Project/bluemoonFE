@@ -16,6 +16,7 @@ import { isModalOpen } from "../redux/modules/commonSlice";
 import useMovePage from "../hooks/useMovePage";
 import star from "../static/images/categoryBar/Star.svg";
 
+
 CategoryBar.propTypes = {};
 
 function CategoryBar(props) {
