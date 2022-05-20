@@ -51,13 +51,13 @@ const Lottery = () => {
             .catch((error) => {
                 console.log(error);
                 const result = error.response.data;
-                if (result.status === 400) {
-                    if (result.message === "오늘 참여가능 횟수 부족") {
-                        window.alert("오늘 참여 가능 횟수가 부족합니다");
-                    } else if (result.message === "포인트 부족") {
-                        window.alert("포인트가 부족합니다");
-                    }
-                }
+                // if (result.status === 400) {
+                //     if (result.message === "오늘 참여가능 횟수 부족") {
+                //         window.alert("오늘 참여 가능 횟수가 부족합니다");
+                //     } else if (result.message === "포인트 부족") {
+                //         window.alert("포인트가 부족합니다");
+                //     }
+                // }
             });
     };
 

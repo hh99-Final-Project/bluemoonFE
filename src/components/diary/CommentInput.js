@@ -115,7 +115,6 @@ function CommentInput(props) {
                 return;
             }
             ws.current.send("/pub/chat/alarm", { token: token }, JSON.stringify(message));
-            setText("");
         } catch (error) {
             console.log(error);
         }

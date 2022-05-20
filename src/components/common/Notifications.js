@@ -1,19 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Notice from "./Notice";
 import Modal from "react-modal";
 import { closeButton } from "../../static/images/resources";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAlertList } from "../../redux/modules/commonSlice";
+import { diaryApi } from "../../apis/diaryApi";
 
 Notifications.propTypes = {
     closeModal: PropTypes.func,
-    AlertTabRef: PropTypes.shape({ current: PropTypes.any })
+    AlertTabRef: PropTypes.shape({ current: PropTypes.any }),
 };
 
 function Notifications(props) {
     const { closeModal, AlertTabRef } = props;
-    const alertList = useSelector((state) => state.commonSlice.alertList);
+
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    const alertList = useSelector((state) => state.commonSlice.commentAlertList);
+
+    const dispatch = useDispatch();
+    const InfinityScrollref = useRef();
+    const [isLoading, setIsLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [hasNext, setHasNext] = useState(null);
+
+    useEffect(() => {
+        diaryApi
+            .getCommentAlertList(page)
+            .then((response) => {
+                console.log(response);
+                dispatch(getAlertList(response.data));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     return (
         <div>
@@ -78,7 +100,7 @@ const NotiHeader = styled.div`
 const Title = styled.div`
     font-size: 14px;
     line-height: 18px;
-    color: #08105D;
+    color: #08105d;
     margin: 18px 0 18px 14px;
 `;
 
@@ -102,11 +124,10 @@ const Content = styled.div`
     &::-webkit-scrollbar-thumb {
         background-color: #d3d3d3;
         border-radius: 5px;
-      
     }
 
     &::-webkit-scrollbar-track {
-        background-color: #08105D;
+        background-color: #08105d;
         border-radius: 5px;
     }
 `;

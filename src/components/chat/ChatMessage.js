@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 ChatMessage.propTypes = {
     message: PropTypes.string,
-    userId: PropTypes.string,
+    userId: PropTypes.number,
     createdAt: PropTypes.string,
 };
 

@@ -129,9 +129,7 @@ function SignUp() {
                         padding={"30px"}
                     />
                 )}
-                {isOpenResultPopup && (
-                    <ResultPopup title={"다이어리에 닉네임을 성공적으로 적었습니다!"} close={closeResultPopup} />
-                )}
+                {isOpenResultPopup && <ResultPopup title={"닉네임 저장에 성공했습니다!"} close={closeResultPopup} />}
             </Container>
         </Layout>
     );

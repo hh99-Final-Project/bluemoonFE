@@ -5,8 +5,9 @@ import axios from "axios";
 const initialState = {
     modalIsOpen: false,
     info: null,
-    alertList: [],
+    newCommentAlert: [],
     unreadAlert: [],
+    commentAlertList: [],
 };
 
 //toolkit - thunk 사용할 때 아래처럼 사용한다.
@@ -28,13 +29,18 @@ const commonSlice = createSlice({
             state.modalIsOpen = action.payload;
         },
         getAlertList(state, action) {
-            // 배열에 실시간 알람 메시지 추가
-            state.alertList.push(action.payload);
+            // 배열에 이전 알람 메시지 추가
+            state.commentAlertList.push(...action.payload);
         },
-        getNewAlert(state, action) {
+        getNewCommentAlert(state, action) {
             console.log(action.payload);
-            // 배열의 가장 앞에 실시간 알람 메시지를 추가함
-            state.alertList.unshift(action.payload);
+            // 배열의 가장 앞에 실시간 알람 메시지를 추가
+            state.newCommentAlert.unshift(action.payload);
+            // state.commentAlertList.unshift(action.payload);
+        },
+        deleteNewCommentAlert(state, action) {
+            // 알람 아이콘 클릭했을 시
+            state.newCommentAlert = [];
         },
     },
     extraReducers: (builder) => {
@@ -45,7 +51,7 @@ const commonSlice = createSlice({
 });
 
 //액션 생성함수
-export const { isModalOpen, getAlertList, getNewAlert } = commonSlice.actions;
+export const { isModalOpen, getAlertList, getNewCommentAlert, deleteNewCommentAlert } = commonSlice.actions;
 
 //리듀서 export
 export default commonSlice.reducer;

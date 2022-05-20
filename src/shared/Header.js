@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { getUserInfo, isLogined } from "../redux/modules/userSlice";
-import { isModalOpen, getNewAlert } from "../redux/modules/commonSlice";
-import { newAlertIcon, moonPoint, mobMoreIcon, mobAlertIcon } from "../static/images/resources";
+import { isModalOpen, getNewCommentAlert, deleteNewCommentAlert } from "../redux/modules/commonSlice";
+import { newAlertIcon, moonPoint, mobMoreIcon, mobAlertIcon, newAlertNumber } from "../static/images/resources";
 
 import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
@@ -21,6 +21,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const modalOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const newCommentAlert = useSelector((state) => state.commonSlice.newCommentAlert);
 
     const [isOpenNoti, setIsOpenNoti] = useState(false);
     const [logoutPopup, setLogoutPopup] = useState(false);
@@ -83,7 +84,7 @@ const Header = () => {
                     (response) => {
                         const newAlert = JSON.parse(response.body);
                         if (newAlert.type === "ALARM") {
-                            dispatch(getNewAlert(newAlert));
+                            dispatch(getNewCommentAlert(newAlert));
                         } else if (newAlert.type === "UNREAD") {
                             dispatch(getUnreadCount(newAlert));
                         }
@@ -106,6 +107,11 @@ const Header = () => {
         }
     }
 
+    const alertOpen = () => {
+        setIsOpenNoti(true);
+        dispatch(deleteNewCommentAlert());
+    };
+
     return (
         <React.Fragment>
             {isMobile ? (
@@ -126,10 +132,19 @@ const Header = () => {
                             <AlertIcon
                                 ref={AlertTabRef}
                                 onClick={() => {
-                                    setIsOpenNoti(true);
+                                    alertOpen();
                                 }}
                             >
                                 <img src={newAlertIcon} alt={"NewAlertIcon"} />
+                                {newCommentAlert.length > 0 && (
+                                    <>
+                                        <NewAlertNumberArea
+                                            src={newAlertNumber}
+                                            alt={"NewAlertNumber"}
+                                        ></NewAlertNumberArea>
+                                        <NewAlertNumber> {newCommentAlert.length}</NewAlertNumber>
+                                    </>
+                                )}
                             </AlertIcon>
                             <Logout onClick={() => setLogoutPopup(true)}>로그아웃</Logout>
                         </HeaderRightArea>
@@ -205,6 +220,7 @@ const Point = styled.div`
     }
 `;
 const AlertIcon = styled.div`
+    position: relative;
     margin-right: 20px;
     cursor: pointer;
     img {
@@ -212,6 +228,31 @@ const AlertIcon = styled.div`
         height: 35px;
     }
 `;
+
+const NewAlertNumberArea = styled.img`
+    z-index: 1;
+    position: absolute;
+    left: 24px;
+    bottom: 14px;
+    width: 17px;
+`;
+
+const NewAlertNumber = styled.div`
+    z-index: 2;
+    position: absolute;
+    bottom: 24px;
+    left: 29px;
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+
+    color: #08105d;
+`;
+
 const LoginArea = styled.div`
     cursor: pointer;
     margin-top: 13px;

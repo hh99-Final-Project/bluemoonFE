@@ -149,13 +149,11 @@ function ChatList(props) {
                                         <TitleLine>
                                             <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
                                             <UnreadCount>
-                                                {chat.unreadCount !== 0 ? (
-                                                    <UnreadCountNum>{chat.unreadCount}</UnreadCountNum>
-                                                ) : (
-                                                    ""
-                                                )}
-                                                {chat.unreadCount !== 0 && (
-                                                    <UnreadCountIcon src={unreadCount}></UnreadCountIcon>
+                                                {chat.unreadCount > 0 && (
+                                                    <>
+                                                        <UnreadCountNum>{chat.unreadCount}</UnreadCountNum>
+                                                        <UnreadCountIcon src={unreadCount}></UnreadCountIcon>
+                                                    </>
                                                 )}
                                             </UnreadCount>
                                         </TitleLine>
@@ -336,21 +334,12 @@ const UnreadCount = styled.div`
 `;
 
 const UnreadCountNum = styled.div`
-    // position: absolute;
     z-index: 1;
     margin-left: 4px;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
 `;
 
 const UnreadCountIcon = styled.img`
     position: absolute;
-    // top: 14px;
-    // left: 0px;
-    // width: 14px;
-    // height: 14px;
-    // margin: 0 0 0 11px;
 `;
 
 const LastChatTime = styled.div`

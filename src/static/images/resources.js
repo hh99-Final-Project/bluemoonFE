@@ -31,6 +31,7 @@ export const moonPoint = require("./header/MoonPoint.svg").default;
 export const newAlertIcon = require("./header/NewAlertIcon.svg").default;
 export const mobMoreIcon = require("./header/mobMoreIcon.png");
 export const mobAlertIcon = require("./header/mobAlertIcon.png");
+export const newAlertNumber = require("./header/newAlertNumber.svg").default;
 
 //diary
 //voice
