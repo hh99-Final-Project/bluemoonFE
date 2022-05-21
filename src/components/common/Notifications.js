@@ -18,27 +18,34 @@ function Notifications(props) {
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
-    const [commentAlertList, setCommentAlertList] = useState();
+    const [commentAlertList, setCommentAlertList] = useState([]);
 
     const dispatch = useDispatch();
-    
+
     const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+    console.log(page);
 
     useEffect(() => {
         diaryApi
             .getCommentAlertList(page)
             .then((response) => {
-               setCommentAlertList([...commentAlertList, ...response.data]);
-               setIsLoading(false);
-               if(response.length < 10) {
-                   setHasNext(false);
-               } else {
-                   setHasNext(true);
-               }
-               setPage(page + 1);
+                console.log(response);
+                console.log(page);
+                if (page === 1) {
+                    setCommentAlertList(response.data);
+                } else {
+                    setCommentAlertList([...commentAlertList, ...response.data]);
+                }
+                setIsLoading(false);
+                if (response.length < 10) {
+                    setHasNext(false);
+                } else {
+                    setHasNext(true);
+                }
+                setPage(page + 1);
             })
             .catch((error) => {
                 console.log(error);
@@ -88,6 +95,7 @@ function Notifications(props) {
                     </CloseButton>
                 </NotiHeader>
                 <Content length={commentAlertList.length}>
+                    {commentAlertList.length === 0 && <React.Fragment></React.Fragment>}
                     {commentAlertList.length > 0 &&
                         commentAlertList.map((alert) => {
                             return <Notice key={alert.messageId} alert={alert} />;
