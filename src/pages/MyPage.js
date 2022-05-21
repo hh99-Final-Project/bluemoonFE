@@ -25,6 +25,7 @@ function MyPage() {
 
     const [myDiary, setMyDiary] = useState([]);
     const InfinityScrollref = useRef();
+
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
@@ -38,16 +39,13 @@ function MyPage() {
     // 삭제하기
 
     const deleteDiary = (postUuid) => {
-        
-        
         diaryApi.deleteDiary(postUuid).then((res) => {
-            
             let filtered = [...myDiary.filter((m) => m.postUuid !== postUuid)];
             console.log(postUuid);
             console.log(filtered);
             setMyDiary(filtered);
             if (res.status === 200) {
-                setIsOpenPopup(false); 
+                setIsOpenPopup(false);
                 // navigate("/myDiary");
             } else {
                 window.alert("에러처리");
@@ -100,6 +98,11 @@ function MyPage() {
         setCurrentHeader("마이페이지");
     }, []);
 
+    const PopupRef = useRef();
+    console.log(PopupRef);
+    console.log(PopupRef.current);
+    console.log(PopupRef.target);
+
     if (isLoading) {
         return <Loading />;
     }
@@ -123,6 +126,7 @@ function MyPage() {
                             myDiary.map((diary) => {
                                 return (
                                     <DiaryCard
+                                        ref={PopupRef}
                                         id="diary"
                                         onClick={() => navigate(`/diary/${diary.postUuid}`)}
                                         key={diary.postUuid}
@@ -134,22 +138,25 @@ function MyPage() {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setIsOpenPopup(true);
+                                                // PopupRef.current = e.target.postUuid;
                                             }}
+                                            postUuid={diary.postUuid}
                                         >
                                             삭제
                                         </DeleteButton>
-                                        {isOpenPopup && (
-                                            <Popup
-                                                title={"정말로/이야기를 지우시겠습니까?"}
-                                                close={() => setIsOpenPopup(false)}
-                                                event={() => {
-                                                    deleteDiary(diary.postUuid);
-                                                }}
-                                            />
-                                        )}
                                     </DiaryCard>
                                 );
                             })}
+                        {isOpenPopup && (
+                            <Popup
+                                title={"정말로/이야기를 지우시겠습니까?"}
+                                close={() => setIsOpenPopup(false)}
+                                event={() => {
+                                    // 인자로 지울 다이어리의 postUuid 를 넘겨줘야 한다..
+                                    // deleteDiary(diary.postUuid);
+                                }}
+                            />
+                        )}
                     </DiaryWrapper>
                 </MyPageBox>
             </Container>

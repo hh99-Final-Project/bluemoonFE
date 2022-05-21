@@ -25,15 +25,14 @@ function ChatList(props) {
     const dispatch = useDispatch();
     const { setCurrentHeader } = useStore();
 
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const chatList = useSelector((state) => state.chatSlice.chatList);
-    // const [chatList, setChatList] = useState([]);
+    // const userInfo = useSelector((state) => state.userSlice.userInfo);
 
+    const chatList = useSelector((state) => state.chatSlice.chatList);
     const isLoading = useSelector((state) => state.chatSlice.isLoading);
     const hasNext = useSelector((state) => state.chatSlice.hasNext);
     const page = useSelector((state) => state.chatSlice.page);
 
-    // 무한스크롤
+    // 무한스크롤(리덕스 코드 구현 여부 확인되면 코드 정리 예정)
     const InfinityScrollRef = useRef();
     // const [isLoading, setIsLoading] = useState(true);
     // const [page, setPage] = useState(1);
@@ -74,7 +73,7 @@ function ChatList(props) {
         // 현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
         // console.log(e.target.clientHeight);
 
-        console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
+        // console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
 
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
             // chatApi.getChatList(page).then((response) => {
@@ -119,8 +118,6 @@ function ChatList(props) {
         return <Loading />;
     }
 
-    console.log(PopupRef.current);
-
     return (
         <Layout>
             <Container>
@@ -135,51 +132,48 @@ function ChatList(props) {
                         {chatList.length > 0 &&
                             chatList.map((chat, i) => {
                                 return (
-                                    <>
-                                        <ChatRoom
-                                            ref={PopupRef}
-                                            roomName={chat.roomName}
+                                    <ChatRoom
+                                        roomName={chat.roomName}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(`/chat/${chat.chatRoomUuid}`);
+                                        }}
+                                        key={chat.chatRoomUuid}
+                                    >
+                                        <TitleLine>
+                                            <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
+                                            <UnreadCount>
+                                                {chat.unreadCount > 0 && (
+                                                    <>
+                                                        <UnreadCountNum>{chat.unreadCount}</UnreadCountNum>
+                                                        <UnreadCountIcon src={unreadCount}></UnreadCountIcon>
+                                                    </>
+                                                )}
+                                            </UnreadCount>
+                                        </TitleLine>
+                                        <LastChatTime>{chat.dayBefore}</LastChatTime>
+                                        <LastChat>{chat.lastMessage}</LastChat>
+                                        <ChatOutButton
                                             onClick={(e) => {
-                                                e.preventDefault();
-                                                navigate(`/chat/${chat.chatRoomUuid}`);
+                                                e.stopPropagation();
+                                                setIsOpenPopup(true);
                                             }}
-                                            key={chat.chatRoomUuid}
+                                            chatRoomUuid={chat.chatRoomUuid}
                                         >
-                                            <TitleLine>
-                                                <CharRoomTitle>{chat.roomName} 님과의 대화</CharRoomTitle>
-                                                <UnreadCount>
-                                                    {chat.unreadCount > 0 && (
-                                                        <>
-                                                            <UnreadCountNum>{chat.unreadCount}</UnreadCountNum>
-                                                            <UnreadCountIcon src={unreadCount}></UnreadCountIcon>
-                                                        </>
-                                                    )}
-                                                </UnreadCount>
-                                            </TitleLine>
-                                            <LastChatTime>{chat.dayBefore}</LastChatTime>
-                                            <LastChat>{chat.lastMessage}</LastChat>
-                                            <ChatOutButton
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setIsOpenPopup(true);
-                                                }}
-                                                charRoomUuid={chat.charRoomUuid}
-                                            >
-                                                나가기
-                                            </ChatOutButton>
-                                            {isOpenPopup && (
-                                                <Popup
-                                                    title={"정말로/대화를 종료하시겠습니까?"}
-                                                    close={() => setIsOpenPopup(false)}
-                                                    event={() => {
-                                                        deleteChat(chat.chatRoomUuid);
-                                                    }}
-                                                />
-                                            )}
-                                        </ChatRoom>
-                                    </>
+                                            나가기
+                                        </ChatOutButton>
+                                    </ChatRoom>
                                 );
                             })}
+                        {isOpenPopup && (
+                            <Popup
+                                title={"정말로/대화를 종료하시겠습니까?"}
+                                close={() => setIsOpenPopup(false)}
+                                event={() => {
+                                    deleteChat(chat.chatRoomUuid);
+                                }}
+                            />
+                        )}
                     </ChatRoomWrapper>
                 </ChatRoomListBox>
             </Container>
