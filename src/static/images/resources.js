@@ -71,10 +71,12 @@ export const closeBtn = require("./diary/closePopup.svg").default;
 //diary-content
 export const chatIcon = require("./diary/chatIcon.svg").default;
 
+
 //diary-list
 export const commentIcon = require("./diary/comment.svg").default;
 export const prevButton = require("./diary/prevDiary.svg").default;
 export const nextButton = require("./diary/nextDiary.svg").default;
+export const spring = require("./diary/spring.svg").default;
 
 //diary-comment
 export const lockIcon = require("./diary/lockIcon.svg").default;

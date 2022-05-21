@@ -18,8 +18,6 @@ import ErrorModal from "../shared/ErrorModal";
 import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
 import { getAlertList } from "../redux/modules/commonSlice";
 
 function App() {
