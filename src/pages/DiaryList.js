@@ -12,10 +12,14 @@ import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { color } from "../utils/designSystem";
 import { useQuery, QueryClient } from "react-query";
+import { DiaryListMobile } from "../components/diary";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 
 import { commentIcon, chatIcon,
     prevButton, nextButton, voicePlayIcon
 } from "../static/images/resources";
+import {chatApi} from "../apis/chatApi";
 
 DiaryList.propTypes = {};
 
@@ -27,7 +31,11 @@ function DiaryList() {
     const [audio, setAudio] = useState();
     const [diaryList, setDiaryList] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const { currentHeader, setCurrentHeader } = useStore();
+    const { setCurrentHeader } = useStore();
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     const getPrevDiary = (e) => {
         e.stopPropagation();
@@ -75,14 +83,8 @@ function DiaryList() {
             setCount((count) => count + 1);
         }
 
-        // setAudio(new Audio(diaryList[count - 1].voiceUrl));
-        // audio.loop = false;
-        // audio.volume = 1;
     };
 
-    // const { isLoading, data, isPreviousData } = useQuery(["diary", page], () => diaryApi.getDiaryList(page), {
-    //     keepPreviousData: true,
-    // });
 
     const getDiaryListAPI = (page) => {
         diaryApi.getDiaryList(page).then((res) => {
@@ -106,6 +108,18 @@ function DiaryList() {
                 console.log("error");
             };
         });
+    };
+
+    const createChat = (userId) => {
+        chatApi
+            .createChat(userId)
+            .then((response) => {
+                console.log(response);
+                navigate(`/chat/${response.data}`);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     useEffect(()=>{
@@ -136,73 +150,87 @@ function DiaryList() {
 
     return (
         <Layout>
-            <DiaryListContainer>
-                <Header />
-                <CategoryBar />
-                <CardContainer BgColor={color.containerBoxColor}>
-                    <CardContainerBackGround>
-                        {/*다이어리 영역*/}
-                        <DiaryCard
-                            onClick={
-                                () => {
-                                    if(isLogin) {
-                                        navigate(`/diary/${diaryList[count - 1].postUuid}`);
-                                    } else {
-                                        navigate(`/diary/${diaryList[0].postUuid}`);
-                                    }
-                                }}
-                                key={isLogin ? diaryList[count - 1].postUuid : diaryList[0].postUuid}
-                        >
-                            <CardLeftPage>
-                                {isLogin && <PrevButton onClick={getPrevDiary} src={prevButton} />}
-                                <CardBackground>
-                                    <CardBorder>
-
-                                        <DiaryTitle>
-                                            { diaryList.length === 0 ?
-                                                "아직 작성된 다이어리가 없어요!"
-                                                :
-                                                isLogin ? diaryList[count - 1].title : diaryList[0].title
-                                            }
-                                        </DiaryTitle>
-                                        <CommentIcon
-                                            onClick={(e) => {
-                                                e.preventDefault();
+            {
+                ( isMobileQuery || isMobile) ?
+                    <DiaryListMobile
+                        togglePlayVoice={togglePlayVoice}
+                        diary={diaryList[count - 1]}
+                        diaryList={diaryList}
+                        createChat={createChat}
+                    />
+                    :
+                    <DiaryListContainer>
+                        <Header />
+                        <CategoryBar />
+                        <CardContainer BgColor={color.containerBoxColor}>
+                            <CardContainerBackGround>
+                                {/*다이어리 영역*/}
+                                <DiaryCard
+                                    onClick={
+                                        () => {
+                                            if(isLogin) {
                                                 navigate(`/diary/${diaryList[count - 1].postUuid}`);
-                                            }}
-                                        >
-                                            <img src={commentIcon} alt={"comment"} />
-                                        </CommentIcon>
-                                    </CardBorder>
-                                </CardBackground>
-                            </CardLeftPage>
-
-                            <CardRightPage>
-                                {isLogin && <NextButton onClick={getNextDiary} src={nextButton} />}
-                                <CardBackground>
-                                    <CardBorderRight>
-                                        <ContentBox>
-                                            { diaryList[count - 1].voiceUrl &&
-                                                <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
+                                            } else {
+                                                navigate(`/diary/${diaryList[0].postUuid}`);
                                             }
-                                            <DiaryDesc>
-                                                {   diaryList.length === 0 ? "다이어리를 작성해주세요!" :
-                                                    isLogin ? diaryList[count - 1].content : diaryList[0].content
-                                                }
-                                            </DiaryDesc>
-                                        </ContentBox>
-                                        <ChattingIcon>
-                                            <img src={chatIcon} alt={"chatIcon"} />
-                                        </ChattingIcon>
-                                    </CardBorderRight>
-                                </CardBackground>
-                            </CardRightPage>
-                        </DiaryCard>
-                    </CardContainerBackGround>
-                    <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
-                </CardContainer>
+                                        }}
+                                    key={isLogin ? diaryList[count - 1].postUuid : diaryList[0].postUuid}>
+                                    <CardLeftPage>
+                                        {isLogin && <PrevButton onClick={getPrevDiary} src={prevButton} />}
+                                        <CardBackground>
+                                            <CardBorder>
 
-            </DiaryListContainer>
+                                                <DiaryTitle>
+                                                    { diaryList.length === 0 ?
+                                                        "아직 작성된 다이어리가 없어요!"
+                                                        :
+                                                        isLogin ? diaryList[count - 1].title : diaryList[0].title
+                                                    }
+                                                </DiaryTitle>
+                                                <CommentIcon
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        navigate(`/diary/${diaryList[count - 1].postUuid}`);
+                                                    }}
+                                                >
+                                                    <img src={commentIcon} alt={"comment"} />
+                                                </CommentIcon>
+                                            </CardBorder>
+                                        </CardBackground>
+                                    </CardLeftPage>
+
+                                    <CardRightPage>
+                                        {isLogin && <NextButton onClick={getNextDiary} src={nextButton} />}
+                                        <CardBackground>
+                                            <CardBorderRight>
+                                                <ContentBox>
+                                                    { diaryList[count - 1].voiceUrl &&
+                                                    <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
+                                                    }
+                                                    <DiaryDesc>
+                                                        {   diaryList.length === 0 ? "다이어리를 작성해주세요!" :
+                                                            isLogin ? diaryList[count - 1].content : diaryList[0].content
+                                                        }
+                                                    </DiaryDesc>
+                                                </ContentBox>
+                                                <ChattingIcon onClick={()=> {
+                                                    if(isLogin){
+                                                        createChat(diaryList[count - 1].userId);
+                                                    } else {
+                                                        createChat(diaryList[0].userId);
+                                                    }
+                                                }}>
+                                                    <img src={chatIcon} alt={"chatIcon"} />
+                                                </ChattingIcon>
+                                            </CardBorderRight>
+                                        </CardBackground>
+                                    </CardRightPage>
+                                </DiaryCard>
+                            </CardContainerBackGround>
+                            <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
+                        </CardContainer>
+                    </DiaryListContainer>
+            }
         </Layout>
     );
 }

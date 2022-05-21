@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Notice from "./Notice";
 import Modal from "react-modal";
-import { closeButton } from "../../static/images/resources";
-import { useDispatch, useSelector } from "react-redux";
+import {closeButton, mobAlertCloseBtn} from "../../static/images/resources";
+import { useSelector, useDispatch } from "react-redux";
 import { getAlertList } from "../../redux/modules/commonSlice";
 import { diaryApi } from "../../apis/diaryApi";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 
 Notifications.propTypes = {
     closeModal: PropTypes.func,
@@ -52,12 +54,16 @@ function Notifications(props) {
             });
     }, []);
 
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
+
     return (
         <div>
             <Modal
                 isOpen={true}
                 onRequestClose={closeModal}
-                shouldCloseOnOverlayClick={false}
+                shouldCloseOnOverlayClick={true}
                 ariaHideApp={false}
                 style={{
                     overlay: {
@@ -72,26 +78,33 @@ function Notifications(props) {
                     content: {
                         position: "absolute",
                         zIndex: 10,
-                        top: AlertTabRef.current.getBoundingClientRect().top + 38,
-                        left: AlertTabRef.current.getBoundingClientRect().left,
+                        top: (isMobile || isMobileQuery) ? "53px" : AlertTabRef.current.getBoundingClientRect().top + 38,
+                        left: (isMobile || isMobileQuery) ? "50%" : AlertTabRef.current.getBoundingClientRect().left,
                         right: "auto",
                         bottom: "auto",
-                        width: "248px",
-                        height: "586px",
+                        transform: "translate(-50%, 0)",
+                        width: (isMobile || isMobileQuery) ? "320px" : "248px",
+                        height: (isMobile || isMobileQuery) ? "calc(100% - 100px)" : "586px",
                         border: "none",
                         boxSizing: "border-box",
                         background: "rgba(198, 211, 236, 0.8)",
                         borderRadius: "10px",
                         outline: "none",
-                        padding: "0 7px 26px 0",
+                        padding: (isMobile || isMobileQuery) ? "0 7px 18px 0" : "0 7px 26px 0",
                         overflowY: "hidden",
                     },
                 }}
             >
                 <NotiHeader>
-                    <Title>알림창</Title>
+                    <Title>알림</Title>
                     <CloseButton onClick={closeModal}>
-                        <img src={closeButton} alt={"close_alert"} />
+                        { (isMobile || isMobileQuery) ?
+                            <img src={mobAlertCloseBtn} alt={"mobAlertCloseBtn"}/>
+                            :
+                            <img src={closeButton} alt={"close_alert"} />
+                        }
+
+
                     </CloseButton>
                 </NotiHeader>
                 <Content length={commentAlertList.length}>
@@ -118,6 +131,13 @@ const Title = styled.div`
     line-height: 18px;
     color: #08105d;
     margin: 18px 0 18px 14px;
+
+  @media only screen and (max-width: 420px) {
+    font-size: 20px;
+    line-height: 25px;
+    color: #53648B;
+    margin-left: 19px;
+  }
 `;
 
 const CloseButton = styled.div`
@@ -133,6 +153,10 @@ const Content = styled.div`
     padding-right: 7px;
     box-sizing: border-box;
 
+  @media only screen and (max-width: 420px) {
+    height: calc(100% - 59px);
+  }
+
     &::-webkit-scrollbar {
         width: 6px;
     }
@@ -140,6 +164,7 @@ const Content = styled.div`
     &::-webkit-scrollbar-thumb {
         background-color: #d3d3d3;
         border-radius: 5px;
+      
     }
 
     &::-webkit-scrollbar-track {

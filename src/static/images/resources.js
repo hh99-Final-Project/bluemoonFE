@@ -25,6 +25,9 @@ export const mainMoonIcon = require("./common/mainMoonIcon.svg").default;
 export const doubleQuoteLeft = require("./common/doubleQuoteLeft.svg").default;
 export const doubleQuoteRight = require("./common/doubleQuoteRight.svg").default;
 export const moonIconTransparent = require("./common/moonIconTransparent.svg").default;
+export const mobBackButton = require("./common/mobileBackButton.svg").default;
+export const mobHomeButton = require("./common/mobileHomeButton.svg").default;
+export const mobAlertCloseBtn = require("./common/mobAlertCloseButton.svg").default;
 
 //header
 export const moonPoint = require("./header/MoonPoint.svg").default;
@@ -32,6 +35,16 @@ export const newAlertIcon = require("./header/NewAlertIcon.svg").default;
 export const mobMoreIcon = require("./header/mobMoreIcon.png");
 export const mobAlertIcon = require("./header/mobAlertIcon.png");
 export const newAlertNumber = require("./header/newAlertNumber.svg").default;
+
+export const mobHomeIcon = require("./header/mobHomeIcon.svg").default;
+export const mobListIcon = require("./header/mobListIcon.svg").default;
+export const mobWriteIcon = require("./header/mobWriteIcon.svg").default;
+export const mobMyPageIcon = require("./header/mobMyPageIcon.svg").default;
+export const mobChatIcon = require("./header/mobChatIcon.svg").default;
+export const mobEventIcon = require("./header/mobEventIcon.svg").default;
+export const mobFeedbackIcon = require("./header/mobFeedbackIcon.svg").default;
+export const mobHeaderBackIcon = require("./header/mobHeaderBack.svg").default;
+export const mobMyPointBluemoon = require("./header/pointBlueMoonIcon.svg").default;
 
 //diary
 //voice
@@ -59,10 +72,12 @@ export const closeBtn = require("./diary/closePopup.svg").default;
 //diary-content
 export const chatIcon = require("./diary/chatIcon.svg").default;
 
+
 //diary-list
 export const commentIcon = require("./diary/comment.svg").default;
 export const prevButton = require("./diary/prevDiary.svg").default;
 export const nextButton = require("./diary/nextDiary.svg").default;
+export const spring = require("./diary/spring.svg").default;
 
 //diary-comment
 export const lockIcon = require("./diary/lockIcon.svg").default;

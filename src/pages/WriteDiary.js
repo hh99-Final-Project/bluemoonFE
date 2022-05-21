@@ -58,6 +58,10 @@ function WriteDiary() {
   const dispatch = useDispatch();
 
   const onChangeTitleHandler = (e) => {
+
+    if(e.target.value.length > 30) {
+      return;
+    }
     setTitle(e.target.value);
   };
 

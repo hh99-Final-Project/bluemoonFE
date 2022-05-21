@@ -42,7 +42,6 @@ function CategoryBar(props) {
         dispatch(isModalOpen(true));
     };
 
-    const diapatch = useDispatch();
     const unreadCountList = useSelector((state) => state.chatSlice.unreadCountList);
     console.log(unreadCountList);
 

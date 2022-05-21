@@ -1,14 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import useStore from "../zustand/store";
-
+import { useMediaQuery } from "react-responsive";
+import { isMobile } from "react-device-detect";
 
 
 export default function useMovePage() {
 
     const navigate = useNavigate();
 
-    const { diaryContent, setDiaryContent, setCurrentHeader } = useStore();
+    const { setMobileHeader, setCurrentHeader } = useStore();
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
 
     const setCategoryBarName = (path) => {
         switch (path) {
@@ -57,6 +61,9 @@ export default function useMovePage() {
             // } else {
                 navigate(path);
                 setCategoryBarName(path);
+                if(isMobile || isMobileQuery) {
+                    setMobileHeader();
+                }
             // }
         // }
 

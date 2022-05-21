@@ -46,7 +46,6 @@ function Notice(props) {
 export default Notice;
 
 const AlertSliceContainer = styled.div`
-    //width: 213px;
     height: 59px;
     box-sizing: border-box;
     background-color: #d0d5e3;
@@ -54,6 +53,11 @@ const AlertSliceContainer = styled.div`
     border-radius: 5px;
     padding: 10px 17px;
     cursor: pointer;
+
+  @media only screen and (max-width: 420px) {
+    height: 73px;
+    margin-bottom: 6px;
+  }
 `;
 const TitleArea = styled.div`
     display: flex;
@@ -62,6 +66,10 @@ const TitleArea = styled.div`
     margin-bottom: 6px;
     font-size: 10px;
     line-height: 12px;
+
+  @media only screen and (max-width: 420px) {
+    margin-bottom: 12px;
+  }
 `;
 
 const CreatedAt = styled.div`
