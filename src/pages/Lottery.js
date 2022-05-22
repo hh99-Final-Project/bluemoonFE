@@ -12,7 +12,15 @@ import CategoryBar from "../shared/CategoryBar";
 import Loading from "../shared/Loading";
 
 import { color } from "../utils/designSystem";
-import { lotteryMoon, lotteryhalfMoon, bananaMilkIcon, star } from "../static/images/resources";
+import {
+    lotteryMoon,
+    lotteryhalfMoon,
+    bananaMilkIcon,
+    star,
+    mobileLotteryMoon,
+    mobileStar,
+} from "../static/images/resources";
+import { useMediaQuery } from "react-responsive";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -21,6 +29,10 @@ const Lottery = () => {
     const [isLoading, setIsLoading] = useState(null);
     const [isWin, setIsWin] = useState(null);
     const navigate = useNavigate();
+
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     useEffect(() => {
         setCurrentHeader("추첨");
@@ -68,13 +80,17 @@ const Lottery = () => {
         <Layout>
             <Container>
                 <Header />
-                <CategoryBar />
+                {!isMobile ? <CategoryBar /> : <MobTitle>오픈 이벤트</MobTitle>}
                 <ContentBox BgColor={color.containerBoxColor}>
                     <MoonArea>
-                        <img src={lotteryMoon} alt="lotteryMoon" />
+                        {!isMobile ? (
+                            <img src={lotteryMoon} alt="lotteryMoon" />
+                        ) : (
+                            <img src={mobileLotteryMoon} alt="mobileLotteryMoon"></img>
+                        )}
                     </MoonArea>
                     <LotteryArea>
-                        <LotteryhalfMoon src={lotteryhalfMoon} />
+                        {!isMobile && <LotteryhalfMoon src={lotteryhalfMoon} />}
                         {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
                         {isLoading && <LotteryLoading>모습을 비추고 있어요..</LotteryLoading>}
                         {isClick && isWin === true && (
@@ -101,9 +117,7 @@ const Lottery = () => {
 
                     <CountNoti>참여 가능 횟수</CountNoti>
                     <ClickCount>{userInfo ? userInfo.lottoCount : "0"}</ClickCount>
-                    <Star>
-                        <img src={star}></img>
-                    </Star>
+                    <Star>{!isMobile ? <img src={star}></img> : <img src={mobileStar}></img>}</Star>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
                         블루문의 세계에서 용기를 내주신 당신을 위해, <br />
@@ -126,9 +140,23 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     overflow: hidden;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        margin: auto;
+    }
+`;
+
+const MobTitle = styled.div`
+    width: 320px;
+    height: 34px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
 `;
 
 const ContentBox = styled.div`
+    box-sizing: border-box;
     width: 950px;
     height: 530px;
 
@@ -140,6 +168,18 @@ const ContentBox = styled.div`
 
     position: relative;
     margin: auto;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 646px;
+
+        border-radius: 15px;
+
+        background: linear-gradient(180deg, rgba(14, 30, 80, 0.79) 0%, rgba(93, 102, 124, 0.79) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0px 0px 70px #465981;
+        backdrop-filter: blur(80px);
+    }
 `;
 
 const MoonArea = styled.div`
@@ -148,6 +188,13 @@ const MoonArea = styled.div`
     height: 433px;
     top: 39px;
     left: 77px;
+
+    @media only screen and (max-width: 420px) {
+        width: 251px;
+        height: 251px;
+        top: 213px;
+        left: 34px;
+    }
 `;
 
 const LotteryArea = styled.div`
@@ -156,6 +203,13 @@ const LotteryArea = styled.div`
     height: 366px;
     top: 84px;
     left: 102px;
+
+    @media only screen and (max-width: 420px) {
+        width: 251px;
+        height: 251px;
+        top: 213px;
+        left: 34px;
+    }
 `;
 
 const LotteryhalfMoon = styled.img`
@@ -175,7 +229,7 @@ const LotteryClick = styled.div`
 
     color: #ffffff;
 
-    z-index: 1;
+    z-index: 9999;
 
     cursor: pointer;
 
@@ -188,6 +242,16 @@ const LotteryClick = styled.div`
     text-align: center;
 
     color: #ffffff;
+
+    @media only screen and (max-width: 420px) {
+        width: auto;
+        height: 11px;
+        top: 158px;
+        left: 105px;
+
+        font-size: 10px;
+        line-height: 13px;
+    }
 `;
 
 const LotteryLoading = styled(LotteryClick)`
@@ -329,6 +393,11 @@ const Star = styled.div`
     position: absolute;
     top: 114px;
     right: 333px;
+
+    @media only screen and (max-width: 420px) {
+        top: 42px;
+        left: 142px;
+    }
 `;
 
 const Title = styled.div`
@@ -343,7 +412,15 @@ const Title = styled.div`
     line-height: 30px;
 
     color: #ffffff;
+
+    @media only screen and (max-width: 420px) {
+        top: 100px;
+        left: 70px;
+        font-size: 20px;
+        line-height: 25px;
+    }
 `;
+
 const Desc = styled.div`
     position: absolute;
     top: 264px;
@@ -356,6 +433,14 @@ const Desc = styled.div`
     line-height: 18px;
 
     color: #c6d3ec;
+
+    @media only screen and (max-width: 420px) {
+        top: 146px;
+        left: 50px;
+
+        font-size: 10px;
+        line-height: 13px;
+    }
 `;
 
 const RecommendIcons = styled.div`
