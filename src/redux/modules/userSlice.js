@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { userApi } from "../../apis/userApi";
+import {deleteCookie} from "../../utils/cookie";
 
 const initialState = {
     isLogin: false,
@@ -31,6 +32,7 @@ export const userSlice = createSlice({
         logout(state, action){
             state.isLogin = null;
             state.userInfo = null;
+            deleteCookie("authorization");
         }
     },
     extraReducers: (builder) => {

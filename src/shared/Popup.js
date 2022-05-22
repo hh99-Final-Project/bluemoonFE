@@ -39,7 +39,7 @@ function Popup(props) {
                         right: 0,
                         bottom: 0,
                         backgroundColor: "rgba(33, 33, 33, 0.5)",
-                        zIndex: 30
+                        zIndex: 99999
                     },
                     content: {
                         position: "absolute",
@@ -56,7 +56,7 @@ function Popup(props) {
                         borderRadius: "10px",
                         outline: "none",
                         padding: "20px",
-                        zIndex: 30
+                        zIndex: 99999
                     }
                 }}>
                 <Title paddingTop={padding}>

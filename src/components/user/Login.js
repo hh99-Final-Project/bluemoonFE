@@ -10,6 +10,8 @@ import { userApi } from "../../apis/userApi";
 import { setCookie } from "../../utils/cookie";
 import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
 import { mobAlertCloseBtn } from "../../static/images/resources";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 
 
 function Login() {
@@ -17,6 +19,10 @@ function Login() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
 
     const kakaoLoginHandler = (res) => {
@@ -97,7 +103,7 @@ function Login() {
                         right: 0,
                         bottom: 0,
                         backgroundColor: "rgba(35, 35, 35, 0.46)",
-                        zIndex: 20
+                        zIndex: 99999
                     },
                     content: {
                         position: "absolute",
@@ -106,14 +112,14 @@ function Login() {
                         right: "auto",
                         bottom: "auto",
                         transform: "translate(-50%, -50%)",
-                        width: "365px",
-                        height: "264px",
+                        width: (isMobile || isMobileQuery) ? "295px" : "365px",
+                        height: (isMobile || isMobileQuery) ? "213px" : "264px",
                         border: "none",
                         backgroundColor: "rgba(198, 211, 236, 0.9)",
                         borderRadius: "10px",
                         outline: "none",
                         overflow: "hidden",
-                        zIndex: 100,
+                        zIndex: 99999,
                         boxSizing: "border-box"
                     },
                 }}
@@ -121,7 +127,7 @@ function Login() {
                 <CloseButton onClick={closeModal} src={mobAlertCloseBtn}/>
                 <LoginText>
                     다이어리를 가진 사람만<br/>
-                    사용할 수 있어요!를
+                    사용할 수 있어요!
                 </LoginText>
                 <LoginButtons>
                     <KakaoLogin
@@ -175,11 +181,21 @@ const LoginText = styled.div`
     text-align: center;
     margin-top: 38px;
     color: #08105D;
+
+  @media only screen and (max-width: 420px) {
+    font-size: 14px;
+    line-height: 18px;
+    margin-top: 25px;
+  }
 `;
 
 const LoginButtons = styled.div`
     margin: 24px auto 0;
     width: 244px;
+
+    @media only screen and (max-width: 420px) {
+      width: 196px;
+    }
 `;
 
 const KaKaoLoginText = styled.div`
@@ -199,6 +215,13 @@ const KaKaoLoginText = styled.div`
     justify-content: center;
     cursor: pointer;
     box-sizing: border-box;
+
+  @media only screen and (max-width: 420px) {
+    height: 28px;
+    font-size: 10px;
+    line-height: 13px;
+    
+  }
 `;
 
 const GoogleLoginText = styled(KaKaoLoginText)`
@@ -207,4 +230,10 @@ const GoogleLoginText = styled(KaKaoLoginText)`
       box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
       margin-top: 14px;
       color: #2D53A9;
+
+      @media only screen and (max-width: 420px) {
+        margin-top: 9px;
+        font-size: 10px;
+        line-height: 13px;
+      }
 `;
