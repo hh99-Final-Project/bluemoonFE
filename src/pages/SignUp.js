@@ -12,6 +12,8 @@ import { color } from "../utils/designSystem";
 import ResultPopup from "../components/common/ResultPopup";
 import Main from "./Main";
 import { useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
+import { crescent, line } from "../static/images/resources";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
@@ -25,6 +27,10 @@ function SignUp() {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     const navigate = useNavigate();
+
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     const onChange = (e) => {
         setNickName(e.target.value);
@@ -57,7 +63,6 @@ function SignUp() {
         }
     }, 200);
 
-    // useCallback 은 ?
     const nickNameCheckDB = useCallback(debounce, []);
 
     const onClickHandler = () => {
@@ -99,11 +104,14 @@ function SignUp() {
         <Layout>
             <Container>
                 <Header />
-                <CategoryBar />
+                {!isMobile ? <CategoryBar /> : <MobTitle>회원가입</MobTitle>}
+
                 <SignUpBox BgColor={color.containerBoxColor}>
-                    <SignUpBoxTitle>사용하실 닉네임을 입력해주세요</SignUpBoxTitle>
+                    {isMobile && <Crescent src={crescent}></Crescent>}
+                    <SignUpBoxTitle>사용하실 닉네임을 적어주세요</SignUpBoxTitle>
+                    {isMobile && <TitleLine></TitleLine>}
                     <NickNameInput
-                        placeholder="1~10자 이내로 입력해주세요. (특수문자, 공백 불가)"
+                        placeholder="10자 이내 (특수문자, 공백 불가)"
                         onChange={onChange}
                         value={nickName}
                         required
@@ -112,13 +120,14 @@ function SignUp() {
                     {nickName === "" && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
                     {isValidNickName && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
                     {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
-                    ;<RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
+                    <RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
+                    {isMobile && <RecommendPersonLine></RecommendPersonLine>}
                     <RecommendPersonInput onChange={onChangeRecommender} value={recommender}></RecommendPersonInput>
                     <Button isValid={isValidNickName} onClick={onClickHandler}>
                         시작하기
                     </Button>
-                    <QuestionButton>?</QuestionButton>
-                    <ServiceDescription>서비스 설명</ServiceDescription>
+                    {/* <QuestionButton>?</QuestionButton> */}
+                    {/* <ServiceDescription>서비스 설명</ServiceDescription> */}
                 </SignUpBox>
 
                 {isOpenPopup && (
@@ -141,19 +150,46 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     overflow: hidden;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        margin: auto;
+    }
+`;
+
+const MobTitle = styled.div`
+    width: 320px;
+    height: 34px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
 `;
 
 const SignUpBox = styled.div`
+    box-sizing: border-box;
     width: 950px;
     height: 530px;
     background: ${(props) => props.BgColor};
     border: 2px solid #ffffff4d;
     box-shadow: 0 0 70px #465981;
+    backdrop-filter: blur(80px);
 
     border-radius: 25px;
 
     position: relative;
     margin: auto;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 646px;
+
+        border-radius: 15px;
+    }
+`;
+
+const Crescent = styled.img`
+    margin: 125px auto 0;
+    display: block;
 `;
 
 const SignUpBoxTitle = styled.div`
@@ -177,6 +213,24 @@ const SignUpBoxTitle = styled.div`
     text-align: center;
 
     color: #ffffff;
+
+    @media only screen and (max-width: 420px) {
+        width: auto;
+        height: auto;
+        top: 208px;
+        left: 60px;
+
+        background-color: transparent;
+
+        font-size: 14px;
+        line-height: 18px;
+    }
+`;
+
+const TitleLine = styled.div`
+    border: 1px solid #ffffff;
+    width: 185px;
+    margin: 80px auto 0;
 `;
 
 const NickNameInput = styled.input`
@@ -211,6 +265,20 @@ const NickNameInput = styled.input`
     &:focus {
         border: 1px solid #333333;
     }
+
+    @media only screen and (max-width: 420px) {
+        width: 181px;
+        height: 41px;
+        top: 242px;
+        left: 66px;
+
+        &::placeholder {
+            font-size: 10px;
+            line-height: 13px;
+
+            color: #43567e;
+        }
+    }
 `;
 
 const NickNameCheckResult = styled.div`
@@ -222,13 +290,25 @@ const NickNameCheckResult = styled.div`
 
     display: block;
 
-    font-family: "Inter";
+    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
 
     color: #959ebe;
+
+    @media only screen and (max-width: 420px) {
+        width: auto;
+        height: auto;
+        top: 288px;
+        left: 66px;
+
+        font-size: 8px;
+        line-height: 10px;
+
+        color: #9aebe7;
+    }
 `;
 
 const RecommendPerson = styled.div`
@@ -246,6 +326,24 @@ const RecommendPerson = styled.div`
     line-height: 23px;
 
     color: #ffffff;
+
+    @media only screen and (max-width: 420px) {
+        width: auto;
+        height: auto;
+        top: 340px;
+        left: 68px;
+
+        background-color: transparent;
+
+        font-size: 14px;
+        line-height: 18px;
+    }
+`;
+
+const RecommendPersonLine = styled.div`
+    border: 1px solid #ffffff;
+    width: 185px;
+    margin: 130px auto 0;
 `;
 
 const RecommendPersonInput = styled.input`
@@ -258,6 +356,13 @@ const RecommendPersonInput = styled.input`
 
     background: rgba(198, 211, 236, 0.8);
     border-radius: 5px;
+
+    @media only screen and (max-width: 420px) {
+        width: 181px;
+        height: 41px;
+        top: 374px;
+        left: 66px;
+    }
 `;
 
 const Button = styled.button`
@@ -277,7 +382,7 @@ const Button = styled.button`
     // // 정확히 가운데로 옴
     // transform: translate(-50%, 0);
 
-    font-family: "Inter";
+    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
@@ -288,6 +393,18 @@ const Button = styled.button`
     text-align: center;
     color: ${(props) => (props.isValid ? "#91dddd" : "#08105D")};
     cursor: pointer;
+
+    @media only screen and (max-width: 420px) {
+        width: 150px;
+        height: 35px;
+        top: 489px;
+        left: 85px;
+
+        border-radius: 9px;
+
+        font-size: 14px;
+        line-height: 18px;
+    }
 `;
 
 const QuestionButton = styled.button`
