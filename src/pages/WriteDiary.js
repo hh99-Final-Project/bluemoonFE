@@ -282,7 +282,7 @@ function WriteDiary() {
     width: 100%;
     height: 100vh;
     position: relative;
-    
+    overflow: hidden;
   
     @media only screen and (max-width: 420px) {
       width: 320px;
@@ -522,10 +522,4 @@ function WriteDiary() {
     }
   `;
 
-  const MobTitle = styled.div`
-    width: 320px;
-    height: 34px;
-    color: #ffffff;
-    text-align: center;
-  `;
 

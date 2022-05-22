@@ -115,7 +115,15 @@ const MobileCategoryBar = () => {
                         </ChattingIcon>
                         <EventIcon>
                             <img src={mobHomeIcon}/>
-                            <div onClick={() => moveToPage("/lottery")}>이벤트</div>
+                            <div onClick={() => moveToPage("/lottery")}>
+                                이벤트
+                            </div>
+                            <MyPoint>
+                                <img src={mobMyPointBluemoon}/>
+                                <div>{userInfo.myPoint}</div>
+                            </MyPoint>
+
+
                         </EventIcon>
                     </HeaderContent>
                     <FeedbackIcon>
@@ -133,7 +141,7 @@ const MobileCategoryBar = () => {
                     title={"정말 로그아웃 하시겠습니까?"}
                     event={logoutAction}
                     close={() => setLogoutPopup(false)}
-                    height={"220px"}
+                    height={"180px"}
                 />
             )}
         </React.Fragment>
@@ -238,13 +246,33 @@ const Home = styled.div`
     color: #354569;
   }
 `;
-const DiaryList = styled(Home)`
-    
-`;
+const DiaryList = styled(Home)``;
 const DiaryWrite = styled(DiaryList)``;
 const MyPageIcon = styled(DiaryList)``;
 const ChattingIcon = styled(DiaryList)``;
 const EventIcon = styled(DiaryList)``;
+
+const MyPoint = styled.span`
+  width: 60px;
+  height: 22px;
+  background: #FFFFFF;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  
+  div {
+    color: #36466B;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  
+  img {
+    margin: 0 3px;
+    width: 14px;
+  }
+`;
 const FeedbackIcon = styled(DiaryList)`
   border: none;
   position: absolute;

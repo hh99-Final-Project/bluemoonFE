@@ -12,6 +12,7 @@ import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
 import { mobAlertCloseBtn } from "../../static/images/resources";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
+import useStore from "../../zustand/store";
 
 
 function Login() {
@@ -19,6 +20,7 @@ function Login() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const { setMobileHeader } = useStore();
 
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
@@ -41,6 +43,7 @@ function Login() {
                     //현재 있었던 페이지로 돌아간다.
                     if(pathname === "/") {
                         navigate("/diarylist");
+                        setMobileHeader();
                     } else {
                         navigate(pathname);
                     }
@@ -66,6 +69,7 @@ function Login() {
                     //현재 있었던 페이지로 돌아가요!
                     if(pathname === "/") {
                         navigate("/diarylist");
+                        setMobileHeader();
                     } else {
                         navigate(pathname);
                     }

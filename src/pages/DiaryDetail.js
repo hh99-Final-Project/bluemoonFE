@@ -77,7 +77,7 @@ export default DiaryDetail;
 const DetailContainer = styled.div`
     width: 100%;
     height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
 `;
 const DetailContent = styled.div`
     width: 950px;
