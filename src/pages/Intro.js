@@ -8,21 +8,21 @@ const Intro = () => {
     const animationRef = useRef();
     const navigate = useNavigate();
 
-    // useEffect(()=>{
-    //
-    //     if(localStorage.getItem("isShowIntro") === "true") {
-    //         navigate("/");
-    //         return;
-    //     }
-    //
-    //     animationRef.current.addEventListener("animationend", () => {
-    //         localStorage.setItem("isShowIntro", JSON.stringify(true));
-    //         setTimeout(()=>{
-    //             navigate("/");
-    //         },1500);
-    //
-    //     });
-    // },[]);
+    useEffect(()=>{
+
+        if(localStorage.getItem("isShowIntro") === "true") {
+            navigate("/");
+            return;
+        }
+
+        animationRef.current.addEventListener("animationend", () => {
+            localStorage.setItem("isShowIntro", JSON.stringify(true));
+            setTimeout(()=>{
+                navigate("/");
+            },1500);
+
+        });
+    },[]);
 
     return (
         <IntroContainer>
