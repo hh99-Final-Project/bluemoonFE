@@ -16,28 +16,30 @@ import { Layout } from "../components/common";
 import { isLogined } from "../redux/modules/userSlice";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
+import { useMediaQuery } from "react-responsive";
 
 MyPage.propTypes = {};
 
 function MyPage() {
+    // const userInfo = useSelector((state) => state.userSlice.userInfo);
+    // const isLogin = useSelector((state) => state.userSlice.isLogin);
+
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
 
+    // 무한스크롤 관련 state
     const [myDiary, setMyDiary] = useState([]);
     const InfinityScrollref = useRef();
-
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+
     const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [clickedDiary, setClickedDiary] = useState("");
 
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const isLogin = useSelector((state) => state.userSlice.isLogin);
-
-    console.log(myDiary);
-
-    // 삭제하기
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     const deleteDiary = () => {
         diaryApi.deleteDiary(clickedDiary).then((res) => {
@@ -51,19 +53,12 @@ function MyPage() {
         });
     };
 
-    // 무한스크롤을 함수
-    // Grid onScroll 이벤트에 넣어두어, Grid 스크롤 발생 시 실행됨
+    // 무한스크롤
     const InfinityScroll = _.throttle((e) => {
-        // // 실제 요소의 높이값
-        // console.log(e.target.scrollHeight);
-
-        //  // 스크롤 위치
-        // console.log(e.target.scrollTop);
-
-        //  //현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
-        // console.log(e.target.clientHeight);
-
-        console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
+        // console.log(e.target.scrollHeight);  // 요소 전체 높이
+        // console.log(e.target.scrollTop);  // 스크롤 위치
+        // console.log(e.target.clientHeight); // 현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
+        // console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
 
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
             userApi.getMyPage(page).then((response) => {
@@ -110,7 +105,8 @@ function MyPage() {
         <Layout>
             <Container>
                 <Header />
-                <CategoryBar />
+                {!isMobile ? <CategoryBar /> : <MobTitle>마이 페이지</MobTitle>}
+
                 <MyPageBox BgColor={color.containerBoxColor}>
                     <MyPageTitle>
                         <p>내가 쓴 글</p>
@@ -163,6 +159,18 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     overflow: hidden;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        margin: auto;
+    }
+`;
+
+const MobTitle = styled.div`
+    width: 320px;
+    height: 34px;
+    color: #ffffff;
+    text-align: center;
 `;
 
 const MyPageBox = styled.div`
@@ -177,6 +185,15 @@ const MyPageBox = styled.div`
 
     position: relative;
     margin: auto;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+
+        background: none;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
 `;
 
 const MyPageTitle = styled.div`
@@ -202,6 +219,10 @@ const MyPageTitle = styled.div`
 
         color: #ffffff;
     }
+
+    @media only screen and (max-width: 420px) {
+        display: none;
+    }
 `;
 
 const NoDiaryNotice = styled.div`
@@ -221,6 +242,10 @@ const NoDiaryNotice = styled.div`
     text-align: center;
 
     color: #c6d3ec;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+    }
 `;
 
 const DiaryWrapper = styled.div`
@@ -244,6 +269,14 @@ const DiaryWrapper = styled.div`
         background-color: #08105d;
         border-radius: 50px;
     }
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 580px;
+
+        top: 0;
+        left: 0;
+    }
 `;
 
 const DiaryCard = styled.div`
@@ -260,6 +293,12 @@ const DiaryCard = styled.div`
     padding: 16px;
     box-sizing: border-box;
     cursor: pointer;
+
+    @media only screen and (max-width: 420px) {
+        width: 310px;
+        height: 78px;
+        border-radius: 3px;
+    }
 `;
 
 const DiaryTitle = styled.div`
@@ -277,6 +316,15 @@ const DiaryTitle = styled.div`
     align-items: center;
 
     color: #354569;
+
+    @media only screen and (max-width: 420px) {
+        top: 15px;
+        left: 17px;
+
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 15px;
+    }
 `;
 
 const CreatedAt = styled.div`
@@ -294,6 +342,13 @@ const CreatedAt = styled.div`
     text-align: center;
 
     color: #354569;
+
+    @media only screen and (max-width: 420px) {
+        top: 17px;
+
+        font-size: 8px;
+        line-height: 10px;
+    }
 `;
 
 const CommentCount = styled.div`
@@ -311,6 +366,14 @@ const CommentCount = styled.div`
     text-align: center;
 
     color: #354569;
+
+    @media only screen and (max-width: 420px) {
+        top: 51px;
+        left: 17px;
+
+        font-size: 9px;
+        line-height: 11px;
+    }
 `;
 
 const DeleteButton = styled.div`
@@ -329,17 +392,11 @@ const DeleteButton = styled.div`
 
     color: #354569;
     cursor: pointer;
-`;
 
-// const TiTleLine = styled.div`
-//     width: 860px;
-//     display: flex;
-//     justify-content: space-between;
-//     // margin: 12px auto 13px;
-// `;
-// const ContentLine = styled.div`
-//     width: 860px;
-//     display: flex;
-//     justify-content: space-between;
-//     // margin: 0 auto;
-// `;
+    @media only screen and (max-width: 420px) {
+        top: 52px;
+
+        font-size: 8px;
+        line-height: 10px;
+    }
+`;
