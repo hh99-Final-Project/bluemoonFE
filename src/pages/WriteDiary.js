@@ -18,6 +18,7 @@ import { isModalOpen } from "../redux/modules/commonSlice";
 import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2} from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
+import MobileTitleName from "../components/common/MobileTitleName";
 
 
 function WriteDiary() {
@@ -164,7 +165,7 @@ function WriteDiary() {
         <Layout>
           <WriteContainer>
             <Header/>
-            { !isMobile ? <CategoryBar/> : <MobTitle>글쓰기</MobTitle>}
+            { !isMobile ? <CategoryBar/> : <MobileTitleName title={"글*쓰기"} pos={6}/>}
 
                 <PostAreaContainer BgColor={color.containerBoxColor}>
                   <PostHeader>

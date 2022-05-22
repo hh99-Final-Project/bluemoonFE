@@ -14,6 +14,7 @@ import Main from "./Main";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { crescent, line } from "../static/images/resources";
+import MobileTitleName from "../components/common/MobileTitleName";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
@@ -104,7 +105,7 @@ function SignUp() {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobTitle>회원가입</MobTitle>}
+                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"회원가입"}/>}
 
                 <SignUpBox BgColor={color.containerBoxColor}>
                     {isMobile && <Crescent src={crescent}></Crescent>}

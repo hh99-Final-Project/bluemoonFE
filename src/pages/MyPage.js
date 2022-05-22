@@ -17,6 +17,7 @@ import { isLogined } from "../redux/modules/userSlice";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
+import MobileTitleName from "../components/common/MobileTitleName";
 
 MyPage.propTypes = {};
 
@@ -105,7 +106,7 @@ function MyPage() {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobTitle>마이 페이지</MobTitle>}
+                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"마이*페이지"} pos={6}/>}
 
                 <MyPageBox BgColor={color.containerBoxColor}>
                     <MyPageTitle>

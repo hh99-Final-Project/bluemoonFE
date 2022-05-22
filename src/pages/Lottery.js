@@ -13,6 +13,9 @@ import Loading from "../shared/Loading";
 
 import { color } from "../utils/designSystem";
 import { lotteryMoon, lotteryhalfMoon, bananaMilkIcon, star } from "../static/images/resources";
+import MobileTitleName from "../components/common/MobileTitleName";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -25,6 +28,10 @@ const Lottery = () => {
     useEffect(() => {
         setCurrentHeader("추첨");
     }, []);
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     const onClickHandler = (e) => {
         if (!userInfo) {
@@ -65,7 +72,7 @@ const Lottery = () => {
         <Layout>
             <Container>
                 <Header />
-                <CategoryBar />
+                {isMobile || isMobileQuery ? <MobileTitleName title={"오픈*이벤트"} pos={6}/> : <CategoryBar />}
                 <ContentBox BgColor={color.containerBoxColor}>
                     <MoonArea>
                         <img src={lotteryMoon} alt="lotteryMoon" />

@@ -1,17 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import styled from "styled-components";
-import { diaryApi } from "../../apis/diaryApi";
-import { userApi } from "../../apis/userApi";
-import Loading from "../../shared/Loading";
 import Header from "../../shared/Header";
-import useStore from "../../zustand/store";
 import { useSelector } from "react-redux";
 import {spring, chatIcon, commentIcon, voicePlayIcon} from "../../static/images/resources";
 
 import Slider from "react-slick";
 import {color} from "../../utils/designSystem";
+import MobileTitleName from "../common/MobileTitleName";
 
 const DiaryListMobile = (props) => {
 
@@ -42,9 +38,7 @@ const DiaryListMobile = (props) => {
         <ListContainer BgColor={color.backgroundColor}>
             <TopParts BgColor={color.backgroundColor}>
                 <Header />
-                <MobTitle>
-                    고민상담소
-                </MobTitle>
+                <MobileTitleName title={"고민*상담소"} pos={6}/>
             </TopParts>
             <Container BgColor={color.backgroundColor}>
                 <Slider2 {...settings}>
@@ -121,9 +115,9 @@ const Container = styled.div`
 `;
 
 const MobTitle = styled.div`
-  height: 34px;
-  color: #ffffff;
-  text-align: center;
+  //height: 34px;
+  //color: #ffffff;
+  //text-align: center;
 `;
 
 const Slider2 = styled(Slider)`

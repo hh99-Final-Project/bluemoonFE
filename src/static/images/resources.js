@@ -33,6 +33,7 @@ export const mobBackButton = require("./common/mobileBackButton.svg").default;
 export const mobHomeButton = require("./common/mobileHomeButton.svg").default;
 export const mobAlertCloseBtn = require("./common/mobAlertCloseButton.svg").default;
 export const feedbackHammer = require("./common/FeedbackHammer.svg").default;
+export const mobTitleBackButton = require("./common/mobileBackTitle.svg").default;
 
 //header
 export const moonPoint = require("./header/MoonPoint.svg").default;
