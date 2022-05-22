@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { DiaryContent, CommentList, CommentContainer } from "../components/diary";
@@ -22,6 +22,7 @@ function DiaryDetail() {
     const params = useParams();
     const postId = params.id;
 
+
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)"
     });
@@ -39,7 +40,6 @@ function DiaryDetail() {
         enabled: !isLogin
     });
     const { setCurrentHeader } = useStore();
-
 
     useEffect(()=>{
        setCurrentHeader("고민상담");

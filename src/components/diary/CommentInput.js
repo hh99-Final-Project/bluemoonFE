@@ -11,6 +11,7 @@ import { getCookie } from "../../utils/cookie";
 import { lockIcon, microphoneBlue, listenIcon } from "../../static/images/resources";
 import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
+import { timeFormatter, timeFormatter2} from "../../utils/convertDate";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -49,6 +50,8 @@ function CommentInput(props) {
         setIsPlaying,
         toggleListening,
         isListening,
+        playingStop,
+        playingHandler
     } = useRecordVoice();
 
     const { seconds, minutes, isRunning, start, restart, pause } = useTimer({
@@ -62,7 +65,6 @@ function CommentInput(props) {
         setIsLocked((prev) => !prev);
     };
 
-    console.log(recordTime, "recordTime");
 
     const queryClient = useQueryClient();
     const ws = useRef();
@@ -147,6 +149,7 @@ function CommentInput(props) {
         <React.Fragment>
             <InputContainer>
                 <Input
+                    isShowSpeaker={isShowSpeaker}
                     onChange={onChangeHandler}
                     onKeyPress={onKeyPressHandler}
                     value={comment}
@@ -164,14 +167,25 @@ function CommentInput(props) {
                                         const now = new Date();
                                         let addedNow = now.setSeconds(now.getSeconds() + recordTime);
                                         setExpireTime(new Date(addedNow));
-                                        play();
-                                        restart(new Date(addedNow));
+
+                                        if(isPlaying){
+                                            playingStop();
+                                            playingHandler(false);
+                                            pause();
+                                        } else {
+                                            //중지라면 다시 재생, 타이머 재생
+                                            play();
+                                            restart(new Date(addedNow));
+                                        }
                                     }}
                                     src={listenIcon}
                                     alt={"listenIcon"}
                                 />
                                 <TimeArea>
-                                    {isRunning ? seconds : Math.floor(recordTime / 60) + ":" + (recordTime % 60)}
+                                    {
+                                        isRunning ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
+                                            : timeFormatter(recordTime).min + ":" + timeFormatter(recordTime).sec
+                                    }
                                 </TimeArea>
                             </PlayArea>
                         )}
@@ -234,7 +248,7 @@ const Input = styled.input`
     border: none;
     width: 842px;
     height: 43px;
-    padding-left: 18px;
+    padding-left: ${props => props.isShowSpeaker ? "90px" : "18px"};
     margin: 13px 21px 9px;
     border-radius: 3px;
     box-sizing: border-box;
