@@ -15,6 +15,7 @@ import { chatApi } from "../apis/chatApi";
 import { close } from "../static/images/resources";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
+import { useMediaQuery } from "react-responsive";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -22,6 +23,10 @@ const ChatDetail = () => {
     const params = useParams();
     const roomId = params.id;
     const { setCurrentHeader } = useStore();
+
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
@@ -144,10 +149,10 @@ const ChatDetail = () => {
         <Layout>
             <Container>
                 <Header />
-                <CategoryBar />
+                {!isMobile ? <CategoryBar /> : <MobTitle>일대일 대화</MobTitle>}
                 <ChatRoom BgColor={color.containerBoxColor}>
                     <ChatRoomTitle>
-                        <p> {otherUserInfo.otherUserNickname} 님과의 대화</p>
+                        <p> {otherUserInfo.otherUserNickname}님과의 대화</p>
                         <BackButton onClick={() => navigate("/chatlist")}>
                             <img src={close} />
                         </BackButton>
@@ -184,7 +189,17 @@ const Container = styled.div`
     overflow: hidden;
 `;
 
+const MobTitle = styled.div`
+    width: 320px;
+    height: 34px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
+`;
+
 const ChatRoom = styled.div`
+    box-sizing: border-box;
+
     width: 950px;
     height: 530px;
     background: ${(props) => props.BgColor};
@@ -196,6 +211,15 @@ const ChatRoom = styled.div`
 
     position: relative;
     margin: auto;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 688px;
+
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
 `;
 
 const ChatRoomTitle = styled.div`
@@ -203,7 +227,7 @@ const ChatRoomTitle = styled.div`
     height: 52px;
     margin-top: 23px;
 
-    background: #2f3a5f;
+    background: rgba(8, 17, 52, 0.3);
 
     border-radius: 0px;
 
@@ -223,6 +247,20 @@ const ChatRoomTitle = styled.div`
 
         color: #ffffff;
     }
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 40px;
+        margin-top: 9px;
+        background: #959ebe;
+
+        & p {
+            font-size: 14px;
+            line-height: 17px;
+
+            color: #354569;
+        }
+    }
 `;
 
 const BackButton = styled.div`
@@ -231,30 +269,43 @@ const BackButton = styled.div`
 `;
 
 const MessageWrapper = styled.div`
-    width: 950px;
-    height: 397px;
+    width: 942px;
+    height: 375px;
+    margin-top: 19px;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
-        width: 6px;
+        width: 5px;
     }
 
     &::-webkit-scrollbar-thumb {
         background-color: #d3d3d3;
         border-radius: 50px;
-    }chatRoomUuid
-
+    }
     &::-webkit-scrollbar-track {
         background-color: #08105d;
         border-radius: 50px;
     }
+
+    @media only screen and (max-width: 420px) {
+        width: 319px;
+        height: 590px;
+        top: 0;
+        left: 0;
+        margin-top: 12px;
+    }
 `;
 const InputWrpper = styled.div`
-    width: 948px;
+    width: 945px;
     height: 57px;
     background: #2f3a5f;
     border-radius: 0px 0px 25px 25px;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        border-radius: 0 0 0 0;
+    }
 `;
