@@ -29,7 +29,7 @@ function DiaryList() {
     const [count, setCount] = useState(1);
     const [page, setPage] = useState(1);
     const [audio, setAudio] = useState();
-    const [diaryList, setDiaryList] = useState();
+    const [diaryList, setDiaryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { setCurrentHeader } = useStore();
 
@@ -39,63 +39,53 @@ function DiaryList() {
 
     const getPrevDiary = (e) => {
         e.stopPropagation();
+
         if(audio){
             audio.pause();
         }
 
-        if (count !== 1) {
-            setCount((count) => count - 1);
-            //이 와중에 page가 1이면?
-        } else {
-           //count가 1일때
-            if(page === 1) {
-                window.alert("제일 첫번째 다이어리에요!");
-            } else {
-                getDiaryListAPI(page - 1);
-                setPage(page => page - 1);
-                setCount(5);
-            }
-
-        }
-
-        // setAudio(new Audio(diaryList[count - 1].voiceUrl));
-        // audio.loop = false;
-        // audio.volume = 1;
-    };
-
-    const getNextDiary = (e) => {
-        e.stopPropagation();
-        if(audio){
-            audio.pause();
-        }
-
-        if (diaryList.length === 0) {
-            window.alert("더이상 다이어리가 없어요😂😂");
+        if(count === 1) {
+            window.alert("첫번째 다이어리에요!");
             return;
         }
-
-        if (diaryList.length === count) {
-            getDiaryListAPI(page + 1);
-            setPage((page) => page + 1);
-            setCount(1);
-        } else {
-            //list가 아직 남아있으면 cnt++
-            setCount((count) => count + 1);
-        }
+        setCount(count => count - 1);
 
     };
 
-
-    const getDiaryListAPI = (page) => {
-        diaryApi.getDiaryList(page).then((res) => {
+    const getMoreDiaryAPI = () => {
+        diaryApi.getDiaryList(page + 1).then((res) => {
+            //가져온 다음 페이지가 비었다면, 페이지를 처음으로 되돌린다. (page는 그대로)
+            if(!res.length) {
+                setCount(1);
+                return;
+            }
             if(res){
                 setIsLoading(false);
-                setDiaryList(res);
+                setDiaryList((prevList) => [...prevList, ...res]);
+                setPage((page) => page + 1);
             } else {
                 console.log("error");
             }
         });
+
     };
+
+    const getNextDiary = (e) => {
+        e.stopPropagation();
+
+        setCount(count => count + 1);
+
+        if(audio){
+            audio.pause();
+        }
+        if(count + 1 === diaryList.length) {
+            //마지막 슬라이드일때 Api 요청
+            getMoreDiaryAPI();
+        }
+    };
+
+
+
 
     const getAnonymousListApi = () => {
         diaryApi.getNotLoginUserDiary().then((res) =>{
@@ -126,13 +116,17 @@ function DiaryList() {
         setCurrentHeader("고민상담");
 
         if(isLogin) {
-            console.log("isLogin");
-            getDiaryListAPI(page);
+            diaryApi.getDiaryList(page).then((res) => {
+                if(res){
+                    setIsLoading(false);
+                    setDiaryList(res);
+                }
+            });
         } else {
             console.log("not isLogin");
             getAnonymousListApi();
         }
-    },[]);
+    },[isLogin]);
 
 
     const togglePlayVoice = (e) => {
@@ -157,6 +151,10 @@ function DiaryList() {
                         diary={diaryList[count - 1]}
                         diaryList={diaryList}
                         createChat={createChat}
+                        setPage={setPage}
+                        setCount={setCount}
+                        count={count}
+                        getMoreDiaryAPI={getMoreDiaryAPI}
                     />
                     :
                     <DiaryListContainer>
@@ -174,7 +172,8 @@ function DiaryList() {
                                                 navigate(`/diary/${diaryList[0].postUuid}`);
                                             }
                                         }}
-                                    key={isLogin ? diaryList[count - 1].postUuid : diaryList[0].postUuid}>
+                                    key={isLogin ? diaryList[count - 1].postUuid : diaryList[0].postUuid}
+                                    >
                                     <CardLeftPage>
                                         {isLogin && <PrevButton onClick={getPrevDiary} src={prevButton} />}
                                         <CardBackground>

@@ -15,20 +15,27 @@ import {color} from "../../utils/designSystem";
 
 const DiaryListMobile = (props) => {
 
-    const { diary, togglePlayVoice, diaryList, createChat } = props;
+    const { getMoreDiaryAPI, count, diary, togglePlayVoice, diaryList, createChat, setPage, setCount } = props;
     const navigate = useNavigate();
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
 
     const settings = {
         dots: false,
         arrows: false,
-        infinite: false,
+        infinite: true,
         speed: 3000,
         autoplay: false,
         slideToShow: 1,
         slidesToScroll: 1,
         vertical: true,
         verticalSwiping: true,
+        afterChange: (current) => {
+            setCount((prev) => prev + 1);
+            if (count + 1 === diaryList.length) {
+                getMoreDiaryAPI();
+            }
+
+        },
     };
 
     return (
