@@ -8,25 +8,24 @@ const Intro = () => {
     const animationRef = useRef();
     const navigate = useNavigate();
 
-    useEffect(()=>{
-
-        if(localStorage.getItem("isShowIntro") === "true") {
-            navigate("/");
-            return;
-        }
-
-        animationRef.current.addEventListener("animationend", () => {
-            localStorage.setItem("isShowIntro", JSON.stringify(true));
-            setTimeout(()=>{
-                navigate("/");
-            },2000);
-
-        });
-    },[]);
+    // useEffect(()=>{
+    //
+    //     if(localStorage.getItem("isShowIntro") === "true") {
+    //         navigate("/");
+    //         return;
+    //     }
+    //
+    //     animationRef.current.addEventListener("animationend", () => {
+    //         localStorage.setItem("isShowIntro", JSON.stringify(true));
+    //         setTimeout(()=>{
+    //             navigate("/");
+    //         },1500);
+    //
+    //     });
+    // },[]);
 
     return (
         <IntroContainer>
-            <MoonImage src={halfMoon}/>
             <Desc>
                 <First>
                     달빛이 유난히도 푸른 어느날, 나는 의문의 다이어리를 주웠다.
@@ -44,6 +43,7 @@ const Intro = () => {
                     세계 곳곳의 다이어리 주인들과 연결되고 있습니다....
                 </Third>
             </Desc>
+            <MoonImage src={halfMoon}/>
             <BuildingBg src={building}/>
             <StarBackGround src={starBG}/>
         </IntroContainer>
@@ -60,7 +60,7 @@ const IntroContainer = styled.div`
   background: linear-gradient(180deg, #081134 0%, #12163E 56.45%, #382963 100%);
 `;
 const MoonImage = styled.img`
-  position: relative;
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
@@ -74,7 +74,7 @@ const StarBackGround = styled.img`
 `;
 
 const BuildingBg = styled.img`
-  position: absolute;
+  position: fixed;
   width: 100%;
   bottom: 0;
   left: 0;
@@ -82,20 +82,21 @@ const BuildingBg = styled.img`
 `;
 
 const Desc = styled.div`
-  z-index: 99999;
+  z-index: 999999;
   font-size: 16px;
   line-height: 20px;
   text-align: center;
   color: #FFFFFF;
   position: relative;
-  bottom: 40%;
+  top: 312px;
+  left: 50%;
+  transform: translate(-50%, 0);
 `;
 
 const First = styled.div`
   animation-name: fadein;
-  //animation-delay: 0;
-  animation-duration:4s;
-  animation-timing-function: ease-in-out;
+  animation-duration: 5s;
+  animation-timing-function: linear;
   opacity: 0;
   
    @keyframes fadein{
@@ -103,7 +104,7 @@ const First = styled.div`
            opacity: 0;
            transform: translateY(20px);
       }
-       40% {
+       50% {
            opacity: 1;
            transform: none;
        }
@@ -115,17 +116,18 @@ const First = styled.div`
 `;
 const Second = styled.div`
   animation-name: fadein;
-  animation-delay: 4s;
-  animation-duration:4s;
-  animation-timing-function: ease-in-out;
+  animation-delay: 5s;
+  animation-duration:5s;
+  animation-timing-function: linear;
   opacity: 0;
+  margin-top: -20px;
 
   @keyframes fadein{
     0% {
       opacity: 0;
       transform: translateY(20px);
     }
-    40% {
+    50% {
       opacity: 1;
       transform: none;
     }
@@ -141,12 +143,14 @@ const FirstDiv = styled.div`
 `;
 
 const Third = styled.div`
+  transform: translate(-50%, 0);
   animation-name: fadein;
-  animation-delay: 8s;
-  animation-duration:4s;
-  animation-timing-function: ease-in-out;
+  animation-delay: 10s;
+  animation-duration:5s;
+  animation-timing-function: linear;
   opacity: 0;
   animation-fill-mode: forwards;
+  margin-top: -40px;
 
   @keyframes fadein{
     0% {
