@@ -31,10 +31,6 @@ export default function useRecordVoice() {
             setMyAudio(audio);
         }
 
-        return () => {
-            console.log("hook에서 unmount?");
-        };
-
     },[audioUrl]);
 
 

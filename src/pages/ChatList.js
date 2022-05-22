@@ -43,7 +43,6 @@ function ChatList(props) {
         chatList,
     };
 
-    console.log(chatList, "chatList");
 
     // 채팅방 나가기 모달창
     const [isOpenPopup, setIsOpenPopup] = useState(false);

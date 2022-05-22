@@ -22,11 +22,9 @@ const LotteryWin = () => {
     };
 
     const onChangeCheck = (e) => {
-        console.log(e.target.checked);
         setIsChecked(e.target.checked);
     };
 
-    console.log(typeof phoneNumber);
     // console.log(phoneNumber);
     // console.log(phoneNumber.length);
     // console.log(phoneNumber.length !== 11);
@@ -34,7 +32,6 @@ const LotteryWin = () => {
 
     const EnterInfo = () => {
         userApi.EnterInfo(phoneNumber, isChecked).then((response) => {
-            console.log(response);
             Navigate(-1);
         });
     };

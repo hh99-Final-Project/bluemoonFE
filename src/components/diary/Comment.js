@@ -73,7 +73,6 @@ function Comment(props) {
         chatApi
             .createChat(userId)
             .then((response) => {
-                console.log(response);
                 navigate(`/chat/${response.data}`);
             })
             .catch((error) => {

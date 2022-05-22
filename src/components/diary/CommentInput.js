@@ -99,7 +99,6 @@ function CommentInput(props) {
 
     const saveComment = () => {
         let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2((recordTime % 60))}`;
-        console.log(timeToServer,"timeToServer!");
         setTime(timeToServer);
         setParentId("");
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, time);

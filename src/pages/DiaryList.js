@@ -123,7 +123,6 @@ function DiaryList() {
                 }
             });
         } else {
-            console.log("not isLogin");
             getAnonymousListApi();
         }
     },[isLogin]);

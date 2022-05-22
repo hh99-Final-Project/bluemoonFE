@@ -55,7 +55,6 @@ function Login() {
     const googleLoginHandler = (res) => {
         userApi.googleLogin(res.tokenId).then((response) => {
             if (response.status === 200) {
-                console.log(response);
                 let token = response.headers.authorization;
                 setCookie(token);
                 dispatch(getUserInfo(response.data));

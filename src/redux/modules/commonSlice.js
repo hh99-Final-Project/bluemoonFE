@@ -33,7 +33,6 @@ const commonSlice = createSlice({
             state.commentAlertList.push(...action.payload);
         },
         getNewCommentAlert(state, action) {
-            console.log(action.payload);
             // 배열의 가장 앞에 실시간 알람 메시지를 추가
             state.newCommentAlert.unshift(action.payload);
             // state.commentAlertList.unshift(action.payload);

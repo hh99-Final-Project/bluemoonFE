@@ -21,21 +21,18 @@ function Notifications(props) {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     const [commentAlertList, setCommentAlertList] = useState([]);
-
     const dispatch = useDispatch();
 
     const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
-    console.log(page);
+
 
     useEffect(() => {
         diaryApi
             .getCommentAlertList(page)
             .then((response) => {
-                console.log(response);
-                console.log(page);
                 if (page === 1) {
                     setCommentAlertList(response.data);
                 } else {
@@ -108,11 +105,15 @@ function Notifications(props) {
                     </CloseButton>
                 </NotiHeader>
                 <Content length={commentAlertList.length}>
-                    {commentAlertList.length === 0 && <React.Fragment></React.Fragment>}
-                    {commentAlertList.length > 0 &&
+                    {commentAlertList.length > 0 ?
                         commentAlertList.map((alert) => {
                             return <Notice key={alert.messageId} alert={alert} />;
-                        })}
+                        })
+                        :
+                        <NoContent>
+                            아직 도착한 알림이 없어요:)
+                        </NoContent>
+                    }
                 </Content>
             </Modal>
         </div>
@@ -171,4 +172,11 @@ const Content = styled.div`
         background-color: #08105d;
         border-radius: 5px;
     }
+`;
+const NoContent = styled.div`
+  font-size: 15px;
+  line-height: 19px;
+  color: #08105D;
+  text-align: center;
+  margin-top: 223px;
 `;

@@ -63,3 +63,24 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     },
 );
+
+
+fileInstance.interceptors.response.use(
+    function (response) {
+        if(response.data.errorMessage === "만료된 토큰입니다.") {
+            window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
+            store.dispatch(logout());
+            deleteCookie("authorization");
+            window.location.href = "/";
+        }
+        return response;
+    },
+    function (error) {
+        console.log(error, "error");
+        store.dispatch(showError({ isOpen: true, message: error.response.data.message }));
+        return Promise.reject(error);
+    },
+);
+
+
+
