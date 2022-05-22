@@ -17,6 +17,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
+import { useMediaQuery } from "react-responsive";
 
 ChatList.propTypes = {};
 
@@ -25,27 +26,24 @@ function ChatList(props) {
     const dispatch = useDispatch();
     const { setCurrentHeader } = useStore();
 
-    // const userInfo = useSelector((state) => state.userSlice.userInfo);
-
     const chatList = useSelector((state) => state.chatSlice.chatList);
     const isLoading = useSelector((state) => state.chatSlice.isLoading);
     const hasNext = useSelector((state) => state.chatSlice.hasNext);
     const page = useSelector((state) => state.chatSlice.page);
 
-    // 무한스크롤(리덕스 코드 구현 여부 확인되면 코드 정리 예정)
-    const InfinityScrollRef = useRef();
-    // const [isLoading, setIsLoading] = useState(true);
-    // const [page, setPage] = useState(1);
-    // const [hasNext, setHasNext] = useState(null);
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     const inicialRoom = {
         roomename: null,
         roomId: null,
         lastMessage: null,
-        lastTime: null,chatList
+        lastTime: null,
+        chatList,
     };
 
-    console.log(chatList,"chatList");
+    console.log(chatList, "chatList");
 
     // 채팅방 나가기 모달창
     const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -64,18 +62,18 @@ function ChatList(props) {
         });
     };
 
+    // 무한스크롤(리덕스 코드 구현 여부 확인되면 코드 정리 예정)
+    const InfinityScrollRef = useRef();
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [page, setPage] = useState(1);
+    // const [hasNext, setHasNext] = useState(null);
+
     // 무한스크롤을 함수
     // Grid onScroll 이벤트에 넣어두어, Grid 스크롤 발생 시 실행됨
     const InfinityScroll = _.throttle((e) => {
-        // 실제 요소의 높이값
-        // console.log(e.target.scrollHeight);
-
-        // 스크롤 위치
-        //  console.log(e.target.scrollTop);
-
-        // 현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
-        // console.log(e.target.clientHeight);
-
+        // console.log(e.target.scrollHeight);  // 요소 전체 높이
+        // console.log(e.target.scrollTop);  // 스크롤 위치
+        // console.log(e.target.clientHeight); // 현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
         // console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
 
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
@@ -125,7 +123,7 @@ function ChatList(props) {
         <Layout>
             <Container>
                 <Header />
-                <CategoryBar />
+                {!isMobile ? <CategoryBar /> : <MobTitle>마이 페이지</MobTitle>}
                 <ChatRoomListBox BgColor={color.containerBoxColor}>
                     <ChatRoomListTitle>
                         <p>채팅 리스트</p>
@@ -191,6 +189,18 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     overflow: hidden;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        margin: auto;
+    }
+`;
+
+const MobTitle = styled.div`
+    width: 320px;
+    height: 34px;
+    color: #ffffff;
+    text-align: center;
 `;
 
 const ChatRoomListBox = styled.div`
@@ -205,23 +215,17 @@ const ChatRoomListBox = styled.div`
 
     position: relative;
     margin: auto;
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+
+        background: none;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
 `;
 
-const NoChatNotice = styled.div`
-    position: absolute;
-    top: 100px;
-    left: 50%;
-    transform: translate(-50%, 0);
-
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-
-    color: #d7d7d7;
-`;
 const ChatRoomListTitle = styled.div`
     position: absolute;
     width: 950px;
@@ -248,6 +252,31 @@ const ChatRoomListTitle = styled.div`
         align-items: center;
         color: #ffffff;
     }
+
+    @media only screen and (max-width: 420px) {
+        display: none;
+    }
+`;
+
+const NoChatNotice = styled.div`
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+
+    color: #d7d7d7;
+
+    @media only screen and (max-width: 420px) {
+        position: none;
+        margin: 50px auto;
+    }
 `;
 
 const ChatRoomWrapper = styled.div`
@@ -271,6 +300,14 @@ const ChatRoomWrapper = styled.div`
         background-color: #08105d;
         border-radius: 50px;
     }
+
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 580px;
+
+        top: 0;
+        left: 0;
+    }
 `;
 
 const ChatRoom = styled.div`
@@ -284,6 +321,12 @@ const ChatRoom = styled.div`
     // padding: 16px;
     box-sizing: border-box;
     cursor: pointer;
+
+    @media only screen and (max-width: 420px) {
+        width: 310px;
+        height: 78px;
+        border-radius: 3px;
+    }
 `;
 
 const TitleLine = styled.div`
@@ -291,13 +334,13 @@ const TitleLine = styled.div`
     display: flex;
     flex-direction: row;
     margin: 12px 0 0 16px;
+
+    @media only screen and (max-width: 420px) {
+        margin: 15px 0 0 14px;
+    }
 `;
 
 const CharRoomTitle = styled.div`
-    // position: absolute;
-    // top: 12px;
-    // left: 16px;
-
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 500;
@@ -307,6 +350,12 @@ const CharRoomTitle = styled.div`
     align-items: center;
 
     color: #354569;
+
+    @media only screen and (max-width: 420px) {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 15px;
+    }
 `;
 
 const UnreadCount = styled.div`
@@ -351,6 +400,11 @@ const LastChatTime = styled.div`
     text-align: center;
 
     color: #354569;
+
+    @media only screen and (max-width: 420px) {
+        top: 15px;
+        right: 15px;
+    }
 `;
 
 const LastChat = styled.div`
@@ -367,6 +421,11 @@ const LastChat = styled.div`
     align-items: center;
 
     color: #354569;
+
+    @media only screen and (max-width: 420px) {
+        top: 51px;
+        right: 15px;
+    }
 `;
 
 const ChatOutButton = styled.div`
@@ -384,16 +443,9 @@ const ChatOutButton = styled.div`
     text-align: center;
 
     color: #354569;
+
+    @media only screen and (max-width: 420px) {
+        top: 52px;
+        right: 17px;
+    }
 `;
-
-// const ContentLine = styled.div`
-//     width: 860px;
-//     display: flex;
-//     justify-content: space-between;
-//     margin: 10px auto;
-// `;
-
-// const ModalOpenButton = styled.div`
-//     // width: 100px;
-//     cursor: pointer;
-// `;
