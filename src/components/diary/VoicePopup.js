@@ -75,7 +75,7 @@ const VoicePopup = (props) => {
                 <img src={microphone} alt={"voiceIcon"} />
             </RecordImg>
             <RecordTime ref={timeRef}>
-                {minutes} : {seconds}
+                {minutes < 10 ? "0" + minutes : minutes} : {seconds < 10 ? "0" + seconds : seconds}
             </RecordTime>
             <IconArea>
                 {/*처음 화면*/}
