@@ -318,7 +318,7 @@ const ChatRoom = styled.div`
     border-radius: 5px;
     background: #959ebe;
 
-    margin: 0 0 5px;
+    margin: 0 auto 5px;
     // padding: 16px;
     box-sizing: border-box;
     cursor: pointer;

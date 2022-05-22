@@ -249,7 +249,17 @@ const ChatRoomTitle = styled.div`
     }
 
     @media only screen and (max-width: 420px) {
+        width: 320px;
+        height: 40px;
+        margin-top: 9px;
         background: #959ebe;
+
+        & p {
+            font-size: 14px;
+            line-height: 17px;
+
+            color: #354569;
+        }
     }
 `;
 
@@ -278,10 +288,11 @@ const MessageWrapper = styled.div`
     }
 
     @media only screen and (max-width: 420px) {
-        width: 320px;
+        width: 319px;
         height: 590px;
         top: 0;
         left: 0;
+        margin-top: 12px;
     }
 `;
 const InputWrpper = styled.div`

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 ChatMessage.propTypes = {
     message: PropTypes.string,
@@ -18,6 +19,10 @@ function ChatMessage(props) {
     // 채팅 메시지 보낸 사람과 현재 로그인한 사람을 비교하여 같은 사람이면 true 다르면 false
     // 본인이 보낸 채팅 메시지는 오른쪽에 표시, 아닌 사람은 왼쪽에 표시한다.
     const user = userId === userInfo.userId ? true : false;
+
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     return (
         <React.Fragment>
@@ -43,6 +48,10 @@ const MessageBox = styled.div`
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
     align-items: flex-end;
     margin: ${(props) => (props.user ? "0 23px 0 0" : "0 0 0 23px")};
+
+    @media only screen and (max-width: 420px) {
+        margin: ${(props) => (props.user ? "0 7px 0 0" : "0 0 0 5px")};
+    }
 `;
 
 const Message = styled.div`
@@ -52,7 +61,6 @@ const Message = styled.div`
     background-color: ${(props) => (props.user ? "rgba(8, 17, 52, 0.6);" : "rgba(163, 171, 199, 0.6);")};
     margin: ${(props) => (props.user ? "0 0 0 5px" : "0 5px 0 0")};
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
-    word-break: keep-all;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
@@ -61,6 +69,13 @@ const Message = styled.div`
     line-height: 18px;
 
     color: #ffffff;
+
+    @media only screen and (max-width: 420px) {
+        padding: 14px 10px;
+
+        font-size: 12px;
+        line-height: 15px;
+    }
 `;
 
 const CreatedAt = styled.div`
@@ -75,4 +90,9 @@ const CreatedAt = styled.div`
     text-align: center;
 
     color: #c6d3ec;
+
+    @media only screen and (max-width: 420px) {
+        font-size: 8px;
+        line-height: 10px;
+    }
 `;

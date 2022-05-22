@@ -290,7 +290,7 @@ const DiaryCard = styled.div`
     // display: flex;
     // flex-direction: column;
 
-    margin: 0 0 5px;
+    margin: 0 auto 5px;
     padding: 16px;
     box-sizing: border-box;
     cursor: pointer;
