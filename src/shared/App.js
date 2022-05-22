@@ -9,7 +9,7 @@ import DiaryDetail from "../pages/DiaryDetail";
 import ChatDetail from "../pages/ChatDetail";
 import ChatList from "../pages/ChatList";
 import MyPage from "../pages/MyPage";
-import { Notifications } from "../components/common";
+import { Feedback, Notifications } from "../components/common";
 import NotFound from "../pages/NotFound";
 import Lottery from "../pages/Lottery";
 import LotteryWin from "../pages/LotteryWin";
@@ -18,7 +18,7 @@ import ErrorModal from "../shared/ErrorModal";
 import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
-import { getAlertList } from "../redux/modules/commonSlice";
+
 
 function App() {
     const queryClient = new QueryClient();
@@ -50,6 +50,7 @@ function App() {
                 <Route path="/intro" element={<Intro />} />
             </Routes>
             <ErrorModal/>
+            <Feedback/>
         </QueryClientProvider>
     );
 }

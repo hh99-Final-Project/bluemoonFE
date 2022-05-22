@@ -134,9 +134,7 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     overflow: hidden;
-  
-    @media only screen and (max-width: 420px) {
-  }
+    position: relative;
   
 `;
 

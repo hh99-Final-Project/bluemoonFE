@@ -120,7 +120,9 @@ const MobileCategoryBar = () => {
                     </HeaderContent>
                     <FeedbackIcon>
                         <img src={mobHomeIcon}/>
-                        <div>피드백 주기</div>
+                        <div onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLScXhuS3JBOySC6_YMlJOc98xew2pYAwUyPYRE_Qms2NGrdKfw/viewform")}>
+                            피드백 주기
+                        </div>
                     </FeedbackIcon>
 
                 </MenuContentBox>
