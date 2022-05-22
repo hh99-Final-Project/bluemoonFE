@@ -15,7 +15,7 @@ import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import { deleteUnreadCount, getChatList } from "../redux/modules/chatSlice";
+import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
 
 ChatList.propTypes = {};
@@ -42,19 +42,22 @@ function ChatList(props) {
         roomename: null,
         roomId: null,
         lastMessage: null,
-        lastTime: null,
+        lastTime: null,chatList
     };
+
+    console.log(chatList,"chatList");
 
     // 채팅방 나가기 모달창
     const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const [clickedChatId, setClickedChatId] = useState("");
     const PopupRef = useRef();
 
     // 채팅방 나가기
-    const deleteChat = (chatId) => {
-        chatApi.deleteChat(chatId).then((response) => {
+    const deleteChat = () => {
+        chatApi.deleteChat(clickedChatId).then((response) => {
             if (response.status === 200) {
                 setIsOpenPopup(false);
-                // 리덕스 charList 에서 delete 처리 해줘야 함.
+                dispatch(deleteChatList(clickedChatId));
             } else {
                 window.alert("에러처리");
             }
@@ -157,6 +160,7 @@ function ChatList(props) {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setIsOpenPopup(true);
+                                                setClickedChatId(chat.chatRoomUuid);
                                             }}
                                             chatRoomUuid={chat.chatRoomUuid}
                                         >
@@ -170,7 +174,7 @@ function ChatList(props) {
                                 title={"정말로/대화를 종료하시겠습니까?"}
                                 close={() => setIsOpenPopup(false)}
                                 event={() => {
-                                    deleteChat(chat.chatRoomUuid);
+                                    deleteChat();
                                 }}
                             />
                         )}
@@ -233,7 +237,7 @@ const ChatRoomListTitle = styled.div`
 
     color: #ffffff;
 
-    & p {
+    p {
         margin-left: 23px;
         font-family: "Spoqa Han Sans Neo";
         font-style: normal;
@@ -242,7 +246,6 @@ const ChatRoomListTitle = styled.div`
         line-height: 25px;
         display: flex;
         align-items: center;
-
         color: #ffffff;
     }
 `;
@@ -255,16 +258,16 @@ const ChatRoomWrapper = styled.div`
     left: 25px;
     overflow-y: auto;
 
-    &:: -webkit-scrollbar {
+    &::-webkit-scrollbar {
         width: 6px;
     }
 
-    &:: -webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
         background-color: #d3d3d3;
         border-radius: 50px;
     }
 
-    &:: -webkit-scrollbar-track {
+    &::-webkit-scrollbar-track {
         background-color: #08105d;
         border-radius: 50px;
     }

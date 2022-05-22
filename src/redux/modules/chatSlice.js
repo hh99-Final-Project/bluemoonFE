@@ -46,6 +46,7 @@ export const getChatMessage = createAsyncThunk("GET_CHAT_MESSAGE", async (roomId
     }
 });
 
+
 // 리듀서
 const chatSlice = createSlice({
     name: "chat",
@@ -98,6 +99,9 @@ const chatSlice = createSlice({
         isLoading(state, action) {
             state.isLoading = true;
         },
+        deleteChatList(state, action) {
+            state.chatList.filter((chat) => chat.chatRoomUuid !== action.payload);
+        }
     },
     // extraReducers
     extraReducers: (builder) => {
@@ -122,6 +126,6 @@ const chatSlice = createSlice({
 });
 
 //액션 생성함수
-export const { subMessage, getUnreadCount, deleteUnreadCount } = chatSlice.actions;
+export const { subMessage, getUnreadCount, deleteUnreadCount, deleteChatList } = chatSlice.actions;
 
 export default chatSlice.reducer;

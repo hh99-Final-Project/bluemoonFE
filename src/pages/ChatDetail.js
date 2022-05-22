@@ -235,16 +235,16 @@ const MessageWrapper = styled.div`
     height: 397px;
     overflow-y: auto;
 
-    &:: -webkit-scrollbar {
+    &::-webkit-scrollbar {
         width: 6px;
     }
 
-    &:: -webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
         background-color: #d3d3d3;
         border-radius: 50px;
-    }
+    }chatRoomUuid
 
-    &:: -webkit-scrollbar-track {
+    &::-webkit-scrollbar-track {
         background-color: #08105d;
         border-radius: 50px;
     }

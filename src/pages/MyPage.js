@@ -30,6 +30,7 @@ function MyPage() {
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const [clickedDiary, setClickedDiary] = useState("");
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
@@ -38,14 +39,11 @@ function MyPage() {
 
     // 삭제하기
 
-    const deleteDiary = (postUuid) => {
-        diaryApi.deleteDiary(postUuid).then((res) => {
-            let filtered = [...myDiary.filter((m) => m.postUuid !== postUuid)];
-            console.log(postUuid);
-            console.log(filtered);
-            setMyDiary(filtered);
+    const deleteDiary = () => {
+        diaryApi.deleteDiary(clickedDiary).then((res) => {
             if (res.status === 200) {
                 setIsOpenPopup(false);
+                setMyDiary(myDiary.filter((diary) => diary.postUuid !== clickedDiary));
                 // navigate("/myDiary");
             } else {
                 window.alert("에러처리");
@@ -99,9 +97,6 @@ function MyPage() {
     }, []);
 
     const PopupRef = useRef();
-    console.log(PopupRef);
-    console.log(PopupRef.current);
-    console.log(PopupRef.target);
 
     if (isLoading) {
         return <Loading />;
@@ -138,7 +133,7 @@ function MyPage() {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setIsOpenPopup(true);
-                                                // PopupRef.current = e.target.postUuid;
+                                                setClickedDiary(diary.postUuid);
                                             }}
                                             postUuid={diary.postUuid}
                                         >
@@ -152,8 +147,7 @@ function MyPage() {
                                 title={"정말로/이야기를 지우시겠습니까?"}
                                 close={() => setIsOpenPopup(false)}
                                 event={() => {
-                                    // 인자로 지울 다이어리의 postUuid 를 넘겨줘야 한다..
-                                    // deleteDiary(diary.postUuid);
+                                    deleteDiary(clickedDiary);
                                 }}
                             />
                         )}

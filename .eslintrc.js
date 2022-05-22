@@ -23,7 +23,8 @@ module.exports = {
     rules: {
         "react/prop-types": "off",
         "semi": ["error", "always"],
-        "quotes": ["error", "double"]
+        "quotes": ["error", "double"],
+        "import/no-named-as-default": 0
         // 추가하고 싶은 rule을 더 추가
     }
 };
