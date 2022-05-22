@@ -1,5 +1,9 @@
 import React from "react";
 
+// signup
+export const crescent = require("./signup/crescent.svg").default;
+export const line = require("./signup/line.svg").default;
+
 // categoryBar
 export const categoryWrite = require("./categoryBar/writeIcon.png");
 export const categoryChatList = require("./categoryBar/chatIcon.png");
@@ -71,7 +75,6 @@ export const closeBtn = require("./diary/closePopup.svg").default;
 
 //diary-content
 export const chatIcon = require("./diary/chatIcon.svg").default;
-
 
 //diary-list
 export const commentIcon = require("./diary/comment.svg").default;
