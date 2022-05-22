@@ -17,6 +17,7 @@ import { useMediaQuery } from "react-responsive";
 import { isModalOpen } from "../redux/modules/commonSlice";
 import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2} from "../utils/convertDate";
+import { MyTimer } from "../components/diary/Timer";
 
 
 function WriteDiary() {
@@ -45,7 +46,9 @@ function WriteDiary() {
       playingPause,
       playingHandler,
       toggleListening,
-      isListening
+      isListening,
+      playingStop,
+      myAudio,
     } = useRecordVoice();
 
     const [title, setTitle] = useState("");
@@ -124,29 +127,34 @@ function WriteDiary() {
     };
 
     const handler = (e) => {
+
       if(diary.length > 0 ) {
         e.preventDefault();
         e.returnValue = "작성 중인데 정말 나가시겠습니까?";
       }
     };
 
-    const { seconds, minutes, isRunning, start, restart, pause } = useTimer({
-      expireTime,
-      onExpire: () => console.warn("onExpire called"),
-      autoStart: false,
-    });
+    const { seconds, minutes, isRunning, start, restart, pause, resume } = MyTimer(expireTime);
 
 
 
     useEffect(()=>{
       setCurrentHeader("포스트");
-    },[]);
+
+        return () => {
+            if(myAudio){
+                myAudio.pause();
+            }
+        };
+
+    },[myAudio]);
 
     useEffect(()=>{
         window.addEventListener("beforeunload", handler);
 
       return () => {
           window.removeEventListener("beforeunload", handler);
+
       };
 
     }, [diary]);
@@ -180,10 +188,10 @@ function WriteDiary() {
                             <img src={recordIcon} alt={"record"}/>
                             <div>음성 등록</div>
                           </RecordArea>
-                          <ListenArea>
-                            <img src={listenIcon} alt={"listen"}/>
-                            <div>음성 듣기</div>
-                          </ListenArea>
+                          {/*<ListenArea>*/}
+                          {/*  <img src={listenIcon} alt={"listen"}/>*/}
+                          {/*  <div>음성 듣기</div>*/}
+                          {/*</ListenArea>*/}
                         </VoiceLeft>
                         <PostLength>{diary.length}/500</PostLength>
                       </PostAreaBottomIcons>
@@ -191,20 +199,32 @@ function WriteDiary() {
 
                     {isShowSpeaker &&
                     <SoundPlayIcon>
+
                       <SpeakerIcon
                           onClick={() => {
                           const now = new Date();
                           let addedNow = now.setSeconds(now.getSeconds() + recordTime);
                           setExpireTime(new Date(addedNow));
-                          play();
-                          restart(new Date(addedNow));
+
+                          //이미 재생중이라면 중지, 타이머 stop
+                          if(isPlaying){
+                              playingStop();
+                              playingHandler(false);
+                              pause();
+                          } else {
+                              //중지라면 다시 재생, 타이머 재생
+                              play();
+                              restart(new Date(addedNow));
+                          }
+
+
                       }} src={listenIcon}/>
-                      <TimeArea>
+
+                        <TimeArea>
+
                         {
-                          isRunning ?
-                              timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
-                            :
-                              timeFormatter(recordTime).min + ":" + timeFormatter(recordTime).sec
+                            isRunning ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
+                                : timeFormatter(recordTime).min + ":" + timeFormatter(recordTime).sec
                         }
                       </TimeArea>
                     </SoundPlayIcon>

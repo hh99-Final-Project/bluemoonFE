@@ -10,6 +10,7 @@ export default function useRecordVoice() {
     const [isShowSpeaker, setIsShowSpeaker] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isListening, setIsListening] = useState(false);
+    const [isListeningPaused, setIsListeningPaused] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [analyser, setAnalyser] = useState();
     const [audioUrl, setAudioUrl] = useState();
@@ -30,7 +31,9 @@ export default function useRecordVoice() {
             setMyAudio(audio);
         }
 
-
+        return () => {
+            console.log("hook에서 unmount?");
+        };
 
     },[audioUrl]);
 
@@ -156,7 +159,15 @@ export default function useRecordVoice() {
     const playingPause = () => {
         if(myAudio){
             myAudio.pause();
+
         };
+    };
+
+    const playingStop = () => {
+        if(myAudio){
+            myAudio.currentTime = 0;
+            myAudio.pause();
+        }
     };
 
 
@@ -201,6 +212,9 @@ export default function useRecordVoice() {
         playingPause,
         playingHandler,
         toggleListening,
-        isListening
+        isListening,
+        playingStop,
+        myAudio,
+        analyser
     };
 }

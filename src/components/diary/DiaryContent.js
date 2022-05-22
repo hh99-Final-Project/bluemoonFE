@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -13,6 +13,8 @@ function DiaryContent(props) {
     const { diary } = props;
     const navigate = useNavigate();
     const audioRef = useRef(new Audio(diary.voiceUrl));
+
+    const [isPlaying, setIsPlaying] = useState(false);
 
 
 
@@ -37,31 +39,45 @@ function DiaryContent(props) {
 
     const playAudio = () => {
         if (audioRef.current) {
-            audioRef.current.volume = 1;
-            audioRef.current.loop = false;
-
             if(audioRef.current.paused) {
                 audioRef.current.play();
+                setIsPlaying(true);
             } else {
                 audioRef.current.pause();
+                setIsPlaying(false);
             }
         }
+
     };
 
     useEffect(()=>{
-       return () => {
-           audioRef.current.pause();
-       };
-    },[]);
+        if(audioRef.current && diary.voiceUrl) {
+            audioRef.current.volume = 1;
+            audioRef.current.loop = false;
+        }
+           return () => {
+                if(audioRef.current){
+                    audioRef.current.pause();
+                }
+           };
+        },[diary, audioRef.current]);
 
-    return (
-        <React.Fragment>
-            <DiaryContainer>
-                <ContentsContainer>
-                    <Content>{diary.content}</Content>
-                    { diary.voiceUrl.length > 0 &&
-                        <VoiceButton onClick={playAudio} src={voicePlayIcon}/>
-                    }
+        return (
+            <React.Fragment>
+                <DiaryContainer>
+                    <ContentsContainer>
+                        <Content>{diary.content}</Content>
+                        { diary.voiceUrl.length > 0 &&
+                            <VoiceArea>
+                                <VoiceButton isPlaying={isPlaying} onClick={playAudio} src={voicePlayIcon}/>
+                                <TooltipBox>
+                                    {isPlaying ? "한번 더 누르면 멈춥니다!" : "클릭하면 재생합니다"}
+                                </TooltipBox>
+                                {/*<TimeArea>*/}
+
+                                {/*</TimeArea>*/}
+                            </VoiceArea>
+                        }
 
                 </ContentsContainer>
                 <NicknameArea>{diary.nickname}님의 고민</NicknameArea>
@@ -121,9 +137,30 @@ const Content = styled.div`
     }
 `;
 
+const VoiceArea = styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+`;
+
+const TooltipBox = styled.div`
+  visibility: hidden;
+  font-size: 12px;
+  color: #08105D;
+  margin-left: 4px;
+  
+`;
+
 const VoiceButton = styled.img`
     cursor: pointer;
-    margin-top: 21px;
+  
+    &:hover + ${TooltipBox}  {
+      visibility: visible;
+    }
+`;
+
+const TimeArea = styled.div`
+  
 `;
 
 
