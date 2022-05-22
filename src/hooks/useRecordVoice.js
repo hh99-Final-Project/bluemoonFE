@@ -181,6 +181,10 @@ export default function useRecordVoice() {
         setIsShowSpeaker(true);
     };
 
+    const resetShowSpeaker = () => {
+        setIsShowSpeaker(false);
+    };
+
     const playingHandler = (bool) => {
         setIsPlaying(bool);
     };
@@ -215,6 +219,6 @@ export default function useRecordVoice() {
         isListening,
         playingStop,
         myAudio,
-        analyser
+        resetShowSpeaker
     };
 }

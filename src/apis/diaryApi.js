@@ -32,7 +32,6 @@ export const diaryApi = {
     },
 
     createComment: async (postId, comment, audioUrl, isLocked, parentCommentId, time) => {
-        console.log(parentCommentId, "parentCommentId");
         let req = {
             postUuid: postId,
             content: comment,

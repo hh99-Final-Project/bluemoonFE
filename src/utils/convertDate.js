@@ -31,3 +31,12 @@ export const timeFormatter2 = (time) => {
     }
     return time;
 };
+
+export const stringToSeconds = (time) => {
+    // "0:0" 서버에서 받은 문자열을 초로 변환
+    let min = Number(time.split(":")[0]);
+    let sec = Number(time.split(":")[1]);
+
+    return min * 60 + sec;
+
+};

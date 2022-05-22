@@ -5,15 +5,15 @@ import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
 import useStore from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
-import { convertDate } from "../../utils/convertDate";
+import {convertDate, stringToSeconds, timeFormatter2} from "../../utils/convertDate";
 import lockIcon from "../../static/images/diary/lockIcon.svg";
-import Modal from "react-modal";
 import { useMutation, useQueryClient } from "react-query";
 import {chatApi} from "../../apis/chatApi";
 import ReplyComment from "./ReplyComment";
 import Popup from "../../shared/Popup";
 import ErrorModal from "../../shared/ErrorModal";
 import {voicePlayIcon} from "../../static/images/resources";
+import { MyTimer } from "./Timer";
 
 Comment.propTypes = {
     comment: PropTypes.object,
@@ -28,20 +28,28 @@ function Comment(props) {
     const { comment, setParentId, parentCommentId } = props;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-
     const [isOpenPopup, setIsOpenPopup] = useState(false);
+    const [expireTime, setExpireTime] = useState();
+    const audioRef = useRef();
 
 
-    const audioPlay = (url) => {
-        const audio = new Audio(url);
-        if(audio){
-            audio.volume = 1;
-            audio.loop = false;
-            audio.play();
+    const { seconds, minutes, isRunning, start, restart, pause, resume } = MyTimer(expireTime);
+
+    const audioPlay = (timer) => {
+
+        if(audioRef.current){
+            if(audioRef.current.paused){
+                audioRef.current.play();
+                restart(timer);
+            } else {
+                audioRef.current.currentTime = 0;
+                audioRef.current.pause();
+                pause();
+            }
         }
     };
+
 
     const mutation = useMutation((id) => diaryApi.deleteComment(id), {
         onSuccess: () => {
@@ -56,6 +64,8 @@ function Comment(props) {
     const reReplyComment = (commentId) => {
         setParentId(commentId);
     };
+
+
 
 
 
@@ -92,16 +102,26 @@ function Comment(props) {
 
                 {
                     comment.voiceUrl !== "" &&
-                        <PlayVoiceArea>
+                        <PlayVoiceArea
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const now = new Date();
+                                let addedNow = now.setSeconds(now.getSeconds() + stringToSeconds(comment.timer));
+                                setExpireTime(new Date(addedNow));
+                                audioPlay(new Date(addedNow));
+
+                        }}>
                             <img src={voicePlayIcon}/>
-                            <PlayIcon
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    audioPlay(comment.voiceUrl);
-                                }}>
-                
+                            <PlayIcon>
                                 음성 듣기
                             </PlayIcon>
+                            <Timer>
+                                {
+                                    isRunning ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
+                                        : comment.timer
+                                }
+                            </Timer>
+                            <audio ref={audioRef} src={comment.voiceUrl}/>
                         </PlayVoiceArea>
                 }
 
@@ -255,6 +275,8 @@ const PostContent = styled.div`
 const PlayVoiceArea = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
+  
   img {
     width: 18px;
     height: 18px;
@@ -262,10 +284,16 @@ const PlayVoiceArea = styled.div`
   }
 `;
 const PlayIcon = styled.div`
-    cursor: pointer;
+    
     font-size: 8px;
     line-height: 10px;
     color: #08105D;
-  
-
 `;
+
+const Timer = styled.div`
+  font-size: 8px;
+  line-height: 10px;
+  color: #08105D;
+  margin-left: 6px;
+`;
+

@@ -45,6 +45,7 @@ function CommentInput(props) {
         isPaused,
         completeRecord,
         isShowSpeaker,
+        resetShowSpeaker,
         recordReset,
         playingPause,
         setIsPlaying,
@@ -75,6 +76,8 @@ function CommentInput(props) {
             onSuccess: () => {
                 queryClient.invalidateQueries("diaryDetail");
                 setComment("");
+                resetShowSpeaker();
+
             },
         },
     );
@@ -95,7 +98,8 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-        let timeToServer = `${Math.floor(recordTime / 60) + ":" + (recordTime % 60)}`;
+        let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2((recordTime % 60))}`;
+        console.log(timeToServer,"timeToServer!");
         setTime(timeToServer);
         setParentId("");
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, time);
