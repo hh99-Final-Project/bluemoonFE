@@ -57,7 +57,6 @@ function CommentInput(props) {
         autoStart: false,
     });
 
-    console.log(seconds, "seconds");
 
     const lockHandler = () => {
         setIsLocked((prev) => !prev);
