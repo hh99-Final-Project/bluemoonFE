@@ -35,21 +35,20 @@ export default ChatMessage;
 
 const Box = styled.div`
     align-items: ${(props) => (props.user ? "flex-end" : "flex-start")};
-    margin: 10px;
-    // height: 70px;
+    margin-bottom: 15px;
 `;
 
 const MessageBox = styled.div`
     display: flex;
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
     align-items: flex-end;
-    margin: 10px;
+    margin: ${(props) => (props.user ? "0 23px 0 0" : "0 0 0 23px")};
 `;
 
 const Message = styled.div`
     max-width: 70%;
     padding: 10px 15px;
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: ${(props) => (props.user ? "rgba(8, 17, 52, 0.6);" : "rgba(163, 171, 199, 0.6);")};
     margin: ${(props) => (props.user ? "0 0 0 5px" : "0 5px 0 0")};
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};

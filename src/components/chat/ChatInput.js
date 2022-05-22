@@ -7,6 +7,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { getCookie } from "../../utils/cookie";
 import { send } from "../../static/images/resources";
+import { useMediaQuery } from "react-responsive";
 
 ChatInput.propTypes = {};
 
@@ -15,6 +16,10 @@ function ChatInput(props) {
     const ws = useRef();
 
     const token = getCookie("authorization");
+
+    const isMobile = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     const onKeyPressHandler = (e) => {
         if (e.key === "Enter") {
@@ -43,6 +48,11 @@ const Input = styled.input`
     height: 29px;
     background: #ffffff;
     border-radius: 6px;
+
+    @media only screen and (max-width: 420px) {
+        width: 262px;
+        height: 33px;
+    }
 `;
 
 const SendButton = styled.div`

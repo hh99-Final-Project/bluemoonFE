@@ -201,6 +201,7 @@ const MobTitle = styled.div`
     height: 34px;
     color: #ffffff;
     text-align: center;
+    margin: 0 auto;
 `;
 
 const ChatRoomListBox = styled.div`
