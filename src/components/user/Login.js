@@ -121,7 +121,7 @@ function Login() {
                 <CloseButton onClick={closeModal} src={mobAlertCloseBtn}/>
                 <LoginText>
                     다이어리를 가진 사람만<br/>
-                    사용할 수 있어요!를
+                    사용할 수 있어요!
                 </LoginText>
                 <LoginButtons>
                     <KakaoLogin
