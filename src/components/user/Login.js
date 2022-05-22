@@ -9,6 +9,7 @@ import { isModalOpen } from "../../redux/modules/commonSlice";
 import { userApi } from "../../apis/userApi";
 import { setCookie } from "../../utils/cookie";
 import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
+import { mobAlertCloseBtn } from "../../static/images/resources";
 
 
 function Login() {
@@ -16,7 +17,6 @@ function Login() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
-    const isLogin = useSelector((state) => state.userSlice.isLogin);
 
 
     const kakaoLoginHandler = (res) => {
@@ -118,9 +118,10 @@ function Login() {
                     },
                 }}
             >
+                <CloseButton onClick={closeModal} src={mobAlertCloseBtn}/>
                 <LoginText>
                     다이어리를 가진 사람만<br/>
-                    사용할 수 있어요!
+                    사용할 수 있어요!를
                 </LoginText>
                 <LoginButtons>
                     <KakaoLogin
@@ -160,6 +161,13 @@ function Login() {
 
 export default Login;
 
+const CloseButton = styled.img`
+  position: absolute;
+  right: 20px;
+  cursor:pointer;
+  width: 12.8px;
+  height: 12.8px;
+`;
 
 const LoginText = styled.div`
     font-size: 18px;

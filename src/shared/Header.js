@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
-import { getUserInfo, isLogined } from "../redux/modules/userSlice";
+import { logout } from "../redux/modules/userSlice";
 import { isModalOpen, getNewCommentAlert, deleteNewCommentAlert } from "../redux/modules/commonSlice";
 import { newAlertIcon, moonPoint, mobMoreIcon, mobAlertIcon, newAlertNumber } from "../static/images/resources";
 
@@ -46,10 +46,9 @@ const Header = () => {
         }
     };
 
-    const logout = () => {
+    const logoutAction = () => {
         deleteCookie("authorization");
-        dispatch(getUserInfo(null));
-        dispatch(isLogined(false));
+        dispatch(logout());
         setLogoutPopup(false);
         navigate("/");
         setCurrentHeader("홈");
@@ -150,7 +149,7 @@ const Header = () => {
                                         <NewAlertNumberArea
                                             src={newAlertNumber}
                                             alt={"NewAlertNumber"}
-                                        ></NewAlertNumberArea>
+                                        />
                                         <NewAlertNumber> {newCommentAlert.length}</NewAlertNumber>
                                     </>
                                 )}
@@ -167,7 +166,7 @@ const Header = () => {
             {logoutPopup && (
                 <Popup
                     title={"정말 로그아웃 하시겠습니까?"}
-                    event={logout}
+                    event={logoutAction}
                     close={() => setLogoutPopup(false)}
                     height={"220px"}
                 />

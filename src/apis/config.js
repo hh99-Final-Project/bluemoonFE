@@ -1,7 +1,8 @@
 import axios from "axios";
-import { getCookie } from "../utils/cookie";
+import { getCookie, deleteCookie } from "../utils/cookie";
 import { store } from "../redux/store";
 import { showError } from "../redux/modules/errorSlice";
+import { logout } from "../redux/modules/userSlice";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -48,6 +49,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     function (response) {
+        if(response.data.errorMessage === "만료된 토큰입니다.") {
+            window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
+            store.dispatch(logout());
+            deleteCookie("authorization");
+            window.location.href = "/";
+        }
         return response;
     },
     function (error) {
