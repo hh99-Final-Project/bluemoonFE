@@ -24,7 +24,7 @@ const Container = styled.div`
 
 
   @media only screen and (max-width: 420px) {
-    background-color: #0D173B;
+    background-color: #060E32;
     background-image: none;
     height: 100vh;
   }

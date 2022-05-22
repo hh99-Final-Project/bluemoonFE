@@ -40,13 +40,13 @@ const DiaryListMobile = (props) => {
 
     return (
         <ListContainer BgColor={color.backgroundColor}>
-            <TopParts>
+            <TopParts BgColor={color.backgroundColor}>
                 <Header />
                 <MobTitle>
                     고민상담소
                 </MobTitle>
             </TopParts>
-            <Container>
+            <Container BgColor={color.backgroundColor}>
                 <Slider2 {...settings}>
                     {
                         diaryList.map((diary) => {
@@ -106,14 +106,19 @@ const ListContainer = styled.div`
 `;
 
 const TopParts = styled.div`
-   //position: relative;
-   //z-index: 999999;
+    position: fixed;
+    width: 100%;
+    background-color: ${props => props.BgColor};
+    z-index: 999999;
  `;
 
 const Container = styled.div`
-  width: 300px;
-  height: 100%;
+  width: 100%;
+  //height: 100%;
   margin: auto;
+  background-color: ${props => props.BgColor};
+  position: relative;
+  top: 125px;
 `;
 
 const MobTitle = styled.div`
@@ -123,22 +128,26 @@ const MobTitle = styled.div`
 `;
 
 const Slider2 = styled(Slider)`
-    .slick-track {
-      height: 100% !important;
+  
+    .slick-slider {
+      //height: calc(100% - 125px);
+    }
+    .slick-list {
+      height: 600px;
+      //height: calc(100vh - 125px) !important;
     }
 `;
 
 
 const Slide = styled.div`
-  margin: auto;
-  
+      margin: auto;
 `;
 const FirstSlide = styled.div`
       width: 300px;
       height: 284px;
+      margin: 0 auto 12px;
       background-color: #C6D3EC;
       border-radius: 15px;
-      margin-bottom: 12px;
       display : flex;
       justify-content : center;
       align-items : center;
@@ -151,7 +160,8 @@ const Spring = styled.img`
     position: relative;
     z-index: 999999;
     bottom: 30px;
-    left: 47px;
+    margin: auto;
+    
 `;
 
 const Title = styled.div`
@@ -164,7 +174,9 @@ const Title = styled.div`
 `;
 
 const SecondSlide = styled.div`
+      width: 300px;    
       height: 284px;
+      margin: auto;
       background-color: #C6D3EC;
       border-radius: 15px;
       margin-bottom: 20px;

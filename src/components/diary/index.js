@@ -4,7 +4,7 @@ import CommentInput from "./CommentInput";
 import DiaryContent from "./DiaryContent";
 import ReplyComment from "./ReplyComment";
 import CommentContainer from "./CommentContainer";
-import DiaryListMobile from "./diaryListMobile";
+import DiaryListMobile from "./DiaryListMobile";
 
 
 
