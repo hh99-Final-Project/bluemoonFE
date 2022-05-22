@@ -109,12 +109,11 @@ const TopParts = styled.div`
     position: fixed;
     width: 100%;
     background-color: ${props => props.BgColor};
-    z-index: 999999;
+    z-index: 99999;
  `;
 
 const Container = styled.div`
   width: 100%;
-  //height: 100%;
   margin: auto;
   background-color: ${props => props.BgColor};
   position: relative;
@@ -158,7 +157,7 @@ const FirstSlide = styled.div`
 
 const Spring = styled.img`
     position: relative;
-    z-index: 999999;
+    z-index: 99999;
     bottom: 30px;
     margin: auto;
     
@@ -193,17 +192,21 @@ const Desc = styled.div`
       width: 260px;
       max-height: 54px;
       margin-top: 20px;
+      margin-left: 2px;
 `;
 
 const ButtonArea = styled.div`
-  width: 260px;
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  bottom: 51px;
+      width: 260px;
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      bottom: 51px;
 `;
 const ReplyCommentButton = styled.img`
   cursor:pointer;
 `;
 const ChattingButton = styled(ReplyCommentButton)``;
-const VoicePlayIcon = styled(ReplyCommentButton)``;
+const VoicePlayIcon = styled(ReplyCommentButton)`
+    margin-top: 75px;
+    margin-left: 4px;
+`;

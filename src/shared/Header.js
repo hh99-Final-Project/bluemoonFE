@@ -47,7 +47,6 @@ const Header = () => {
     };
 
     const logoutAction = () => {
-        deleteCookie("authorization");
         dispatch(logout());
         setLogoutPopup(false);
         navigate("/");

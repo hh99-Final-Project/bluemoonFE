@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import useStore from "../zustand/store";
 import Modal from "react-modal";
 import {
@@ -8,15 +9,30 @@ import {
     mobChatIcon, mobEventIcon, mobFeedbackIcon, mobHeaderBackIcon, mobMyPointBluemoon
 } from "../static/images/resources";
 import useMovePage from "../hooks/useMovePage";
+import Login from "../components/user/Login";
+import { isModalOpen } from "../redux/modules/commonSlice";
+import Popup from "./Popup";
+import {logout} from "../redux/modules/userSlice";
+
 
 
 const MobileCategoryBar = () => {
 
     const { setMobileHeader, isHeaderMenuOpen } = useStore();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { moveToPage } = useMovePage();
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
     const userInfo = useSelector(((state) => state.userSlice.userInfo));
+    const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const [logoutPopup, setLogoutPopup] = useState(false);
 
+    const logoutAction = () => {
+        dispatch(logout());
+        setLogoutPopup(false);
+        navigate("/");
+        setMobileHeader();
+    };
 
     return (
         <React.Fragment>
@@ -64,12 +80,15 @@ const MobileCategoryBar = () => {
                         {isLogin ?
                             <UserInfoArea>
                                 <NickNameArea>{userInfo.nickname}님</NickNameArea>
-                                <PointArea>
-                                    <img src={mobMyPointBluemoon}/>
-                                    <span>{userInfo.myPoint}</span>
-                                </PointArea>
+                                <LogoutButton onClick={() => {
+                                    setLogoutPopup(true);
+                                }}>
+                                    로그아웃
+                                </LogoutButton>
                             </UserInfoArea>
-                            : <NotLogined>로그인을 해주세요</NotLogined>
+                            : <NotLogined onClick={() => dispatch(isModalOpen(true))}>
+                                로그인/회원가입
+                            </NotLogined>
                         }
 
                     </LoginArea>
@@ -106,6 +125,15 @@ const MobileCategoryBar = () => {
 
                 </MenuContentBox>
             </Modal>
+            {modalIsOpen && <Login/>}
+            {logoutPopup && (
+                <Popup
+                    title={"정말 로그아웃 하시겠습니까?"}
+                    event={logoutAction}
+                    close={() => setLogoutPopup(false)}
+                    height={"220px"}
+                />
+            )}
         </React.Fragment>
     );
 };
@@ -123,6 +151,7 @@ const MenuArea  = styled.div`
   align-items: center;
   margin: 37px 0 27px;
   padding: 0 21px 0 18px;
+  
   
   div {
     font-size: 20px;
@@ -150,36 +179,39 @@ const UserInfoArea = styled.div`
 `;
 
 const NickNameArea = styled.div`
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 19px;
   color: #354569;
-  margin-right: 7px;
+  margin-right: 20px;
   padding-top: 2px;
 `;
 
-const PointArea = styled.div`
-  width: 72px;
-  height: 24px;
-  background: #FFFFFF;
-  border-radius: 5px;
-  font-size: 15px;
-  line-height: 19px;
-  color: #9AEBE7;
+const LogoutButton = styled.div`
+  width: 69px;
+  height: 25px;
+  font-size: 10px;
+  line-height: 13px;
+  color: #08105D;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 23px;
   display: flex;
   align-items: center;
-  justify-items: center;
-  padding-left: 10px;
-  box-sizing: border-box;
-  
-  img {
-    margin-right: 10px;
-  }
+  justify-content: center;
+  cursor: pointer;
 `;
 
 const NotLogined = styled.div`
-  font-size: 20px;
-  line-height: 24px;
-  color: #354569;
+  width: 130px;
+  height: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 23px;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #08105D;
+  cursor: pointer;
 `;
 
 const HeaderContent  = styled.div`
