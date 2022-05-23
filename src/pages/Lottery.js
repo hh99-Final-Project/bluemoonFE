@@ -20,6 +20,8 @@ import {
     mobileStar,
     mobileCircleIcon,
     mobileRecommendIcon,
+    mobileBananaMilkIcon,
+    mobileLotteryResultCresent,
 } from "../static/images/resources";
 import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
@@ -50,34 +52,24 @@ const Lottery = () => {
             return;
         }
 
-        userApi
-            .tryLottery()
-            .then((response) => {
-                setIsClick(true);
-                setTimeout(() => setIsLoading(true), 1000);
-                setTimeout(() => setIsLoading(false), 4000);
-                if (response.data.result === true) {
-                    setTimeout(() => setIsWin(true), 5000);
-                } else if (response.data.result === false) {
-                    setTimeout(() => setIsWin(false), 5000);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                const result = error.response.data;
-                // if (result.status === 400) {
-                //     if (result.message === "오늘 참여가능 횟수 부족") {
-                //         window.alert("오늘 참여 가능 횟수가 부족합니다");
-                //     } else if (result.message === "포인트 부족") {
-                //         window.alert("포인트가 부족합니다");
-                //     }
-                // }
-            });
+        // userApi
+        //     .tryLottery()
+        //     .then((response) => {
+        setIsClick(true);
+        setTimeout(() => setIsLoading(true), 1000);
+        setTimeout(() => setIsLoading(false), 4000);
+        // if (response.data.result === true) {
+        // setTimeout(() => setIsWin(true), 5000);
+        //     } else if (response.data.result === false) {
+        setTimeout(() => setIsWin(false), 5000);
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        //     const result = error.response.data;
+        // });
     };
 
-    // if (!userInfo) {
-    //     return <Loading></Loading>;
-    // }
     return (
         <Layout>
             <Container>
@@ -97,8 +89,10 @@ const Lottery = () => {
                         {isLoading && <LotteryLoading>모습을 비추고 있어요..</LotteryLoading>}
                         {isClick && isWin === true && (
                             <LotteryResult isWin={isWin}>
-                                당신에겐 달콤한 여유를 드릴게요.
-                                <BananaMilkIcon src={bananaMilkIcon}></BananaMilkIcon>
+                                당신에겐 달콤한 휴식을 선물할게요.
+                                <BananaMilkIcon
+                                    src={!isMobile ? bananaMilkIcon : mobileBananaMilkIcon}
+                                ></BananaMilkIcon>
                                 <GetBananaMilkButton
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -111,8 +105,8 @@ const Lottery = () => {
                         )}
                         {isClick && isWin === false && (
                             <LotteryResult isWin={isWin}>
-                                당신에겐 달빛을 담은 용기를 드릴게요
-                                <p>다음 기회에 도전해주세요!</p>
+                                당신에게 편안한 밤을 선물할게요
+                                <p>아쉽지만 다음 기회에 참여해주세요!</p>
                             </LotteryResult>
                         )}
                     </LotteryArea>
@@ -138,10 +132,15 @@ const Lottery = () => {
                         블루문을 향해 말을 걸어보시겠어요? <br />
                         어쩌면, 당신에게 특별한 행운이 찾아올지도 몰라요:)
                     </Desc>
-                    {!isMobile && (
+                    {!isMobile ? (
                         <>
                             <RecommendDesc>1명 → +1회</RecommendDesc>
                             <RecommendIcons>친구 추천</RecommendIcons>
+                        </>
+                    ) : (
+                        <>
+                            <MobileRecommendIcon src={mobileRecommendIcon}></MobileRecommendIcon>
+                            <MobileRecommendDesc>기회 추가</MobileRecommendDesc>
                         </>
                     )}
                 </ContentBox>
@@ -292,11 +291,19 @@ const LotteryLoading = styled(LotteryClick)`
             opacity: 0;
         }
     }
+
+    @media only screen and (max-width: 420px) {
+        top: 158px;
+        left: 75px;
+
+        font-size: 10px;
+        line-height: 13px;
+    }
 `;
 
 const LotteryResult = styled(LotteryClick)`
     top: ${(props) => (props.isWin ? "199px" : "240px")};
-    left: ${(props) => (props.isWin ? "101px" : "57px")};
+    left: ${(props) => (props.isWin ? "88px" : "44px")};
     font-size: ${(props) => (props.isWin ? "12px" : "16px")};
     line-height: ${(props) => (props.isWin ? "15px" : "20px")};
     display: flex;
@@ -329,10 +336,26 @@ const LotteryResult = styled(LotteryClick)`
             opacity: 1;
         }
     }
+
+    @media only screen and (max-width: 420px) {
+        top: ${(props) => (props.isWin ? "180px" : "164px")};
+        left: ${(props) => (props.isWin ? "44px" : "48px")};
+        font-size: 10px;
+        line-height: 13px;
+
+        p {
+            display: none;
+        }
+    }
 `;
 
 const BananaMilkIcon = styled.img`
     margin-top: 13px;
+    @media only screen and (max-width: 420px) {
+        position: absolute;
+        top: -47px;
+        margin-top: 0px;
+    }
 `;
 
 const GetBananaMilkButton = styled.div`
@@ -520,7 +543,7 @@ const MobileLeftCount = styled.div`
     line-height: 19px;
     display: flex;
     align-items: center;
-    justify-contetn: center;
+    justify-content: center;
 
     color: #9aebe7;
 `;
@@ -543,5 +566,29 @@ const MobileCountNoti = styled.div`
 
     color: #c6d3ec;
 `;
-const MobileRecommendIcon = styled.div``;
-const MobileRecommendDesc = styled.div``;
+const MobileRecommendIcon = styled.img`
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    left: 254px;
+    top: 554px;
+`;
+const MobileRecommendDesc = styled.div`
+    position: absolute;
+
+    height: 10px;
+    left: 248px;
+    top: 593px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 10px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #c6d3ec;
+`;
