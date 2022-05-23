@@ -14,13 +14,9 @@ DiaryContent.propTypes = {
 function DiaryContent(props) {
     const { diary } = props;
     const navigate = useNavigate();
-    const audioRef = useRef(new Audio(diary.voiceUrl));
 
+    const [audio, setAudio] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
-
-    const isMobileQuery = useMediaQuery({
-        query: "(max-width: 420px)",
-    });
 
     const createChat = (userId) => {
         chatApi
@@ -40,41 +36,32 @@ function DiaryContent(props) {
             });
     };
 
+
     const playAudio = () => {
-        if (audioRef.current) {
-            if(audioRef.current.paused) {
-                audioRef.current.play();
-                setIsPlaying(true);
-            } else {
-                audioRef.current.pause();
-                setIsPlaying(false);
-            }
+        if(audio.paused) {
+            audio.play();
+            setIsPlaying(true);
+        } else {
+            audio.pause();
+            setIsPlaying(false);
         }
 
     };
 
     useEffect(()=>{
-        if(audioRef.current && diary.voiceUrl) {
-            audioRef.current.volume = 1;
-            audioRef.current.loop = false;
+        if(diary.voiceUrl.length > 0) {
+            let tmpAudio = new Audio(diary.voiceUrl);
+            tmpAudio.volume = 1;
+            tmpAudio.loop = false;
+            setAudio(tmpAudio);
         }
            return () => {
-                if(audioRef.current){
-                    audioRef.current.pause();
-                }
+               if(audio){
+                   audio.pause();
+               }
            };
-        },[diary, audioRef.current]);
+        },[]);
 
-    useEffect(()=>{
-        if(isMobile || isMobileQuery) {
-            audioRef.current.addEventListener("touchend", playAudio, false);
-        }
-
-
-        return () => {
-            audioRef.current.removeEventListener("touchend", playAudio, false);
-        };
-    },[]);
 
         return (
             <React.Fragment>
@@ -85,7 +72,7 @@ function DiaryContent(props) {
                             <VoiceArea>
                                 <VoiceButton isPlaying={isPlaying} onClick={playAudio} src={voicePlayIcon}/>
                                 <TooltipBox>
-                                    {isPlaying ? "한번 더 누르면 멈춥니다!" : "클릭하면 재생합니다"}
+                                    { !isPlaying ? "클릭하면 재생합니다" : "한번 더 누르면 멈춥니다!"}
                                 </TooltipBox>
                             </VoiceArea>
                         }
