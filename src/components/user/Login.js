@@ -7,7 +7,7 @@ import KakaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
 import { isModalOpen } from "../../redux/modules/commonSlice";
 import { userApi } from "../../apis/userApi";
-import { setCookie } from "../../utils/cookie";
+import { setAccessCookie, setRefreshCookie } from "../../utils/cookie";
 import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
 import { mobAlertCloseBtn } from "../../static/images/resources";
 import { isMobile } from "react-device-detect";
@@ -29,10 +29,13 @@ function Login() {
 
     const kakaoLoginHandler = (res) => {
         userApi.kakaoLogin(res.response.access_token).then((response) => {
+            // console.log(response,"response");
             if (response.status === 200) {
                 //헤더에 담긴 토큰 확인 필요
-                let token = response.headers.authorization;
-                setCookie(token);
+                let accessToken = response.headers.authorization;
+                // let refreshToken = response.headers.RefreshToken;
+                setAccessCookie(accessToken);
+                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));
@@ -58,8 +61,10 @@ function Login() {
     const googleLoginHandler = (res) => {
         userApi.googleLogin(res.tokenId).then((response) => {
             if (response.status === 200) {
-                let token = response.headers.authorization;
-                setCookie(token);
+                let accessToken = response.headers.Authorization;
+                // let refreshToken = response.headers.RefreshToken;
+                setAccessCookie(accessToken);
+                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));

@@ -40,7 +40,7 @@ const ErrorModal = () => {
                         bottom: "auto",
                         transform: "translate(-50%, -50%)",
                         width: "365px",
-                        height: "264px",
+                        height: "250px",
                         border: "none",
                         boxSizing: "border-box",
                         background: "rgb(204, 215, 238)",
@@ -52,7 +52,7 @@ const ErrorModal = () => {
                     },
                 }}>
                 <Title>
-                    {error.message}
+                    {error.message ? error.message : "잠시 후 다시 요청해주세요!"}
                 </Title>
                 <ButtonArea>
                     <Refresh onClick={() => {

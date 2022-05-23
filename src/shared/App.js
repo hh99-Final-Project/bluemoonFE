@@ -18,6 +18,7 @@ import ErrorModal from "../shared/ErrorModal";
 import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
+import {userApi} from "../apis/userApi";
 
 
 function App() {
