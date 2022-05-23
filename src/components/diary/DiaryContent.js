@@ -17,6 +17,7 @@ function DiaryContent(props) {
 
     const [audio, setAudio] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
+    const buttonRef = useRef();
 
     const createChat = (userId) => {
         chatApi
@@ -62,6 +63,17 @@ function DiaryContent(props) {
            };
         },[]);
 
+    useEffect(()=>{
+        if(isMobile && buttonRef.current){
+            buttonRef.current.addEventListener("touchstart", playAudio, false);
+        }
+
+
+        return () => {
+            buttonRef.current.removeEventListener("touchstart", playAudio, false);
+        };
+    },[buttonRef.current]);
+
 
         return (
             <React.Fragment>
@@ -70,7 +82,7 @@ function DiaryContent(props) {
                         <Content>{diary.content}</Content>
                         { diary.voiceUrl.length > 0 &&
                             <VoiceArea>
-                                <VoiceButton isPlaying={isPlaying} onClick={playAudio} src={voicePlayIcon}/>
+                                <VoiceButton ref={buttonRef} isPlaying={isPlaying} onClick={playAudio} src={voicePlayIcon}/>
                                 <TooltipBox>
                                     { !isPlaying ? "클릭하면 재생합니다" : "한번 더 누르면 멈춥니다!"}
                                 </TooltipBox>
