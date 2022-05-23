@@ -24,10 +24,10 @@ function DiaryList() {
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const [count, setCount] = useState(1);
     const [page, setPage] = useState(1);
-    const [audio, setAudio] = useState();
     const [diaryList, setDiaryList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { setCurrentHeader } = useStore();
+    const audioRef = useRef();
 
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
@@ -36,8 +36,8 @@ function DiaryList() {
     const getPrevDiary = (e) => {
         e.stopPropagation();
 
-        if(audio){
-            audio.pause();
+        if(audioRef.current){
+            audioRef.current.pause();
         }
 
         if(count === 1) {
@@ -71,8 +71,8 @@ function DiaryList() {
 
         setCount(count => count + 1);
 
-        if(audio){
-            audio.pause();
+        if(audioRef.current){
+            audioRef.current.pause();
         }
         if(count + 1 === diaryList.length) {
             //마지막 슬라이드일때 Api 요청
@@ -125,10 +125,10 @@ function DiaryList() {
 
     const togglePlayVoice = (e) => {
         e.stopPropagation();
-        if(audio.paused) {
-            audio.play();
+        if(audioRef.current.paused) {
+            audioRef.current.play();
         } else {
-            audio.pause();
+            audioRef.current.pause();
         }
     };
 
@@ -198,7 +198,10 @@ function DiaryList() {
                                             <CardBorderRight>
                                                 <ContentBox>
                                                     { diaryList[count - 1].voiceUrl &&
-                                                    <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
+                                                        <div>
+                                                        <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>
+                                                            <audio ref={audioRef} src={diaryList[count - 1].voiceUrl}/>
+                                                        </div>
                                                     }
                                                     <DiaryDesc>
                                                         {   diaryList.length === 0 ? "다이어리를 작성해주세요!" :

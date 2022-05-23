@@ -32,9 +32,10 @@ function Login() {
             if (response.status === 200) {
                 //헤더에 담긴 토큰 확인 필요
                 let accessToken = response.headers.authorization;
-                // let refreshToken = response.headers.RefreshToken;
+                let refreshToken = response.headers.RefreshToken;
+                console.log(refreshToken,"refresh");
                 setAccessCookie(accessToken);
-                // setRefreshCookie(refreshToken);
+                setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));
@@ -61,9 +62,9 @@ function Login() {
         userApi.googleLogin(res.tokenId).then((response) => {
             if (response.status === 200) {
                 let accessToken = response.headers.Authorization;
-                // let refreshToken = response.headers.RefreshToken;
+                let refreshToken = response.headers.refreshToken;
                 setAccessCookie(accessToken);
-                // setRefreshCookie(refreshToken);
+                setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));
