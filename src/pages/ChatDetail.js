@@ -85,12 +85,9 @@ const ChatDetail = () => {
     function wsConnect() {
         try {
             ws.current.connect({ token: token, type: "CHAT" }, () => {
-                console.log("socket connected");
                 // connect 이후 subscribe
                 ws.current.subscribe(`/sub/chat/room/${roomId}`, (response) => {
                     const newMessage = JSON.parse(response.body);
-                    console.log(response);
-                    console.log(newMessage);
                     dispatch(subMessage(newMessage));
                 });
 
@@ -134,7 +131,6 @@ const ChatDetail = () => {
             }
             // send 메소드 호출
             ws.current.send("/pub/chat/message", { token: token }, JSON.stringify(message));
-            console.log(ws.current.ws.readyState);
             setText("");
         } catch (error) {
             console.log(error);

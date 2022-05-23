@@ -15,6 +15,8 @@ import {
 import Timer from "react-compound-timer/build";
 import PropTypes from "prop-types";
 import { useStopwatch } from "react-timer-hook";
+import { MyTimer } from "../diary/Timer";
+import {timeFormatter, timeFormatter2} from "../../utils/convertDate";
 
 const VoicePopup = (props) => {
     const {
@@ -37,9 +39,12 @@ const VoicePopup = (props) => {
         isListening,
         recordTime,
         SaveRecordTime,
+        isOpenVoicePopup
     } = props;
 
+    const [expireTime, setExpireTime] = useState();
     const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
+    const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
 
     // 녹음이 시작되면 OnRec은 false
     // 시작 전 (onRec = true && finishRecord false)
@@ -61,6 +66,7 @@ const VoicePopup = (props) => {
                 src={closeBtn}
                 onClick={() => {
                     reset();
+                    recordReset();
                     closePopup();
                 }}
             />
@@ -75,7 +81,26 @@ const VoicePopup = (props) => {
                 <img src={microphone} alt={"voiceIcon"} />
             </RecordImg>
             <RecordTime ref={timeRef}>
-                {minutes < 10 ? "0" + minutes : minutes} : {seconds < 10 ? "0" + seconds : seconds}
+
+                {/*시작 전*/}
+                { !finishRecord && onRec && "00 : 00" }
+
+                {/*녹음중*/}
+                {
+                    (!onRec && !isPaused) && timeFormatter2(minutes) + " : " + timeFormatter2(seconds)
+                }
+
+                {/*음성녹음완료*/}
+                {
+                    (finishRecord && !isPlaying) && timeFormatter2(minutes) + " : " + timeFormatter2(seconds)
+                }
+
+                {isPaused && !onRec && timeFormatter2(minutes) + " : " + timeFormatter2(seconds)}
+
+                {/*재생 중*/}
+                {
+                    isPlaying && timeFormatter2(timerMin) + " : " + timeFormatter2(timerSec)
+                }
             </RecordTime>
             <IconArea>
                 {/*처음 화면*/}
@@ -124,6 +149,7 @@ const VoicePopup = (props) => {
                                 stopRecord();
                                 pause();
                                 SaveRecordTime(seconds + minutes * 60);
+
                             }}
                         >
                             <img src={stopIcon} alt={"stopIcon"} />
@@ -138,8 +164,14 @@ const VoicePopup = (props) => {
                             {/*방금 녹음한거 듣는 재생버튼 */}
                             <PlayingButton
                                 onClick={() => {
+                                    console.log(recordTime,"recordTime");
+                                    const now = new Date();
+                                    let addedNow = now.setSeconds(now.getSeconds() + minutes * 60 + seconds);
+                                    setExpireTime(new Date(addedNow));
+
                                     play();
                                     playingHandler(true);
+                                    TimerRestart(new Date(addedNow));
                                 }}
                             >
                                 <img src={playIcon} alt={"playIcon"} />
@@ -150,6 +182,8 @@ const VoicePopup = (props) => {
                                 onClick={() => {
                                     deleteVoice();
                                     recordVoice();
+                                    reset();
+                                    TimerRestart();
                                 }}
                             >
                                 <img src={onRecIcon} alt={"onRecIcon"} />
@@ -162,6 +196,7 @@ const VoicePopup = (props) => {
                                     // stopRecord();
                                     pause();
                                     closePopup();
+
                                     if (timeRef.current) {
                                         SaveRecordTime(seconds + minutes * 60);
                                     }

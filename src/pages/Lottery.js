@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isWindows } from "react-device-detect";
+import { isWindows, isMobile } from "react-device-detect";
 import { userApi } from "../apis/userApi";
 
 import { Layout } from "../components/common";
@@ -20,6 +20,7 @@ import {
     mobileLotteryMoon,
     mobileStar,
 } from "../static/images/resources";
+import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
 
 const Lottery = () => {
@@ -38,6 +39,10 @@ const Lottery = () => {
         setCurrentHeader("추첨");
     }, []);
 
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
+
     const onClickHandler = (e) => {
         if (!userInfo) {
             window.alert("로그인 후 참여할 수 있습니다!");
@@ -47,10 +52,6 @@ const Lottery = () => {
         userApi
             .tryLottery()
             .then((response) => {
-                console.log(response);
-                console.log(response.data.result);
-                console.log(typeof response.data.result);
-
                 setIsClick(true);
                 setTimeout(() => setIsLoading(true), 1000);
                 setTimeout(() => setIsLoading(false), 4000);
@@ -80,7 +81,7 @@ const Lottery = () => {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobTitle>오픈 이벤트</MobTitle>}
+                {isMobile || isMobileQuery ? <MobileTitleName title={"오픈*이벤트"} pos={6} /> : <CategoryBar />}
                 <ContentBox BgColor={color.containerBoxColor}>
                     <MoonArea>
                         {!isMobile ? (

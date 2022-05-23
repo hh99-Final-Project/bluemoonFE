@@ -19,14 +19,12 @@ export const MyTimer = (expiryTimestamp) => {
     });
 
     return {
-        seconds,
-        minutes,
-        hours,
-        days,
-        isRunning,
-        start,
-        pause,
-        resume,
-        restart
+        timerSec: seconds,
+        timerMin: minutes,
+        TimerIsRunning: isRunning,
+        TimerStart: start,
+        TimerPause: pause,
+        TimerResume: resume,
+        TimerRestart: restart
     };
 };

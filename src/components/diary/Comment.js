@@ -34,18 +34,18 @@ function Comment(props) {
     const audioRef = useRef();
 
 
-    const { seconds, minutes, isRunning, start, restart, pause, resume } = MyTimer(expireTime);
+    const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
 
     const audioPlay = (timer) => {
 
         if(audioRef.current){
             if(audioRef.current.paused){
                 audioRef.current.play();
-                restart(timer);
+                TimerRestart(timer);
             } else {
                 audioRef.current.currentTime = 0;
                 audioRef.current.pause();
-                pause();
+                TimerPause();
             }
         }
     };
@@ -73,7 +73,6 @@ function Comment(props) {
         chatApi
             .createChat(userId)
             .then((response) => {
-                console.log(response);
                 navigate(`/chat/${response.data}`);
             })
             .catch((error) => {
@@ -117,7 +116,7 @@ function Comment(props) {
                             </PlayIcon>
                             <Timer>
                                 {
-                                    isRunning ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
+                                    TimerIsRunning ? timeFormatter2(timerMin) + ":" + timeFormatter2(timerSec)
                                         : comment.timer
                                 }
                             </Timer>

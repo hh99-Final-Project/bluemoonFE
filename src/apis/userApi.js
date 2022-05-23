@@ -1,11 +1,6 @@
 import { instance } from "./config";
 
 export const userApi = {
-    getTest: async () => {
-        const data = await instance.get("/api/test");
-        return data;
-    },
-
     kakaoLogin: async (accessToken) => {
         let req = {
             jwtToken: accessToken,
@@ -30,6 +25,12 @@ export const userApi = {
     isLogin: async () => {
         const data = await instance.get("/api/user/islogin");
         return data.data;
+    },
+
+    getRefreshToken: async () => {
+        const data = await instance.get("/api/refresh");
+        return data;
+
     },
 
     nickNameCheck: async (nickName) => {

@@ -53,7 +53,6 @@ const chatSlice = createSlice({
     initialState,
     reducers: {
         subMessage(state, action) {
-            console.log(action.payload);
             state.messages.push(action.payload);
         },
         // 새로운 채팅 메시지를 받으면 리덕스에 저장
@@ -74,7 +73,6 @@ const chatSlice = createSlice({
                         return true;
                     }
                 };
-                console.log(state.chatList.find(findRoom));
                 state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
             }
 
@@ -88,7 +86,6 @@ const chatSlice = createSlice({
                         return true;
                     }
                 };
-                console.log(state.chatList.find(findRoom));
                 state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
             }
         },

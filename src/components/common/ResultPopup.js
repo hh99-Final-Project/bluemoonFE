@@ -8,8 +8,6 @@ Popup.propTypes = { title: PropTypes.string, close: PropTypes.func };
 
 const ResultPopup = (props) => {
     const { title, close, width, height, margin } = props;
-    console.log(title);
-    console.log(close);
 
     return (
         <React.Fragment>

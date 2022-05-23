@@ -31,16 +31,14 @@ export default function useRecordVoice() {
             setMyAudio(audio);
         }
 
-        return () => {
-            console.log("hook에서 unmount?");
-        };
-
     },[audioUrl]);
+
 
 
     //재생중인지, 일시정지인지
     const toggleListening = () => {
         setIsListening(prev => !prev);
+        setIsPlaying(prev => !prev);
     };
 
     //음성 녹음하기
@@ -173,6 +171,8 @@ export default function useRecordVoice() {
 
     //파일 삭제
     const deleteVoice = () => {
+        setFinishRecord(false);
+        setOnRec(true);
         setAudioUrl("");
     };
 

@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
+import { isMobile } from "react-device-detect";
 
 Popup.propTypes = {
     title: PropTypes.string,
@@ -12,6 +14,10 @@ Popup.propTypes = {
 function Popup(props) {
 
     const {title, event, close, width, height, padding} = props;
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
 
     const confirmHandler = (e) => {
         e.stopPropagation();
@@ -48,8 +54,8 @@ function Popup(props) {
                         right: "auto",
                         bottom: "auto",
                         transform: "translate(-50%, -50%)",
-                        width: width ? width : 365,
-                        height: height ? height : 264,
+                        width: width ? width : (isMobileQuery || isMobile) ? 278 : 365,
+                        height: height ? height : (isMobileQuery || isMobile) ? 202 : 264,
                         boxSizing: "border-box",
                         border: "none",
                         background: "#CCD7EE",
@@ -87,6 +93,14 @@ const Title = styled.div`
     line-height: 23px;
     color: #08105D;
     margin-top: ${(props) => props.paddingTop ? props.paddingTop : "49px"};
+
+
+  @media only screen and (max-width: 420px) {
+    font-size: 14px;
+    line-height: 18px;
+    margin-top: ${(props) => props.paddingTop ? props.paddingTop : "33px"};
+  }
+
     
 `;
 
@@ -95,6 +109,10 @@ const ButtonArea = styled.div`
     align-items: center;
     justify-content: space-between;
     margin-top: 49px;
+
+  @media only screen and (max-width: 420px) {
+    margin-top: 37px;
+  }
 `;
 
 const Confirm = styled.div`
@@ -111,6 +129,13 @@ const Confirm = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+  @media only screen and (max-width: 420px) {
+    width: 109px;
+    height: 36px;
+    font-size: 12px;
+    line-height: 15px;
+  }
 `;
 const Back = styled(Confirm)`
     cursor: pointer;

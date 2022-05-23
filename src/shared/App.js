@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Main from "../pages/Main";
 import SignUp from "../pages/SignUp";
@@ -18,13 +18,14 @@ import ErrorModal from "../shared/ErrorModal";
 import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
+import {userApi} from "../apis/userApi";
 
 
 function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
     const cookie = getCookie("authorization");
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    const { pathname } = useLocation();
 
     useEffect(() => {
         if (cookie) {
@@ -50,7 +51,7 @@ function App() {
                 <Route path="/intro" element={<Intro />} />
             </Routes>
             <ErrorModal/>
-            <Feedback/>
+            { pathname !== "/intro" && <Feedback/> }
         </QueryClientProvider>
     );
 }

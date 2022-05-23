@@ -123,7 +123,6 @@ function DiaryList() {
                 }
             });
         } else {
-            console.log("not isLogin");
             getAnonymousListApi();
         }
     },[isLogin]);
@@ -240,6 +239,7 @@ const DiaryListContainer = styled.div`
     width: 100%;
     height: 100vh;
     position: relative;
+    overflow: hidden;
 `;
 
 const CardContainer = styled.div`

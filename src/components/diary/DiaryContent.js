@@ -22,7 +22,6 @@ function DiaryContent(props) {
         chatApi
             .createChat(userId)
             .then((response) => {
-                console.log(response);
                 if(response.status === 200){
                     navigate(`/chat/${response.data}`);
                 }

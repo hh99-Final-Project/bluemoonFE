@@ -13,8 +13,6 @@ function ChatOutModal(props) {
     const { ChatOutTabRef, closeModal, deleteChat, charRoomId } = props;
     // const navigate = useNavigate();
 
-    console.log(ChatOutTabRef.current.getBoundingClientRect().left - 50, "ChatOutTabRef");
-
     return (
         <React.Fragment>
             <Modal

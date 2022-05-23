@@ -18,6 +18,7 @@ import Stomp from "stompjs";
 import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
+import MobileTitleName from "../components/common/MobileTitleName";
 
 ChatList.propTypes = {};
 
@@ -43,7 +44,6 @@ function ChatList(props) {
         chatList,
     };
 
-    console.log(chatList, "chatList");
 
     // 채팅방 나가기 모달창
     const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -123,7 +123,7 @@ function ChatList(props) {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobTitle>마이 페이지</MobTitle>}
+                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"대화*리스트"} pos={6}/>}
                 <ChatRoomListBox BgColor={color.containerBoxColor}>
                     <ChatRoomListTitle>
                         <p>채팅 리스트</p>

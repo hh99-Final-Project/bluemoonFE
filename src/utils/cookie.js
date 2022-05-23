@@ -7,10 +7,16 @@ const getCookie = (name) => {
     }
 };
 
-const setCookie = (token, exp = 3) => {
+const setAccessCookie = (token, exp = 3) => {
     let date = new Date();
     date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * exp);
-    document.cookie = `authorization=${token}; expires=${date}`;
+    document.cookie = `accessToken=${token}; expires=${date}`;
+};
+
+const setRefreshCookie = (token, exp = 7) => {
+    let date = new Date();
+    date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * exp);
+    document.cookie = `refreshToken=${token}; expires=${date}`;
 };
 
 const deleteCookie = (name) => {
@@ -18,4 +24,4 @@ const deleteCookie = (name) => {
     document.cookie = name + "=; expires=" + date;
 };
 
-export { getCookie, setCookie, deleteCookie };
+export { getCookie, setAccessCookie, setRefreshCookie, deleteCookie };

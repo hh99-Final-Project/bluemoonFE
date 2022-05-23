@@ -11,7 +11,6 @@ Notice.propTypes = {
 
 function Notice(props) {
     const { alert } = props;
-    console.log(alert.message,"alert.message");
     const contentName = alert.message.split("]")[0].length > 22 ?
         alert.message.split("]")[0].substring(0, 20) + "...] " + alert.message.split("]")[1] : alert.message;
 

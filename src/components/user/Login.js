@@ -7,11 +7,12 @@ import KakaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
 import { isModalOpen } from "../../redux/modules/commonSlice";
 import { userApi } from "../../apis/userApi";
-import { setCookie } from "../../utils/cookie";
+import { setAccessCookie, setRefreshCookie } from "../../utils/cookie";
 import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
 import { mobAlertCloseBtn } from "../../static/images/resources";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
+import useStore from "../../zustand/store";
 
 
 function Login() {
@@ -19,6 +20,7 @@ function Login() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const { setMobileHeader } = useStore();
 
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
@@ -27,10 +29,13 @@ function Login() {
 
     const kakaoLoginHandler = (res) => {
         userApi.kakaoLogin(res.response.access_token).then((response) => {
+            // console.log(response,"response");
             if (response.status === 200) {
                 //헤더에 담긴 토큰 확인 필요
-                let token = response.headers.authorization;
-                setCookie(token);
+                let accessToken = response.headers.authorization;
+                // let refreshToken = response.headers.RefreshToken;
+                setAccessCookie(accessToken);
+                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));
@@ -41,6 +46,7 @@ function Login() {
                     //현재 있었던 페이지로 돌아간다.
                     if(pathname === "/") {
                         navigate("/diarylist");
+                        setMobileHeader();
                     } else {
                         navigate(pathname);
                     }
@@ -55,9 +61,10 @@ function Login() {
     const googleLoginHandler = (res) => {
         userApi.googleLogin(res.tokenId).then((response) => {
             if (response.status === 200) {
-                console.log(response);
-                let token = response.headers.authorization;
-                setCookie(token);
+                let accessToken = response.headers.Authorization;
+                // let refreshToken = response.headers.RefreshToken;
+                setAccessCookie(accessToken);
+                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));
@@ -67,6 +74,7 @@ function Login() {
                     //현재 있었던 페이지로 돌아가요!
                     if(pathname === "/") {
                         navigate("/diarylist");
+                        setMobileHeader();
                     } else {
                         navigate(pathname);
                     }
