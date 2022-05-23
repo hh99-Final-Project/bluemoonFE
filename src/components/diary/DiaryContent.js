@@ -70,7 +70,10 @@ function DiaryContent(props) {
 
 
         return () => {
-            buttonRef.current.removeEventListener("touchstart", playAudio, false);
+            if(isMobile && buttonRef.current){
+                buttonRef.current.removeEventListener("touchstart", playAudio, false);
+            }
+
         };
     },[buttonRef.current]);
 
