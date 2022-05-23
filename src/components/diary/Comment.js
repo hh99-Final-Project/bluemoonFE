@@ -94,8 +94,11 @@ function Comment(props) {
                     <PostTimeArea>{convertDate(comment.createdAt)}</PostTimeArea>
                 </TitleArea>
                 <PostContent>
+
                     {
-                        (comment.lock && !comment.show) ? "비밀 댓글입니다" : comment.content
+                        comment.isDeleted === "Y" ?
+                            "삭제된 댓글입니다." :
+                        (comment.lock && !comment.show) ? "비밀 댓글입니다." : comment.content
                     }
                 </PostContent>
 
