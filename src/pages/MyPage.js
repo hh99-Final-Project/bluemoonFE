@@ -17,7 +17,7 @@ import { isLogined } from "../redux/modules/userSlice";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
-import MobileTitleName from "../components/common/MobileTitleName";
+import { MobileTitleName } from "../components/common";
 
 MyPage.propTypes = {};
 

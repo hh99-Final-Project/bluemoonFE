@@ -8,16 +8,15 @@ import Popup from "../shared/Popup";
 import { diaryApi } from "../apis/diaryApi";
 import useStore from "../zustand/store";
 import {useSelector, useDispatch} from "react-redux";
-import VoicePopup from "../components/diary/VoicePopup";
+import {VoicePopup} from "../components/diary";
 import { backIcon, saveIcon, recordIcon, listenIcon, listenVoiceIcon } from "../static/images/resources";
-import { Layout } from "../components/common";
+import { Layout, MobileTitleName } from "../components/common";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {color} from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
 import { isModalOpen } from "../redux/modules/commonSlice";
 import { timeFormatter, timeFormatter2} from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
-import MobileTitleName from "../components/common/MobileTitleName";
 
 
 function WriteDiary() {

@@ -7,14 +7,12 @@ import Popup from "../shared/Popup";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header from "../shared/Header";
-import { Layout } from "../components/common";
+import { Layout, ResultPopup, MobileTitleName } from "../components/common";
 import { color } from "../utils/designSystem";
-import ResultPopup from "../components/common/ResultPopup";
 import Main from "./Main";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { crescent, line } from "../static/images/resources";
-import MobileTitleName from "../components/common/MobileTitleName";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");

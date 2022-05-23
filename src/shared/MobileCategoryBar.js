@@ -118,10 +118,14 @@ const MobileCategoryBar = () => {
                             <div onClick={() => moveToPage("/lottery")}>
                                 이벤트
                             </div>
-                            <MyPoint>
-                                <img src={mobMyPointBluemoon}/>
-                                <div>{userInfo.myPoint}</div>
-                            </MyPoint>
+                            {
+                                userInfo &&
+                                <MyPoint>
+                                    <img src={mobMyPointBluemoon}/>
+                                    <div>{userInfo.myPoint}</div>
+                                </MyPoint>
+                            }
+
 
 
                         </EventIcon>

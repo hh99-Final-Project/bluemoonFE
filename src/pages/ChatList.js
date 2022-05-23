@@ -18,7 +18,7 @@ import Stomp from "stompjs";
 import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
-import MobileTitleName from "../components/common/MobileTitleName";
+import { MobileTitleName } from "../components/common";
 
 ChatList.propTypes = {};
 

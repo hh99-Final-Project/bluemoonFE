@@ -7,7 +7,7 @@ import {spring, chatIcon, commentIcon, voicePlayIcon} from "../../static/images/
 
 import Slider from "react-slick";
 import {color} from "../../utils/designSystem";
-import MobileTitleName from "../common/MobileTitleName";
+import { MobileTitleName } from "../common";
 
 const DiaryListMobile = (props) => {
 

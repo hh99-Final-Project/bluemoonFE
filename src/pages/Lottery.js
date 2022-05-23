@@ -13,7 +13,7 @@ import Loading from "../shared/Loading";
 
 import { color } from "../utils/designSystem";
 import { lotteryMoon, lotteryhalfMoon, bananaMilkIcon, star } from "../static/images/resources";
-import MobileTitleName from "../components/common/MobileTitleName";
+import { MobileTitleName } from "../components/common";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
 
