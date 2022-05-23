@@ -101,7 +101,7 @@ function Comment(props) {
                 </PostContent>
 
                 {
-                    comment.voiceUrl !== "" &&
+                    comment.voiceUrl !== "" && (comment.show || !comment.lock) &&
                         <PlayVoiceArea
                             onClick={(e) => {
                                 e.preventDefault();
