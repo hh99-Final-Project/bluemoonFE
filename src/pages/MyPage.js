@@ -15,9 +15,7 @@ import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
 import { MobileTitleName } from "../components/common";
 
-
 function MyPage() {
-
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
 
@@ -49,14 +47,8 @@ function MyPage() {
 
     // 무한스크롤
     const InfinityScroll = _.throttle((e) => {
-        // console.log(e.target.scrollHeight);  // 요소 전체 높이
-        // console.log(e.target.scrollTop);  // 스크롤 위치
-        // console.log(e.target.clientHeight); // 현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
-        // console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
-
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
             userApi.getMyPage(page).then((response) => {
-                console.log(response);
                 setMyDiary([...myDiary, ...response]);
                 setIsLoading(false);
                 if (response.length < 10) {
@@ -99,7 +91,7 @@ function MyPage() {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"마이*페이지"} pos={6}/>}
+                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"마이*페이지"} pos={6} />}
 
                 <MyPageBox BgColor={color.containerBoxColor}>
                     <MyPageTitle>
