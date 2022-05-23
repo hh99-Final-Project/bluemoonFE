@@ -102,5 +102,7 @@ export const mobileLotteryMoon = require("./lottery/mobileLotteryMoon.svg").defa
 export const mobileStar = require("./lottery/mobileStar.svg").default;
 export const mobileCircleIcon = require("./lottery/mobileCircleIcon.svg").default;
 export const mobileRecommendIcon = require("./lottery/mobileRecommendIcon.svg").default;
+export const mobileBananaMilkIcon = require("./lottery/mobileBananaMilkIcon.svg").default;
+export const mobileLotteryResultCresent = require("./lottery/mobileLotteryResultCrescent.svg").default;
 
 // export const = require();
