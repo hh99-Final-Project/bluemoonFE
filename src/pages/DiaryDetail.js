@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { DiaryContent, CommentList, CommentContainer } from "../components/diary";
+import { DiaryContent, CommentContainer } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
 import Header from "../shared/Header";
 import Loading from "../shared/Loading";
@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import {backIcon} from "../static/images/resources";

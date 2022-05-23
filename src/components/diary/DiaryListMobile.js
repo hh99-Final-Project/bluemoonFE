@@ -11,7 +11,7 @@ import { MobileTitleName } from "../common";
 
 const DiaryListMobile = (props) => {
 
-    const { getMoreDiaryAPI, count, diary, togglePlayVoice, diaryList, createChat, setPage, setCount } = props;
+    const { getMoreDiaryAPI, count, diary, togglePlayVoice, diaryList, createChat, setCount } = props;
     const navigate = useNavigate();
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
 
@@ -114,20 +114,10 @@ const Container = styled.div`
   top: 125px;
 `;
 
-const MobTitle = styled.div`
-  //height: 34px;
-  //color: #ffffff;
-  //text-align: center;
-`;
 
 const Slider2 = styled(Slider)`
-  
-    .slick-slider {
-      //height: calc(100% - 125px);
-    }
     .slick-list {
       height: 600px;
-      //height: calc(100vh - 125px) !important;
     }
 `;
 
@@ -169,10 +159,9 @@ const Title = styled.div`
 const SecondSlide = styled.div`
       width: 300px;    
       height: 284px;
-      margin: auto;
+      margin: 0 auto 20px;
       background-color: #C6D3EC;
       border-radius: 15px;
-      margin-bottom: 20px;
       position: relative;
       bottom: 55px;
       padding: 20px;

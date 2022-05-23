@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import starBG from "../../static/images/common/starBG.svg";
 import { color } from "../../utils/designSystem";
-import {useMediaQuery} from "react-responsive";
 
 const Layout = ({children}) => {
 

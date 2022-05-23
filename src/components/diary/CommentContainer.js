@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import CommentInput from "./CommentInput";
 import {CommentList} from "./index";
-import {useQuery} from "react-query";
-import {diaryApi} from "../../apis/diaryApi";
 import PropTypes from "prop-types";
 
 const CommentContainer = (props) => {

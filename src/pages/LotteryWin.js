@@ -3,9 +3,7 @@ import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { userApi } from "../apis/userApi";
-
 import styled from "styled-components";
-
 import Header from "../shared/Header";
 import CategoryBar from "../shared/CategoryBar";
 import { Layout } from "../components/common";

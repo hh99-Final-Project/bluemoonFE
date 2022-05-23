@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import styled from "styled-components";
@@ -55,10 +55,6 @@ export default ResultPopup;
 
 const Title = styled.div`
     margin: 57px auto 0;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 18px;
     line-height: 23px;
     text-align: center;

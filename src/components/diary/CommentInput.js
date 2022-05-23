@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
@@ -81,13 +80,6 @@ function CommentInput(props) {
             },
         },
     );
-
-    // if(mutation.isSuccess){
-    //     setComment("");
-    //     window.alert("댓글 저장 성공!");
-    // } else if (mutation.isError) {
-    //     window.alert("오류가 발생했어요! 다시 시도해주세요 😂");
-    // }
 
     const onChangeHandler = (e) => {
         if (e.target.value.length > 150) {

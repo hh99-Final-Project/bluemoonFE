@@ -3,7 +3,6 @@ import styled from "styled-components";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isWindows, isMobile } from "react-device-detect";
 import { userApi } from "../apis/userApi";
 
 import { Layout } from "../components/common";

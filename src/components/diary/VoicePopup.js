@@ -12,11 +12,10 @@ import {
     BigPlay,
     smallPause,
 } from "../../static/images/resources";
-import Timer from "react-compound-timer/build";
 import PropTypes from "prop-types";
 import { useStopwatch } from "react-timer-hook";
-import { MyTimer } from "../diary/Timer";
-import {timeFormatter, timeFormatter2} from "../../utils/convertDate";
+import { MyTimer } from "./Timer";
+import {timeFormatter2} from "../../utils/convertDate";
 
 const VoicePopup = (props) => {
     const {
@@ -37,14 +36,12 @@ const VoicePopup = (props) => {
         playingHandler,
         toggleListening,
         isListening,
-        recordTime,
         SaveRecordTime,
-        isOpenVoicePopup
     } = props;
 
     const [expireTime, setExpireTime] = useState();
-    const { seconds, minutes, isRunning, start, pause, reset } = useStopwatch({ autoStart: false });
-    const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
+    const { seconds, minutes, start, pause, reset } = useStopwatch({ autoStart: false });
+    const { timerSec, timerMin, TimerRestart} = MyTimer(expireTime);
 
     // 녹음이 시작되면 OnRec은 false
     // 시작 전 (onRec = true && finishRecord false)
@@ -164,7 +161,6 @@ const VoicePopup = (props) => {
                             {/*방금 녹음한거 듣는 재생버튼 */}
                             <PlayingButton
                                 onClick={() => {
-                                    console.log(recordTime,"recordTime");
                                     const now = new Date();
                                     let addedNow = now.setSeconds(now.getSeconds() + minutes * 60 + seconds);
                                     setExpireTime(new Date(addedNow));

@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../apis/diaryApi";
-import { userApi } from "../apis/userApi";
 import Loading from "../shared/Loading";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
@@ -11,7 +9,6 @@ import { Layout } from "../components/common";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 import { color } from "../utils/designSystem";
-import { useQuery, QueryClient } from "react-query";
 import { DiaryListMobile } from "../components/diary";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
@@ -21,7 +18,6 @@ import { commentIcon, chatIcon,
 } from "../static/images/resources";
 import {chatApi} from "../apis/chatApi";
 
-DiaryList.propTypes = {};
 
 function DiaryList() {
     const navigate = useNavigate();
@@ -104,7 +100,6 @@ function DiaryList() {
         chatApi
             .createChat(userId)
             .then((response) => {
-                console.log(response);
                 navigate(`/chat/${response.data}`);
             })
             .catch((error) => {

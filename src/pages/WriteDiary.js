@@ -11,7 +11,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {VoicePopup} from "../components/diary";
 import { backIcon, saveIcon, recordIcon, listenIcon, listenVoiceIcon } from "../static/images/resources";
 import { Layout, MobileTitleName } from "../components/common";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import {color} from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
 import { isModalOpen } from "../redux/modules/commonSlice";

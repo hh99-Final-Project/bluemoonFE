@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
@@ -10,19 +9,15 @@ import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import _ from "lodash";
 import { Layout } from "../components/common";
-import ChatOutModal from "../components/common/ChatOutModal";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
 import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
 import { MobileTitleName } from "../components/common";
 
-ChatList.propTypes = {};
 
-function ChatList(props) {
+function ChatList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { setCurrentHeader } = useStore();

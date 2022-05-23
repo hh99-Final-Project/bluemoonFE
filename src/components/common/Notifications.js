@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Notice from "./Notice";
 import Modal from "react-modal";
 import {closeButton, mobAlertCloseBtn} from "../../static/images/resources";
-import { useSelector, useDispatch } from "react-redux";
 import { getAlertList } from "../../redux/modules/commonSlice";
 import { diaryApi } from "../../apis/diaryApi";
 import { isMobile } from "react-device-detect";
@@ -17,11 +16,7 @@ Notifications.propTypes = {
 
 function Notifications(props) {
     const { closeModal, AlertTabRef } = props;
-
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
-
     const [commentAlertList, setCommentAlertList] = useState([]);
-    const dispatch = useDispatch();
 
     const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import ChatOutModal from "./ChatOutModal";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useStore from "../../zustand/store";
 
 Notice.propTypes = {
@@ -16,12 +15,6 @@ function Notice(props) {
 
     const { setCurrentHeader } = useStore();
     const navigate = useNavigate();
-
-    const [modalOpen, setModalOpen] = useState(false);
-
-    const closeModal = () => {
-        setModalOpen(false);
-    };
 
     return (
         <React.Fragment>

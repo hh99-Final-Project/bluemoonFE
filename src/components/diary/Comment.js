@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
-import useStore from "../../zustand/store";
 import { useNavigate } from "react-router-dom";
 import {convertDate, stringToSeconds, timeFormatter2} from "../../utils/convertDate";
 import lockIcon from "../../static/images/diary/lockIcon.svg";
@@ -11,7 +10,6 @@ import { useMutation, useQueryClient } from "react-query";
 import {chatApi} from "../../apis/chatApi";
 import ReplyComment from "./ReplyComment";
 import Popup from "../../shared/Popup";
-import ErrorModal from "../../shared/ErrorModal";
 import {voicePlayIcon} from "../../static/images/resources";
 import { MyTimer } from "./Timer";
 

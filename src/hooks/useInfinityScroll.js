@@ -20,8 +20,6 @@ export default function useInfinityScroll() {
         // 현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
         // console.log(e.target.clientHeight);
 
-        console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
-
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
             chatApi.getChatList(page).then((response) => {
                 console.log(response);

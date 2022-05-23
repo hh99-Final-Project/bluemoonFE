@@ -29,7 +29,6 @@ function Login() {
 
     const kakaoLoginHandler = (res) => {
         userApi.kakaoLogin(res.response.access_token).then((response) => {
-            // console.log(response,"response");
             if (response.status === 200) {
                 //헤더에 담긴 토큰 확인 필요
                 let accessToken = response.headers.authorization;

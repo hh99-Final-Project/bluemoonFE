@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
-import { useQuery } from "react-query";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
 import Loading from "../shared/Loading";
@@ -13,17 +10,13 @@ import useStore from "../zustand/store";
 import _ from "lodash";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
-import { isLogined } from "../redux/modules/userSlice";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
 import { MobileTitleName } from "../components/common";
 
-MyPage.propTypes = {};
 
 function MyPage() {
-    // const userInfo = useSelector((state) => state.userSlice.userInfo);
-    // const isLogin = useSelector((state) => state.userSlice.isLogin);
 
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
