@@ -19,6 +19,8 @@ import {
     star,
     mobileLotteryMoon,
     mobileStar,
+    mobileCircleIcon,
+    mobileRecommendIcon,
 } from "../static/images/resources";
 import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
@@ -115,9 +117,19 @@ const Lottery = () => {
                             </LotteryResult>
                         )}
                     </LotteryArea>
+                    {!isMobile ? (
+                        <>
+                            <CountNoti>참여 가능 횟수</CountNoti>
+                            <ClickCount>{userInfo ? userInfo.lottoCount : "0"}</ClickCount>
+                        </>
+                    ) : (
+                        <>
+                            <MobileLeftCount>{userInfo ? userInfo.lottoCount : "0"}</MobileLeftCount>
+                            <MobileCircleIcon src={mobileCircleIcon}></MobileCircleIcon>
+                            <MobileCountNoti>남은 기회</MobileCountNoti>
+                        </>
+                    )}
 
-                    <CountNoti>참여 가능 횟수</CountNoti>
-                    <ClickCount>{userInfo ? userInfo.lottoCount : "0"}</ClickCount>
                     <Star>{!isMobile ? <img src={star}></img> : <img src={mobileStar}></img>}</Star>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
@@ -127,8 +139,12 @@ const Lottery = () => {
                         블루문을 향해 말을 걸어보시겠어요? <br />
                         어쩌면, 당신에게 특별한 행운이 찾아올지도 몰라요:)
                     </Desc>
-                    <RecommendDesc>1명 → +1회</RecommendDesc>
-                    <RecommendIcons>친구 추천</RecommendIcons>
+                    {!isMobile && (
+                        <>
+                            <RecommendDesc>1명 → +1회</RecommendDesc>
+                            <RecommendIcons>친구 추천</RecommendIcons>
+                        </>
+                    )}
                 </ContentBox>
             </Container>
         </Layout>
@@ -481,3 +497,52 @@ const RecommendDesc = styled.div`
 
     color: #c6d3ec;
 `;
+
+const MobileCircleIcon = styled.img`
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    left: 38px;
+    top: 554px;
+`;
+const MobileLeftCount = styled.div`
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    left: 38px;
+    top: 554px;
+
+    z-index: 1000;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #9aebe7;
+`;
+
+const MobileCountNoti = styled.div`
+    position: absolute;
+
+    height: 8px;
+    left: 33px;
+    top: 593px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 10px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #c6d3ec;
+`;
+const MobileRecommendIcon = styled.div``;
+const MobileRecommendDesc = styled.div``;
