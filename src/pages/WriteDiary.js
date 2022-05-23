@@ -109,7 +109,7 @@ function WriteDiary() {
         window.alert("제목을 작성해주세요!");
         return;
       }
-      if(audioUrl === "" || diary.length === 0){
+      if(diary.length === 0 && audioUrl === ""){
         window.alert("음성 다이어리 혹은 텍스트 다이어리를 작성해주세요");
         return;
       }

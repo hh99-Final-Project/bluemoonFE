@@ -91,7 +91,7 @@ function CommentInput(props) {
 
     const saveComment = () => {
 
-        if(comment.length === 0 || audioUrl === "") {
+        if(comment.length === 0 && audioUrl === "") {
             window.alert("내용 혹은 음성을 등록해주세요!");
             return;
         }
