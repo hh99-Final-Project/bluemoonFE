@@ -45,7 +45,7 @@ const DiaryListMobile = (props) => {
                     {
                         diaryList.map((diary) => {
                             return (
-                                <Slide key={diary.postUuid}>
+                                <Slide onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
                                     <FirstSlide>
                                         <Title>
                                             {diary.title}
