@@ -84,7 +84,6 @@ function CategoryBar(props) {
                     header={currentHeader}
                     onClick={() => {
                         if (loginCheck()) {
-                            // setCurrentHeader("마이페이지");
                             moveToPage("/mypage");
                         } else {
                             openModal(true);
@@ -145,9 +144,6 @@ function CategoryBar(props) {
 }
 
 export default CategoryBar;
-
-// Home div 에 적용한 것들이 나머지 div 에도 적용되는 현상 확인
-// 어떻게 이런 일이 일어나는지 모르겠음.
 
 const HeaderContainer = styled.div`
     width: 950px;
