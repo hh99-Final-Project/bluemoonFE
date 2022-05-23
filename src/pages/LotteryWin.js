@@ -10,25 +10,31 @@ import Header from "../shared/Header";
 import CategoryBar from "../shared/CategoryBar";
 import { Layout } from "../components/common";
 import { lotteryWinIcon, check } from "../static/images/resources";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 
 const LotteryWin = () => {
     const { setCurrentHeader } = useStore();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState();
     const [isChecked, setIsChecked] = useState(false);
 
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
+
+    let phoneNumberCheck = /^[0-9]*$/;
+
     const onChange = (e) => {
+        if(!phoneNumberCheck.test(e.target.value)){
+            return;
+        }
         setPhoneNumber(e.target.value);
     };
 
     const onChangeCheck = (e) => {
         setIsChecked(e.target.checked);
     };
-
-    // console.log(phoneNumber);
-    // console.log(phoneNumber.length);
-    // console.log(phoneNumber.length !== 11);
-    console.log(isChecked);
 
     const EnterInfo = () => {
         userApi.EnterInfo(phoneNumber, isChecked).then((response) => {
@@ -59,30 +65,35 @@ const LotteryWin = () => {
                 <CategoryBar />
                 <ContentBox>
                     <LotteryWinIcon>
-                        <img src={lotteryWinIcon}></img>
+                        <img src={lotteryWinIcon}/>
                     </LotteryWinIcon>
                     <Title>당첨을 축하합니다!</Title>
                     <Input
                         onChange={onChange}
                         value={phoneNumber}
-                        placeholder="기프티콘을 받으실 휴대전화번호 11자리를 입력해주세요. (숫자 11자리 입력)"
+                        placeholder={
+                            (isMobile || isMobileQuery) ? "휴대전화번호 11자리를 입력해주세요(숫자만)"
+                                :
+                                "기프티콘을 받으실 휴대전화번호 11자리를 입력해주세요. (숫자 11자리 입력)"}
                     />
-                    <AgreeTitle>개인정보 수집 및 이용 동의</AgreeTitle>
+                    <AgreementBox>
+                        <AgreeTitle>개인정보 수집 및 이용 동의</AgreeTitle>
 
-                    <StyledLabel checked={isChecked} htmlFor="checkbox">
-                        <AgreeCheckbox
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={onChangeCheck}
-                            id="checkbox"
-                            name="checkbox"
-                        ></AgreeCheckbox>
-                    </StyledLabel>
+                        <StyledLabel checked={isChecked} htmlFor="checkbox">
+                            <AgreeCheckbox
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={onChangeCheck}
+                                id="checkbox"
+                                name="checkbox"
+                            />
+                        </StyledLabel>
+                    </AgreementBox>
 
                     <AgreeDesc>
-                        ㆍ입력받은 연락처는 기프티콘 전송을 위한 목적으로만 수집되며, 다른 용도로 사용되지 않습니다.
+                        <div>ㆍ입력받은 연락처는 기프티콘 전송을 위한 목적으로만 수집되며, 다른 용도로 사용되지 않습니다.</div>
                         <br />
-                        ㆍ기프티콘 발송은 4월00일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.
+                        <div>ㆍ기프티콘 발송은 4월00일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.</div>
                     </AgreeDesc>
 
                     <SubmitButton onClick={onClick}>입력완료</SubmitButton>
@@ -108,77 +119,123 @@ const ContentBox = styled.div`
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);
-
     border-radius: 25px;
-
     margin: auto;
+
+  @media only screen and (max-width: 420px) {
+    background: linear-gradient(180deg, rgba(14, 30, 80, 0.79) 0%, rgba(93, 102, 124, 0.79) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 70px #465981;
+    backdrop-filter: blur(80px);
+    width: 320px;
+    border-radius: 15px;
+  }
 `;
 
 const LotteryWinIcon = styled.div`
     margin: 83px 0 0 436px;
+
+  @media only screen and (max-width: 420px) {
+    margin: 100px auto 20px;
+    text-align: center;
+    
+    img {
+      width: 100px;
+      margin: auto;
+    }
+  }
+  
 `;
 
 const Title = styled.div`
     width: 190px;
     height: 30px;
     margin: 15px 0 0 385px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 24px;
     line-height: 30px;
 
     color: #ffffff;
+
+  @media only screen and (max-width: 420px) {
+    margin: auto;
+  }
 `;
 
 const Input = styled.input`
     width: 645px;
     height: 38px;
     margin: 51px 0 0 152px;
-
+    font-size: 18px;
+    line-height: 23px;
+    color: #08105D;
+    padding-left: 21px;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
     background: #c6d3ec;
     border-radius: 5px;
 
     &::placeholder {
-        font-family: "Spoqa Han Sans Neo";
-        font-style: normal;
         font-weight: 400;
         font-size: 16px;
         line-height: 20px;
-
         color: #43567e;
+    }
 
-        position: absolute;
-        top: 9px;
-        left: 21px;
+
+  @media only screen and (max-width: 420px) {
+    width: 280px;
+    height: 30px;
+    margin: 30px auto 40px;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::placeholder {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 8px;
+      line-height: 12px;
+      color: #43567e;
     }
-    &:focus {
-        border: 1px solid #333333;
-    }
+    
+  }
+`;
+
+const AgreementBox = styled.div`
+  width: 645px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 66px auto 17px;
+
+  @media only screen and (max-width: 420px) {
+    width: 280px;
+    margin: 0 auto 20px;
+  }
+  
 `;
 
 const AgreeTitle = styled.div`
-    position: absolute;
-    top: 328px;
-    left: 153px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 15px;
     line-height: 19px;
-
     color: #ffffff;
+    margin-right: 6px;
+
+  @media only screen and (max-width: 420px) {
+    font-size: 14px;
+    line-height: 16px;
+    margin-right: 10px;
+    text-align: center;
+  }
 `;
 
 const AgreeCheckbox = styled.input`
     appearance: none;
-    // position: absolute;
     width: 17px;
     height: 17px;
-    // top: 328px;
-    // left: 330px;
     background-color: white;
 
     &:checked {
@@ -188,28 +245,34 @@ const AgreeCheckbox = styled.input`
         background-repeat: no-repeat;
         background-color: white;
     }
+
+    @media only screen and (max-width: 420px) {
+        width: 14px;
+        height: 14px;
+    }
+  
+  
 `;
 
 const StyledLabel = styled.label`
-    position: absolute;
     width: 17px;
     height: 17px;
-    top: 328px;
-    left: 330px;
+
 `;
 
 const AgreeDesc = styled.div`
-    position: absolute;
-    top: 362px;
-    left: 149px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 12px;
     line-height: 15px;
-
     color: rgba(198, 211, 236, 0.8);
+    width: 650px;
+    margin: auto;
+
+    @media only screen and (max-width: 420px) {
+        font-size: 10px;
+        width: 280px;
+        text-align: left;
+        margin: auto;
+    }
 `;
 
 const SubmitButton = styled.div`
