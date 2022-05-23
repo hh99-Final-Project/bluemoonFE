@@ -1,18 +1,23 @@
 import React, {useRef, useState} from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { replyIcon, listenIcon } from "../../static/images/resources";
 import {convertDate, stringToSeconds, timeFormatter2} from "../../utils/convertDate";
 import PropTypes from "prop-types";
 import { MyTimer } from "./Timer";
+import {chatApi} from "../../apis/chatApi";
 
 
 
 const ReplyComment = (props) => {
 
-    const { replyComments } = props;
+    const { replyComments, deleteHandler } = props;
 
     const [expireTime, setExpireTime] = useState();
+    const userInfo = useSelector(((state) => state.userSlice.userInfo));
     const audioRef = useRef();
+    const navigate = useNavigate();
 
     const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
 
@@ -30,6 +35,16 @@ const ReplyComment = (props) => {
         }
     };
 
+    const createChat = (userId) => {
+        chatApi
+            .createChat(userId)
+            .then((response) => {
+                navigate(`/chat/${response.data}`);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <ReplyCommentList>
@@ -54,7 +69,7 @@ const ReplyComment = (props) => {
                             </Content>
                             <IconArea>
                                 {
-                                    comment.voiceUrl.length &&
+                                    comment.voiceUrl.length > 0 ?
                                         <VoiceArea
                                             onClick={(e)=>{
                                             e.preventDefault();
@@ -73,16 +88,25 @@ const ReplyComment = (props) => {
                                             </Timer>
                                             <audio ref={audioRef} src={comment.voiceUrl}/>
                                         </VoiceArea>
+                                        :
+                                        <VoiceArea/>
 
                                 }
 
                                 <OptionIconArea>
-                                    <ChattingIcon>
+                                    {
+                                        comment.userId !== userInfo.userId &&
+                                        <ChattingIcon onClick={() => createChat(comment.userId)}>
                                         채팅
                                     </ChattingIcon>
-                                    <DeleteIcon>
-                                        삭제
-                                    </DeleteIcon>
+                                    }
+                                    {
+                                        comment.show &&
+                                        <DeleteIcon onClick={() => deleteHandler(comment.commentUuid)}>
+                                            삭제
+                                        </DeleteIcon>
+                                    }
+
                                 </OptionIconArea>
                             </IconArea>
                         </OneReplyComment>

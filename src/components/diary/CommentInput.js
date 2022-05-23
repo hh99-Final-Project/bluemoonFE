@@ -98,9 +98,17 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
+
+        if(comment.length === 0 || audioUrl === "") {
+            window.alert("내용 혹은 음성을 등록해주세요!");
+            return;
+        }
+
         let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2((recordTime % 60))}`;
         setTime(timeToServer);
         setParentId("");
+        setComment("");
+
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, time);
     };
 

@@ -159,7 +159,7 @@ function Comment(props) {
                 }
 
             </OneCommentContainer>
-            <ReplyComment replyComments={comment.children} />
+            <ReplyComment replyComments={comment.children} deleteHandler={deleteHandler} />
 
         </React.Fragment>
 
