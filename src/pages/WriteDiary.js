@@ -165,7 +165,7 @@ function WriteDiary() {
         <Layout>
           <WriteContainer>
             <Header/>
-            { !isMobile ? <CategoryBar/> : <MobileTitleName title={"글*쓰기"} pos={6}/>}
+            { !isMobile ? <CategoryBar/> : <MobileTitleName onClick={onClickHandler} title={"글*쓰기"} pos={6} type={"write"}/>}
 
                 <PostAreaContainer BgColor={color.containerBoxColor}>
                   <PostHeader>
@@ -366,10 +366,13 @@ function WriteDiary() {
     @media only screen and (max-width: 420px) {
       width: 320px;
       height: 43px;
-      background: linear-gradient(180deg, #394877 0%, #49526C 100%);
       border: 1px solid #6B6B6B;
       padding: 13px 20px;
       margin-bottom: 16px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #08105D;
+      background-color: #B1BBD6;
     }
     
     ::placeholder {
@@ -419,9 +422,12 @@ function WriteDiary() {
     @media only screen and (max-width: 420px) {
       width: 320px;
       height: calc(100vh - 208px);
-      background: linear-gradient(180deg, #394877 0%, #49526C 100%);
       border: 1px solid #6B6B6B;
       padding: 22px 20px;
+      font-size: 14px;
+      line-height: 17px;
+      color: #08105D;
+      background-color: #B1BBD6;
     }
     
     ::placeholder {
@@ -483,7 +489,7 @@ function WriteDiary() {
       margin-right: 13px;
       font-size: 8px;
       line-height: 10px;
-      color: rgba(255, 255, 255, 0.8);
+      color: #08105D;
     }
     
     img {
@@ -518,7 +524,6 @@ function WriteDiary() {
       font-size: 14px;
       line-height: 17px;
       text-align: center;
-      color: #959EBE;
     }
   `;
 

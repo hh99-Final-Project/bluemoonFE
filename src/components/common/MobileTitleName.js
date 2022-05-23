@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { mobTitleBackButton } from "../../static/images/resources";
+import {mobTitleBackButton, mobWriteDiaryButton} from "../../static/images/resources";
 
 
 const MobileTitleName = (props) => {
 
-    const { title, pos } = props;
+    const { title, pos, type, onClick } = props;
     const navigate = useNavigate();
 
 
@@ -46,6 +46,9 @@ const MobileTitleName = (props) => {
                                     {idx === 5 && title[1]}
                                     {idx === 6 && title[2]}
                                     {idx === 7 && title[3]}
+                                    {type === "write" && idx === 11 &&  <SaveDiary
+                                        onClick={onClick}
+                                        src={mobWriteDiaryButton}/>}
                                 </Box>
                             );
                         }
@@ -116,25 +119,13 @@ const Box = styled.div`
 `;
 
 const BackIcon = styled.img`
-  //padding-top: 4.5px;
-  //margin-left: 6px;
   cursor: pointer;
 `;
 
-const TextBox = styled.div`
-  display: flex;
-  position: absolute;
-  bottom: 24px;
-  left: calc(50% + 9px);
-  transform:translateX(-50%);
-`;
 
-const OneText = styled.div`
-  font-size: 14px;
-  line-height: 17px;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 0.355em;
-  color: #FFFFFF;
+const SaveDiary = styled.img`
+    margin-right: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
 `;
 
