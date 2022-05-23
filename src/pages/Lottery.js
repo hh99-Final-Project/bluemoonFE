@@ -521,7 +521,7 @@ const MobileLeftCount = styled.div`
     line-height: 19px;
     display: flex;
     align-items: center;
-    text-align: center;
+    justify-contetn: center;
 
     color: #9aebe7;
 `;

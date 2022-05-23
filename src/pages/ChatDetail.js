@@ -56,7 +56,7 @@ const ChatDetail = () => {
 
     // 채팅방 이전 메시지 가져오기
     useEffect(() => {
-        let sock = new SockJS("http://13.209.155.82/stomp/chat");
+        let sock = new SockJS(`${process.env.REACT_APP_BASE_URL}/stomp/chat`);
         let client = Stomp.over(sock);
         ws.current = client;
 
