@@ -24,7 +24,7 @@ import {userApi} from "../apis/userApi";
 function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
-    const cookie = getCookie("authorization");
+    const cookie = getCookie("accessToken");
     const { pathname } = useLocation();
 
     useEffect(() => {
