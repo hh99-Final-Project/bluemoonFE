@@ -15,7 +15,7 @@ function ChatInput(props) {
     const { onSend, text, setText } = props;
     const ws = useRef();
 
-    const token = getCookie("authorization");
+    const token = getCookie("accessToken");
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",

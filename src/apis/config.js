@@ -53,7 +53,7 @@ instance.interceptors.response.use(
         if(response.data.errorMessage === "만료된 토큰입니다.") {
             // const refreshToken = await userApi.getRefreshToken();
             // store.dispatch(logout());
-            // deleteCookie("authorization");
+            // deleteCookie("accessToken");
             // window.location.href = "/";
         }
         return response;
@@ -71,7 +71,7 @@ fileInstance.interceptors.response.use(
         if(response.data.errorMessage === "만료된 토큰입니다.") {
             window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
             store.dispatch(logout());
-            deleteCookie("authorization");
+            deleteCookie("accessToken");
             window.location.href = "/";
         }
         return response;

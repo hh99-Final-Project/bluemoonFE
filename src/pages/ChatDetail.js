@@ -30,7 +30,7 @@ const ChatDetail = () => {
 
     // 보내는 사람
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const token = getCookie("authorization");
+    const token = getCookie("accessToken");
     const [text, setText] = React.useState("");
     const scrollRef = useRef();
     const ws = useRef();

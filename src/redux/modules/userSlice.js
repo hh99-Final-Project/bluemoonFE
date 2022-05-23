@@ -32,7 +32,7 @@ export const userSlice = createSlice({
         logout(state, action){
             state.isLogin = null;
             state.userInfo = null;
-            deleteCookie("authorization");
+            deleteCookie("accessToken");
         }
     },
     extraReducers: (builder) => {

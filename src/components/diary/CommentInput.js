@@ -28,7 +28,7 @@ function CommentInput(props) {
     const [recordTime, setRecordTime] = useState(0);
     const [time, setTime] = useState("");
     const [expireTime, setExpireTime] = useState();
-    const token = getCookie("authorization");
+    const token = getCookie("accessToken");
 
     const {
         recordVoice,
