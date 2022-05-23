@@ -68,12 +68,17 @@ const chatSlice = createSlice({
                 state.unreadCountList[unreadCountIndex] = action.payload;
 
                 // chatList에서 같은 roomId 를 가지고 있는 요소 찾아, 그 요소의 unreadCount update
-                const findRoom = (c) => {
-                    if (c.chatRoomUuid == action.payload.roomId) {
-                        return true;
-                    }
-                };
-                state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
+                // const findRoom = (c) => {
+                //     if (c.chatRoomUuid == action.payload.roomId) {
+                //         return true;
+                //     }
+                // };
+                // state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
+
+                const unReadRoom = state.chatList.find((c) => c.chatRoomUuid === action.payload.roomId);
+                if(unReadRoom){
+                    unReadRoom.unreadCount = action.payload.unreadCount;
+                }
             }
 
             // 해당 roomId 에 대한 값이 배열에 없으면 newAlert를 배열에 더하기
@@ -81,12 +86,17 @@ const chatSlice = createSlice({
                 state.unreadCountList.push(action.payload);
 
                 // chatList에서 같은 roomId 를 가지고 있는 요소 찾아, 그 요소의 unreadCount update
-                const findRoom = (c) => {
-                    if (c.chatRoomUuid == action.payload.roomId) {
-                        return true;
-                    }
-                };
-                state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
+                // const findRoom = (c) => {
+                //     if (c.chatRoomUuid == action.payload.roomId) {
+                //         return true;
+                //     }
+                // };
+                // state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
+
+                const unReadRoom = state.chatList.find((c) => c.chatRoomUuid === action.payload.roomId);
+                if(unReadRoom){
+                    unReadRoom.unreadCount = action.payload.unreadCount;
+                }
             }
         },
         // chatList 메뉴 클릭 시 해당 액션이 실행되게 하여 별 표시를 삭제하게 한다
@@ -97,7 +107,7 @@ const chatSlice = createSlice({
             state.isLoading = true;
         },
         deleteChatList(state, action) {
-            state.chatList.filter((chat) => chat.chatRoomUuid !== action.payload);
+            state.chatList = state.chatList.filter((chat) => chat.chatRoomUuid !== action.payload);
         }
     },
     // extraReducers
