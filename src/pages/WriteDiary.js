@@ -15,7 +15,6 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import {color} from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
 import { isModalOpen } from "../redux/modules/commonSlice";
-import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2} from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
 import MobileTitleName from "../components/common/MobileTitleName";
@@ -54,7 +53,7 @@ function WriteDiary() {
 
     const [title, setTitle] = useState("");
     const [diary, setDiary] = useState("");
-    const [recordTime, setRecordTime] = useState("");
+    const [recordTime, setRecordTime] = useState();
     const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [isOpenSuccessPopup, setIsOpenSuccessPopup] = useState(false);
     const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
@@ -135,7 +134,7 @@ function WriteDiary() {
       }
     };
 
-    const { seconds, minutes, isRunning, start, restart, pause, resume } = MyTimer(expireTime);
+    const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
 
 
 
@@ -185,14 +184,11 @@ function WriteDiary() {
                       />
                       <PostAreaBottomIcons>
                         <VoiceLeft>
-                          <RecordArea onClick={() => setIsOpenVoicePopup(true)}>
+
+                          <RecordArea isPlaying={isPlaying} onClick={() => setIsOpenVoicePopup(true)}>
                             <img src={recordIcon} alt={"record"}/>
-                            <div>음성 등록</div>
+                              {isPlaying ? <div>듣는 중입니다</div> : <div>음성 등록</div>}
                           </RecordArea>
-                          {/*<ListenArea>*/}
-                          {/*  <img src={listenIcon} alt={"listen"}/>*/}
-                          {/*  <div>음성 듣기</div>*/}
-                          {/*</ListenArea>*/}
                         </VoiceLeft>
                         <PostLength>{diary.length}/500</PostLength>
                       </PostAreaBottomIcons>
@@ -211,11 +207,11 @@ function WriteDiary() {
                           if(isPlaying){
                               playingStop();
                               playingHandler(false);
-                              pause();
+                              TimerPause();
                           } else {
                               //중지라면 다시 재생, 타이머 재생
                               play();
-                              restart(new Date(addedNow));
+                              TimerRestart(new Date(addedNow));
                           }
 
 
@@ -224,7 +220,7 @@ function WriteDiary() {
                         <TimeArea>
 
                         {
-                            isRunning ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
+                            TimerIsRunning ? timeFormatter2(timerMin) + ":" + timeFormatter2(timerSec)
                                 : timeFormatter(recordTime).min + ":" + timeFormatter(recordTime).sec
                         }
                       </TimeArea>
@@ -269,6 +265,7 @@ function WriteDiary() {
                           playingHandler={playingHandler}
                           toggleListening={toggleListening}
                           isListening={isListening}
+                          isOpenVoicePopup={isOpenVoicePopup}
                       />
                     }
           </WriteContainer>
@@ -484,6 +481,7 @@ function WriteDiary() {
     line-height: 10px;
     margin-right: 19px;
     text-align: center;
+    pointer-events: ${(props) => props.isPlaying && "none"};
   
     @media only screen and (max-width: 420px) {
       margin-right: 13px;
