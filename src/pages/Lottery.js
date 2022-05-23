@@ -52,22 +52,22 @@ const Lottery = () => {
             return;
         }
 
-        // userApi
-        //     .tryLottery()
-        //     .then((response) => {
-        setIsClick(true);
-        setTimeout(() => setIsLoading(true), 1000);
-        setTimeout(() => setIsLoading(false), 4000);
-        // if (response.data.result === true) {
-        // setTimeout(() => setIsWin(true), 5000);
-        //     } else if (response.data.result === false) {
-        setTimeout(() => setIsWin(false), 5000);
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        //     const result = error.response.data;
-        // });
+        userApi
+            .tryLottery()
+            .then((response) => {
+                setIsClick(true);
+                setTimeout(() => setIsLoading(true), 1000);
+                setTimeout(() => setIsLoading(false), 4000);
+                if (response.data.result === true) {
+                    setTimeout(() => setIsWin(true), 5000);
+                } else if (response.data.result === false) {
+                    setTimeout(() => setIsWin(false), 5000);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                const result = error.response.data;
+            });
     };
 
     return (
