@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { halfMoon, building, starBG } from "../static/images/resources";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
+import {getCookie, introCookie} from "../utils/cookie";
 
 const Intro = () => {
 
@@ -16,13 +17,16 @@ const Intro = () => {
 
     useEffect(()=>{
 
-        if(localStorage.getItem("isShowIntro") === "true") {
+        if(localStorage.getItem("isShowIntro") === "true" || getCookie("isSeenIntro")) {
             navigate("/");
             return;
         }
 
         animationRef.current.addEventListener("animationend", () => {
             localStorage.setItem("isShowIntro", JSON.stringify(true));
+            if(isMobile || isMobileQuery) {
+                introCookie(true);
+            }
             setTimeout(()=>{
                 navigate("/");
             },1500);
