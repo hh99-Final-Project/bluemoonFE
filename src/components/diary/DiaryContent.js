@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { chatApi } from "../../apis/chatApi";
 import { chatIcon, voicePlayIcon } from "../../static/images/resources";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 
 DiaryContent.propTypes = {
     diary: PropTypes.object,
@@ -16,7 +18,9 @@ function DiaryContent(props) {
 
     const [isPlaying, setIsPlaying] = useState(false);
 
-
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
 
     const createChat = (userId) => {
         chatApi
@@ -61,6 +65,17 @@ function DiaryContent(props) {
            };
         },[diary, audioRef.current]);
 
+    useEffect(()=>{
+        if(isMobile || isMobileQuery) {
+            audioRef.current.addEventListener("touchend", playAudio, false);
+        }
+
+
+        return () => {
+            audioRef.current.removeEventListener("touchend", playAudio, false);
+        };
+    },[]);
+
         return (
             <React.Fragment>
                 <DiaryContainer>
@@ -72,9 +87,6 @@ function DiaryContent(props) {
                                 <TooltipBox>
                                     {isPlaying ? "한번 더 누르면 멈춥니다!" : "클릭하면 재생합니다"}
                                 </TooltipBox>
-                                {/*<TimeArea>*/}
-
-                                {/*</TimeArea>*/}
                             </VoiceArea>
                         }
 

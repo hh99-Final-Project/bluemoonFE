@@ -279,8 +279,5 @@ const MyPoint = styled.span`
 `;
 const FeedbackIcon = styled(DiaryList)`
   border: none;
-  position: absolute;
-  height: 24px;
-  bottom: 80px;
-  left: 6px;
+  margin-left: 6px;
 `;

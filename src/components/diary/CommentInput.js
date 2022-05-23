@@ -101,7 +101,7 @@ function CommentInput(props) {
         setParentId("");
         setComment("");
 
-        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, time);
+        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, timeToServer);
     };
 
     const onClick = async () => {
