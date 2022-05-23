@@ -10,4 +10,5 @@ export const color = {
     webModalBackgroundColor: "rgba(206, 217, 238, 0.9)",
     mobileModalBackgroundColor: "rgba(204, 215, 238, 0.9)",
     mobileNavbarBackgroundColor: "#C6D3EC",
+    mobileContainerBoxColor: "linear-gradient(180deg, rgba(14, 30, 80, 0.79) 0%, rgba(93, 102, 124, 0.79) 100%)",
 };
