@@ -19,6 +19,10 @@ function DiaryContent(props) {
     const [isPlaying, setIsPlaying] = useState(false);
     const buttonRef = useRef();
 
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)",
+    });
+
     const createChat = (userId) => {
         chatApi
             .createChat(userId)
@@ -64,13 +68,13 @@ function DiaryContent(props) {
         },[]);
 
     useEffect(()=>{
-        if(isMobile && buttonRef.current){
+        if( (isMobile || isMobileQuery) && buttonRef.current){
             buttonRef.current.addEventListener("touchstart", playAudio, false);
         }
 
 
         return () => {
-            if(isMobile && buttonRef.current){
+            if( (isMobile || isMobileQuery) && buttonRef.current){
                 buttonRef.current.removeEventListener("touchstart", playAudio, false);
             }
 

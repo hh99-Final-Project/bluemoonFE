@@ -304,12 +304,29 @@ const PlayArea = styled.div`
         height: 26px;
         cursor: pointer;
     }
+
+  @media only screen and (max-width: 420px) {
+    width: 60px;
+    height: 22px;
+    font-size: 10px;
+    
+    img {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  
+  
 `;
 const TimeArea = styled.div`
     font-size: 12px;
     line-height: 15px;
     color: #08105d;
     margin-left: 4px;
+
+  @media only screen and (max-width: 420px) {
+    font-size: 10px;
+  }
 `;
 
 const TextLength = styled.div`
