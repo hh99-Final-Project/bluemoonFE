@@ -41,6 +41,8 @@ export default ChatMessage;
 const Box = styled.div`
     align-items: ${(props) => (props.user ? "flex-end" : "flex-start")};
     margin-bottom: 15px;
+    word-break: break-all;
+  
 `;
 
 const MessageBox = styled.div`

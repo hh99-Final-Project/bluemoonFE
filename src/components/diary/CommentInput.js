@@ -89,6 +89,8 @@ function CommentInput(props) {
 
         setComment(e.target.value);
     };
+    console.log(comment.length,"comment");
+    console.log(audioUrl,"audioUrl");
 
     const saveComment = () => {
         if (!isLogin) {
@@ -96,7 +98,7 @@ function CommentInput(props) {
             return;
         }
 
-        if (comment.length === 0 && audioUrl === "") {
+        if (comment.length === 0 && audioUrl === undefined) {
             window.alert("내용 혹은 음성을 등록해주세요!");
             return;
         }
