@@ -95,9 +95,9 @@ function SignUp() {
     }, [nickName]);
 
     // nickname 있는 유저가 signup 들어올 경우 Main 으로 이동시킴
-    // if (userInfo?.nickname !== "") {
-    //     return <Main />;
-    // }
+    if (userInfo?.nickname !== "") {
+        return <Main />;
+    }
 
     return (
         <Layout>
