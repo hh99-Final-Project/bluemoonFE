@@ -39,7 +39,7 @@ const VoicePopup = (props) => {
         SaveRecordTime,
     } = props;
 
-    const [expireTime, setExpireTime] = useState();
+    const [expireTime, setExpireTime] = useState(new Date());
     const { seconds, minutes, start, pause, reset } = useStopwatch({ autoStart: false });
     const { timerSec, timerMin, TimerRestart} = MyTimer(expireTime);
 

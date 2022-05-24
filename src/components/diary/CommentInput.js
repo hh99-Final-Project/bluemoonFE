@@ -15,6 +15,7 @@ import { timeFormatter, timeFormatter2 } from "../../utils/convertDate";
 import { isModalOpen } from "../../redux/modules/commonSlice";
 import {isMobile} from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
+import {MyTimer} from "./Timer";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -31,7 +32,7 @@ function CommentInput(props) {
     const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
     const [recordTime, setRecordTime] = useState(0);
     const [time, setTime] = useState("");
-    const [expireTime, setExpireTime] = useState();
+    const [expireTime, setExpireTime] = useState(new Date());
     const token = getCookie("accessToken");
 
     const {
@@ -58,11 +59,8 @@ function CommentInput(props) {
         playingHandler,
     } = useRecordVoice();
 
-    const { seconds, minutes, isRunning, start, restart, pause } = useTimer({
-        expireTime,
-        onExpire: () => console.warn("onExpire called"),
-        autoStart: false,
-    });
+
+    const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
 
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)"
@@ -101,6 +99,7 @@ function CommentInput(props) {
         setTime(timeToServer);
         setParentId("");
         setComment("");
+        deleteVoice();
 
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, timeToServer);
     };
@@ -189,19 +188,19 @@ function CommentInput(props) {
                                         if (isPlaying) {
                                             playingStop();
                                             playingHandler(false);
-                                            pause();
+                                            TimerPause();
                                         } else {
                                             //중지라면 다시 재생, 타이머 재생
                                             play();
-                                            restart(new Date(addedNow));
+                                            TimerRestart(new Date(addedNow));
                                         }
                                     }}
                                     src={listenIcon}
                                     alt={"listenIcon"}
                                 />
                                 <TimeArea>
-                                    {isRunning
-                                        ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
+                                    {TimerIsRunning
+                                        ? timeFormatter2(timerMin) + ":" + timeFormatter2(timerSec)
                                         : timeFormatter(recordTime).min + ":" + timeFormatter(recordTime).sec}
                                 </TimeArea>
                             </PlayArea>

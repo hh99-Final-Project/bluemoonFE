@@ -52,7 +52,6 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     function (response) {
         if (response.data.errorMessage === "만료된 토큰입니다.") {
-            window.alert("토큰만료");
             store.dispatch(logout());
             document.location.href = "/";
         }

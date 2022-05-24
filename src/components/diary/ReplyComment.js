@@ -15,7 +15,7 @@ const ReplyComment = (props) => {
 
     const { replyComments, deleteHandler } = props;
 
-    const [expireTime, setExpireTime] = useState();
+    const [expireTime, setExpireTime] = useState(new Date());
     const userInfo = useSelector(((state) => state.userSlice.userInfo));
     const audioRef = useRef();
     const navigate = useNavigate();
