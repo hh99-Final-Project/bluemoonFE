@@ -12,6 +12,8 @@ import ReplyComment from "./ReplyComment";
 import Popup from "../../shared/Popup";
 import {voicePlayIcon} from "../../static/images/resources";
 import { MyTimer } from "./Timer";
+import {isMobile} from "react-device-detect";
+import {useMediaQuery} from "react-responsive";
 
 Comment.propTypes = {
     comment: PropTypes.object,
@@ -29,6 +31,10 @@ function Comment(props) {
     const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [expireTime, setExpireTime] = useState();
     const audioRef = useRef();
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
 
 
     const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
@@ -100,7 +106,7 @@ function Comment(props) {
                 </PostContent>
 
                 {
-                    comment.voiceUrl !== "" && (comment.show || !comment.lock) &&
+                    comment.voiceUrl !== "" && (comment.show || !comment.lock) && !isMobile && !isMobileQuery &&
                         <PlayVoiceArea
                             onClick={(e) => {
                                 e.preventDefault();

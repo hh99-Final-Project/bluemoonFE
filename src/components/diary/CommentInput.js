@@ -13,6 +13,8 @@ import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2 } from "../../utils/convertDate";
 import { isModalOpen } from "../../redux/modules/commonSlice";
+import {isMobile} from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -60,6 +62,10 @@ function CommentInput(props) {
         expireTime,
         onExpire: () => console.warn("onExpire called"),
         autoStart: false,
+    });
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)"
     });
 
     const lockHandler = () => {
@@ -166,7 +172,10 @@ function CommentInput(props) {
                 />
                 <IconArea>
                     <ButtonArea>
-                        <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue} />
+                        {
+                            !isMobile && !isMobileQuery && <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue} />
+                        }
+
 
                         {isShowSpeaker && (
                             <PlayArea>

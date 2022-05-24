@@ -87,7 +87,7 @@ function DiaryContent(props) {
                 <DiaryContainer>
                     <ContentsContainer>
                         <Content>{diary.content}</Content>
-                        { diary.voiceUrl.length > 0 &&
+                        { diary.voiceUrl.length > 0 && !isMobile && !isMobileQuery &&
                             <VoiceArea>
                                 <VoiceButton ref={buttonRef} isPlaying={isPlaying} onClick={playAudio} src={voicePlayIcon}/>
                                 <TooltipBox>

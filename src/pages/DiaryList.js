@@ -13,7 +13,6 @@ import { color } from "../utils/designSystem";
 import { DiaryListMobile } from "../components/diary";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
-
 import { commentIcon, chatIcon, prevButton, nextButton, voicePlayIcon } from "../static/images/resources";
 import { chatApi } from "../apis/chatApi";
 import { getCookie } from "../utils/cookie";

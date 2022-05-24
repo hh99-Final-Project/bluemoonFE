@@ -19,7 +19,7 @@ const DiaryListMobile = (props) => {
         dots: false,
         arrows: false,
         infinite: true,
-        speed: 3000,
+        speed: 1000,
         autoplay: false,
         slideToShow: 1,
         slidesToScroll: 1,
@@ -53,7 +53,7 @@ const DiaryListMobile = (props) => {
                                     </FirstSlide>
                                     <Spring src={spring}/>
                                     <SecondSlide>
-                                        {diary.voiceUrl && <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>}
+                                        {/*{diary.voiceUrl && <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>}*/}
                                         <Desc>
                                             {
                                                 diaryList.length === 0 ? "다이어리를 작성해주세요!" :

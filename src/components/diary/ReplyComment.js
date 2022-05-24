@@ -7,7 +7,8 @@ import {convertDate, stringToSeconds, timeFormatter2} from "../../utils/convertD
 import PropTypes from "prop-types";
 import { MyTimer } from "./Timer";
 import {chatApi} from "../../apis/chatApi";
-
+import {isMobile} from "react-device-detect";
+import {useMediaQuery} from "react-responsive";
 
 
 const ReplyComment = (props) => {
@@ -18,6 +19,11 @@ const ReplyComment = (props) => {
     const userInfo = useSelector(((state) => state.userSlice.userInfo));
     const audioRef = useRef();
     const navigate = useNavigate();
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
+
 
     const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
 
@@ -69,7 +75,7 @@ const ReplyComment = (props) => {
                             </Content>
                             <IconArea>
                                 {
-                                    comment.voiceUrl.length > 0 ?
+                                    comment.voiceUrl.length > 0 && !isMobile && !isMobileQuery ?
                                         <VoiceArea
                                             onClick={(e)=>{
                                             e.preventDefault();
@@ -78,19 +84,18 @@ const ReplyComment = (props) => {
                                             setExpireTime(new Date(addedNow));
                                             audioPlay(new Date(addedNow));
                                             }}>
-                                            <VoiceIcon src={listenIcon}/>
-                                            <ListenText>음성 듣기</ListenText>
-                                            <Timer>
-                                                {
-                                                    TimerIsRunning ? timeFormatter2(timerMin) + ":" + timeFormatter2(timerSec)
-                                                        : comment.timer
-                                                }
-                                            </Timer>
-                                            <audio ref={audioRef} src={comment.voiceUrl}/>
+                                                <VoiceIcon src={listenIcon}/>
+                                                <ListenText>음성 듣기</ListenText>
+                                                <Timer>
+                                                    {
+                                                        TimerIsRunning ? timeFormatter2(timerMin) + ":" + timeFormatter2(timerSec)
+                                                            : comment.timer
+                                                    }
+                                                </Timer>
+                                                <audio ref={audioRef} src={comment.voiceUrl}/>
                                         </VoiceArea>
                                         :
                                         <VoiceArea/>
-
                                 }
 
                                 <OptionIconArea>

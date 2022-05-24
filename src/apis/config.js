@@ -56,6 +56,11 @@ instance.interceptors.response.use(
             store.dispatch(logout());
             document.location.href = "/";
         }
+
+        if(response.data.errorMessage === "토큰이 없습니다.") {
+            store.dispatch(logout());
+            document.location.href = "/";
+        }
         return response;
     },
     function (error) {
@@ -72,6 +77,11 @@ fileInstance.interceptors.response.use(
             document.location.href = "/";
             return;
         }
+        if(response.data.errorMessage === "토큰이 없습니다.") {
+            store.dispatch(logout());
+            document.location.href = "/";
+        }
+
         return response;
     },
     function (error) {

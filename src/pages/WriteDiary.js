@@ -18,6 +18,7 @@ import { useMediaQuery } from "react-responsive";
 import { isModalOpen } from "../redux/modules/commonSlice";
 import { timeFormatter, timeFormatter2 } from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
+import {isMobile} from "react-device-detect";
 
 function WriteDiary() {
     const navigate = useNavigate();
@@ -61,6 +62,10 @@ function WriteDiary() {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const queryClient = useQueryClient();
     const dispatch = useDispatch();
+
+    const isMobileQuery = useMediaQuery({
+        query: "(max-width: 420px)"
+    });
 
     const onChangeTitleHandler = (e) => {
         if (e.target.value.length > 30) {
@@ -175,10 +180,13 @@ function WriteDiary() {
                             />
                             <PostAreaBottomIcons>
                                 <VoiceLeft>
-                                    <RecordArea isPlaying={isPlaying} onClick={() => setIsOpenVoicePopup(true)}>
-                                        <img src={recordIcon} alt={"record"} />
-                                        {isPlaying ? <div>듣는 중입니다</div> : <div>음성 등록</div>}
-                                    </RecordArea>
+                                    {
+                                        !isMobile && !isMobileQuery &&
+                                        <RecordArea isPlaying={isPlaying} onClick={() => setIsOpenVoicePopup(true)}>
+                                            <img src={recordIcon} alt={"record"} />
+                                            {isPlaying ? <div>듣는 중입니다</div> : <div>음성 등록</div>}
+                                        </RecordArea>
+                                    }
                                 </VoiceLeft>
                                 <PostLength>{diary.length}/500</PostLength>
                             </PostAreaBottomIcons>
