@@ -9,52 +9,25 @@ function Footer(props) {
     return (
         <Container bgColor={color.backgroundColor}>
             <img src={footerLogo}></img>
-            <Fe>
-                Front-End
-                <p
-                    onClick={() => {
-                        window.open("https://github.com/lee-chun-91");
-                    }}
-                >
-                    이춘
-                </p>
-                <p
-                    onClick={() => {
-                        window.open("https://github.com/hyemigwak");
-                    }}
-                >
-                    곽혜미
-                </p>
-            </Fe>
-            <Be>
-                Back-End
-                <p
-                    onClick={() => {
-                        window.open("https://github.com/cbjjzzang");
-                    }}
-                >
-                    최봉진
-                </p>
-                <p
-                    onClick={() => {
-                        window.open("https://github.com/jaeyoungjang2");
-                    }}
-                >
-                    장재영
-                </p>
-                <p
-                    onClick={() => {
-                        window.open("https://github.com/TodayIsYolo");
-                    }}
-                >
-                    김승민
-                </p>
-            </Be>
-            <Ui>
-                UI/UX Designer
-                <p>김지희</p>
-                <p>박유리</p>
-            </Ui>
+            <div>
+                <Fe>
+                    Front-End
+                    <a href="https://github.com/hyemigwak">곽혜미</a>
+                    <a href="https://github.com/lee-chun-91">이춘</a>
+                </Fe>
+                <Be>
+                    Back-End
+                    <a href="https://github.com/TodayIsYolo">김승민</a>
+                    <a href="https://github.com/jaeyoungjang2">장재영</a>
+                    <a href="https://github.com/cbjjzzang">최봉진</a>
+                </Be>
+                <Ui>
+                    UI/UX Designer
+                    <a href="mailto:dl3279@naver.com">김지희</a>
+                    <a href="mailto:dl3279@naver.com">박유리</a>
+                </Ui>
+            </div>
+
             <Copyright>Copyright 2022 bluemoon All rights Reserved.</Copyright>
         </Container>
     );
@@ -71,6 +44,7 @@ const Container = styled.div`
     bottom: 84px;
 
     display: flex;
+    justify-content: space-around;
     align-items: center;
 
     font-family: "Spoqa Han Sans Neo";
@@ -86,6 +60,10 @@ const Container = styled.div`
         margin: 0 147px 0 97px;
     }
 
+    div {
+        display: flex;
+        flex-direction: row;
+    }
     @media only screen and (max-width: 420px) {
         display: none;
     }
@@ -94,9 +72,11 @@ const Container = styled.div`
 const Fe = styled.div`
     display: flex;
     flex-direction: row;
-    p {
+
+    a {
         margin-left: 5px;
-        cursor: pointer;
+        text-decoration: none;
+        color: white;
     }
 `;
 
@@ -104,9 +84,11 @@ const Be = styled.div`
     display: flex;
     flex-direction: row;
     margin-left: 55px;
-    p {
+
+    a {
         margin-left: 5px;
-        cursor: pointer;
+        text-decoration: none;
+        color: white;
     }
 `;
 
@@ -114,9 +96,11 @@ const Ui = styled.div`
     display: flex;
     flex-direction: row;
     margin-left: 55px;
-    p {
+
+    a {
         margin-left: 5px;
-        cursor: pointer;
+        text-decoration: none;
+        color: white;
     }
 `;
 
