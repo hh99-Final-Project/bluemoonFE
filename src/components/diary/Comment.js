@@ -25,11 +25,12 @@ Comment.propTypes = {
 
 function Comment(props) {
     const { comment, setParentId, parentCommentId } = props;
+    const today = new Date();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const [isOpenPopup, setIsOpenPopup] = useState(false);
-    const [expireTime, setExpireTime] = useState();
+    const [expireTime, setExpireTime] = useState(today);
     const audioRef = useRef();
 
     const isMobileQuery = useMediaQuery({
@@ -67,9 +68,6 @@ function Comment(props) {
     const reReplyComment = (commentId) => {
         setParentId(commentId);
     };
-
-
-
 
 
     const createChat = (userId) => {
