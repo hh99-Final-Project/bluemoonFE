@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useStore from "../zustand/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userApi } from "../apis/userApi";
 
@@ -25,6 +25,7 @@ import {
 } from "../static/images/resources";
 import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
+import { setUserPoint, setUserCount } from "../redux/modules/userSlice";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -33,6 +34,7 @@ const Lottery = () => {
     const [isLoading, setIsLoading] = useState(null);
     const [isWin, setIsWin] = useState(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
@@ -59,9 +61,17 @@ const Lottery = () => {
                 setTimeout(() => setIsLoading(true), 1000);
                 setTimeout(() => setIsLoading(false), 4000);
                 if (response.data.result === true) {
-                    setTimeout(() => setIsWin(true), 5000);
+                    setTimeout(() => {
+                        setIsWin(true);
+                        dispatch(setUserPoint(response.data.point));
+                        dispatch(setUserCount(0));
+                        }, 5000);
                 } else if (response.data.result === false) {
-                    setTimeout(() => setIsWin(false), 5000);
+                    setTimeout(() => {
+                        setIsWin(false);
+                        dispatch(setUserPoint(response.data.point));
+                        dispatch(setUserCount(0));
+                    },5000);
                 }
             })
             .catch((error) => {
@@ -69,6 +79,8 @@ const Lottery = () => {
                 const result = error.response.data;
             });
     };
+
+
 
     return (
         <Layout>
@@ -85,14 +97,16 @@ const Lottery = () => {
                     </MoonArea>
                     <LotteryArea>
                         {!isMobile && <LotteryhalfMoon src={lotteryhalfMoon} />}
-                        {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
+                        {!isClick && <LotteryClick onClick={onClickHandler}>
+                            클릭하기
+                        </LotteryClick>}
                         {isLoading && <LotteryLoading>모습을 비추고 있어요..</LotteryLoading>}
                         {isClick && isWin === true && (
                             <LotteryResult isWin={isWin}>
                                 당신에겐 달콤한 휴식을 선물할게요.
                                 <BananaMilkIcon
                                     src={!isMobile ? bananaMilkIcon : mobileBananaMilkIcon}
-                                ></BananaMilkIcon>
+                                />
                                 <GetBananaMilkButton
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -303,7 +317,7 @@ const LotteryLoading = styled(LotteryClick)`
 
 const LotteryResult = styled(LotteryClick)`
     top: ${(props) => (props.isWin ? "199px" : "240px")};
-    left: ${(props) => (props.isWin ? "88px" : "44px")};
+    left: ${(props) => (props.isWin ? "88px" : "77px")};
     font-size: ${(props) => (props.isWin ? "12px" : "16px")};
     line-height: ${(props) => (props.isWin ? "15px" : "20px")};
     display: flex;
