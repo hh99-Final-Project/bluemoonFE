@@ -24,7 +24,6 @@ function DiaryDetail() {
 
 
     const isAnonymous = postId === "33d85b34-3f03-45ff-9c6c-7f121d8d8672";
-    console.log(isAnonymous,"isAnonymous");
 
 
     const isMobile = useMediaQuery({
