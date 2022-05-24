@@ -7,6 +7,7 @@ import { userApi } from "../apis/userApi";
 
 import { Layout } from "../components/common";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import CategoryBar from "../shared/CategoryBar";
 import Loading from "../shared/Loading";
 
@@ -153,6 +154,7 @@ const Lottery = () => {
                     )}
                 </ContentBox>
             </Container>
+            <Footer />
         </Layout>
     );
 };

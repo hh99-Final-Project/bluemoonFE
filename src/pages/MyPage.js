@@ -5,6 +5,7 @@ import { userApi } from "../apis/userApi";
 import { diaryApi } from "../apis/diaryApi";
 import CategoryBar from "../shared/CategoryBar";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import Loading from "../shared/Loading";
 import useStore from "../zustand/store";
 import _ from "lodash";
@@ -132,6 +133,7 @@ function MyPage() {
                     </DiaryWrapper>
                 </MyPageBox>
             </Container>
+            <Footer />
         </Layout>
     );
 }

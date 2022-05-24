@@ -5,6 +5,7 @@ import styled from "styled-components";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import CategoryBar from "../shared/CategoryBar";
 import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
@@ -174,6 +175,7 @@ const ChatDetail = () => {
                     </InputWrpper>
                 </ChatRoom>
             </Container>
+            <Footer />
         </Layout>
     );
 };

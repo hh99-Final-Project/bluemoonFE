@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { userApi } from "../apis/userApi";
 import styled from "styled-components";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import CategoryBar from "../shared/CategoryBar";
 import { Layout } from "../components/common";
 import { lotteryWinIcon, check } from "../static/images/resources";
@@ -25,7 +26,7 @@ const LotteryWin = () => {
     let phoneNumberCheck = /^[0-9]*$/;
 
     const onChange = (e) => {
-        if(!phoneNumberCheck.test(e.target.value)){
+        if (!phoneNumberCheck.test(e.target.value)) {
             return;
         }
         setPhoneNumber(e.target.value);
@@ -38,7 +39,7 @@ const LotteryWin = () => {
     const EnterInfo = () => {
         userApi.EnterInfo(phoneNumber, isChecked).then((response) => {
             console.log(response);
-            if(response.status === 200) {
+            if (response.status === 200) {
                 navigate("/lottery");
             }
         });
@@ -67,16 +68,17 @@ const LotteryWin = () => {
                 <CategoryBar />
                 <ContentBox>
                     <LotteryWinIcon>
-                        <img src={lotteryWinIcon}/>
+                        <img src={lotteryWinIcon} />
                     </LotteryWinIcon>
                     <Title>당첨을 축하합니다!</Title>
                     <Input
                         onChange={onChange}
                         value={phoneNumber}
                         placeholder={
-                            (isMobile || isMobileQuery) ? "휴대전화번호 11자리를 입력해주세요(숫자만)"
-                                :
-                                "기프티콘을 받으실 휴대전화번호 11자리를 입력해주세요. (숫자 11자리 입력)"}
+                            isMobile || isMobileQuery
+                                ? "휴대전화번호 11자리를 입력해주세요(숫자만)"
+                                : "기프티콘을 받으실 휴대전화번호 11자리를 입력해주세요. (숫자 11자리 입력)"
+                        }
                     />
                     <AgreementBox>
                         <AgreeTitle>개인정보 수집 및 이용 동의</AgreeTitle>
@@ -93,7 +95,9 @@ const LotteryWin = () => {
                     </AgreementBox>
 
                     <AgreeDesc>
-                        <div>ㆍ입력받은 연락처는 기프티콘 전송을 위한 목적으로만 수집되며, 다른 용도로 사용되지 않습니다.</div>
+                        <div>
+                            ㆍ입력받은 연락처는 기프티콘 전송을 위한 목적으로만 수집되며, 다른 용도로 사용되지 않습니다.
+                        </div>
                         <br />
                         <div>ㆍ기프티콘 발송은 4월00일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.</div>
                     </AgreeDesc>
@@ -101,6 +105,7 @@ const LotteryWin = () => {
                     <SubmitButton onClick={onClick}>입력완료</SubmitButton>
                 </ContentBox>
             </Container>
+            <Footer />
         </Layout>
     );
 };
@@ -124,29 +129,28 @@ const ContentBox = styled.div`
     border-radius: 25px;
     margin: auto;
 
-  @media only screen and (max-width: 420px) {
-    background: linear-gradient(180deg, rgba(14, 30, 80, 0.79) 0%, rgba(93, 102, 124, 0.79) 100%);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0px 0px 70px #465981;
-    backdrop-filter: blur(80px);
-    width: 320px;
-    border-radius: 15px;
-  }
+    @media only screen and (max-width: 420px) {
+        background: linear-gradient(180deg, rgba(14, 30, 80, 0.79) 0%, rgba(93, 102, 124, 0.79) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0px 0px 70px #465981;
+        backdrop-filter: blur(80px);
+        width: 320px;
+        border-radius: 15px;
+    }
 `;
 
 const LotteryWinIcon = styled.div`
     margin: 83px 0 0 436px;
 
-  @media only screen and (max-width: 420px) {
-    margin: 100px auto 20px;
-    text-align: center;
-    
-    img {
-      width: 100px;
-      margin: auto;
+    @media only screen and (max-width: 420px) {
+        margin: 100px auto 20px;
+        text-align: center;
+
+        img {
+            width: 100px;
+            margin: auto;
+        }
     }
-  }
-  
 `;
 
 const Title = styled.div`
@@ -158,9 +162,9 @@ const Title = styled.div`
 
     color: #ffffff;
 
-  @media only screen and (max-width: 420px) {
-    margin: auto;
-  }
+    @media only screen and (max-width: 420px) {
+        margin: auto;
+    }
 `;
 
 const Input = styled.input`
@@ -169,7 +173,7 @@ const Input = styled.input`
     margin: 51px 0 0 152px;
     font-size: 18px;
     line-height: 23px;
-    color: #08105D;
+    color: #08105d;
     padding-left: 21px;
     box-sizing: border-box;
     outline: none;
@@ -184,40 +188,37 @@ const Input = styled.input`
         color: #43567e;
     }
 
+    @media only screen and (max-width: 420px) {
+        width: 280px;
+        height: 30px;
+        margin: 30px auto 40px;
+        outline: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-  @media only screen and (max-width: 420px) {
-    width: 280px;
-    height: 30px;
-    margin: 30px auto 40px;
-    outline: none;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &::placeholder {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 8px;
-      line-height: 12px;
-      color: #43567e;
+        &::placeholder {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 8px;
+            line-height: 12px;
+            color: #43567e;
+        }
     }
-    
-  }
 `;
 
 const AgreementBox = styled.div`
-  width: 645px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 66px auto 17px;
+    width: 645px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 66px auto 17px;
 
-  @media only screen and (max-width: 420px) {
-    width: 280px;
-    margin: 0 auto 20px;
-  }
-  
+    @media only screen and (max-width: 420px) {
+        width: 280px;
+        margin: 0 auto 20px;
+    }
 `;
 
 const AgreeTitle = styled.div`
@@ -226,12 +227,12 @@ const AgreeTitle = styled.div`
     color: #ffffff;
     margin-right: 6px;
 
-  @media only screen and (max-width: 420px) {
-    font-size: 14px;
-    line-height: 16px;
-    margin-right: 10px;
-    text-align: center;
-  }
+    @media only screen and (max-width: 420px) {
+        font-size: 14px;
+        line-height: 16px;
+        margin-right: 10px;
+        text-align: center;
+    }
 `;
 
 const AgreeCheckbox = styled.input`
@@ -252,14 +253,11 @@ const AgreeCheckbox = styled.input`
         width: 14px;
         height: 14px;
     }
-  
-  
 `;
 
 const StyledLabel = styled.label`
     width: 17px;
     height: 17px;
-
 `;
 
 const AgreeDesc = styled.div`

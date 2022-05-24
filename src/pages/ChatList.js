@@ -6,6 +6,7 @@ import { chatApi } from "../apis/chatApi";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import Loading from "../shared/Loading";
 import _ from "lodash";
 import { Layout, MobileTitleName } from "../components/common";
@@ -147,6 +148,7 @@ function ChatList() {
                     </ChatRoomWrapper>
                 </ChatRoomListBox>
             </Container>
+            <Footer />
         </Layout>
     );
 }
