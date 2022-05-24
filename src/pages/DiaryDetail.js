@@ -13,7 +13,7 @@ import { useQuery } from "react-query";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import {backIcon} from "../static/images/resources";
-import {useMediaQuery} from "react-responsive";
+import { useMediaQuery } from "react-responsive";
 
 DiaryDetail.propTypes = {};
 
