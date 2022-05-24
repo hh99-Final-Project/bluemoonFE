@@ -32,6 +32,7 @@ export const userSlice = createSlice({
             state.isLogin = false;
             state.userInfo = null;
             deleteCookie("accessToken");
+            deleteCookie("refreshToken");
         },
         setUserPoint(state, action) {
             state.userInfo.myPoint = action.payload;

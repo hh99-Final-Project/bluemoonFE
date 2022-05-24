@@ -8,13 +8,12 @@ import useStore from "../zustand/store";
 import Header from "../shared/Header";
 import Loading from "../shared/Loading";
 import _ from "lodash";
-import { Layout } from "../components/common";
+import { Layout, MobileTitleName } from "../components/common";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
-import { MobileTitleName } from "../components/common";
 
 function ChatList() {
     const navigate = useNavigate();

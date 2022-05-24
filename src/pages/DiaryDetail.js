@@ -36,12 +36,10 @@ function DiaryDetail() {
         enabled: isLogin
     });
 
-    const nonLoginDetail = useQuery(["diaryDetail", "nonLogin"], () => diaryApi.getNotLoginUserDetail(), {
+    const nonLoginDetail = useQuery(["diaryDetail", "noLogin"], () => diaryApi.getNotLoginUserDetail(), {
         refetchOnWindowFocus: false,
         enabled: !isLogin
     });
-
-    console.log(nonLoginDetail,"nonLoginDetail");
 
     const { setCurrentHeader } = useStore();
 

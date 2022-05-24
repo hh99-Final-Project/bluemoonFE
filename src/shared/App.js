@@ -25,6 +25,7 @@ function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
     const cookie = getCookie("accessToken");
+    const isLogin = useSelector(((state) => state.userSlice.isLogin));
     const { pathname } = useLocation();
 
     useEffect(() => {
@@ -41,8 +42,8 @@ function App() {
                 <Route path="/write" element={<WriteDiary />} />
                 <Route path="/diarylist" element={<DiaryList />} />
                 <Route path="/diary/:id" element={<DiaryDetail />} />
-                <Route path="/chat/:id" element={<ChatDetail />} />
-                <Route path="/chatlist" element={<ChatList />} />
+                <Route path="/chat/:id" element={ isLogin ? <ChatDetail /> : <Main/>} />
+                <Route path="/chatlist" element={<ChatList />}/>
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/alert" element={<Notifications />} />
                 <Route path="/lottery" element={<Lottery />} />
