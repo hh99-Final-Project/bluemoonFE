@@ -95,9 +95,9 @@ function SignUp() {
     }, [nickName]);
 
     // nickname 있는 유저가 signup 들어올 경우 Main 으로 이동시킴
-    if (userInfo?.nickname !== "") {
-        return <Main />;
-    }
+    // if (userInfo?.nickname !== "") {
+    //     return <Main />;
+    // }
 
     return (
         <Layout>
@@ -203,10 +203,6 @@ const SignUpBoxTitle = styled.div`
     justify-content: center;
 
     background-color: #2f3a5f;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 20px;
     line-height: 25px;
     text-align: center;
@@ -239,27 +235,26 @@ const NickNameInput = styled.input`
     display: block;
     top: 173px;
     left: 205px;
-
+    outline: none;
+    padding-left: 21px;
     background: rgba(198, 211, 236, 0.8);
     border-radius: 5px;
+    border: none;
 
     &::placeholder {
-        font-family: "Spoqa Han Sans Neo";
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
         line-height: 18px;
-
         text-align: center;
-
         color: #43567e;
     }
-
-    &::value {
-        position: absolute;
-        padding-top: 12px;
-        padding-left: 23px;
-    }
+    //
+    //&::value {
+    //    position: absolute;
+    //    padding-top: 12px;
+    //    padding-left: 23px;
+    //}
 
     &:focus {
         border: 1px solid #333333;
@@ -286,15 +281,9 @@ const NickNameCheckResult = styled.div`
     height: 18px;
     top: 222px;
     left: 232px;
-
     display: block;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-
     color: #959ebe;
 
     @media only screen and (max-width: 420px) {
@@ -317,10 +306,6 @@ const RecommendPerson = styled.div`
     display: flex;
     top: 284px;
     left: 205px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 18px;
     line-height: 23px;
 
@@ -331,9 +316,7 @@ const RecommendPerson = styled.div`
         height: auto;
         top: 340px;
         left: 68px;
-
         background-color: transparent;
-
         font-size: 14px;
         line-height: 18px;
     }
@@ -352,6 +335,9 @@ const RecommendPersonInput = styled.input`
     display: block;
     top: 314px;
     left: 205px;
+    outline: none;
+    border:none;
+    padding-left: 21px;
 
     background: rgba(198, 211, 236, 0.8);
     border-radius: 5px;
@@ -381,7 +367,6 @@ const Button = styled.button`
     // // 정확히 가운데로 옴
     // transform: translate(-50%, 0);
 
-    font-family: "Spoqa Han Sans Neo";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;

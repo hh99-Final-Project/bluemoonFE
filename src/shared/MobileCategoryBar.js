@@ -85,7 +85,7 @@ const MobileCategoryBar = () => {
                         <img onClick={() => setMobileHeader()} src={mobHeaderBackIcon} />
                     </MenuArea>
                     <LoginArea>
-                        {isLogin ? (
+                        { isLogin ? (
                             <UserInfoArea>
                                 <NickNameArea>{userInfo.nickname}님</NickNameArea>
                                 <LogoutButton
@@ -98,7 +98,8 @@ const MobileCategoryBar = () => {
                             </UserInfoArea>
                         ) : (
                             <NotLogined onClick={() => dispatch(isModalOpen(true))}>로그인/회원가입</NotLogined>
-                        )}
+                        )
+                        }
                     </LoginArea>
                     <HeaderContent>
                         <Home>

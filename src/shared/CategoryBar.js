@@ -44,6 +44,8 @@ function CategoryBar(props) {
 
     const unreadCountList = useSelector((state) => state.chatSlice.unreadCountList);
 
+    console.log(userInfo,"userInfo");
+
     return (
         <HeaderContainer>
             <CategoryLeft>
@@ -51,8 +53,6 @@ function CategoryBar(props) {
                     header={currentHeader}
                     onClick={() => {
                         moveToPage("/");
-                        // setCurrentHeader("홈");
-                        // navigate("/");
                     }}
                 >
                     {currentHeader === "홈" ? <span>기본 홈</span> : <img src={categoryHome} alt={"home"} />}
@@ -60,7 +60,6 @@ function CategoryBar(props) {
                 <DiaryList
                     header={currentHeader}
                     onClick={() => {
-                        // setCurrentHeader("고민상담");
                         moveToPage("/diarylist");
                     }}
                 >
@@ -73,8 +72,6 @@ function CategoryBar(props) {
                 <Post
                     header={currentHeader}
                     onClick={() => {
-                        // setCurrentHeader("포스트");
-                        // navigate("/write");
                         moveToPage("/write");
                     }}
                 >
@@ -107,7 +104,6 @@ function CategoryBar(props) {
                             openModal(true);
                         }
                     }}
-                    // ref={ChattingRef}
                 >
                     {currentHeader === "채팅" ? <div>1:1 채팅</div> : <img src={categoryChatList} alt={"ChatIcon"} />}
                     {unreadCountList.length > 0 && <Unread src={star} />}
@@ -129,12 +125,12 @@ function CategoryBar(props) {
             </CategoryLeft>
 
             <CategoryRight>
-                {isLogin ? (
+                {isLogin && userInfo.nickname !== null ? (
                     <div>
                         <span> {userInfo.nickname} </span>님의 다이어리
                     </div>
                 ) : (
-                    <span></span>
+                    <span/>
                 )}
             </CategoryRight>
 
