@@ -55,7 +55,6 @@ instance.interceptors.response.use(
             window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
             store.dispatch(logout());
             deleteCookie("accessToken");
-            store.dispatch(isModalOpen(true));
             // const refreshToken = await userApi.getRefreshToken();
             // store.dispatch(logout());
             // deleteCookie("accessToken");
@@ -77,7 +76,7 @@ fileInstance.interceptors.response.use(
             window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
             store.dispatch(logout());
             deleteCookie("accessToken");
-            store.dispatch(isModalOpen(true));
+            window.location.href = "/";
         }
         return response;
     },

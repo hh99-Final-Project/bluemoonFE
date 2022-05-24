@@ -16,8 +16,8 @@ import { useMediaQuery } from "react-responsive";
 import { commentIcon, chatIcon,
     prevButton, nextButton, voicePlayIcon
 } from "../static/images/resources";
-import {chatApi} from "../apis/chatApi";
-
+import { chatApi } from "../apis/chatApi";
+import { getCookie } from "../utils/cookie";
 
 function DiaryList() {
     const navigate = useNavigate();
