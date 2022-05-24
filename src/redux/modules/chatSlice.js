@@ -46,7 +46,6 @@ export const getChatMessage = createAsyncThunk("GET_CHAT_MESSAGE", async (roomId
     }
 });
 
-
 // 리듀서
 const chatSlice = createSlice({
     name: "chat",
@@ -76,7 +75,7 @@ const chatSlice = createSlice({
                 // state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
 
                 const unReadRoom = state.chatList.find((c) => c.chatRoomUuid === action.payload.roomId);
-                if(unReadRoom){
+                if (unReadRoom) {
                     unReadRoom.unreadCount = action.payload.unreadCount;
                 }
             }
@@ -94,7 +93,7 @@ const chatSlice = createSlice({
                 // state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
 
                 const unReadRoom = state.chatList.find((c) => c.chatRoomUuid === action.payload.roomId);
-                if(unReadRoom){
+                if (unReadRoom) {
                     unReadRoom.unreadCount = action.payload.unreadCount;
                 }
             }
@@ -108,7 +107,7 @@ const chatSlice = createSlice({
         },
         deleteChatList(state, action) {
             state.chatList = state.chatList.filter((chat) => chat.chatRoomUuid !== action.payload);
-        }
+        },
     },
     // extraReducers
     extraReducers: (builder) => {
@@ -119,7 +118,7 @@ const chatSlice = createSlice({
             if (state.page === 1) {
                 state.chatList = action.payload;
             } else if (state.page !== 1) {
-                state.chatList = [...state.chatList, ...action.payload];
+                state.chatList.push(action.payload);
             }
             state.isLoading = false;
             if (action.payload.length < 10) {

@@ -63,14 +63,6 @@ const ChatDetail = () => {
         dispatch(getChatMessage(roomId));
     }, []);
 
-    // 소켓 연결
-    useEffect(() => {
-        wsConnect();
-        return () => {
-            wsDisConnect();
-        };
-    }, []);
-
     // 방 입장 시 스크롤 아래로 이동
     useEffect(() => {
         scrollRef.current.scrollIntoView({ block: "end" });
@@ -81,12 +73,21 @@ const ChatDetail = () => {
         scrollRef.current.scrollIntoView({ block: "end" });
     }, [messages]);
 
-    // 소켓 연결
+    // 소켓 연결, unmount 시 소켓 연결 해제
+    useEffect(() => {
+        wsConnect();
+        return () => {
+            wsDisConnect();
+        };
+    }, []);
+
+    // 소켓 연결 함수
     function wsConnect() {
         try {
             ws.current.connect({ token: token, type: "CHAT" }, () => {
                 // connect 이후 subscribe
                 ws.current.subscribe(`/sub/chat/room/${roomId}`, (response) => {
+                    console.log(response);
                     const newMessage = JSON.parse(response.body);
                     dispatch(subMessage(newMessage));
                 });
@@ -104,7 +105,7 @@ const ChatDetail = () => {
         }
     }
 
-    // 소켓 연결 끊기
+    // 소켓 연결 해제
     function wsDisConnect() {
         try {
             ws.current.disconnect(() => {
