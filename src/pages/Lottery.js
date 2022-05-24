@@ -64,14 +64,14 @@ const Lottery = () => {
                     setTimeout(() => {
                         setIsWin(true);
                         dispatch(setUserPoint(response.data.point));
-                        dispatch(setUserCount(0));
-                        }, 5000);
+                        dispatch(setUserCount());
+                    }, 5000);
                 } else if (response.data.result === false) {
                     setTimeout(() => {
                         setIsWin(false);
                         dispatch(setUserPoint(response.data.point));
-                        dispatch(setUserCount(0));
-                    },5000);
+                        dispatch(setUserCount());
+                    }, 5000);
                 }
             })
             .catch((error) => {
@@ -79,8 +79,6 @@ const Lottery = () => {
                 const result = error.response.data;
             });
     };
-
-
 
     return (
         <Layout>
@@ -97,16 +95,12 @@ const Lottery = () => {
                     </MoonArea>
                     <LotteryArea>
                         {!isMobile && <LotteryhalfMoon src={lotteryhalfMoon} />}
-                        {!isClick && <LotteryClick onClick={onClickHandler}>
-                            클릭하기
-                        </LotteryClick>}
+                        {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
                         {isLoading && <LotteryLoading>모습을 비추고 있어요..</LotteryLoading>}
                         {isClick && isWin === true && (
                             <LotteryResult isWin={isWin}>
                                 당신에겐 달콤한 휴식을 선물할게요.
-                                <BananaMilkIcon
-                                    src={!isMobile ? bananaMilkIcon : mobileBananaMilkIcon}
-                                />
+                                <BananaMilkIcon src={!isMobile ? bananaMilkIcon : mobileBananaMilkIcon} />
                                 <GetBananaMilkButton
                                     onClick={(e) => {
                                         e.preventDefault();
