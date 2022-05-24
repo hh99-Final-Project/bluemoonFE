@@ -44,8 +44,6 @@ function CategoryBar(props) {
 
     const unreadCountList = useSelector((state) => state.chatSlice.unreadCountList);
 
-    console.log(userInfo,"userInfo");
-
     return (
         <HeaderContainer>
             <CategoryLeft>
