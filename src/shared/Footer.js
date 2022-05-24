@@ -24,7 +24,7 @@ function Footer(props) {
                 <Ui>
                     UI/UX Designer
                     <a href="mailto:dl3279@naver.com">김지희</a>
-                    <a href="mailto:dl3279@naver.com">박유리</a>
+                    <a href="mailto:pyl7284@gmail.com">박유리</a>
                 </Ui>
             </div>
 
@@ -44,7 +44,6 @@ const Container = styled.div`
     bottom: 84px;
 
     display: flex;
-    justify-content: space-around;
     align-items: center;
 
     font-family: "Spoqa Han Sans Neo";
@@ -52,7 +51,6 @@ const Container = styled.div`
     font-weight: 400;
     font-size: 11px;
     line-height: 13px;
-    /* identical to box height */
 
     color: #ffffff;
 
@@ -64,6 +62,7 @@ const Container = styled.div`
         display: flex;
         flex-direction: row;
     }
+
     @media only screen and (max-width: 420px) {
         display: none;
     }
@@ -72,6 +71,7 @@ const Container = styled.div`
 const Fe = styled.div`
     display: flex;
     flex-direction: row;
+    width: 114px;
 
     a {
         margin-left: 5px;
@@ -84,6 +84,7 @@ const Be = styled.div`
     display: flex;
     flex-direction: row;
     margin-left: 55px;
+    width: 156px;
 
     a {
         margin-left: 5px;
@@ -96,7 +97,7 @@ const Ui = styled.div`
     display: flex;
     flex-direction: row;
     margin-left: 55px;
-
+    width: 148px;
     a {
         margin-left: 5px;
         text-decoration: none;
@@ -105,5 +106,6 @@ const Ui = styled.div`
 `;
 
 const Copyright = styled.div`
+    width: 234px;
     margin-left: 147px;
 `;
