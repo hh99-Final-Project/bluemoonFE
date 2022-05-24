@@ -9,25 +9,24 @@ import Loading from "../shared/Loading";
 import useStore from "../zustand/store";
 import _ from "lodash";
 import { convertDate } from "../utils/convertDate";
-import { Layout } from "../components/common";
+import { Layout, MobileTitleName } from "../components/common";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
-import { MobileTitleName } from "../components/common";
 
 function MyPage() {
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
 
-    // 무한스크롤 관련 state
     const [myDiary, setMyDiary] = useState([]);
-    const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
+    const InfinityScrollref = useRef();
 
     const [isOpenPopup, setIsOpenPopup] = useState(false);
     const [clickedDiary, setClickedDiary] = useState("");
+    const PopupRef = useRef();
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
@@ -38,7 +37,6 @@ function MyPage() {
             if (res.status === 200) {
                 setIsOpenPopup(false);
                 setMyDiary(myDiary.filter((diary) => diary.postUuid !== clickedDiary));
-                // navigate("/myDiary");
             } else {
                 window.alert("에러처리");
             }
@@ -76,8 +74,6 @@ function MyPage() {
 
         setCurrentHeader("마이페이지");
     }, []);
-
-    const PopupRef = useRef();
 
     if (isLoading) {
         return <Loading />;
@@ -175,6 +171,7 @@ const MyPageBox = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
+        height: 75vh;
 
         background: none;
         border: none;
@@ -259,7 +256,7 @@ const DiaryWrapper = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 580px;
+        height: 70vh;
 
         top: 0;
         left: 0;

@@ -211,7 +211,7 @@ const ChatRoom = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 688px;
+        height: 658px;
 
         border: none;
         box-shadow: none;
@@ -286,7 +286,7 @@ const MessageWrapper = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 319px;
-        height: 590px;
+        height: 560px;
         top: 0;
         left: 0;
         margin-top: 12px;
