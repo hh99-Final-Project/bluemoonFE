@@ -12,13 +12,14 @@ import { Layout } from "../components/common";
 import { color } from "../utils/designSystem";
 import Intro from "../pages/Intro";
 import { useMediaQuery } from "react-responsive";
+import { isMobile } from "react-device-detect";
 
 const Main = () => {
     const navigate = useNavigate();
 
     const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
 
-    const isMobile = useMediaQuery({
+    const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
     });
 
@@ -48,6 +49,7 @@ const Main = () => {
                             <img src={logo} />
                         </Logo>
                         <ServiceTitle>Blue Moon</ServiceTitle>
+                        {(isMobile || isMobileQuery) && <Info>음성 녹음 기능은 크롬 웹에서만 가능합니다.</Info>}
                         <DiaryWriteButton onClick={() => navigate("/write")}>
                             <div>다이어리 쓰기</div>
                         </DiaryWriteButton>
@@ -182,6 +184,13 @@ const ServiceStart = styled.div`
     }
 `;
 
+const Info = styled.div`
+  font-size: 8px;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 10px;
+`;
+
 const ServiceIntro = styled.div`
     width: 341px;
     height: 440px;
@@ -218,7 +227,7 @@ const ServiceTitle = styled.div`
     margin: 0 auto 83px;
 
     @media only screen and (max-width: 420px) {
-        margin: 0 auto 184px;
+        margin: 0 auto 144px;
     }
 `;
 
