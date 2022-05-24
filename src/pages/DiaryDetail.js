@@ -23,22 +23,22 @@ function DiaryDetail() {
     const postId = params.id;
 
 
+    const isAnonymous = postId === "33d85b34-3f03-45ff-9c6c-7f121d8d8672";
+    console.log(isAnonymous,"isAnonymous");
+
+
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)"
     });
 
-
-    const isLogin = useSelector((state) => state.userSlice.isLogin);
-    console.log(isLogin,"isLogin");
-
-    const loginDetail = useQuery(["diaryDetail", "login"], () => diaryApi.getOneDiary(postId), {
+    const loginDetail = useQuery(["diaryDetail", 1], () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
-        enabled: isLogin
+        enabled: !isAnonymous
     });
 
-    const nonLoginDetail = useQuery(["diaryDetail", "noLogin"], () => diaryApi.getNotLoginUserDetail(), {
+    const nonLoginDetail = useQuery(["diaryDetail", 2], () => diaryApi.getNotLoginUserDetail(), {
         refetchOnWindowFocus: false,
-        enabled: !isLogin
+        enabled: isAnonymous
     });
 
     const { setCurrentHeader } = useStore();
@@ -60,13 +60,13 @@ function DiaryDetail() {
                     <TitleContainer>
                         <TitleLeft>
                             <BackButton src={backIcon} onClick={() => navigate("/diarylist")}/>
-                            <Title>{isLogin ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
+                            <Title>{!isAnonymous ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
                         </TitleLeft>
-                        <Time>{convertDate(isLogin ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}</Time>
+                        <Time>{convertDate(!isAnonymous ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}</Time>
                     </TitleContainer>
                     <ContentContainer>
-                        <DiaryContent diary={isLogin ? loginDetail.data : nonLoginDetail.data} />
-                        <CommentContainer diary={isLogin ? loginDetail.data : nonLoginDetail.data} postId={postId}/>
+                        <DiaryContent diary={!isAnonymous ? loginDetail.data : nonLoginDetail.data} />
+                        <CommentContainer diary={!isAnonymous ? loginDetail.data : nonLoginDetail.data} postId={postId}/>
                     </ContentContainer>
                 </DetailContent>
             </DetailContainer>
