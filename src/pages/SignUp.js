@@ -182,14 +182,14 @@ const SignUpBox = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 646px;
+        height: 77vh;
 
         border-radius: 15px;
     }
 `;
 
 const Crescent = styled.img`
-    margin: 125px auto 0;
+    margin: 15vh auto 0;
     display: block;
 `;
 
@@ -212,10 +212,10 @@ const SignUpBoxTitle = styled.div`
     color: #ffffff;
 
     @media only screen and (max-width: 420px) {
+        position: static;
         width: auto;
         height: auto;
-        top: 208px;
-        left: 60px;
+        margin: 8vh auto 0;
 
         background-color: transparent;
 
@@ -227,7 +227,7 @@ const SignUpBoxTitle = styled.div`
 const TitleLine = styled.div`
     border: 1px solid #ffffff;
     width: 185px;
-    margin: 80px auto 0;
+    margin: 0.1vh auto 0;
 `;
 
 const NickNameInput = styled.input`
@@ -251,22 +251,16 @@ const NickNameInput = styled.input`
         text-align: center;
         color: #43567e;
     }
-    //
-    //&::value {
-    //    position: absolute;
-    //    padding-top: 12px;
-    //    padding-left: 23px;
-    //}
 
     &:focus {
         border: 1px solid #333333;
     }
 
     @media only screen and (max-width: 420px) {
-        width: 181px;
+        width: 164px;
         height: 41px;
-        top: 242px;
-        left: 66px;
+        position: static;
+        margin: 2vh auto 0;
 
         &::placeholder {
             font-size: 10px;
@@ -289,10 +283,10 @@ const NickNameCheckResult = styled.div`
     color: #959ebe;
 
     @media only screen and (max-width: 420px) {
-        width: auto;
+        width: 187px;
         height: auto;
-        top: 288px;
-        left: 66px;
+        position: static;
+        margin: 0.4vh auto 0;
 
         font-size: 8px;
         line-height: 10px;
@@ -321,13 +315,17 @@ const RecommendPerson = styled.div`
         background-color: transparent;
         font-size: 14px;
         line-height: 18px;
+
+        position: static;
+        margin: 5vh auto 0;
+        justify-content: center;
     }
 `;
 
 const RecommendPersonLine = styled.div`
     border: 1px solid #ffffff;
     width: 185px;
-    margin: 130px auto 0;
+    margin: 0.1vh auto 0;
 `;
 
 const RecommendPersonInput = styled.input`
@@ -345,10 +343,10 @@ const RecommendPersonInput = styled.input`
     border-radius: 5px;
 
     @media only screen and (max-width: 420px) {
-        width: 181px;
+        width: 164px;
         height: 41px;
-        top: 374px;
-        left: 66px;
+        position: static;
+        margin: 2vh auto 0;
     }
 `;
 
@@ -366,8 +364,6 @@ const Button = styled.button`
     position: absolute;
     bottom: 54px;
     left: 278px;
-    // // 정확히 가운데로 옴
-    // transform: translate(-50%, 0);
 
     font-style: normal;
     font-weight: 400;
@@ -383,8 +379,8 @@ const Button = styled.button`
     @media only screen and (max-width: 420px) {
         width: 150px;
         height: 35px;
-        top: 489px;
-        left: 85px;
+        position: static;
+        margin: 8vh auto 0;
 
         border-radius: 9px;
 
