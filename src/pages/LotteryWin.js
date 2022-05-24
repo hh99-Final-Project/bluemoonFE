@@ -13,6 +13,7 @@ import { useMediaQuery } from "react-responsive";
 
 const LotteryWin = () => {
     const { setCurrentHeader } = useStore();
+    const navigate = useNavigate();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const [phoneNumber, setPhoneNumber] = useState();
     const [isChecked, setIsChecked] = useState(false);
@@ -36,7 +37,10 @@ const LotteryWin = () => {
 
     const EnterInfo = () => {
         userApi.EnterInfo(phoneNumber, isChecked).then((response) => {
-            Navigate(-1);
+            console.log(response);
+            if(response.status === 200) {
+                navigate("/lottery");
+            }
         });
     };
 
