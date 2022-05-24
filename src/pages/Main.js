@@ -47,8 +47,8 @@ const Main = () => {
                             <img src={logo}/>
                         </Logo>
                         <ServiceTitle>Blue Moon</ServiceTitle>
-                        <DiaryWriteButton>
-                            <div onClick={() => navigate("/write")}>다이어리 쓰기</div>
+                        <DiaryWriteButton onClick={() => navigate("/write")}>
+                            <div>다이어리 쓰기</div>
                         </DiaryWriteButton>
                         <DiaryListButton onClick={() => navigate("/diarylist")}>다이어리 읽기</DiaryListButton>
                     </ServiceStart>
