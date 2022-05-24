@@ -61,8 +61,8 @@ function Login() {
     const googleLoginHandler = (res) => {
         userApi.googleLogin(res.tokenId).then((response) => {
             if (response.status === 200) {
-                let accessToken = response.headers.Authorization;
-                let refreshToken = response.headers.refreshToken;
+                let accessToken = response.headers.authorization;
+                let refreshToken = response.headers.RefreshToken;
                 setAccessCookie(accessToken);
                 setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
