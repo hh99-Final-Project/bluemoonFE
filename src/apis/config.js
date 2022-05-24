@@ -4,7 +4,7 @@ import { store } from "../redux/store";
 import { showError } from "../redux/modules/errorSlice";
 import { logout, getUserInfo } from "../redux/modules/userSlice";
 import { userApi } from "./userApi";
-import {isModalOpen} from "../redux/modules/commonSlice";
+import { isModalOpen } from "../redux/modules/commonSlice";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -51,11 +51,10 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     function (response) {
-        if(response.data.errorMessage === "만료된 토큰입니다.") {
+        if (response.data.errorMessage === "만료된 토큰입니다.") {
             window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
-            window.location.href = "/";
+            // window.location.href = "/";
             store.dispatch(getUserInfo(null));
-
         }
         return response;
     },
@@ -65,11 +64,10 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     },
 );
-
 
 fileInstance.interceptors.response.use(
     function (response) {
-        if(response.data.errorMessage === "만료된 토큰입니다.") {
+        if (response.data.errorMessage === "만료된 토큰입니다.") {
             window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
             store.dispatch(getUserInfo(null));
             window.location.href = "/";
@@ -82,6 +80,3 @@ fileInstance.interceptors.response.use(
         return Promise.reject(error);
     },
 );
-
-
-
