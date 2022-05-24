@@ -22,6 +22,7 @@ function DiaryDetail() {
     const navigate = useNavigate();
     const params = useParams();
     const postId = params.id;
+    const queryClient = useQueryClient();
 
     const isAnonymous = postId === "33d85b34-3f03-45ff-9c6c-7f121d8d8672";
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
@@ -32,18 +33,25 @@ function DiaryDetail() {
 
     const loginDetail = useQuery(["diaryDetail", 1], () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
+        refetchOnMount: true,
         enabled: !isAnonymous,
+        // staleTime: 1000,
+        cacheTime: 1000 * 60 * 60 * 24,
     });
 
     const nonLoginDetail = useQuery(["diaryDetail", 2], () => diaryApi.getNotLoginUserDetail(), {
         refetchOnWindowFocus: false,
+        refetchOnMount: true,
         enabled: isAnonymous,
+        // staleTime: 1000,
+        cacheTime: 1000 * 60 * 60 * 24,
     });
 
     const { setCurrentHeader } = useStore();
 
     useEffect(() => {
         setCurrentHeader("고민상담");
+        queryClient.invalidateQueries("diaryList");
     }, []);
 
     if (loginDetail.isLoading || nonLoginDetail.isLoading) {

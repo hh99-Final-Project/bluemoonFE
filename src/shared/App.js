@@ -36,7 +36,7 @@ function App() {
     }, []);
 
     return (
-        <QueryClientProvider client={queryClient}>
+        <React.Fragment>
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/signup" element={<SignUp />} />
@@ -55,7 +55,7 @@ function App() {
             <ErrorModal/>
             <ReactQueryDevtools initialIsOpen={false} />
             { pathname !== "/intro" && <Feedback/> }
-        </QueryClientProvider>
+        </React.Fragment>
     );
 }
 
