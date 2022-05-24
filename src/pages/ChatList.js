@@ -16,7 +16,6 @@ import { unreadCount } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
 import { MobileTitleName } from "../components/common";
 
-
 function ChatList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -38,7 +37,6 @@ function ChatList() {
         lastTime: null,
         chatList,
     };
-
 
     // 채팅방 나가기 모달창
     const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -66,23 +64,7 @@ function ChatList() {
     // 무한스크롤을 함수
     // Grid onScroll 이벤트에 넣어두어, Grid 스크롤 발생 시 실행됨
     const InfinityScroll = _.throttle((e) => {
-        // console.log(e.target.scrollHeight);  // 요소 전체 높이
-        // console.log(e.target.scrollTop);  // 스크롤 위치
-        // console.log(e.target.clientHeight); // 현재 보여지는 요소의 높이 값 (border, scrollbar 크기 제외)
-        // console.log(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight));
-
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
-            // chatApi.getChatList(page).then((response) => {
-            //     console.log(response);
-            //     setChatList([...chatList, ...response.data]);
-            //     setIsLoading(false);
-            //     if (response.data.length < 10) {
-            //         setHasNext(false);
-            //     } else {
-            //         setHasNext(true);
-            //     }
-            //     setPage(page + 1);
-            // });
             dispatch(getChatList(page));
         }
     }, 300);
@@ -94,18 +76,6 @@ function ChatList() {
 
     // 채팅방 리스트 조회 api
     useEffect(() => {
-        // chatApi.getChatList(page).then((response) => {
-        //     console.log(response);
-        //     setChatList([...chatList, ...response.data]);
-        //     setIsLoading(false);
-        //     if (response.length < 10) {
-        //         setHasNext(false);
-        //     } else {
-        //         setHasNext(true);
-        //     }
-        //     setPage(page + 1);
-        // });
-
         dispatch(getChatList(page));
         setCurrentHeader("채팅");
     }, []);
@@ -118,7 +88,7 @@ function ChatList() {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"대화*리스트"} pos={6}/>}
+                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"대화*리스트"} pos={6} />}
                 <ChatRoomListBox BgColor={color.containerBoxColor}>
                     <ChatRoomListTitle>
                         <p>채팅 리스트</p>
