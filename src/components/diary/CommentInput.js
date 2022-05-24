@@ -11,7 +11,7 @@ import { getCookie } from "../../utils/cookie";
 import { lockIcon, microphoneBlue, listenIcon } from "../../static/images/resources";
 import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
-import { timeFormatter, timeFormatter2} from "../../utils/convertDate";
+import { timeFormatter, timeFormatter2 } from "../../utils/convertDate";
 import { isModalOpen } from "../../redux/modules/commonSlice";
 
 CommentInput.propTypes = {
@@ -53,7 +53,7 @@ function CommentInput(props) {
         toggleListening,
         isListening,
         playingStop,
-        playingHandler
+        playingHandler,
     } = useRecordVoice();
 
     const { seconds, minutes, isRunning, start, restart, pause } = useTimer({
@@ -62,16 +62,14 @@ function CommentInput(props) {
         autoStart: false,
     });
 
-
     const lockHandler = () => {
         setIsLocked((prev) => !prev);
     };
 
-
     const queryClient = useQueryClient();
     const ws = useRef();
     const dispatch = useDispatch();
-    const isLogin = useSelector(((state) => state.userSlice.isLogin));
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
 
     const mutation = useMutation(
         () => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId, time),
@@ -80,7 +78,6 @@ function CommentInput(props) {
                 queryClient.invalidateQueries("diaryDetail");
                 setComment("");
                 resetShowSpeaker();
-
             },
         },
     );
@@ -94,18 +91,17 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-
-        if(!isLogin){
+        if (!isLogin) {
             dispatch(isModalOpen(true));
             return;
         }
 
-        if(comment.length === 0 && audioUrl === "") {
+        if (comment.length === 0 && audioUrl === "") {
             window.alert("내용 혹은 음성을 등록해주세요!");
             return;
         }
 
-        let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2((recordTime % 60))}`;
+        let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
         setTime(timeToServer);
         setParentId("");
         setComment("");
@@ -121,7 +117,7 @@ function CommentInput(props) {
                 message: `[${diary.title}]에 댓글이 달렸어요!`,
                 postUuid: postId,
                 otherUserId: diary.userId, // 새 댓글 알람을 받을 사람
-                type: "ENTER",
+                // type: "ENTER",
             };
 
             if (comment === "") {
@@ -180,7 +176,7 @@ function CommentInput(props) {
                                         let addedNow = now.setSeconds(now.getSeconds() + recordTime);
                                         setExpireTime(new Date(addedNow));
 
-                                        if(isPlaying){
+                                        if (isPlaying) {
                                             playingStop();
                                             playingHandler(false);
                                             pause();
@@ -194,10 +190,9 @@ function CommentInput(props) {
                                     alt={"listenIcon"}
                                 />
                                 <TimeArea>
-                                    {
-                                        isRunning ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
-                                            : timeFormatter(recordTime).min + ":" + timeFormatter(recordTime).sec
-                                    }
+                                    {isRunning
+                                        ? timeFormatter2(minutes) + ":" + timeFormatter2(seconds)
+                                        : timeFormatter(recordTime).min + ":" + timeFormatter(recordTime).sec}
                                 </TimeArea>
                             </PlayArea>
                         )}
@@ -260,7 +255,7 @@ const Input = styled.input`
     border: none;
     width: 842px;
     height: 43px;
-    padding-left: ${props => props.isShowSpeaker ? "90px" : "18px"};
+    padding-left: ${(props) => (props.isShowSpeaker ? "90px" : "18px")};
     margin: 13px 21px 9px;
     border-radius: 3px;
     box-sizing: border-box;
@@ -314,18 +309,16 @@ const PlayArea = styled.div`
         cursor: pointer;
     }
 
-  @media only screen and (max-width: 420px) {
-    width: 60px;
-    height: 22px;
-    font-size: 10px;
-    
-    img {
-      width: 14px;
-      height: 14px;
+    @media only screen and (max-width: 420px) {
+        width: 60px;
+        height: 22px;
+        font-size: 10px;
+
+        img {
+            width: 14px;
+            height: 14px;
+        }
     }
-  }
-  
-  
 `;
 const TimeArea = styled.div`
     font-size: 12px;
@@ -333,9 +326,9 @@ const TimeArea = styled.div`
     color: #08105d;
     margin-left: 4px;
 
-  @media only screen and (max-width: 420px) {
-    font-size: 10px;
-  }
+    @media only screen and (max-width: 420px) {
+        font-size: 10px;
+    }
 `;
 
 const TextLength = styled.div`

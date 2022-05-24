@@ -22,8 +22,6 @@ const initialState = {
 //     unreadCount: null, // user 가 안 읽은 메시지 수. 실시간 값 넣어야 함.
 // };
 
-// const dispatch = useDispatch();
-
 // tooklit - thunk 사용 시 아래처럼 사용
 export const getChatList = createAsyncThunk("GET_CHAT_LIST", async (page, thunkAPI) => {
     // dispatch(isLoading());
@@ -62,36 +60,24 @@ const chatSlice = createSlice({
 
             const unreadCountIndex = state.unreadCountList.findIndex(findSameRoomId);
 
-            // 해당 roomId에 대한 값이 배열에 있으면 해당 요소의 unreadCount 값 업데이트
+            // 1. 해당 roomId를 가지고 있는 요소가 배열에 있으면
             if (unreadCountIndex !== -1) {
+                // 1) 그 요소의 unreadCount 값을 업데이트하고
                 state.unreadCountList[unreadCountIndex] = action.payload;
 
-                // chatList에서 같은 roomId 를 가지고 있는 요소 찾아, 그 요소의 unreadCount update
-                // const findRoom = (c) => {
-                //     if (c.chatRoomUuid == action.payload.roomId) {
-                //         return true;
-                //     }
-                // };
-                // state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
-
+                // 2) chatList에서 해당 roomId 를 가지고 있는 요소를 찾아, 그 요소가 있는 경우 해당 요소의 unreadCount를 update
                 const unReadRoom = state.chatList.find((c) => c.chatRoomUuid === action.payload.roomId);
                 if (unReadRoom) {
                     unReadRoom.unreadCount = action.payload.unreadCount;
                 }
             }
 
-            // 해당 roomId 에 대한 값이 배열에 없으면 newAlert를 배열에 더하기
+            // 2. 해당 roomId 를 가지고 있는 요소가 배열에 없으면
             else {
+                // 1) newAlert를 unreadCountList 배열에 더하고
                 state.unreadCountList.push(action.payload);
 
-                // chatList에서 같은 roomId 를 가지고 있는 요소 찾아, 그 요소의 unreadCount update
-                // const findRoom = (c) => {
-                //     if (c.chatRoomUuid == action.payload.roomId) {
-                //         return true;
-                //     }
-                // };
-                // state.chatList.find(findRoom).unreadCount = action.payload.unreadCount;
-
+                // 2) chatList에서 해당 roomId 를 가지고 있는 요소를 찾아, 그 요소가 있는 경우 해당 요소의 unreadCount를 update
                 const unReadRoom = state.chatList.find((c) => c.chatRoomUuid === action.payload.roomId);
                 if (unReadRoom) {
                     unReadRoom.unreadCount = action.payload.unreadCount;

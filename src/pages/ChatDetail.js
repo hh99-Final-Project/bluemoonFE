@@ -95,7 +95,7 @@ const ChatDetail = () => {
                 // 입장 시 enter 메시지 발신
                 // 이 메시지를 기준으로 서버에서 unReadCount 판별
                 const message = {
-                    type: "ENTER",
+                    // type: "ENTER",
                     roomId: roomId,
                 };
                 ws.current.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
@@ -124,7 +124,7 @@ const ChatDetail = () => {
                 roomId: roomId,
                 message: text,
                 otherUserId: otherUserInfo.otherUserId, // 메시지 받는 상대방
-                type: "TALK",
+                // type: "TALK",
             };
 
             if (text === "") {
