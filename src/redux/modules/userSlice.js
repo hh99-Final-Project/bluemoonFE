@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { userApi } from "../../apis/userApi";
-import {deleteCookie} from "../../utils/cookie";
+import { deleteCookie } from "../../utils/cookie";
 
 const initialState = {
     isLogin: false,
-    userInfo: null
+    userInfo: null,
 };
 
 //toolkit - thunk (비동기 처리를 여기서 하고 싶을때 사용)
-export const loginCheck = createAsyncThunk("LOGIN_CHECK", async() => {
+export const loginCheck = createAsyncThunk("LOGIN_CHECK", async () => {
     try {
         const response = userApi.isLogin();
         return response;
@@ -16,30 +16,29 @@ export const loginCheck = createAsyncThunk("LOGIN_CHECK", async() => {
         // return null;
         return thunkAPI.rejectWithValue(await e.response.data);
     }
-
 });
 
 export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        isLogined(state, action){
+        isLogined(state, action) {
             state.isLogin = action.payload;
         },
-        getUserInfo(state,action){
+        getUserInfo(state, action) {
             state.userInfo = action.payload;
         },
-        logout(state, action){
+        logout(state, action) {
             state.isLogin = null;
             state.userInfo = null;
             deleteCookie("accessToken");
         },
-        setUserPoint(state, action){
+        setUserPoint(state, action) {
             state.userInfo.myPoint = action.payload;
         },
-        setUserCount(state, action){
-            state.userInfo.lottoCount = action.payload;
-        }
+        setUserCount(state, action) {
+            state.userInfo.lottoCount = state.userInfo.lottoCount - 1;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loginCheck.fulfilled, (state, action) => {
