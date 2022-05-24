@@ -29,16 +29,20 @@ function DiaryDetail() {
 
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
+    console.log(isLogin,"isLogin");
 
-    const loginDetail = useQuery("diaryDetail", () => diaryApi.getOneDiary(postId), {
+    const loginDetail = useQuery(["diaryDetail", "login"], () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
         enabled: isLogin
     });
 
-    const nonLoginDetail = useQuery("diaryDetail2", () => diaryApi.getNotLoginUserDetail(), {
+    const nonLoginDetail = useQuery(["diaryDetail", "nonLogin"], () => diaryApi.getNotLoginUserDetail(), {
         refetchOnWindowFocus: false,
         enabled: !isLogin
     });
+
+    console.log(nonLoginDetail,"nonLoginDetail");
+
     const { setCurrentHeader } = useStore();
 
     useEffect(()=>{

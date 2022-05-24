@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/diaryApi";
@@ -11,6 +12,7 @@ import { lockIcon, microphoneBlue, listenIcon } from "../../static/images/resour
 import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2} from "../../utils/convertDate";
+import { isModalOpen } from "../../redux/modules/commonSlice";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -68,6 +70,8 @@ function CommentInput(props) {
 
     const queryClient = useQueryClient();
     const ws = useRef();
+    const dispatch = useDispatch();
+    const isLogin = useSelector(((state) => state.userSlice.isLogin));
 
     const mutation = useMutation(
         () => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId, time),
@@ -90,6 +94,11 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
+
+        if(!isLogin){
+            dispatch(isModalOpen(true));
+            return;
+        }
 
         if(comment.length === 0 && audioUrl === "") {
             window.alert("내용 혹은 음성을 등록해주세요!");

@@ -22,7 +22,6 @@ Comment.propTypes = {
 };
 
 function Comment(props) {
-
     const { comment, setParentId, parentCommentId } = props;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -136,7 +135,7 @@ function Comment(props) {
                         답글
                     </Reply>
                     {
-                        userInfo.userId !== comment.userId &&
+                        userInfo && userInfo.userId !== comment.userId &&
                         <Chat onClick={() => createChat(comment.userId)}>
                         채팅
                     </Chat>

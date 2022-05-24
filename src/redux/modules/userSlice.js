@@ -29,7 +29,7 @@ export const userSlice = createSlice({
             state.userInfo = action.payload;
         },
         logout(state, action) {
-            state.isLogin = null;
+            state.isLogin = false;
             state.userInfo = null;
             deleteCookie("accessToken");
         },
