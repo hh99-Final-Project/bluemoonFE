@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { DiaryContent, CommentContainer } from "../components/diary";
 import { diaryApi } from "../apis/diaryApi";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import Loading from "../shared/Loading";
 import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
@@ -12,7 +13,7 @@ import { Layout } from "../components/common";
 import {useQuery, useQueryClient} from "react-query";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
-import {backIcon} from "../static/images/resources";
+import { backIcon } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
 
 DiaryDetail.propTypes = {};
@@ -22,29 +23,28 @@ function DiaryDetail() {
     const params = useParams();
     const postId = params.id;
 
-
     const isAnonymous = postId === "33d85b34-3f03-45ff-9c6c-7f121d8d8672";
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
 
     const isMobile = useMediaQuery({
-        query: "(max-width: 420px)"
+        query: "(max-width: 420px)",
     });
 
     const loginDetail = useQuery(["diaryDetail", 1], () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
-        enabled: !isAnonymous
+        enabled: !isAnonymous,
     });
 
     const nonLoginDetail = useQuery(["diaryDetail", 2], () => diaryApi.getNotLoginUserDetail(), {
         refetchOnWindowFocus: false,
-        enabled: isAnonymous
+        enabled: isAnonymous,
     });
 
     const { setCurrentHeader } = useStore();
 
-    useEffect(()=>{
-       setCurrentHeader("고민상담");
-    },[]);
+    useEffect(() => {
+        setCurrentHeader("고민상담");
+    }, []);
 
     if (loginDetail.isLoading || nonLoginDetail.isLoading) {
         return <Loading />;
@@ -58,17 +58,23 @@ function DiaryDetail() {
                 <DetailContent BgColor={color.containerBoxColor}>
                     <TitleContainer>
                         <TitleLeft>
-                            <BackButton src={backIcon} onClick={() => navigate("/diarylist")}/>
+                            <BackButton src={backIcon} onClick={() => navigate("/diarylist")} />
                             <Title>{!isAnonymous ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
                         </TitleLeft>
-                        <Time>{convertDate(!isAnonymous ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}</Time>
+                        <Time>
+                            {convertDate(!isAnonymous ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}
+                        </Time>
                     </TitleContainer>
                     <ContentContainer>
                         <DiaryContent diary={!isAnonymous ? loginDetail.data : nonLoginDetail.data} />
-                        <CommentContainer diary={!isAnonymous ? loginDetail.data : nonLoginDetail.data} postId={postId}/>
+                        <CommentContainer
+                            diary={!isAnonymous ? loginDetail.data : nonLoginDetail.data}
+                            postId={postId}
+                        />
                     </ContentContainer>
                 </DetailContent>
             </DetailContainer>
+            <Footer />
         </Layout>
     );
 }
@@ -84,7 +90,7 @@ const DetailContent = styled.div`
     width: 950px;
     height: 530px;
     padding-right: 5px;
-    background: ${props => props.BgColor};
+    background: ${(props) => props.BgColor};
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
     box-shadow: 0 0 70px #465981;
@@ -93,19 +99,19 @@ const DetailContent = styled.div`
     margin: auto;
 
     @media only screen and (max-width: 420px) {
-      width: 320px;
-      background: none;
-      box-shadow: none;
-      border: none;
+        width: 320px;
+        background: none;
+        box-shadow: none;
+        border: none;
     }
 `;
 
 const MobileTitle = styled.div`
-  width: 320px;
-  height: 34px;
-  color: #ffffff;
-  margin: auto;
-  text-align: center;
+    width: 320px;
+    height: 34px;
+    color: #ffffff;
+    margin: auto;
+    text-align: center;
 `;
 
 const TitleContainer = styled.div`
@@ -118,16 +124,16 @@ const TitleContainer = styled.div`
     margin: 23px auto 0;
 
     @media only screen and (max-width: 420px) {
-      width: 320px;
-      height: 43px;
-      background: #3D4A74;
-      border: 1px solid #5C6290;
-      border-radius: 5px;
-      padding: 12px 11px;
-      box-sizing: border-box;
-      margin-bottom: 16px;
-      margin-top: 0;
-  }
+        width: 320px;
+        height: 43px;
+        background: #3d4a74;
+        border: 1px solid #5c6290;
+        border-radius: 5px;
+        padding: 12px 11px;
+        box-sizing: border-box;
+        margin-bottom: 16px;
+        margin-top: 0;
+    }
 `;
 
 const ContentContainer = styled.div`
@@ -138,15 +144,14 @@ const ContentContainer = styled.div`
     overflow-x: hidden;
     overflow-y: auto;
 
-  @media only screen and (max-width: 420px) {
-    width: 320px;
-    padding: 0;
+    @media only screen and (max-width: 420px) {
+        width: 320px;
+        padding: 0;
 
-    &::-webkit-scrollbar {
-      display: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
-  }
-  
 
     &::-webkit-scrollbar {
         width: 6px;
@@ -161,8 +166,6 @@ const ContentContainer = styled.div`
         background-color: #616b7d;
         border-radius: 5px;
     }
-  
-  
 `;
 
 const TitleLeft = styled.div`
@@ -175,9 +178,9 @@ const BackButton = styled.img`
     cursor: pointer;
     margin: 0 21px 0 40px;
 
-  @media only screen and (max-width: 420px) {
-    display: none;
-  }
+    @media only screen and (max-width: 420px) {
+        display: none;
+    }
 `;
 
 const Title = styled.div`
@@ -190,12 +193,11 @@ const Title = styled.div`
     white-space: nowrap;
     overflow: hidden;
 
-  @media only screen and (max-width: 420px) {
-    font-size: 15px;
-    line-height: 19px;
-    color: #C6D3EC;
-  }
-  
+    @media only screen and (max-width: 420px) {
+        font-size: 15px;
+        line-height: 19px;
+        color: #c6d3ec;
+    }
 `;
 
 const Time = styled.div`
@@ -204,7 +206,7 @@ const Time = styled.div`
     color: #c6d3ec;
     margin-right: 32px;
 
-  @media only screen and (max-width: 420px) {
-    margin-right: 0;
-  }
+    @media only screen and (max-width: 420px) {
+        margin-right: 0;
+    }
 `;

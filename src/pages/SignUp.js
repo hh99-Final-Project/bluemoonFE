@@ -7,6 +7,7 @@ import Popup from "../shared/Popup";
 import CategoryBar from "../shared/CategoryBar";
 import useStore from "../zustand/store";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import { Layout, ResultPopup, MobileTitleName } from "../components/common";
 import { color } from "../utils/designSystem";
 import Main from "./Main";
@@ -103,7 +104,7 @@ function SignUp() {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"회원가입"}/>}
+                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"회원가입"} />}
 
                 <SignUpBox BgColor={color.containerBoxColor}>
                     {isMobile && <Crescent src={crescent}></Crescent>}
@@ -139,6 +140,7 @@ function SignUp() {
                 )}
                 {isOpenResultPopup && <ResultPopup title={"닉네임 저장에 성공했습니다!"} close={closeResultPopup} />}
             </Container>
+            <Footer />
         </Layout>
     );
 }
@@ -336,7 +338,7 @@ const RecommendPersonInput = styled.input`
     top: 314px;
     left: 205px;
     outline: none;
-    border:none;
+    border: none;
     padding-left: 21px;
 
     background: rgba(198, 211, 236, 0.8);

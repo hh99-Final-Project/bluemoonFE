@@ -5,6 +5,7 @@ import styled from "styled-components";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import Header from "../shared/Header";
+import Footer from "../shared/Footer";
 import CategoryBar from "../shared/CategoryBar";
 import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
@@ -174,6 +175,7 @@ const ChatDetail = () => {
                     </InputWrpper>
                 </ChatRoom>
             </Container>
+            <Footer />
         </Layout>
     );
 };
@@ -211,7 +213,7 @@ const ChatRoom = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 688px;
+        height: 75vh;
 
         border: none;
         box-shadow: none;
@@ -247,7 +249,7 @@ const ChatRoomTitle = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 40px;
+        height: 7vh;
         margin-top: 9px;
         background: #959ebe;
 
@@ -286,7 +288,7 @@ const MessageWrapper = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 319px;
-        height: 590px;
+        height: 60vh;
         top: 0;
         left: 0;
         margin-top: 12px;
@@ -303,6 +305,7 @@ const InputWrpper = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
+        height: 8vh;
         border-radius: 0 0 0 0;
     }
 `;
