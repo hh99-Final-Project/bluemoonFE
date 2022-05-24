@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie, deleteCookie } from "../utils/cookie";
 import { store } from "../redux/store";
 import { showError } from "../redux/modules/errorSlice";
-import { logout, getUserInfo } from "../redux/modules/userSlice";
+import { logout } from "../redux/modules/userSlice";
 import { userApi } from "./userApi";
 import { isModalOpen } from "../redux/modules/commonSlice";
 
@@ -52,9 +52,9 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     function (response) {
         if (response.data.errorMessage === "만료된 토큰입니다.") {
-            window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
-            // window.location.href = "/";
-            store.dispatch(getUserInfo(null));
+            window.alert("토큰만료");
+            store.dispatch(logout());
+            document.location.href = "/";
         }
         return response;
     },
@@ -68,9 +68,9 @@ instance.interceptors.response.use(
 fileInstance.interceptors.response.use(
     function (response) {
         if (response.data.errorMessage === "만료된 토큰입니다.") {
-            window.alert("토큰이 만료되어 로그아웃됩니다! 다시 로그인 해주세요..🥺");
-            store.dispatch(getUserInfo(null));
-            window.location.href = "/";
+            store.dispatch(logout());
+            document.location.href = "/";
+            return;
         }
         return response;
     },

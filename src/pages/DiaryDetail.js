@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
-import { useQuery } from "react-query";
+import {useQuery, useQueryClient} from "react-query";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import {backIcon} from "../static/images/resources";
@@ -24,7 +24,7 @@ function DiaryDetail() {
 
 
     const isAnonymous = postId === "33d85b34-3f03-45ff-9c6c-7f121d8d8672";
-
+    const isLogin = useSelector(((state) => state.userSlice.isLogin));
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)"

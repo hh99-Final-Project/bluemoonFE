@@ -89,10 +89,18 @@ function CommentInput(props) {
 
         setComment(e.target.value);
     };
-    console.log(comment.length,"comment");
-    console.log(audioUrl,"audioUrl");
 
     const saveComment = () => {
+        let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
+        setTime(timeToServer);
+        setParentId("");
+        setComment("");
+
+        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, timeToServer);
+    };
+
+    const onClick = async () => {
+
         if (!isLogin) {
             dispatch(isModalOpen(true));
             return;
@@ -103,15 +111,6 @@ function CommentInput(props) {
             return;
         }
 
-        let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
-        setTime(timeToServer);
-        setParentId("");
-        setComment("");
-
-        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, timeToServer);
-    };
-
-    const onClick = async () => {
         saveComment();
         try {
             // 보낼 메시지

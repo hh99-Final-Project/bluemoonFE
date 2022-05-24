@@ -48,6 +48,8 @@ const Input = styled.input`
     height: 29px;
     background: #ffffff;
     border-radius: 6px;
+    outline: none;
+    padding-left: 10px;
 
     @media only screen and (max-width: 420px) {
         width: 262px;

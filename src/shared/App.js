@@ -19,6 +19,7 @@ import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
 import {userApi} from "../apis/userApi";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
                 <Route path="/intro" element={<Intro />} />
             </Routes>
             <ErrorModal/>
+            <ReactQueryDevtools initialIsOpen={false} />
             { pathname !== "/intro" && <Feedback/> }
         </QueryClientProvider>
     );
