@@ -26,6 +26,8 @@ function ChatList() {
     const hasNext = useSelector((state) => state.chatSlice.hasNext);
     const page = useSelector((state) => state.chatSlice.page);
 
+    console.log(page);
+
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
     });
@@ -76,7 +78,9 @@ function ChatList() {
 
     // 채팅방 리스트 조회 api
     useEffect(() => {
-        dispatch(getChatList(page));
+        if (page === 1) {
+            dispatch(getChatList(page));
+        }
         setCurrentHeader("채팅");
     }, []);
 
