@@ -37,10 +37,12 @@ export default Footer;
 
 const Container = styled.div`
     background-color: ${(props) => props.bgColor};
-    width: 100%;
+    width: 960px;
     height: 84px;
 
     position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
     bottom: 84px;
 
     display: flex;
@@ -56,7 +58,7 @@ const Container = styled.div`
     color: #ffffff;
 
     img {
-        margin: 0 147px 0 97px;
+        margin: 0 30px 0 0;
     }
 
     div {
@@ -84,7 +86,7 @@ const Fe = styled.div`
 const Be = styled.div`
     display: flex;
     flex-direction: row;
-    margin-left: 55px;
+    margin-left: 20px;
     width: 156px;
 
     a {
@@ -97,7 +99,7 @@ const Be = styled.div`
 const Ui = styled.div`
     display: flex;
     flex-direction: row;
-    margin-left: 55px;
+    margin-left: 20px;
     width: 148px;
     a {
         margin-left: 5px;
@@ -108,5 +110,5 @@ const Ui = styled.div`
 
 const Copyright = styled.div`
     width: 234px;
-    margin-left: 147px;
+    margin-left: 30px;
 `;
