@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+
 ## 프로젝트명 & 소개 
 
 - 프로젝트명 : **BlueMoon**
@@ -16,12 +18,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - 형상 관리 : git
 - 협업 툴 : Notion, Slack, Pigma
 
+
+
 ## Front-End 팀원 소개
 
 - 팀원 : 곽혜미, 이춘
 - 담당영역
     - 이춘: webSocket(실시간 채팅, 실시간 알람), API 및 뷰(닉네임 설정, 마이페이지, 채팅리스트, 이벤트페이지),
     - 곽혜미: webRTC, Recording API, diary 관련 페이지, Intro, 메인, 로그인
+
+
 
 ## 프론트엔드 핵심 기술(+version) 및 선정 이유
 
@@ -47,3 +53,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - react-responsive (9.0.0-beta.8)
     - media-query로 반응형 웹을 구현하기 위해 사용
     - 유저의 뷰 포트에 따라 모바일/PC 웹 뷰 보여줌
+
+
+
