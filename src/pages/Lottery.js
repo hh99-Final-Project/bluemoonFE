@@ -191,7 +191,7 @@ const ContentBox = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 646px;
+        height: 80vh;
 
         border-radius: 15px;
 
@@ -531,14 +531,14 @@ const MobileCircleIcon = styled.img`
     width: 32px;
     height: 32px;
     left: 38px;
-    top: 554px;
+    top: 544px;
 `;
 const MobileLeftCount = styled.div`
     position: absolute;
     width: 32px;
     height: 32px;
     left: 38px;
-    top: 554px;
+    top: 544px;
 
     z-index: 1000;
 
@@ -559,7 +559,7 @@ const MobileCountNoti = styled.div`
 
     height: 8px;
     left: 33px;
-    top: 593px;
+    top: 583px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
@@ -577,14 +577,14 @@ const MobileRecommendIcon = styled.img`
     width: 32px;
     height: 32px;
     left: 254px;
-    top: 554px;
+    top: 544px;
 `;
 const MobileRecommendDesc = styled.div`
     position: absolute;
 
     height: 10px;
     left: 248px;
-    top: 593px;
+    top: 583px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
