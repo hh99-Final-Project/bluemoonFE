@@ -123,12 +123,12 @@ function CategoryBar(props) {
             </CategoryLeft>
 
             <CategoryRight>
-                {isLogin && userInfo.nickname !== null ? (
+                {isLogin && userInfo.nickname !== "" ? (
                     <div>
                         <span> {userInfo.nickname} </span>님의 다이어리
                     </div>
                 ) : (
-                    <span/>
+                    <span />
                 )}
             </CategoryRight>
 

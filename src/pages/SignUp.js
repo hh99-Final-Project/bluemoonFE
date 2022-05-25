@@ -122,7 +122,11 @@ function SignUp() {
                     {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
                     <RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
                     {isMobile && <RecommendPersonLine></RecommendPersonLine>}
-                    <RecommendPersonInput onChange={onChangeRecommender} value={recommender}></RecommendPersonInput>
+                    <RecommendPersonInput
+                        placeholder="추천인은 1000p, 회원가입한 사람은 500p"
+                        onChange={onChangeRecommender}
+                        value={recommender}
+                    ></RecommendPersonInput>
                     <Button isValid={isValidNickName} onClick={onClickHandler}>
                         시작하기
                     </Button>
@@ -195,10 +199,9 @@ const Crescent = styled.img`
 
 const SignUpBoxTitle = styled.div`
     position: absolute;
-    width: 946px;
+    width: 100%;
     height: 52px;
     top: 54px;
-    left: 2px;
 
     display: flex;
     align-items: center;
@@ -297,7 +300,7 @@ const NickNameCheckResult = styled.div`
 
 const RecommendPerson = styled.div`
     position: absolute;
-    width: 255px;
+    width: 280px;
     height: 22px;
     display: flex;
     top: 284px;
@@ -306,6 +309,16 @@ const RecommendPerson = styled.div`
     line-height: 23px;
 
     color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    p {
+        font-style: normal;
+        font-weight: 200;
+        font-size: 12px;
+        line-height: 15px;
+    }
 
     @media only screen and (max-width: 420px) {
         width: auto;
@@ -333,7 +346,7 @@ const RecommendPersonInput = styled.input`
     width: 539.47px;
     height: 40.85px;
     display: block;
-    top: 314px;
+    top: 315px;
     left: 205px;
     outline: none;
     border: none;
@@ -341,6 +354,15 @@ const RecommendPersonInput = styled.input`
 
     background: rgba(198, 211, 236, 0.8);
     border-radius: 5px;
+
+    &::placeholder {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        text-align: center;
+        color: #43567e;
+    }
 
     @media only screen and (max-width: 420px) {
         width: 164px;
@@ -375,6 +397,13 @@ const Button = styled.button`
     text-align: center;
     color: ${(props) => (props.isValid ? "#91dddd" : "#08105D")};
     cursor: pointer;
+
+    &:hover {
+        background-color: #cffdfd;
+        border: 2px solid rgba(41, 50, 82, 0.71);
+        box-shadow: inset 0px 4px 15px rgba(0, 0, 0, 0.5);
+        color: #293252;
+    }
 
     @media only screen and (max-width: 420px) {
         width: 150px;
