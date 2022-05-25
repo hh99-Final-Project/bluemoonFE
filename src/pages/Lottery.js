@@ -448,6 +448,7 @@ const Title = styled.div`
     position: absolute;
     top: 212px;
     left: 542px;
+    width: 180px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
@@ -458,10 +459,11 @@ const Title = styled.div`
     color: #ffffff;
 
     @media only screen and (max-width: 420px) {
-        top: 100px;
-        left: 70px;
+        top: auto;
+        left: auto;
         font-size: 20px;
         line-height: 25px;
+        margin: 100px 0 0 80px;
     }
 `;
 
@@ -479,8 +481,9 @@ const Desc = styled.div`
     color: #c6d3ec;
 
     @media only screen and (max-width: 420px) {
-        top: 146px;
-        left: 50px;
+        top: auto;
+        left: auto;
+        margin: 146px 0 0 50px;
 
         font-size: 10px;
         line-height: 13px;
