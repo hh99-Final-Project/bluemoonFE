@@ -202,7 +202,7 @@ const ChatRoom = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 65vh;
+        height: 80vh;
 
         border: none;
         box-shadow: none;
@@ -238,7 +238,7 @@ const ChatRoomTitle = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 6vh;
+        height: 7vh;
         margin-top: 9px;
         background: #959ebe;
 
@@ -277,7 +277,7 @@ const MessageWrapper = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 319px;
-        height: 51vh;
+        height: 65vh;
         top: 0;
         left: 0;
         margin-top: 12px;
