@@ -448,7 +448,7 @@ const Title = styled.div`
     position: absolute;
     top: 212px;
     left: 542px;
-    width: 180px;
+    width: 220px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;

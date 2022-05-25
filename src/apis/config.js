@@ -1,12 +1,11 @@
 import axios from "axios";
-import {getCookie, deleteCookie, setRefreshCookie, setAccessCookie} from "../utils/cookie";
+import { getCookie, deleteCookie, setRefreshCookie, setAccessCookie } from "../utils/cookie";
 import { store } from "../redux/store";
 import { showError } from "../redux/modules/errorSlice";
 import { logout, getUserInfo } from "../redux/modules/userSlice";
 import { userApi } from "./userApi";
 import { isModalOpen } from "../redux/modules/commonSlice";
-import {useQueryClient} from "react-query";
-
+import { useQueryClient } from "react-query";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -15,7 +14,6 @@ export const instance = axios.create({
         "Access-Control-Allow-Headers": "*",
     },
 });
-
 
 let isTokenRefreshing = false;
 const refreshSubscribers = [];
@@ -33,22 +31,21 @@ instance.interceptors.request.use(
         return config;
     },
     (error) => {
-        console.log(error,"error");
+        console.log(error, "error");
         return;
     },
 );
 
 instance.interceptors.response.use(
     function (response) {
-
         let originRequest = response.config;
         if (response.data.errorMessage === "만료된 토큰입니다.") {
-            if(!isTokenRefreshing){
+            if (!isTokenRefreshing) {
                 isTokenRefreshing = true;
                 let axiosConfig = {
                     headers: {
-                        RefreshToken: getCookie("refreshToken")
-                    }
+                        RefreshToken: getCookie("refreshToken"),
+                    },
                 };
 
                 axios.post(process.env.REACT_APP_BASE_URL + "/api/refresh", {}, axiosConfig).then((res) => {
@@ -63,7 +60,7 @@ instance.interceptors.response.use(
 
             const retryOriginRequest = new Promise((resolve) => {
                 addRefreshSubscriber((accessToken) => {
-                    if(originRequest.headers) {
+                    if (originRequest.headers) {
                         originRequest.headers.authorization = accessToken;
                         resolve(axios(originRequest));
                     }
@@ -73,7 +70,6 @@ instance.interceptors.response.use(
             return retryOriginRequest;
         }
 
-
         return response;
     },
     function (error) {
@@ -82,4 +78,3 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     },
 );
-
