@@ -5,7 +5,7 @@ import { footerLogo } from "../static/images/resources";
 
 Footer.propTypes = {};
 
-function Footer(props) {
+function Footer() {
     return (
         <Container bgColor={color.backgroundColor}>
             <img src={footerLogo}></img>
@@ -36,22 +36,21 @@ function Footer(props) {
 export default Footer;
 
 const Container = styled.div`
-    background-color: ${(props) => props.bgColor};
-    width: 960px;
+    //background-color: ${(props) => props.bgColor};
+    width: 950px;
     height: 84px;
-
-    position: relative;
+    overflow: hidden;
+    margin: auto;
+    position: fixed;
     left: 50%;
     transform: translate(-50%, 0);
-    bottom: 84px;
+    bottom: 0px;
+    //bottom: 84px;
 
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 11px;
     line-height: 13px;
 
