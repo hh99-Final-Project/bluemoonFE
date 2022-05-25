@@ -79,12 +79,13 @@ function DiaryContent(props) {
     },[buttonRef.current]);
 
 
+        let isShowVoice = diary.voiceUrl.length > 0 && !isMobile && !isMobileQuery;
         return (
             <React.Fragment>
                 <DiaryContainer>
                     <ContentsContainer>
-                        <Content>{diary.content}</Content>
-                        { diary.voiceUrl.length > 0 && !isMobile && !isMobileQuery &&
+                        <Content isShowVoice={isShowVoice}>{diary.content}</Content>
+                        { isShowVoice &&
                             <VoiceArea>
                                 <VoiceButton ref={buttonRef} isPlaying={isPlaying} onClick={playAudio} src={voicePlayIcon}/>
                                 <TooltipBox>
@@ -142,7 +143,8 @@ const Content = styled.pre`
     color: #08105D;
     padding: 0 44px 0 0;
     max-width: 791px;
-    max-height: 100px;
+    //max-height: 100px;
+    max-height: ${(props) => props.isShowVoice ? "100px" : "120px"};
     word-break: break-all;
     overflow-y: scroll;
     white-space: pre-wrap;
