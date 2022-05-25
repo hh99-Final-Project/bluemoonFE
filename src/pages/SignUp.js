@@ -57,7 +57,7 @@ function SignUp() {
                 setIsValidNickName(false);
             }
         });
-    }, 100);
+    }, 50);
 
     const nickNameCheckDB = useCallback(debounce, []);
 
