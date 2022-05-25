@@ -65,7 +65,7 @@ instance.interceptors.response.use(
         let originRequest = response.config;
         if (response.data.errorMessage === "만료된 토큰입니다.") {
             if(!isTokenRefreshing){
-
+                isTokenRefreshing = true;
                 let axiosConfig = {
                     headers: {
                         RefreshToken: getCookie("refreshToken")
