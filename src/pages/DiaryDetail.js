@@ -33,16 +33,12 @@ function DiaryDetail() {
 
     const loginDetail = useQuery(["diaryDetail", 1, postId], () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
-        refetchOnMount: true,
         enabled: isLogin,
-        cacheTime: 1000 * 60 * 60 * 24
     });
 
     const nonLoginDetail = useQuery(["diaryDetail", 2, postId], () => diaryApi.getNotLoginUserDetail(), {
         refetchOnWindowFocus: false,
-        refetchOnMount: true,
         enabled: !isLogin,
-        cacheTime: 1000 * 60 * 60 * 24
     });
 
     const { setCurrentHeader } = useStore();
