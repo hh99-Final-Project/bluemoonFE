@@ -33,33 +33,31 @@ function SignUp() {
     });
 
     const onChange = (e) => {
+        if (e.target.value === "") {
+            setIsValidNickName(null);
+            setNickName(e.target.value);
+            return;
+        } else if (e.target.value !== "") {
+            const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(e.target.value);
+            if (result) {
+                nickNameCheckDB(e.target.value);
+            } else {
+                setIsValidNickName(false);
+            }
+        }
+
         setNickName(e.target.value);
     };
 
-    const onChangeRecommender = (e) => {
-        setRecommender(e.target.value);
-    };
-
     const debounce = _.debounce((nickName) => {
-        if (nickName === "") {
-            setIsValidNickName(null);
-            return;
-        }
-        // 정규 표현식 영문,한글,숫자 포함 1~10글자
-        const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
-        if (result) {
-            userApi.nickNameCheck(nickName).then((response) => {
-
-                if (response.data === true) {
-                    setIsValidNickName(true);
-                } else {
-                    setIsValidNickName(false);
-                }
-            });
-        } else {
-            setIsValidNickName(false);
-        }
-    }, 500);
+        userApi.nickNameCheck(nickName).then((response) => {
+            if (response.data === true) {
+                setIsValidNickName(true);
+            } else {
+                setIsValidNickName(false);
+            }
+        });
+    }, 100);
 
     const nickNameCheckDB = useCallback(debounce, []);
 
@@ -69,6 +67,10 @@ function SignUp() {
             return;
         }
         setIsOpenPopup(true);
+    };
+
+    const onChangeRecommender = (e) => {
+        setRecommender(e.target.value);
     };
 
     const saveNickNameDB = () => {
@@ -88,13 +90,9 @@ function SignUp() {
         setCurrentHeader("홈");
     }, []);
 
-    useEffect(() => {
-        nickNameCheckDB(nickName);
-    }, [nickName]);
-
-    // if (userInfo?.nickname !== "") {
-    //     return <Main />;
-    // }
+    if (userInfo?.nickname !== "") {
+        return <Main />;
+    }
 
     return (
         <Layout>
@@ -110,12 +108,12 @@ function SignUp() {
                         placeholder="10자 이내 (특수문자, 공백 불가)"
                         onChange={onChange}
                         value={nickName}
-                        required
-                    />
-                    {isValidNickName === null && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
-
-                    {isValidNickName && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
-
+                        name="nickName"
+                    ></NickNameInput>
+                    {isValidNickName === null && (
+                        <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>
+                    )}
+                    {isValidNickName === true && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
                     {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
 
                     <RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
@@ -125,6 +123,7 @@ function SignUp() {
                         placeholder="추천인은 1000p, 회원가입한 사람은 500p"
                         onChange={onChangeRecommender}
                         value={recommender}
+                        name="recommender"
                     ></RecommendPersonInput>
                     <Button isValid={isValidNickName} onClick={onClickHandler}>
                         시작하기
