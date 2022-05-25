@@ -24,8 +24,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - 팀원 : 곽혜미, 이춘
 - 담당영역
-    - 이춘: webSocket(실시간 채팅, 실시간 알람), API 및 뷰(닉네임 설정, 마이페이지, 채팅리스트, 이벤트페이지),
     - 곽혜미: webRTC, Recording API, diary 관련 페이지, Intro, 메인, 로그인
+    - 이춘: webSocket(실시간 채팅, 실시간 알람), API 및 뷰(닉네임 설정, 마이페이지, 채팅리스트, 이벤트페이지),
+
 
 
 
