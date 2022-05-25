@@ -135,7 +135,7 @@ const ContentBox = styled.div`
         border-radius: 15px;
 
         width: 320px;
-        height: 70vh;
+        height: 80vh;
     }
 `;
 
@@ -301,6 +301,6 @@ const SubmitButton = styled.div`
 
     @media only screen and (max-width: 420px) {
         left: 70px;
-        bottom: 35px;
+        bottom: 40px;
     }
 `;
