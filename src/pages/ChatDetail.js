@@ -9,7 +9,7 @@ import Footer from "../shared/Footer";
 import CategoryBar from "../shared/CategoryBar";
 import ChatMessage from "../components/chat/ChatMessage";
 import ChatInput from "../components/chat/ChatInput";
-import { Layout } from "../components/common";
+import { Layout, MobileTitleName } from "../components/common";
 import { getChatMessage, subMessage } from "../redux/modules/chatSlice";
 import { getCookie } from "../utils/cookie";
 import { chatApi } from "../apis/chatApi";
@@ -96,7 +96,6 @@ const ChatDetail = () => {
                 // 입장 시 enter 메시지 발신
                 // 이 메시지를 기준으로 서버에서 unReadCount 판별
                 const message = {
-                    // type: "ENTER",
                     roomId: roomId,
                 };
                 ws.current.send("/pub/chat/enter", { token: token }, JSON.stringify(message));
@@ -125,13 +124,12 @@ const ChatDetail = () => {
                 roomId: roomId,
                 message: text,
                 otherUserId: otherUserInfo.otherUserId, // 메시지 받는 상대방
-                // type: "TALK",
             };
 
             if (text === "") {
                 return;
             }
-            // send 메소드 호출
+            // send message
             ws.current.send("/pub/chat/message", { token: token }, JSON.stringify(message));
             setText("");
         } catch (error) {
@@ -147,7 +145,7 @@ const ChatDetail = () => {
         <Layout>
             <Container>
                 <Header />
-                {!isMobile ? <CategoryBar /> : <MobTitle>일대일 대화</MobTitle>}
+                {!isMobile ? <CategoryBar /> : <MobileTitleName title={"일대일 대화"} />}
                 <ChatRoom BgColor={color.containerBoxColor}>
                     <ChatRoomTitle>
                         <p> {otherUserInfo.otherUserNickname}님과의 대화</p>
@@ -188,14 +186,6 @@ const Container = styled.div`
     overflow: hidden;
 `;
 
-const MobTitle = styled.div`
-    width: 320px;
-    height: 34px;
-    color: #ffffff;
-    text-align: center;
-    margin: 0 auto;
-`;
-
 const ChatRoom = styled.div`
     box-sizing: border-box;
 
@@ -213,7 +203,7 @@ const ChatRoom = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 75vh;
+        height: 65vh;
 
         border: none;
         box-shadow: none;
@@ -249,7 +239,7 @@ const ChatRoomTitle = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 7vh;
+        height: 6vh;
         margin-top: 9px;
         background: #959ebe;
 
@@ -288,7 +278,7 @@ const MessageWrapper = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 319px;
-        height: 60vh;
+        height: 51vh;
         top: 0;
         left: 0;
         margin-top: 12px;

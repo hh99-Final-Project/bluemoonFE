@@ -175,14 +175,6 @@ const Container = styled.div`
     }
 `;
 
-const MobTitle = styled.div`
-    width: 320px;
-    height: 34px;
-    color: #ffffff;
-    text-align: center;
-    margin: 0 auto;
-`;
-
 const ContentBox = styled.div`
     box-sizing: border-box;
     width: 950px;

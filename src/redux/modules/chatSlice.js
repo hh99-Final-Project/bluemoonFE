@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { chatApi } from "../../apis/chatApi";
 import { useDispatch } from "react-redux";
 
-// 이니셜스테이트
 const initialState = {
     messages: [],
     chatList: [],
@@ -12,19 +11,8 @@ const initialState = {
     page: 1,
 };
 
-// 참고용 chatList 요소 초기값
-// const inicialchatList = {
-//     charRoomUuid: null,
-//     createAt: null,
-//     dayBefore: null,
-//     lastMessage: null,
-//     roomName: null,
-//     unreadCount: null, // user 가 안 읽은 메시지 수. 실시간 값 넣어야 함.
-// };
-
-// tooklit - thunk 사용 시 아래처럼 사용
+// tooklit - thunk 사용
 export const getChatList = createAsyncThunk("GET_CHAT_LIST", async (page, thunkAPI) => {
-    // dispatch(isLoading());
     try {
         const response = await chatApi.getChatList(page);
         console.log(response);
@@ -95,6 +83,7 @@ const chatSlice = createSlice({
             state.chatList = state.chatList.filter((chat) => chat.chatRoomUuid !== action.payload);
         },
     },
+
     // extraReducers
     extraReducers: (builder) => {
         builder.addCase(getChatMessage.fulfilled, (state, action) => {

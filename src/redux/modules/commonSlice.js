@@ -29,13 +29,13 @@ const commonSlice = createSlice({
             state.modalIsOpen = action.payload;
         },
         getAlertList(state, action) {
-            // 배열에 이전 알람 메시지 추가
-            state.commentAlertList.push(...action.payload);
+            // 배열에 이전 알람 메시지 추가 (리듀서에서 처리 여부 고민중)
+            // state.commentAlertList.push(...action.payload);
         },
         getNewCommentAlert(state, action) {
             // 배열의 가장 앞에 실시간 알람 메시지를 추가
             state.newCommentAlert.unshift(action.payload);
-            // state.commentAlertList.unshift(action.payload);
+            // state.commentAlertList.unshift(action.payload); //(리듀서에서 처리 여부 고민중)
         },
         deleteNewCommentAlert(state, action) {
             // 알람 아이콘 클릭했을 시
