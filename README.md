@@ -1,7 +1,7 @@
 
 # Bluemoon FrontEnd
 
-![대지 5@4x-100](https://user-images.githubusercontent.com/79817823/170234163-15484676-6d55-45e3-a156-d9f579106538.jpg)
+<img src="https://user-images.githubusercontent.com/79817823/170234163-15484676-6d55-45e3-a156-d9f579106538.jpg" width="300" height="300"/>
 
 ## ✏️프로젝트명 & 소개 
 
