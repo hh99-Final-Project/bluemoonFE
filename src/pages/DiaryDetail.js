@@ -46,8 +46,6 @@ function DiaryDetail() {
         cacheTime: 1000 * 60 * 60 * 24,
     });
 
-    console.log(loginDetail,"loginDetail");
-
     const { setCurrentHeader } = useStore();
 
     useEffect(() => {
