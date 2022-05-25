@@ -250,6 +250,7 @@ const DiaryListContainer = styled.div`
     height: 100vh;
     position: relative;
     overflow: hidden;
+    z-index: 2;
 `;
 
 const CardContainer = styled.div`

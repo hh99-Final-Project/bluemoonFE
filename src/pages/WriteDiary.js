@@ -274,6 +274,7 @@ const WriteContainer = styled.div`
     height: 100vh;
     position: relative;
     overflow: hidden;
+    z-index: 2;
 
     @media only screen and (max-width: 420px) {
         width: 320px;

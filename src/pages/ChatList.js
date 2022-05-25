@@ -159,6 +159,7 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     overflow: hidden;
+    
 
     @media only screen and (max-width: 420px) {
         width: 320px;
@@ -181,7 +182,7 @@ const ChatRoomListBox = styled.div`
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);
-
+    z-index: 2;
     border-radius: 25px;
 
     position: relative;
