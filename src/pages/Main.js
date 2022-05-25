@@ -144,6 +144,30 @@ const Container = styled.div`
     position: relative;
 `;
 
+// const IntroContainer = styled.div` // 원본
+//     width: 950px;
+//     height: 530px;
+//     margin: auto;
+//     border: 2px solid rgba(255, 255, 255, 0.3);
+//     box-sizing: border-box;
+//     box-shadow: 0 0 70px #465981;
+//     backdrop-filter: blur(80px);
+//     border-radius: 25px;
+//     background: ${(props) => props.BgColor};
+//     display: flex;
+//     justify-content: space-between;
+//     padding: 45px 53px;
+//     position: relative;
+//     z-index: 2;
+
+//     @media only screen and (max-width: 420px) {
+//         width: 320px;
+//         height: calc(100% - 98px);
+//         margin: 20px auto 0;
+//         padding: 0;
+//     }
+// `;
+
 const IntroContainer = styled.div`
     width: 950px;
     height: 530px;
@@ -167,7 +191,6 @@ const IntroContainer = styled.div`
         padding: 0;
     }
 `;
-
 const ServiceStart = styled.div`
     margin-right: 26px;
     width: 477px;
@@ -185,10 +208,10 @@ const ServiceStart = styled.div`
 `;
 
 const Info = styled.div`
-  font-size: 8px;
-  color: #ffffff;
-  text-align: center;
-  margin-bottom: 10px;
+    font-size: 8px;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 10px;
 `;
 
 const ServiceIntro = styled.div`
