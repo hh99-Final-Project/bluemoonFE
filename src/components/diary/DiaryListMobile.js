@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../shared/Header";
@@ -13,6 +13,7 @@ const DiaryListMobile = (props) => {
 
     const { getMoreDiaryAPI, count, diary, togglePlayVoice, diaryList, createChat, setCount } = props;
     const navigate = useNavigate();
+    const scrollRef = useRef();
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
 
     const settings = {
@@ -27,6 +28,7 @@ const DiaryListMobile = (props) => {
         verticalSwiping: true,
         afterChange: (current) => {
             setCount((prev) => prev + 1);
+            // scrollRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
             if (count + 1 === diaryList.length) {
                 getMoreDiaryAPI();
             }
@@ -35,7 +37,7 @@ const DiaryListMobile = (props) => {
     };
 
     return (
-        <ListContainer BgColor={color.backgroundColor}>
+        <ListContainer ref={scrollRef} BgColor={color.backgroundColor}>
             <TopParts BgColor={color.backgroundColor}>
                 <Header />
                 <MobileTitleName title={"고민*상담소"} pos={6}/>
@@ -100,7 +102,7 @@ const ListContainer = styled.div`
 `;
 
 const TopParts = styled.div`
-    position: fixed;
+    //position: fixed;
     width: 100%;
     background-color: ${props => props.BgColor};
     z-index: 99999;
@@ -111,7 +113,7 @@ const Container = styled.div`
   margin: auto;
   background-color: ${props => props.BgColor};
   position: relative;
-  top: 125px;
+  //top: 125px;
 `;
 
 

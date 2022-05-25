@@ -36,7 +36,6 @@ const LoadingContainer = styled.div`
     p {
         width: 250px;
         margin-top: 15px;
-        font-family: "Spoqa Han Sans Neo";
         font-style: normal;
         font-weight: 400;
         font-size: 15px;
