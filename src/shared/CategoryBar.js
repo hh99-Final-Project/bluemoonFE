@@ -145,6 +145,7 @@ const HeaderContainer = styled.div`
     align-items: flex-end;
     justify-content: space-between;
     margin: 0 auto;
+    height: 66px;
 
     @media only screen and (max-width: 420px) {
         display: none;

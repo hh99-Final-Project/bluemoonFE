@@ -6,7 +6,14 @@ import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { logout } from "../redux/modules/userSlice";
 import { isModalOpen, getNewCommentAlert, deleteNewCommentAlert } from "../redux/modules/commonSlice";
-import {newAlertIcon, moonPoint, mobMoreIcon, mobAlertIcon, newAlertNumber, closeBtn} from "../static/images/resources";
+import {
+    newAlertIcon,
+    moonPoint,
+    mobMoreIcon,
+    mobAlertIcon,
+    newAlertNumber,
+    closeBtn,
+} from "../static/images/resources";
 
 import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
@@ -35,7 +42,6 @@ const Header = () => {
     // const token = getCookie("accessToken");
     const token = localStorage.getItem("accessToken");
     const path = window.location.pathname;
-
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
@@ -131,18 +137,20 @@ const Header = () => {
                 </MobileHeaderContainer>
             ) : (
                 <HeaderContainer>
-                    {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
+                    {/* {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>} */}
+                    <Logo onClick={() => navigate("/")}>Blue Moon</Logo>
                     {userInfo ? (
                         <HeaderRightArea>
-                            <Point id={"pointContainer"} onClick={() => {
-                                setPointPopupOpen(true);
-                            }}>
+                            <Point
+                                id={"pointContainer"}
+                                onClick={() => {
+                                    setPointPopupOpen(true);
+                                }}
+                            >
                                 <PointImg src={moonPoint} alt={"point"} />
                                 <span>{userInfo.myPoint}</span>
                             </Point>
-                            { pointPopupOpen &&
-                                <PointPopup closeModal={() => setPointPopupOpen(false)}/>
-                            }
+                            {pointPopupOpen && <PointPopup closeModal={() => setPointPopupOpen(false)} />}
                             <AlertIcon
                                 ref={AlertTabRef}
                                 onClick={() => {
@@ -213,14 +221,17 @@ const PointPopup = (props) => {
                         borderRadius: "4px",
                         outline: "none",
                         padding: "none",
-                        overflow: "hidden"
+                        overflow: "hidden",
                     },
                 }}
             >
-                <CloseButton onClick={(e) => {
-                    e.stopPropagation();
-                    closeModal();
-                }} src={closeBtn}/>
+                <CloseButton
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        closeModal();
+                    }}
+                    src={closeBtn}
+                />
                 <Desc>
                     <div>댓글은 개당 100p, 다이어리 작성시 500p가 적립됩니다.</div>
                     <div>(하루 최대 댓글 5개, 다이어리 1개)</div>
@@ -247,7 +258,7 @@ const HeaderRightArea = styled.div`
     display: flex;
     justify-content: center;
     color: #9aebe7;
-    height: 39px;
+    // height: 39px;
     align-items: center;
 `;
 
@@ -276,9 +287,9 @@ const Point = styled.div`
 `;
 
 const PointImg = styled.img`
-  margin: 7px 8px 0 11px;
-  width: 15px;
-  height: 15px;
+    margin: 7px 8px 0 11px;
+    width: 15px;
+    height: 15px;
 `;
 
 const AlertIcon = styled.div`
@@ -292,31 +303,27 @@ const AlertIcon = styled.div`
 `;
 
 const CloseButton = styled.img`
-  position: absolute;
-  right: 10px;
-  top: 8px;
-  width: 12px;
-  height: 10px;
-  cursor: poiner;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    width: 12px;
+    height: 10px;
+    cursor: poiner;
 `;
 
 const Desc = styled.div`
-  font-size: 8px;
-  line-height: 10px;
-  color: #08105D;
-  padding: 10px;
-  
-  
-  div {
-    margin-bottom: 5px;
-    
-    &:last-child {
-      margin-bottom: 0;
-    }
-    
-    
-  }
+    font-size: 8px;
+    line-height: 10px;
+    color: #08105d;
+    padding: 10px;
 
+    div {
+        margin-bottom: 5px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 `;
 
 const NewAlertNumberArea = styled.img`
