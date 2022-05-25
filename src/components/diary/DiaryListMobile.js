@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../shared/Header";
@@ -13,7 +13,7 @@ const DiaryListMobile = (props) => {
     const { getMoreDiaryAPI, count, diary, togglePlayVoice, diaryList, createChat, setCount } = props;
     const navigate = useNavigate();
     const scrollRef = useRef();
-    const isLogin = useSelector(((state) => state.userSlice.isLogin));
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
 
     const settings = {
         dots: false,
@@ -42,50 +42,49 @@ const DiaryListMobile = (props) => {
             </TopParts>
             <Container BgColor={color.backgroundColor}>
                 <Slider2 {...settings}>
-                    {
-                        diaryList.map((diary) => {
-                            return (
-                                <Slide onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
-                                    <FirstSlide>
-                                        <Title>
-                                            {diary.title}
-                                        </Title>
-                                    </FirstSlide>
-                                    <Spring src={spring}/>
-                                    <SecondSlide>
-                                        {/*{diary.voiceUrl && <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>}*/}
-                                        <Desc>
-                                            {
-                                                diaryList.length === 0 ? "다이어리를 작성해주세요!" :
-                                                    isLogin ? diary.content : diaryList[0].content
-                                            }
-                                        </Desc>
-                                        <ButtonArea>
-                                            <ReplyCommentButton
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    if(isLogin){
-                                                        navigate(`/diary/${diary.postUuid}`);
-                                                    } else {
-                                                        navigate(diaryList[0].postUuid);
-                                                    }
-                                                }}
-                                                src={commentIcon}/>
-                                            <ChattingButton
-                                                onClick={()=> {
-                                                    if(isLogin){
-                                                        createChat(diary.userId);
-                                                    } else {
-                                                        createChat(diaryList[0].userId);
-                                                    }
-                                                }}
-                                                src={chatIcon}/>
-                                        </ButtonArea>
-                                    </SecondSlide>
-                                </Slide>
-                            );
-                        })
-                    }
+                    {diaryList.map((diary) => {
+                        return (
+                            <Slide onClick={() => navigate(`/diary/${diary.postUuid}`)} key={diary.postUuid}>
+                                <FirstSlide>
+                                    <Title>{diary.title}</Title>
+                                </FirstSlide>
+                                <Spring src={spring} />
+                                <SecondSlide>
+                                    {/*{diary.voiceUrl && <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon}/>}*/}
+                                    <Desc>
+                                        {diaryList.length === 0
+                                            ? "다이어리를 작성해주세요!"
+                                            : isLogin
+                                            ? diary.content
+                                            : diaryList[0].content}
+                                    </Desc>
+                                    <ButtonArea>
+                                        <ReplyCommentButton
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (isLogin) {
+                                                    navigate(`/diary/${diary.postUuid}`);
+                                                } else {
+                                                    navigate(diaryList[0].postUuid);
+                                                }
+                                            }}
+                                            src={commentIcon}
+                                        />
+                                        <ChattingButton
+                                            onClick={() => {
+                                                if (isLogin) {
+                                                    createChat(diary.userId);
+                                                } else {
+                                                    createChat(diaryList[0].userId);
+                                                }
+                                            }}
+                                            src={chatIcon}
+                                        />
+                                    </ButtonArea>
+                                </SecondSlide>
+                            </Slide>
+                        );
+                    })}
                 </Slider2>
             </Container>
         </ListContainer>
@@ -106,11 +105,11 @@ const TopParts = styled.div`
 `;
 
 const Container = styled.div`
-  width: 100%;
-  margin: auto;
-  background-color: ${props => props.BgColor};
-  position: relative;
-  //top: 125px;
+    width: 100%;
+    margin: auto;
+    background-color: ${(props) => props.BgColor};
+    position: relative;
+    //top: 125px;
 `;
 
 const Slider2 = styled(Slider)`

@@ -65,7 +65,7 @@ function WriteDiary() {
     const dispatch = useDispatch();
 
     const isMobileQuery = useMediaQuery({
-        query: "(max-width: 420px)"
+        query: "(max-width: 420px)",
     });
 
     const onChangeTitleHandler = (e) => {
@@ -122,11 +122,14 @@ function WriteDiary() {
     };
 
     const successHandler = () => {
-        mutation.mutate({title, diary, audioUrl, recordTime}, {
-            onSuccess: async (data) => {
-                dispatch(setUserPoint(data.data.point));
-            }
-        });
+        mutation.mutate(
+            { title, diary, audioUrl, recordTime },
+            {
+                onSuccess: async (data) => {
+                    dispatch(setUserPoint(data.data.point));
+                },
+            },
+        );
     };
 
     const closeVoicePopup = () => {
