@@ -133,16 +133,23 @@ const DiaryContainer = styled.div`
 
 const ContentsContainer = styled.div`
     width: 100%;
+    padding-top: 21px;
 `;
 
-const Content = styled.div`
+const Content = styled.pre`
     font-size: 14px;
     line-height: 18px;
     color: #08105D;
-    padding: 21px 44px 0 0;
+    padding: 0 44px 0 0;
     max-width: 791px;
-    max-height: 216px;
+    max-height: 100px;
     word-break: break-all;
+    overflow-y: scroll;
+    white-space: pre-wrap;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
     @media only screen and (max-width: 420px) {
       font-size: 12px;
@@ -150,12 +157,14 @@ const Content = styled.div`
       color: #C6D3EC;
       padding-top: 0;
     }
+  
+  
 `;
 
 const VoiceArea = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 12px;
+    margin-top: 8px;
 `;
 
 const TooltipBox = styled.div`
@@ -163,11 +172,14 @@ const TooltipBox = styled.div`
   font-size: 12px;
   color: #08105D;
   margin-left: 4px;
+  width: 100%;
   
 `;
 
 const VoiceButton = styled.img`
     cursor: pointer;
+    width: 30px;
+    height: 30px;
   
     &:hover + ${TooltipBox}  {
       visibility: visible;

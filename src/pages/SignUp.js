@@ -111,11 +111,15 @@ function SignUp() {
                         onChange={onChange}
                         value={nickName}
                         required
-                    ></NickNameInput>
-                    {nickName === "" && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
+                    />
+                    {isValidNickName === null && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
+
                     {isValidNickName && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
+
                     {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
+
                     <RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
+
                     {isMobile && <RecommendPersonLine></RecommendPersonLine>}
                     <RecommendPersonInput
                         placeholder="추천인은 1000p, 회원가입한 사람은 500p"

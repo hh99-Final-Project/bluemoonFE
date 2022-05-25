@@ -1,4 +1,4 @@
-import { instance, fileInstance } from "./config";
+import { instance } from "./config";
 
 export const diaryApi = {
     createPost: async (title, content, audioUrl, recordTime) => {
@@ -12,7 +12,12 @@ export const diaryApi = {
         const blob = new Blob([json], { type: "application/json" });
         form.append("requestDto", blob);
         audioUrl !== undefined && form.append("file", audioUrl);
-        const data = await fileInstance.post("/api/posts", form);
+        let headerConfig = {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        };
+        const data = await instance.post("/api/posts", form, headerConfig);
         return data;
     },
 
@@ -46,7 +51,13 @@ export const diaryApi = {
         form.append("requestDto", blob);
         audioUrl !== undefined && form.append("file", audioUrl);
 
-        const data = await fileInstance.post("/api/comments", form);
+        let headerConfig = {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        };
+
+        const data = await instance.post("/api/comments", form, headerConfig);
         return data;
     },
 

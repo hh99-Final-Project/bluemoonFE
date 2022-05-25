@@ -403,6 +403,7 @@ const PostArea = styled.textarea`
     border-radius: 10px;
     overflow-y: auto;
     overflow-x: hidden;
+  
     ::-webkit-scrollbar {
         display: none;
     }
