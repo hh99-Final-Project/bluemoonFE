@@ -132,8 +132,10 @@ const ContentBox = styled.div`
         border: 2px solid rgba(255, 255, 255, 0.3);
         box-shadow: 0px 0px 70px #465981;
         backdrop-filter: blur(80px);
-        width: 320px;
         border-radius: 15px;
+
+        width: 320px;
+        height: 70vh;
     }
 `;
 
@@ -282,7 +284,6 @@ const SubmitButton = styled.div`
     left: 387px;
     bottom: 35px;
 
-    // background: #444d69;
     border: 1px solid #c4c4c4;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -297,4 +298,9 @@ const SubmitButton = styled.div`
     align-items: center;
     display: flex;
     color: #c4c4c4;
+
+    @media only screen and (max-width: 420px) {
+        left: 70px;
+        bottom: 35px;
+    }
 `;
