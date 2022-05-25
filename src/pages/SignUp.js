@@ -34,31 +34,33 @@ function SignUp() {
 
     const onChange = (e) => {
         setNickName(e.target.value);
-    };
 
-    const onChangeRecommender = (e) => {
-        setRecommender(e.target.value);
-    };
-
-    const debounce = _.debounce((nickName) => {
+        // 위에 setNickName이 실행된 이후에 아래 코드 실행 필요
+        // 비동기 관리 해야 함
         if (nickName === "") {
             setIsValidNickName(null);
             return;
+        } else if (nickName !== "") {
+            console.log(nickName);
+            console.log(isValidNickName);
+            const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
+            console.log(result);
+            if (result) {
+                nickNameCheckDB();
+            } else {
+                setIsValidNickName(false);
+            }
         }
-        // 정규 표현식 영문,한글,숫자 포함 1~10글자
-        const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
-        if (result) {
-            userApi.nickNameCheck(nickName).then((response) => {
+    };
 
-                if (response.data === true) {
-                    setIsValidNickName(true);
-                } else {
-                    setIsValidNickName(false);
-                }
-            });
-        } else {
-            setIsValidNickName(false);
-        }
+    const debounce = _.debounce(() => {
+        userApi.nickNameCheck(nickName).then((response) => {
+            if (response.data === true) {
+                setIsValidNickName(true);
+            } else {
+                setIsValidNickName(false);
+            }
+        });
     }, 200);
 
     const nickNameCheckDB = useCallback(debounce, []);
@@ -69,6 +71,10 @@ function SignUp() {
             return;
         }
         setIsOpenPopup(true);
+    };
+
+    const onChangeRecommender = (e) => {
+        setRecommender(e.target.value);
     };
 
     const saveNickNameDB = () => {
@@ -88,10 +94,6 @@ function SignUp() {
         setCurrentHeader("홈");
     }, []);
 
-    useEffect(() => {
-        nickNameCheckDB(nickName);
-    }, [nickName]);
-
     if (userInfo?.nickname !== "") {
         return <Main />;
     }
@@ -110,10 +112,12 @@ function SignUp() {
                         placeholder="10자 이내 (특수문자, 공백 불가)"
                         onChange={onChange}
                         value={nickName}
-                        required
+                        name="nickName"
                     ></NickNameInput>
-                    {nickName === "" && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
-                    {isValidNickName && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
+                    {isValidNickName === null && (
+                        <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>
+                    )}
+                    {isValidNickName === true && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
                     {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
                     <RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
                     {isMobile && <RecommendPersonLine></RecommendPersonLine>}
@@ -121,6 +125,7 @@ function SignUp() {
                         placeholder="추천인은 1000p, 회원가입한 사람은 500p"
                         onChange={onChangeRecommender}
                         value={recommender}
+                        name="recommender"
                     ></RecommendPersonInput>
                     <Button isValid={isValidNickName} onClick={onClickHandler}>
                         시작하기
