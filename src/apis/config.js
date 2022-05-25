@@ -1,12 +1,11 @@
 import axios from "axios";
-import {getCookie, deleteCookie, setRefreshCookie, setAccessCookie} from "../utils/cookie";
+import { getCookie, deleteCookie, setRefreshCookie, setAccessCookie } from "../utils/cookie";
 import { store } from "../redux/store";
 import { showError } from "../redux/modules/errorSlice";
 import { logout, getUserInfo } from "../redux/modules/userSlice";
 import { userApi } from "./userApi";
 import { isModalOpen } from "../redux/modules/commonSlice";
-import {useQueryClient} from "react-query";
-
+import { useQueryClient } from "react-query";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -54,47 +53,45 @@ instance.interceptors.request.use(
         return config;
     },
     (error) => {
-        console.log(error,"error");
+        console.log(error, "error");
         return;
     },
 );
 
 instance.interceptors.response.use(
     function (response) {
-
         let originRequest = response.config;
-        if (response.data.errorMessage === "만료된 토큰입니다.") {
-            if(!isTokenRefreshing){
+        // if (response.data.errorMessage === "만료된 토큰입니다.") {
+        //     if(!isTokenRefreshing){
 
-                let axiosConfig = {
-                    headers: {
-                        RefreshToken: getCookie("refreshToken")
-                    }
-                };
+        //         let axiosConfig = {
+        //             headers: {
+        //                 RefreshToken: getCookie("refreshToken")
+        //             }
+        //         };
 
-                axios.post(process.env.REACT_APP_BASE_URL + "/api/refresh", {}, axiosConfig).then((res) => {
-                    let accessToken = res.headers.authorization;
-                    deleteCookie("accessToken");
-                    setAccessCookie(accessToken);
-                    instance.defaults.headers.common.authorization = accessToken;
-                    isTokenRefreshing = false;
-                    refreshSubscribers.map((callback) => callback(accessToken));
-                    return axios(originRequest);
-                });
-            }
+        //         axios.post(process.env.REACT_APP_BASE_URL + "/api/refresh", {}, axiosConfig).then((res) => {
+        //             let accessToken = res.headers.authorization;
+        //             deleteCookie("accessToken");
+        //             setAccessCookie(accessToken);
+        //             instance.defaults.headers.common.authorization = accessToken;
+        //             isTokenRefreshing = false;
+        //             refreshSubscribers.map((callback) => callback(accessToken));
+        //             return axios(originRequest);
+        //         });
+        //     }
 
-            const retryOriginRequest = new Promise((resolve) => {
-                addRefreshSubscriber((accessToken) => {
-                    if(originRequest.headers) {
-                        originRequest.headers.authorization = accessToken;
-                        resolve(axios(originRequest));
-                    }
-                });
-            });
+        //     const retryOriginRequest = new Promise((resolve) => {
+        //         addRefreshSubscriber((accessToken) => {
+        //             if(originRequest.headers) {
+        //                 originRequest.headers.authorization = accessToken;
+        //                 resolve(axios(originRequest));
+        //             }
+        //         });
+        //     });
 
-            return retryOriginRequest;
-        }
-
+        //     return retryOriginRequest;
+        // }
 
         return response;
     },
@@ -108,37 +105,36 @@ instance.interceptors.response.use(
 fileInstance.interceptors.response.use(
     function (response) {
         let originRequest = response.config;
-        if (response.data.errorMessage === "만료된 토큰입니다.") {
-            if(!isTokenRefreshing){
+        // if (response.data.errorMessage === "만료된 토큰입니다.") {
+        //     if (!isTokenRefreshing) {
+        //         let axiosConfig = {
+        //             headers: {
+        //                 RefreshToken: getCookie("refreshToken"),
+        //             },
+        //         };
 
-                let axiosConfig = {
-                    headers: {
-                        RefreshToken: getCookie("refreshToken")
-                    }
-                };
+        //         axios.post(process.env.REACT_APP_BASE_URL + "/api/refresh", {}, axiosConfig).then((res) => {
+        //             let accessToken = res.headers.authorization;
+        //             deleteCookie("accessToken");
+        //             setAccessCookie(accessToken);
+        //             instance.defaults.headers.common.authorization = accessToken;
+        //             isTokenRefreshing = false;
+        //             refreshSubscribers.map((callback) => callback(accessToken));
+        //             return axios(originRequest);
+        //         });
+        //     }
 
-                axios.post(process.env.REACT_APP_BASE_URL + "/api/refresh", {}, axiosConfig).then((res) => {
-                    let accessToken = res.headers.authorization;
-                    deleteCookie("accessToken");
-                    setAccessCookie(accessToken);
-                    instance.defaults.headers.common.authorization = accessToken;
-                    isTokenRefreshing = false;
-                    refreshSubscribers.map((callback) => callback(accessToken));
-                    return axios(originRequest);
-                });
-            }
+        //     const retryOriginRequest = new Promise((resolve) => {
+        //         addRefreshSubscriber((accessToken) => {
+        //             if (originRequest.headers) {
+        //                 originRequest.headers.authorization = accessToken;
+        //                 resolve(axios(originRequest));
+        //             }
+        //         });
+        //     });
 
-            const retryOriginRequest = new Promise((resolve) => {
-                addRefreshSubscriber((accessToken) => {
-                    if(originRequest.headers) {
-                        originRequest.headers.authorization = accessToken;
-                        resolve(axios(originRequest));
-                    }
-                });
-            });
-
-            return retryOriginRequest;
-        }
+        //     return retryOriginRequest;
+        // }
 
         return response;
     },
