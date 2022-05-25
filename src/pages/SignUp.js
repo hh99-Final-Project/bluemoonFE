@@ -59,7 +59,7 @@ function SignUp() {
         } else {
             setIsValidNickName(false);
         }
-    }, 200);
+    }, 500);
 
     const nickNameCheckDB = useCallback(debounce, []);
 
@@ -92,9 +92,9 @@ function SignUp() {
         nickNameCheckDB(nickName);
     }, [nickName]);
 
-    if (userInfo?.nickname !== "") {
-        return <Main />;
-    }
+    // if (userInfo?.nickname !== "") {
+    //     return <Main />;
+    // }
 
     return (
         <Layout>

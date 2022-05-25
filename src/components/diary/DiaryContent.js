@@ -137,7 +137,7 @@ const ContentsContainer = styled.div`
     padding-top: 21px;
 `;
 
-const Content = styled.pre`
+const Content = styled.div`
     font-size: 14px;
     line-height: 18px;
     color: #08105D;
@@ -145,7 +145,7 @@ const Content = styled.pre`
     max-width: 791px;
     //max-height: 100px;
     max-height: ${(props) => props.isShowVoice ? "100px" : "120px"};
-    word-break: break-all;
+    word-break: break-word;
     overflow-y: scroll;
     white-space: pre-wrap;
 
