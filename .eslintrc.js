@@ -24,6 +24,7 @@ module.exports = {
         "react/prop-types": "off",
         "semi": ["error", "always"],
         "quotes": ["error", "double"],
+        "block-spacing": ["error", "always"],
         "import/no-named-as-default": 0
         // 추가하고 싶은 rule을 더 추가
     }
