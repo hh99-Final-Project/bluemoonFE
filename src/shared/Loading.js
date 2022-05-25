@@ -9,7 +9,7 @@ const Loading = () => {
         <Layout>
             <LoadingContainer bgColor={color.backgroundColor}>
                 <img src={loadingIcon} alt={"loading-spinner"} />
-                <p>푸른 달이 빛을 받고 있습니다...</p>
+                <p>푸른 달의 빛을 받고 있습니다...</p>
             </LoadingContainer>
         </Layout>
     );
@@ -30,11 +30,11 @@ const LoadingContainer = styled.div`
     img {
         width: 150px;
         height: 30px;
-        margin-left: 25px;
+        // margin-left: 25px;
     }
 
     p {
-        width: 250px;
+        // width: 250px;
         margin-top: 15px;
         font-style: normal;
         font-weight: 400;
