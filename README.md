@@ -2,69 +2,48 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## 프로젝트명 & 소개 
 
-In the project directory, you can run:
+- 프로젝트명 : **BlueMoon**
+- 프로젝트 제작기간 : 2022.04.22 (금) ~ 2022.06.02 (목)
+- 서비스 소개
+    - 음성으로 익명 다이어리를 작성하고, 댓글을 공유할 수 있습니다.
+- 주요 기능
+    - webRTC, Recording API 를 이용한 음성 녹음 및 재생
+    - sockJS / Stomp 를 활용한 실시간 채팅, 알림
+- 개발 언어 : JavaScript
+- 개발 라이브러리 : React.js
+- 형상 관리 : git
+- 협업 툴 : Notion, Slack, Pigma
 
-### `npm start`
+## Front-End 팀원 소개
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 팀원 : 곽혜미, 이춘
+- 담당영역
+    - 이춘: webSocket(실시간 채팅, 실시간 알람), API 및 뷰(닉네임 설정, 마이페이지, 채팅리스트, 이벤트페이지),
+    - 곽혜미: webRTC, Recording API, diary 관련 페이지, Intro, 메인, 로그인
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 프론트엔드 핵심 기술(+version) 및 선정 이유
 
-### `npm test`
+- webRTC
+    - 별 다른 소프트웨어 설치 없이 서비스 메인 기능인 실시간 음성 녹음 스트림을 제공받을 수 있고, javscript api로 제공되어 러닝커브가 낮았음
+    - mediaRecorder api에서 제공하는 녹음, 재생, 정지 등의 기본 기능이 서비스 메인 기능을 커버하기에 충분했음
+    
+- sockjs-client (1.6.0) / stompjs (2.3.3)
+    - WebSocket을 지원하지 않는 브라우저까지 지원함
+    - 사용법은 WebSocket과 유사
+        
+        webSocketFactory와 유사한 SockJS object 생성 → 연결 시 connect → subscribe, send 등 메소드 사용 → 연결 종료 시 disconnect
+        
+    
+- react-query (3.38.0)
+    - mutation을 사용해 diary 작성, 댓글 등 CUD 작업에 대한 get 요청을 자동으로 fetching 하여 리덕스 및 state 사용을 줄이고 서버의 최신화 된 데이터를 보여주어 사용자 경험을 높일 수 있음
+    - loading, error 값들을 제공해주어 상태 파악이 용이하며, enabled, cache time 등의 옵션 설정으로 원하는 조건에 맞게 서버 데이터 컨트롤 할 수 있음
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- redux-toolkit (1.8.1)
+    - redux의 보일러 플레이트 작성을 간소화(action creator 생략)
+    - thunk, immer 기능이 내장되어 있어, 별도 설치하지 않아도 비동기 처리와 불변성 관리를 할 수 있었음
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- react-responsive (9.0.0-beta.8)
+    - media-query로 반응형 웹을 구현하기 위해 사용
+    - 유저의 뷰 포트에 따라 모바일/PC 웹 뷰 보여줌
