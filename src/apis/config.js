@@ -11,7 +11,6 @@ export const instance = axios.create({
     },
 });
 
-
 let isTokenRefreshing = false;
 let refreshSubscribers = [];
 const addRefreshSubscriber = (callback) => {
@@ -30,17 +29,15 @@ instance.interceptors.request.use(
         return config;
     },
     (error) => {
-        console.log(error,"error");
+        console.log(error, "error");
         return;
     },
 );
 
 instance.interceptors.response.use(
     function (response) {
-
         let originRequest = response.config;
         if (response.data.errorMessage === "만료된 토큰입니다.") {
-            console.log("만료된토큰!");
             if(!isTokenRefreshing){
                 isTokenRefreshing = true;
                 let axiosConfig = {
@@ -61,7 +58,7 @@ instance.interceptors.response.use(
 
             const retryOriginRequest = new Promise((resolve) => {
                 addRefreshSubscriber((accessToken) => {
-                    if(originRequest.headers) {
+                    if (originRequest.headers) {
                         originRequest.headers.authorization = accessToken;
                         resolve(axios(originRequest));
                     }
@@ -78,4 +75,3 @@ instance.interceptors.response.use(
         return Promise.reject(error);
     },
 );
-
