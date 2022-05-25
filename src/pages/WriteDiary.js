@@ -124,8 +124,7 @@ function WriteDiary() {
     const successHandler = () => {
         mutation.mutate({title, diary, audioUrl, recordTime}, {
             onSuccess: async (data) => {
-                console.log(data,"data");
-                // dispatch(setUserPoint(data.data.point));
+                dispatch(setUserPoint(data.data.point));
             }
         });
     };
