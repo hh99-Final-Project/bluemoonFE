@@ -5,7 +5,7 @@ import Layout from "./Layout";
 import Feedback from "./Feedback";
 import MobileTitleName from "./MobileTitleName";
 import ResultPopup from "./ResultPopup";
-import PointPopup from "./PointPopup";
+import LotteryMobile from "./LotteryMobile";
 
 export { Notifications, Notice, ChatOutModal, Layout,
-    Feedback, MobileTitleName, ResultPopup, PointPopup };
+    Feedback, MobileTitleName, ResultPopup, LotteryMobile };
