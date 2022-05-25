@@ -171,7 +171,7 @@ function WriteDiary() {
                         <SaveDiaryButton onClick={onClickHandler} src={saveIcon} />
                     </PostHeader>
                     <WriteArea>
-                        <PostText placeholder="제목을 작성해주세요" onChange={onChangeTitleHandler} />
+                        <PostText placeholder="제목을 작성해주세요" onChange={onChangeTitleHandler} value={title}/>
                         <PostContainer>
                             <PostArea
                                 isShowSpeaker={isShowSpeaker}

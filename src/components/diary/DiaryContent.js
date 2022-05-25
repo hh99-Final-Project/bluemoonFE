@@ -139,9 +139,10 @@ const Content = styled.div`
     font-size: 14px;
     line-height: 18px;
     color: #08105D;
-    padding-top: 21px;
+    padding: 21px 44px 0 0;
     max-width: 791px;
     max-height: 216px;
+    word-break: break-all;
 
     @media only screen and (max-width: 420px) {
       font-size: 12px;
