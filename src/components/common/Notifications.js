@@ -23,8 +23,6 @@ function Notifications(props) {
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
 
-    console.log(commentAlertList);
-
     // 무한스크롤
     const InfinityScroll = _.throttle((e) => {
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext === true) {

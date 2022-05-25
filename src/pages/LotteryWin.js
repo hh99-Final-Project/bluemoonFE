@@ -38,7 +38,6 @@ const LotteryWin = () => {
 
     const EnterInfo = () => {
         userApi.EnterInfo(phoneNumber, isChecked).then((response) => {
-            console.log(response);
             if (response.status === 200) {
                 navigate("/lottery");
             }

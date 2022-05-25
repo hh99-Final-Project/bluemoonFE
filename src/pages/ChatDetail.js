@@ -88,7 +88,6 @@ const ChatDetail = () => {
             ws.current.connect({ token: token, type: "CHAT" }, () => {
                 // connect 이후 subscribe
                 ws.current.subscribe(`/sub/chat/room/${roomId}`, (response) => {
-                    console.log(response);
                     const newMessage = JSON.parse(response.body);
                     dispatch(subMessage(newMessage));
                 });

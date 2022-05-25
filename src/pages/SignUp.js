@@ -50,7 +50,6 @@ function SignUp() {
         //통과하지 않았을 때는 사용할 수 없는 닉네임이라고 안내하고, 시작하기 버튼 비활성화
         if (result) {
             userApi.nickNameCheck(nickName).then((response) => {
-                console.log(response);
 
                 if (response.data === true) {
                     setIsValidNickName(true);
@@ -75,7 +74,6 @@ function SignUp() {
 
     const saveNickNameDB = () => {
         userApi.saveNickName(nickName, recommender).then((response) => {
-            console.log(response);
             setIsOpenPopup(false);
             setIsOpenResultPopup(true);
         });
