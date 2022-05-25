@@ -35,9 +35,6 @@ function DiaryContent(props) {
             })
             .catch((error) => {
                 console.log(error);
-                if(error.response.data.code === "R005"){
-                    window.alert(error.response.data.message);
-                }
             });
     };
 
