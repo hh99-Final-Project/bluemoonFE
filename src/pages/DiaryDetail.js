@@ -24,7 +24,6 @@ function DiaryDetail() {
     const postId = params.id;
     const queryClient = useQueryClient();
 
-    const isAnonymous = postId === "33d85b34-3f03-45ff-9c6c-7f121d8d8672";
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
 
     const isMobile = useMediaQuery({
