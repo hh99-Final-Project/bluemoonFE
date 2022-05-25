@@ -33,27 +33,23 @@ function SignUp() {
     });
 
     const onChange = (e) => {
-        setNickName(e.target.value);
-
-        // 위에 setNickName이 실행된 이후에 아래 코드 실행 필요
-        // 비동기 관리 해야 함
-        if (nickName === "") {
+        if (e.target.value === "") {
             setIsValidNickName(null);
+            setNickName(e.target.value);
             return;
-        } else if (nickName !== "") {
-            console.log(nickName);
-            console.log(isValidNickName);
-            const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
-            console.log(result);
+        } else if (e.target.value !== "") {
+            const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(e.target.value);
             if (result) {
-                nickNameCheckDB();
+                nickNameCheckDB(e.target.value);
             } else {
                 setIsValidNickName(false);
             }
         }
+
+        setNickName(e.target.value);
     };
 
-    const debounce = _.debounce(() => {
+    const debounce = _.debounce((nickName) => {
         userApi.nickNameCheck(nickName).then((response) => {
             if (response.data === true) {
                 setIsValidNickName(true);
@@ -61,7 +57,7 @@ function SignUp() {
                 setIsValidNickName(false);
             }
         });
-    }, 200);
+    }, 100);
 
     const nickNameCheckDB = useCallback(debounce, []);
 
