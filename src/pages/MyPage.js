@@ -38,8 +38,6 @@ function MyPage() {
             if (res.status === 200) {
                 setIsOpenPopup(false);
                 setMyDiary(myDiary.filter((diary) => diary.postUuid !== clickedDiary));
-            } else {
-                window.alert("에러처리");
             }
         });
     };
@@ -62,7 +60,6 @@ function MyPage() {
 
     useEffect(() => {
         userApi.getMyPage(page).then((response) => {
-            console.log(response);
             setMyDiary([...myDiary, ...response]);
             if (response.length < 10) {
                 setHasNext(false);

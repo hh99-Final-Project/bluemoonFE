@@ -19,6 +19,7 @@ import { isModalOpen } from "../redux/modules/commonSlice";
 import { timeFormatter, timeFormatter2 } from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
 import {isMobile} from "react-device-detect";
+import {setUserPoint} from "../redux/modules/userSlice";
 
 function WriteDiary() {
     const navigate = useNavigate();
@@ -112,15 +113,21 @@ function WriteDiary() {
             window.alert("제목을 작성해주세요!");
             return;
         }
-        if (diary.length === 0 && audioUrl === "") {
-            window.alert("음성 다이어리 혹은 텍스트 다이어리를 작성해주세요");
+        if (diary.length === 0 && audioUrl === undefined) {
+            window.alert("내용 혹은 음성 다이어리를 등록해주세요!");
             return;
         }
+
         setIsOpenPopup(true);
     };
 
     const successHandler = () => {
-        mutation.mutate(title, diary, audioUrl, recordTime);
+        mutation.mutate({title, diary, audioUrl, recordTime}, {
+            onSuccess: async (data) => {
+                console.log(data,"data");
+                // dispatch(setUserPoint(data.data.point));
+            }
+        });
     };
 
     const closeVoicePopup = () => {

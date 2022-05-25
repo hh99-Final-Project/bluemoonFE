@@ -33,6 +33,7 @@ function Login() {
                 //헤더에 담긴 토큰 확인 필요
                 let accessToken = response.headers.authorization;
                 let refreshToken = response.headers.refreshToken;
+                console.log(response.headers,"response.headers");
                 setAccessCookie(accessToken);
                 setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));

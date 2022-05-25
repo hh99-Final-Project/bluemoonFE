@@ -34,16 +34,14 @@ function DiaryDetail() {
     const loginDetail = useQuery(["diaryDetail", 1], () => diaryApi.getOneDiary(postId), {
         refetchOnWindowFocus: false,
         refetchOnMount: true,
-        enabled: !isAnonymous,
-        // staleTime: 1000,
+        enabled: isLogin,
         cacheTime: 1000 * 60 * 60 * 24,
     });
 
     const nonLoginDetail = useQuery(["diaryDetail", 2], () => diaryApi.getNotLoginUserDetail(), {
         refetchOnWindowFocus: false,
         refetchOnMount: true,
-        enabled: isAnonymous,
-        // staleTime: 1000,
+        enabled: !isLogin,
         cacheTime: 1000 * 60 * 60 * 24,
     });
 
@@ -67,16 +65,16 @@ function DiaryDetail() {
                     <TitleContainer>
                         <TitleLeft>
                             <BackButton src={backIcon} onClick={() => navigate("/diarylist")} />
-                            <Title>{!isAnonymous ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
+                            <Title>{isLogin ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
                         </TitleLeft>
                         <Time>
-                            {convertDate(!isAnonymous ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}
+                            {convertDate(isLogin ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}
                         </Time>
                     </TitleContainer>
                     <ContentContainer>
-                        <DiaryContent diary={!isAnonymous ? loginDetail.data : nonLoginDetail.data} />
+                        <DiaryContent diary={isLogin ? loginDetail.data : nonLoginDetail.data} />
                         <CommentContainer
-                            diary={!isAnonymous ? loginDetail.data : nonLoginDetail.data}
+                            diary={isLogin ? loginDetail.data : nonLoginDetail.data}
                             postId={postId}
                         />
                     </ContentContainer>

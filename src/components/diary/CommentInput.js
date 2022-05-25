@@ -16,6 +16,7 @@ import { isModalOpen } from "../../redux/modules/commonSlice";
 import {isMobile} from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
 import {MyTimer} from "./Timer";
+import { setUserPoint } from "../../redux/modules/userSlice";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -101,7 +102,11 @@ function CommentInput(props) {
         setComment("");
         deleteVoice();
 
-        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, timeToServer);
+        mutation.mutate({postId, comment, audioUrl, isLocked, parentCommentId, timeToServer}, {
+            onSuccess: async (data) => {
+                dispatch(setUserPoint(data.data.point));
+            }
+        });
     };
 
     const onClick = async () => {
