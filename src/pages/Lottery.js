@@ -143,7 +143,10 @@ const Lottery = () => {
                     </Desc>
                     {!isMobile ? (
                         <>
-                            <RecommendDesc>1명 → +1회</RecommendDesc>
+                            <RecommendDesc>
+                                추천인은 1000p <br />
+                                회원가입한 사람은 500p
+                            </RecommendDesc>
                             <RecommendIcons>친구 추천</RecommendIcons>
                         </>
                     ) : (
@@ -518,8 +521,9 @@ const RecommendIcons = styled.div`
 const RecommendDesc = styled.div`
     position: absolute;
     height: 15px;
-    top: 426px;
-    right: 59px;
+    top: 407px;
+    right: 50px;
+    text-align: right;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;

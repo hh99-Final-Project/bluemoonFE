@@ -45,6 +45,7 @@ const Container = styled.div`
 
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
