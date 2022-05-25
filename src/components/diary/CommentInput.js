@@ -95,6 +95,7 @@ function CommentInput(props) {
         setComment(e.target.value);
     };
 
+
     const saveComment = () => {
         let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
         setTime(timeToServer);

@@ -15,6 +15,7 @@ import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import { backIcon } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
+import { getCookie } from "../utils/cookie";
 
 DiaryDetail.propTypes = {};
 
@@ -23,26 +24,29 @@ function DiaryDetail() {
     const params = useParams();
     const postId = params.id;
     const queryClient = useQueryClient();
-
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
+    const token = !!getCookie("accessToken");
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
     });
 
-    const loginDetail = useQuery(["diaryDetail", 1], () => diaryApi.getOneDiary(postId), {
-        refetchOnWindowFocus: false,
+    const loginDetail = useQuery(["diaryDetail", 1, postId], () => diaryApi.getOneDiary(postId), {
+        refetchOnWindowFocus: true,
         refetchOnMount: true,
         enabled: isLogin,
         cacheTime: 1000 * 60 * 60 * 24,
+        retry: 2
     });
 
-    const nonLoginDetail = useQuery(["diaryDetail", 2], () => diaryApi.getNotLoginUserDetail(), {
-        refetchOnWindowFocus: false,
+    const nonLoginDetail = useQuery(["diaryDetail", 2, postId], () => diaryApi.getNotLoginUserDetail(), {
+        refetchOnWindowFocus: true,
         refetchOnMount: true,
         enabled: !isLogin,
         cacheTime: 1000 * 60 * 60 * 24,
     });
+
+    console.log(loginDetail,"loginDetail");
 
     const { setCurrentHeader } = useStore();
 

@@ -9,7 +9,7 @@ Notice.propTypes = {
 };
 
 function Notice(props) {
-    const { alert } = props;
+    const { alert, closeModal } = props;
     const contentName = alert.message.split("]")[0].length > 22 ?
         alert.message.split("]")[0].substring(0, 20) + "...] " + alert.message.split("]")[1] : alert.message;
 
@@ -20,10 +20,9 @@ function Notice(props) {
         <React.Fragment>
             <AlertSliceContainer
                 onClick={() => {
-                    setCurrentHeader("마이페이지");
                     navigate(`/diary/${alert.postUuid}`);
-                }}
-            >
+                    closeModal();
+                }}>
                 <TitleArea>
                     <CreatedAt>{alert.createdAt}</CreatedAt>
                 </TitleArea>

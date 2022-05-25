@@ -28,7 +28,7 @@ export const userApi = {
     },
 
     getRefreshToken: async () => {
-        const data = await instance.get("/api/refresh");
+        const data = await instance.post("/api/refresh", config);
         return data;
 
     },

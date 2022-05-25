@@ -127,7 +127,7 @@ function Notifications(props) {
                 <Content length={commentAlertList.length} ref={InfinityScrollref} onScroll={InfinityScroll}>
                     {commentAlertList.length > 0 ? (
                         commentAlertList.map((alert) => {
-                            return <Notice key={alert.messageId} alert={alert} />;
+                            return <Notice key={alert.messageId} alert={alert} closeModal={closeModal} />;
                         })
                     ) : (
                         <NoContent>아직 도착한 알림이 없어요:)</NoContent>

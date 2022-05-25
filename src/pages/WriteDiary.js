@@ -90,18 +90,9 @@ function WriteDiary() {
     //useMutaion을 통해 등록 및 post가 일어나면 기존 쿼리 무효화
     const mutation = useMutation(() => diaryApi.createPost(title, diary, audioUrl, recordTime), {
         onSuccess: () => {
-            queryClient.invalidateQueries("diary");
-            queryClient.invalidateQueries("reminders");
+            // queryClient.invalidateQueries("diary");
         },
     });
-
-    if (mutation.isSuccess) {
-        // window.alert("작성 완료에요!");
-
-        navigate("/mypage");
-    } else if (mutation.isError) {
-        window.alert("에러처리");
-    }
 
     const onClickHandler = (e) => {
         if (!userInfo) {
@@ -127,6 +118,7 @@ function WriteDiary() {
             {
                 onSuccess: async (data) => {
                     dispatch(setUserPoint(data.data.point));
+                    navigate("/mypage");
                 },
             },
         );
