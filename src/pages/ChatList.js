@@ -274,7 +274,7 @@ const ChatRoomWrapper = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        height: 580px;
+        height: 70vh;
 
         top: 0;
         left: 0;
@@ -289,7 +289,6 @@ const ChatRoom = styled.div`
     background: #959ebe;
 
     margin: 0 auto 5px;
-    // padding: 16px;
     box-sizing: border-box;
     cursor: pointer;
 
@@ -331,9 +330,6 @@ const CharRoomTitle = styled.div`
 
 const UnreadCount = styled.div`
     position: relative;
-    // top: 14px;
-    // left: 125px;
-
     margin: 0 0 0 11px;
 
     font-family: "Spoqa Han Sans Neo";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userApi } from "../apis/userApi";
 import styled from "styled-components";
 import Header from "../shared/Header";
@@ -15,7 +15,6 @@ import { useMediaQuery } from "react-responsive";
 const LotteryWin = () => {
     const { setCurrentHeader } = useStore();
     const navigate = useNavigate();
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
     const [phoneNumber, setPhoneNumber] = useState();
     const [isChecked, setIsChecked] = useState(false);
 

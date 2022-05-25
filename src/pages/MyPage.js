@@ -269,9 +269,6 @@ const DiaryCard = styled.div`
     border-radius: 5px;
     background-color: #959ebe;
 
-    // display: flex;
-    // flex-direction: column;
-
     margin: 0 auto 5px;
     padding: 16px;
     box-sizing: border-box;

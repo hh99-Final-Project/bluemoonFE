@@ -4,10 +4,11 @@ import styled from "styled-components";
 import Notice from "./Notice";
 import Modal from "react-modal";
 import { closeButton, mobAlertCloseBtn } from "../../static/images/resources";
-import { getAlertList } from "../../redux/modules/commonSlice";
+import { deleteNewCommentAlert } from "../../redux/modules/commonSlice";
 import { diaryApi } from "../../apis/diaryApi";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
+import { useDispatch } from "react-redux";
 
 Notifications.propTypes = {
     closeModal: PropTypes.func,
@@ -17,6 +18,7 @@ Notifications.propTypes = {
 function Notifications(props) {
     const { closeModal, AlertTabRef } = props;
     const [commentAlertList, setCommentAlertList] = useState([]);
+    const dispatch = useDispatch();
 
     const InfinityScrollref = useRef();
     const [isLoading, setIsLoading] = useState(true);
@@ -64,6 +66,11 @@ function Notifications(props) {
             .catch((error) => {
                 console.log(error);
             });
+    }, []);
+
+    // 카테고리바에 새 알람 표시 삭제
+    useEffect(() => {
+        dispatch(deleteNewCommentAlert());
     }, []);
 
     const isMobileQuery = useMediaQuery({
