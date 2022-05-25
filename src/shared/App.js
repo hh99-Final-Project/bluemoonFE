@@ -24,7 +24,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 function App() {
     const queryClient = new QueryClient();
     const dispatch = useDispatch();
-    const cookie = getCookie("accessToken");
+    // const cookie = getCookie("accessToken");
+    const cookie =  localStorage.getItem("accessToken");
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const { pathname } = useLocation();
     const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
