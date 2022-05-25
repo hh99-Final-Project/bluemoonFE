@@ -53,6 +53,12 @@
     - 유저의 뷰 포트에 따라 모바일/PC 웹 뷰 보여줌
 
 
+## 기술 아키텍쳐
+
+![image](https://user-images.githubusercontent.com/100131652/170226815-a2ec819a-bd8e-4c12-a771-e60a6d4f6db2.png)
+
+
+
 ## 트러블 슈팅
 
 ### 댓글별 음성 녹음 파일 관리
