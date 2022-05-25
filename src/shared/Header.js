@@ -6,7 +6,7 @@ import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { logout } from "../redux/modules/userSlice";
 import { isModalOpen, getNewCommentAlert, deleteNewCommentAlert } from "../redux/modules/commonSlice";
-import { newAlertIcon, moonPoint, mobMoreIcon, mobAlertIcon, newAlertNumber } from "../static/images/resources";
+import {newAlertIcon, moonPoint, mobMoreIcon, mobAlertIcon, newAlertNumber, closeBtn} from "../static/images/resources";
 
 import Login from "../components/user/Login";
 import SockJS from "sockjs-client";
@@ -16,6 +16,7 @@ import useStore from "../zustand/store";
 import { getUnreadCount } from "../redux/modules/chatSlice";
 import { useMediaQuery } from "react-responsive";
 import MobileCategoryBar from "./MobileCategoryBar";
+import Modal from "react-modal";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -26,12 +27,14 @@ const Header = () => {
 
     const [isOpenNoti, setIsOpenNoti] = useState(false);
     const [logoutPopup, setLogoutPopup] = useState(false);
+    const [pointPopupOpen, setPointPopupOpen] = useState(false);
 
     const AlertTabRef = useRef();
     const ws = useRef();
     const { setCurrentHeader, setMobileHeader, isHeaderMenuOpen } = useStore();
     const token = getCookie("accessToken");
     const path = window.location.pathname;
+
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
@@ -131,10 +134,15 @@ const Header = () => {
                     {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
                     {userInfo ? (
                         <HeaderRightArea>
-                            <Point>
-                                <img src={moonPoint} alt={"point"} />
+                            <Point id={"pointContainer"} onClick={() => {
+                                setPointPopupOpen(true);
+                            }}>
+                                <PointImg src={moonPoint} alt={"point"} />
                                 <span>{userInfo.myPoint}</span>
                             </Point>
+                            { pointPopupOpen &&
+                                <PointPopup closeModal={() => setPointPopupOpen(false)}/>
+                            }
                             <AlertIcon
                                 ref={AlertTabRef}
                                 onClick={() => {
@@ -176,10 +184,59 @@ const Header = () => {
 
 export default React.memo(Header);
 
+const PointPopup = (props) => {
+    const { closeModal } = props;
+
+    return (
+        <React.Fragment>
+            <Modal
+                isOpen={true}
+                onRequestClose={closeModal}
+                shouldCloseOnOverlayClick={false}
+                ariaHideApp={false}
+                parentSelector={() => document.getElementById("pointContainer")}
+                style={{
+                    overlay: {
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: "rgba(65, 65, 65, 0)",
+                    },
+                    content: {
+                        position: "absolute",
+                        top: "38px",
+                        left: "auto",
+                        right: "0",
+                        bottom: "auto",
+                        width: "320px",
+                        border: "none",
+                        background: "rgba(206, 215, 244, 0.84)",
+                        borderRadius: "4px",
+                        outline: "none",
+                        padding: "none",
+                        overflow: "hidden"
+                    },
+                }}
+            >
+                <CloseButton onClick={(e) => {
+                    e.stopPropagation();
+                    closeModal();
+                }} src={closeBtn}/>
+                <Desc>
+                    <div>댓글은 개당 100p, 다이어리 작성시 500p가 적립됩니다.</div>
+                    <div>(하루 최대 댓글 5개, 다이어리 1개)</div>
+                    <div>1000p가 있으면 이벤트 페이지에서 추첨을 할 수 있습니다. (하루 1번)</div>
+                </Desc>
+            </Modal>
+        </React.Fragment>
+    );
+};
+
 const HeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    position: relative;
     left: 50%;
     transform: translate(-50%, 0);
     top: 26px;
@@ -187,6 +244,7 @@ const HeaderContainer = styled.div`
     width: 950px;
     font-weight: bold;
     font-size: 20px;
+    position: relative;
 `;
 const HeaderRightArea = styled.div`
     display: flex;
@@ -214,17 +272,18 @@ const Point = styled.div`
     box-sizing: border-box;
     color: #9aebe7;
     display: flex;
-    cursor: default;
+    cursor: pointer;
     span {
         margin: 6px 0 13px;
     }
-
-    img {
-        margin: 7px 8px 0 11px;
-        width: 15px;
-        height: 15px;
-    }
 `;
+
+const PointImg = styled.img`
+  margin: 7px 8px 0 11px;
+  width: 15px;
+  height: 15px;
+`;
+
 const AlertIcon = styled.div`
     position: relative;
     margin-right: 20px;
@@ -233,6 +292,34 @@ const AlertIcon = styled.div`
         vertical-align: middle;
         height: 35px;
     }
+`;
+
+const CloseButton = styled.img`
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 12px;
+  height: 10px;
+  cursor: poiner;
+`;
+
+const Desc = styled.div`
+  font-size: 8px;
+  line-height: 10px;
+  color: #08105D;
+  padding: 10px;
+  
+  
+  div {
+    margin-bottom: 5px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    
+  }
+
 `;
 
 const NewAlertNumberArea = styled.img`
@@ -248,9 +335,6 @@ const NewAlertNumber = styled.div`
     position: absolute;
     bottom: 24px;
     left: 29px;
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 10px;
     line-height: 13px;
     display: flex;

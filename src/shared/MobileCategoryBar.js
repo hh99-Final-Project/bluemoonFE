@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ import {
     mobFeedbackIcon,
     mobHeaderBackIcon,
     mobMyPointBluemoon,
+    closeBtn
 } from "../static/images/resources";
 import useMovePage from "../hooks/useMovePage";
 import Login from "../components/user/Login";
@@ -26,10 +27,12 @@ const MobileCategoryBar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { moveToPage } = useMovePage();
+    const popupRef = useRef();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
     const [logoutPopup, setLogoutPopup] = useState(false);
+    const [isPointPopup, setPointPopup] = useState(false);
 
     const logoutAction = () => {
         dispatch(logout());
@@ -74,7 +77,7 @@ const MobileCategoryBar = () => {
                         borderRadius: "0px 25px 25px 0px",
                         outline: "none",
                         padding: 0,
-                        overflow: "hidden",
+                        overflow: "visible",
                         // transition: "all 3s linear"
                     },
                 }}
@@ -107,15 +110,15 @@ const MobileCategoryBar = () => {
                             <div onClick={() => moveToPage("/")}>시작 홈</div>
                         </Home>
                         <DiaryList>
-                            <img src={mobHomeIcon} />
+                            <img src={mobListIcon} />
                             <div onClick={() => moveToPage("/diarylist")}>고민 상담소</div>
                         </DiaryList>
                         <DiaryWrite>
-                            <img src={mobHomeIcon} />
+                            <img src={mobWriteIcon} />
                             <div onClick={() => moveToPage("/write")}>고민 접수</div>
                         </DiaryWrite>
                         <MyPageIcon>
-                            <img src={mobHomeIcon} />
+                            <img src={mobMyPageIcon} />
                             <div
                                 onClick={() => {
                                     if (loginCheck()) {
@@ -129,7 +132,7 @@ const MobileCategoryBar = () => {
                             </div>
                         </MyPageIcon>
                         <ChattingIcon>
-                            <img src={mobHomeIcon} />
+                            <img src={mobChatIcon} />
                             <div
                                 onClick={() => {
                                     if (loginCheck()) {
@@ -143,18 +146,27 @@ const MobileCategoryBar = () => {
                             </div>
                         </ChattingIcon>
                         <EventIcon>
-                            <img src={mobHomeIcon} />
+                            <img src={mobEventIcon} />
                             <div onClick={() => moveToPage("/lottery")}>이벤트</div>
-                            {userInfo && (
-                                <MyPoint>
-                                    <img src={mobMyPointBluemoon} />
-                                    <div>{userInfo.myPoint}</div>
-                                </MyPoint>
+                            { userInfo && (
+                                <div>
+                                    <MyPoint>
+                                        <img src={mobMyPointBluemoon} />
+                                        <div onClick={() => setPointPopup(true)}>{userInfo.myPoint}</div>
+                                    </MyPoint>
+                                    { isPointPopup &&
+                                    <PointPopup ref={popupRef}>
+                                        <img onClick={() => setPointPopup(false)} src={closeBtn}/>
+                                        <div>댓글은 개당 100p, 다이어리 작성시 500p가 적립됩니다.(하루 최대 댓글 5개, 다이어리 1개)</div>
+                                        <div>1000p가 있으면 이벤트 페이지에서 추첨을 할 수 있습니다. (하루 1번)</div>
+                                    </PointPopup>
+                                    }
+                                </div>
                             )}
                         </EventIcon>
                     </HeaderContent>
                     <FeedbackIcon>
-                        <img src={mobHomeIcon} />
+                        <img src={mobFeedbackIcon} />
                         <div
                             onClick={() =>
                                 window.open(
@@ -190,8 +202,8 @@ const MenuArea = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 37px 0 27px;
-    padding: 0 21px 0 18px;
+    margin-bottom:27px;
+    padding: 37px 21px 0 18px;
 
     div {
         font-size: 20px;
@@ -302,6 +314,29 @@ const MyPoint = styled.span`
         margin: 0 3px;
         width: 14px;
     }
+`;
+
+const PointPopup = styled.div`
+  width: 200px;
+  position: absolute;
+  margin-top: 3px;
+  background-color: #959ebe;
+  padding: 18px 10px 10px;
+  border-radius: 5px;
+  div {
+    font-size: 7px; 
+    line-height: 13px;
+  }
+  
+  img {
+    width: 10px;
+    position: absolute;
+    right: -15px;
+    top: 6px;
+  }
+    
+    
+  
 `;
 const FeedbackIcon = styled(DiaryList)`
     border: none;

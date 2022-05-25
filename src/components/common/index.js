@@ -5,6 +5,7 @@ import Layout from "./Layout";
 import Feedback from "./Feedback";
 import MobileTitleName from "./MobileTitleName";
 import ResultPopup from "./ResultPopup";
+import PointPopup from "./PointPopup";
 
 export { Notifications, Notice, ChatOutModal, Layout,
-    Feedback, MobileTitleName, ResultPopup };
+    Feedback, MobileTitleName, ResultPopup, PointPopup };
