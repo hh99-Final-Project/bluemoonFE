@@ -32,7 +32,8 @@ const Header = () => {
     const AlertTabRef = useRef();
     const ws = useRef();
     const { setCurrentHeader, setMobileHeader, isHeaderMenuOpen } = useStore();
-    const token = getCookie("accessToken");
+    // const token = getCookie("accessToken");
+    const token = localStorage.getItem("accessToken");
     const path = window.location.pathname;
 
 

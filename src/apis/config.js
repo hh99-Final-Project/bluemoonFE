@@ -2,11 +2,6 @@ import axios from "axios";
 import {getCookie, deleteCookie, setRefreshCookie, setAccessCookie} from "../utils/cookie";
 import { store } from "../redux/store";
 import { showError } from "../redux/modules/errorSlice";
-import { logout, getUserInfo } from "../redux/modules/userSlice";
-import { userApi } from "./userApi";
-import { isModalOpen } from "../redux/modules/commonSlice";
-import {useQueryClient} from "react-query";
-
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -18,14 +13,16 @@ export const instance = axios.create({
 
 
 let isTokenRefreshing = false;
-const refreshSubscribers = [];
+let refreshSubscribers = [];
 const addRefreshSubscriber = (callback) => {
     refreshSubscribers.push(callback);
 };
 
 instance.interceptors.request.use(
     (config) => {
-        const accessToken = getCookie("accessToken");
+        // const accessToken = getCookie("accessToken");
+        const accessToken = localStorage.getItem("accessToken");
+
         if (accessToken) {
             config.headers["authorization"] = accessToken;
             return config;
@@ -43,21 +40,22 @@ instance.interceptors.response.use(
 
         let originRequest = response.config;
         if (response.data.errorMessage === "만료된 토큰입니다.") {
+            console.log("만료된토큰!");
             if(!isTokenRefreshing){
                 isTokenRefreshing = true;
                 let axiosConfig = {
                     headers: {
-                        RefreshToken: getCookie("refreshToken")
+                        RefreshToken: localStorage.getItem("refreshToken")
                     }
                 };
 
                 axios.post(process.env.REACT_APP_BASE_URL + "/api/refresh", {}, axiosConfig).then((res) => {
                     let accessToken = res.headers.authorization;
-                    deleteCookie("accessToken");
-                    setAccessCookie(accessToken);
-                    instance.defaults.headers.common["authorization"] = accessToken;
-                    isTokenRefreshing = false;
+                    instance.defaults.headers["authorization"] = accessToken;
+                    localStorage.setItem("accessToken", accessToken);
                     refreshSubscribers.map((callback) => callback(accessToken));
+                    refreshSubscribers = [];
+                    isTokenRefreshing = false;
                 });
             }
 
@@ -69,10 +67,8 @@ instance.interceptors.response.use(
                     }
                 });
             });
-
             return retryOriginRequest;
         }
-
 
         return response;
     },

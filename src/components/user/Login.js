@@ -33,8 +33,10 @@ function Login() {
                 //헤더에 담긴 토큰 확인 필요
                 let accessToken = response.headers.authorization;
                 let refreshToken = response.headers.refreshtoken;
-                setAccessCookie(accessToken);
-                setRefreshCookie(refreshToken);
+                localStorage.setItem("accessToken", accessToken);
+                localStorage.setItem("refreshToken", refreshToken);
+                // setAccessCookie(accessToken);
+                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));
@@ -62,8 +64,12 @@ function Login() {
             if (response.status === 200) {
                 let accessToken = response.headers.authorization;
                 let refreshToken = response.headers.refreshtoken;
-                setAccessCookie(accessToken);
-                setRefreshCookie(refreshToken);
+
+                localStorage.setItem("accessToken", accessToken);
+                localStorage.setItem("refreshToken", refreshToken);
+
+                // setAccessCookie(accessToken);
+                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
                 dispatch(isModalOpen(false));
