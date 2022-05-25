@@ -81,22 +81,17 @@ const Header = () => {
         }
     }, []);
 
-    // // 연결 및 구독. 파라메터로 토큰 넣어야 함
     function wsConnect() {
         try {
             ws.current.connect({ token: token }, () => {
-                ws.current.subscribe(
-                    `/sub/chat/room/${userInfo.userId}`,
-                    (response) => {
-                        const newAlert = JSON.parse(response.body);
-                        if (newAlert.type === "ALARM") {
-                            dispatch(getNewCommentAlert(newAlert));
-                        } else if (newAlert.type === "UNREAD") {
-                            dispatch(getUnreadCount(newAlert));
-                        }
-                    },
-                    // {},
-                );
+                ws.current.subscribe(`/sub/chat/room/${userInfo.userId}`, (response) => {
+                    const newAlert = JSON.parse(response.body);
+                    if (newAlert.type === "ALARM") {
+                        dispatch(getNewCommentAlert(newAlert));
+                    } else if (newAlert.type === "UNREAD") {
+                        dispatch(getUnreadCount(newAlert));
+                    }
+                });
             });
         } catch (error) {
             console.log(error);
@@ -122,13 +117,17 @@ const Header = () => {
         <React.Fragment>
             {isMobile ? (
                 <MobileHeaderContainer>
-                    <MobMoreIcon onClick={toggleHeaderMenu} src={mobMoreIcon}/>
+                    <MobMoreIcon onClick={toggleHeaderMenu} src={mobMoreIcon} />
                     <MobLogo>Blue Moon</MobLogo>
-                    <MobAlert onClick={() => setIsOpenNoti(true)}
-                              src={mobAlertIcon}/>
-                    { isHeaderMenuOpen && <MobileCategoryBar/>}
+                    <MobAlert onClick={() => setIsOpenNoti(true)} src={mobAlertIcon} />
+                    {newCommentAlert.length > 0 && (
+                        <>
+                            <NewAlertNumberArea src={newAlertNumber} alt={"NewAlertNumber"} />
+                            <NewAlertNumber> {newCommentAlert.length}</NewAlertNumber>
+                        </>
+                    )}
+                    {isHeaderMenuOpen && <MobileCategoryBar />}
                 </MobileHeaderContainer>
-
             ) : (
                 <HeaderContainer>
                     {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>}
@@ -152,10 +151,7 @@ const Header = () => {
                                 <img src={newAlertIcon} alt={"NewAlertIcon"} />
                                 {newCommentAlert.length > 0 && (
                                     <>
-                                        <NewAlertNumberArea
-                                            src={newAlertNumber}
-                                            alt={"NewAlertNumber"}
-                                        />
+                                        <NewAlertNumberArea src={newAlertNumber} alt={"NewAlertNumber"} />
                                         <NewAlertNumber> {newCommentAlert.length}</NewAlertNumber>
                                     </>
                                 )}
@@ -328,6 +324,11 @@ const NewAlertNumberArea = styled.img`
     left: 24px;
     bottom: 14px;
     width: 17px;
+
+    @media only screen and (max-width: 420px) {
+        top: 25px;
+        left: 340px;
+    }
 `;
 
 const NewAlertNumber = styled.div`
@@ -341,6 +342,12 @@ const NewAlertNumber = styled.div`
     align-items: center;
 
     color: #08105d;
+
+    @media only screen and (max-width: 420px) {
+        top: 25px;
+        left: 346px;
+        bottom: auto;
+    }
 `;
 
 const LoginArea = styled.div`

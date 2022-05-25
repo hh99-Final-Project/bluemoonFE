@@ -18,8 +18,8 @@ import { useMediaQuery } from "react-responsive";
 import { isModalOpen } from "../redux/modules/commonSlice";
 import { timeFormatter, timeFormatter2 } from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
-import {isMobile} from "react-device-detect";
-import {setUserPoint} from "../redux/modules/userSlice";
+import { isMobile } from "react-device-detect";
+import { setUserPoint } from "../redux/modules/userSlice";
 
 function WriteDiary() {
     const navigate = useNavigate();
@@ -186,13 +186,12 @@ function WriteDiary() {
                             />
                             <PostAreaBottomIcons>
                                 <VoiceLeft>
-                                    {
-                                        !isMobile && !isMobileQuery &&
+                                    {!isMobile && !isMobileQuery && (
                                         <RecordArea isPlaying={isPlaying} onClick={() => setIsOpenVoicePopup(true)}>
                                             <img src={recordIcon} alt={"record"} />
                                             {isPlaying ? <div>듣는 중입니다</div> : <div>음성 등록</div>}
                                         </RecordArea>
-                                    }
+                                    )}
                                 </VoiceLeft>
                                 <PostLength>{diary.length}/500</PostLength>
                             </PostAreaBottomIcons>
@@ -283,8 +282,8 @@ const WriteContainer = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
-        overflow: hidden;
         margin: auto;
+        position: static;
     }
 `;
 

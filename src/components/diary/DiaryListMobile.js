@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../shared/Header";
 import { useSelector } from "react-redux";
-import {spring, chatIcon, commentIcon, voicePlayIcon} from "../../static/images/resources";
+import { spring, chatIcon, commentIcon, voicePlayIcon } from "../../static/images/resources";
 
 import Slider from "react-slick";
-import {color} from "../../utils/designSystem";
+import { color } from "../../utils/designSystem";
 import { MobileTitleName } from "../common";
 
 const DiaryListMobile = (props) => {
-
     const { getMoreDiaryAPI, count, diary, togglePlayVoice, diaryList, createChat, setCount } = props;
     const navigate = useNavigate();
     const scrollRef = useRef();
@@ -32,7 +31,6 @@ const DiaryListMobile = (props) => {
             if (count + 1 === diaryList.length) {
                 getMoreDiaryAPI();
             }
-
         },
     };
 
@@ -40,7 +38,7 @@ const DiaryListMobile = (props) => {
         <ListContainer ref={scrollRef} BgColor={color.backgroundColor}>
             <TopParts BgColor={color.backgroundColor}>
                 <Header />
-                <MobileTitleName title={"고민*상담소"} pos={6}/>
+                <MobileTitleName title={"고민*상담소"} pos={6} />
             </TopParts>
             <Container BgColor={color.backgroundColor}>
                 <Slider2 {...settings}>
@@ -91,22 +89,21 @@ const DiaryListMobile = (props) => {
                 </Slider2>
             </Container>
         </ListContainer>
-
     );
 };
 
 export default DiaryListMobile;
 
 const ListContainer = styled.div`
-     background-color: ${props => props.BgColor};
+    background-color: ${(props) => props.BgColor};
 `;
 
 const TopParts = styled.div`
     //position: fixed;
     width: 100%;
-    background-color: ${props => props.BgColor};
-    z-index: 99999;
- `;
+    background-color: ${(props) => props.BgColor};
+    z-index: 9;
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -116,29 +113,26 @@ const Container = styled.div`
   //top: 125px;
 `;
 
-
 const Slider2 = styled(Slider)`
     .slick-list {
-      height: 600px;
+        height: 600px;
     }
 `;
 
-
 const Slide = styled.div`
-      margin: auto;
+    margin: auto;
 `;
 const FirstSlide = styled.div`
-      width: 300px;
-      height: 284px;
-      margin: 0 auto 12px;
-      background-color: #C6D3EC;
-      border-radius: 15px;
-      display : flex;
-      justify-content : center;
-      align-items : center;
-      padding: 20px;
-      box-sizing: border-box;
-  
+    width: 300px;
+    height: 284px;
+    margin: 0 auto 12px;
+    background-color: #c6d3ec;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
 `;
 
 const Spring = styled.img`
@@ -146,49 +140,47 @@ const Spring = styled.img`
     z-index: 99999;
     bottom: 30px;
     margin: auto;
-    
 `;
 
 const Title = styled.div`
-      font-size: 20px;
-      line-height: 25px;
-      color: #08105D;
-      width: 260px;
-      text-align: center;
-
+    font-size: 20px;
+    line-height: 25px;
+    color: #08105d;
+    width: 260px;
+    text-align: center;
 `;
 
 const SecondSlide = styled.div`
-      width: 300px;    
-      height: 284px;
-      margin: 0 auto 20px;
-      background-color: #C6D3EC;
-      border-radius: 15px;
-      position: relative;
-      bottom: 55px;
-      padding: 20px;
-      box-sizing: border-box;
+    width: 300px;
+    height: 284px;
+    margin: 0 auto 20px;
+    background-color: #c6d3ec;
+    border-radius: 15px;
+    position: relative;
+    bottom: 55px;
+    padding: 20px;
+    box-sizing: border-box;
 `;
 
 const Desc = styled.div`
-      font-size: 14px;
-      line-height: 18px;
-      color: #08105D;
-      width: 260px;
-      max-height: 54px;
-      margin-top: 20px;
-      margin-left: 2px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #08105d;
+    width: 260px;
+    max-height: 54px;
+    margin-top: 20px;
+    margin-left: 2px;
 `;
 
 const ButtonArea = styled.div`
-      width: 260px;
-      display: flex;
-      justify-content: space-between;
-      position: absolute;
-      bottom: 51px;
+    width: 260px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 51px;
 `;
 const ReplyCommentButton = styled.img`
-  cursor:pointer;
+    cursor: pointer;
 `;
 const ChattingButton = styled(ReplyCommentButton)``;
 const VoicePlayIcon = styled(ReplyCommentButton)`

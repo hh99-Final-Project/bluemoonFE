@@ -47,7 +47,6 @@ function SignUp() {
         }
         // 정규 표현식 영문,한글,숫자 포함 1~10글자
         const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(nickName);
-        //통과하지 않았을 때는 사용할 수 없는 닉네임이라고 안내하고, 시작하기 버튼 비활성화
         if (result) {
             userApi.nickNameCheck(nickName).then((response) => {
 
@@ -93,7 +92,6 @@ function SignUp() {
         nickNameCheckDB(nickName);
     }, [nickName]);
 
-    // nickname 있는 유저가 signup 들어올 경우 Main 으로 이동시킴
     if (userInfo?.nickname !== "") {
         return <Main />;
     }
@@ -114,7 +112,6 @@ function SignUp() {
                         value={nickName}
                         required
                     ></NickNameInput>
-                    {/* 삼항연산자를 사용하려 했으나, nickname 값이 없을 때 '사용하실 닉네임 입력해주세요' 와 '사용 불가능한 닉네임입니다' 2개 모두 띄워지는 문제 발생 */}
                     {nickName === "" && <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>}
                     {isValidNickName && <NickNameCheckResult>사용 가능한 닉네임입니다</NickNameCheckResult>}
                     {isValidNickName === false && <NickNameCheckResult>사용 불가능한 닉네임입니다</NickNameCheckResult>}
@@ -128,8 +125,6 @@ function SignUp() {
                     <Button isValid={isValidNickName} onClick={onClickHandler}>
                         시작하기
                     </Button>
-                    {/* <QuestionButton>?</QuestionButton> */}
-                    {/* <ServiceDescription>서비스 설명</ServiceDescription> */}
                 </SignUpBox>
 
                 {isOpenPopup && (
@@ -158,14 +153,6 @@ const Container = styled.div`
         width: 320px;
         margin: auto;
     }
-`;
-
-const MobTitle = styled.div`
-    width: 320px;
-    height: 34px;
-    color: #ffffff;
-    text-align: center;
-    margin: 0 auto;
 `;
 
 const SignUpBox = styled.div`
@@ -439,21 +426,4 @@ const QuestionButton = styled.button`
     color: #ffffff;
 
     cursor: pointer;
-`;
-
-const ServiceDescription = styled.div`
-    position: absolute;
-    width: 173.02px;
-    height: 31.46px;
-    bottom: -10px;
-    right: -160px;
-
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 18px;
-    text-align: center;
-
-    color: #ffffff;
 `;
