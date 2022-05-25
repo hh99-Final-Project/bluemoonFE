@@ -18,9 +18,8 @@ import ErrorModal from "../shared/ErrorModal";
 import { getCookie } from "../utils/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
-import {userApi} from "../apis/userApi";
+import { userApi } from "../apis/userApi";
 import { ReactQueryDevtools } from "react-query/devtools";
-
 
 function App() {
     const queryClient = new QueryClient();
@@ -29,6 +28,7 @@ function App() {
     const cookie = localStorage.getItem("accessToken");
     const isLogin = useSelector(((state) => state.userSlice.isLogin));
     const { pathname } = useLocation();
+    const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
 
     useEffect(() => {
         if (cookie) {
@@ -44,8 +44,8 @@ function App() {
                 <Route path="/write" element={<WriteDiary />} />
                 <Route path="/diarylist" element={<DiaryList />} />
                 <Route path="/diary/:id" element={<DiaryDetail />} />
-                <Route path="/chat/:id" element={ isLogin ? <ChatDetail /> : <Main/>} />
-                <Route path="/chatlist" element={<ChatList />}/>
+                <Route path="/chat/:id" element={isLogin ? <ChatDetail /> : <Main />} />
+                <Route path="/chatlist" element={<ChatList />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/alert" element={<Notifications />} />
                 <Route path="/lottery" element={<Lottery />} />
@@ -53,9 +53,9 @@ function App() {
                 <Route path={"*"} element={<NotFound />} />
                 <Route path="/intro" element={<Intro />} />
             </Routes>
-            <ErrorModal/>
+            <ErrorModal />
             <ReactQueryDevtools initialIsOpen={false} />
-            { pathname !== "/intro" && <Feedback/> }
+            {isAlreadyCheckIntro === "true" && <Feedback />}
         </React.Fragment>
     );
 }
