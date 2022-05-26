@@ -136,6 +136,10 @@ ReplyComment.propTypes = {
 const ReplyCommentList = styled.div`
   width: 884px;
   height: 100%;
+
+  @media only screen and (max-width: 420px) {
+    width: 320px;
+  }
 `;
 const OneReplyComment = styled.div`
   background-color: rgba(149, 158, 190, 0.8);
@@ -143,6 +147,10 @@ const OneReplyComment = styled.div`
   border-radius: 5px;
   padding: 15px 44px;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 420px) {
+    padding: 15px 20px;
+  }
 `;
 
 const NickNameArea = styled.div`
