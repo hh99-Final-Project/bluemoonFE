@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Slider from "react-slick";
@@ -13,11 +13,13 @@ import { color } from "../utils/designSystem";
 import Intro from "../pages/Intro";
 import { useMediaQuery } from "react-responsive";
 import { isMobile } from "react-device-detect";
+import useStore from "../zustand/store";
 
 const Main = () => {
     const navigate = useNavigate();
 
     const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
+    const { setCurrentHeader } = useStore();
 
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
@@ -33,6 +35,7 @@ const Main = () => {
         slideToShow: 1,
         slidesToScroll: 1,
     };
+
 
     if (isAlreadyCheckIntro !== "true") {
         return <Intro />;

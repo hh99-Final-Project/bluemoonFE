@@ -22,6 +22,7 @@ const FeedBackArea = styled.div`
   top: 604px;
   cursor: pointer;
   width: 56px;
+  z-index: 9999999;
 
   @media only screen and (max-width: 420px) {
     display: none;

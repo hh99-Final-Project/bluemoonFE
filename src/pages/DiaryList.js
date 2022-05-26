@@ -134,7 +134,7 @@ function DiaryList() {
         }
     };
 
-    if (isLoading) {
+    if (!isLoading) {
         return <Loading />;
     }
 

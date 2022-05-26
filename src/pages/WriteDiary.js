@@ -167,7 +167,7 @@ function WriteDiary() {
 
                 <PostAreaContainer BgColor={color.containerBoxColor}>
                     <PostHeader>
-                        <BackToListButton src={backIcon} />
+                        <BackToListButton onClick={() => navigate(-1)} src={backIcon} />
                         <SaveDiaryButton onClick={onClickHandler} src={saveIcon} />
                     </PostHeader>
                     <WriteArea>

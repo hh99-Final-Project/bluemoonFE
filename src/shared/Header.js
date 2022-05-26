@@ -138,7 +138,10 @@ const Header = () => {
             ) : (
                 <HeaderContainer>
                     {/* {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>} */}
-                    <Logo onClick={() => navigate("/")}>Blue Moon</Logo>
+                    <Logo onClick={() => {
+                        navigate("/");
+                        setCurrentHeader("홈");
+                    }}>Blue Moon</Logo>
                     {userInfo ? (
                         <HeaderRightArea>
                             <Point

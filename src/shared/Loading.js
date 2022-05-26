@@ -30,7 +30,7 @@ const LoadingContainer = styled.div`
     img {
         width: 150px;
         height: 30px;
-        // margin-left: 25px;
+        margin: auto;
     }
 
     p {
@@ -40,7 +40,13 @@ const LoadingContainer = styled.div`
         font-weight: 400;
         font-size: 15px;
         line-height: 20px;
-
         color: #ffffff;
+
+      @media only screen and (max-width: 420px) {
+        font-size: 12px;
+        line-height: 15px;
+      }
     }
+
+
 `;
