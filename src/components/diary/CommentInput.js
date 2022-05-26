@@ -97,13 +97,11 @@ function CommentInput(props) {
     };
 
     const saveComment = () => {
-        let time = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
         setParentId("");
-        setTime(time);
         setComment("");
         deleteVoice();
 
-        mutation.mutate({postId, comment, audioUrl, isLocked, parentCommentId, time}, {
+        mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, time, {
             onSuccess: async (data) => {
                 dispatch(setUserPoint(data.data.point));
             }
@@ -153,6 +151,7 @@ function CommentInput(props) {
 
     const SaveRecordTime = (time) => {
         setRecordTime(time);
+        setTime(timeFormatter2(Math.floor(time / 60)) + ":" + timeFormatter2(time % 60));
     };
 
     useEffect(() => {
