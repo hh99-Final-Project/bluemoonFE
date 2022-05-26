@@ -152,7 +152,7 @@ const Lottery = () => {
                     ) : (
                         <>
                             <MobileRecommendIcon src={mobileRecommendIcon}></MobileRecommendIcon>
-                            <MobileRecommendDesc>기회 추가</MobileRecommendDesc>
+                            <MobileRecommendDesc></MobileRecommendDesc>
                         </>
                     )}
                 </ContentBox>
