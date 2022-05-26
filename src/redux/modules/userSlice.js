@@ -37,6 +37,9 @@ export const userSlice = createSlice({
             // deleteCookie("accessToken");
             // deleteCookie("refreshToken");
         },
+        setUserNickname(state, action) {
+            state.userInfo.nickname = action.payload;
+        },
         setUserPoint(state, action) {
             state.userInfo.myPoint = action.payload;
         },
@@ -53,6 +56,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { isLogined, getUserInfo, logout, setUserPoint, setUserCount } = userSlice.actions;
+export const { isLogined, getUserInfo, logout, setUserNickname, setUserPoint, setUserCount } = userSlice.actions;
 
 export default userSlice.reducer;

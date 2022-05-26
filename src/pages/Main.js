@@ -21,11 +21,11 @@ const Main = () => {
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    useEffect(() => {
-        if (isLogin && userInfo.nickname === "") {
-            navigate("/signup");
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (isLogin && userInfo.nickname === "") {
+    //         navigate("/signup");
+    //     }
+    // }, []);
 
     const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
     const { setCurrentHeader } = useStore();

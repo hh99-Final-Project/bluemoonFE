@@ -14,7 +14,7 @@ import Main from "./Main";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { crescent, line } from "../static/images/resources";
-import { setUserPoint } from "../redux/modules/userSlice";
+import { setUserNickname, setUserPoint } from "../redux/modules/userSlice";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
@@ -77,12 +77,12 @@ function SignUp() {
 
     const saveNickNameDB = () => {
         userApi.saveNickName(nickName, recommender).then((response) => {
-            if(response.status === 200) {
+            if (response.status === 200) {
                 setIsOpenPopup(false);
                 setIsOpenResultPopup(true);
+                dispatch(setUserNickname(nickName));
                 dispatch(setUserPoint(response.data.myPoint));
             }
-
         });
     };
 
