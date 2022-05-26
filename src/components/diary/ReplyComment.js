@@ -52,10 +52,12 @@ const ReplyComment = (props) => {
             });
     };
 
+
     return (
         <ReplyCommentList>
             {
                 replyComments.map((comment, idx) => {
+                    console.log(typeof(comment.userId),"comment");
                     return (
                         <OneReplyComment key={idx}>
                             <NickNameArea>
@@ -100,10 +102,10 @@ const ReplyComment = (props) => {
 
                                 <OptionIconArea>
                                     {
-                                        comment.userId !== userInfo.userId &&
+                                        comment.show &&
                                         <ChattingIcon onClick={() => createChat(comment.userId)}>
-                                        채팅
-                                    </ChattingIcon>
+                                            채팅
+                                        </ChattingIcon>
                                     }
                                     {
                                         comment.show &&
