@@ -11,9 +11,10 @@ import Footer from "../shared/Footer";
 import { Layout, ResultPopup, MobileTitleName } from "../components/common";
 import { color } from "../utils/designSystem";
 import Main from "./Main";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { crescent, line } from "../static/images/resources";
+import { setUserPoint } from "../redux/modules/userSlice";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
@@ -27,6 +28,7 @@ function SignUp() {
     const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
@@ -75,8 +77,12 @@ function SignUp() {
 
     const saveNickNameDB = () => {
         userApi.saveNickName(nickName, recommender).then((response) => {
-            setIsOpenPopup(false);
-            setIsOpenResultPopup(true);
+            if(response.status === 200) {
+                setIsOpenPopup(false);
+                setIsOpenResultPopup(true);
+                dispatch(setUserPoint(response.data.myPoint));
+            }
+
         });
     };
 
@@ -90,9 +96,9 @@ function SignUp() {
         setCurrentHeader("홈");
     }, []);
 
-    if (userInfo?.nickname !== "") {
-        return <Main />;
-    }
+    // if (userInfo?.nickname !== "") {
+    //     return <Main />;
+    // }
 
     return (
         <Layout>
@@ -166,7 +172,7 @@ const SignUpBox = styled.div`
     border: 2px solid #ffffff4d;
     box-shadow: 0 0 70px #465981;
     backdrop-filter: blur(80px);
-
+    z-index: 3;
     border-radius: 25px;
 
     position: relative;
