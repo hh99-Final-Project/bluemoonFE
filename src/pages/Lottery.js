@@ -179,13 +179,12 @@ const ContentBox = styled.div`
     box-sizing: border-box;
     width: 950px;
     height: 530px;
-    z-index: 2;
+    z-index: 3;
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;
     backdrop-filter: blur(80px);
     background: ${(props) => props.BgColor};
     border-radius: 25px;
-
     position: relative;
     margin: auto;
 

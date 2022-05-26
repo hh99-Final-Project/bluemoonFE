@@ -141,7 +141,6 @@ const Container = styled.div`
     height: 100vh;
     overflow: hidden;
 
-
     @media only screen and (max-width: 420px) {
         width: 320px;
         margin: auto;
@@ -163,7 +162,7 @@ const MyPageBox = styled.div`
     border: 2px solid #ffffff4d;
     box-shadow: 0 0 70px #465981;
     backdrop-filter: blur(80px);
-    z-index: 2;
+    z-index: 3;
     border-radius: 25px;
 
     position: relative;

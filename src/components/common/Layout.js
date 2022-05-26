@@ -20,6 +20,7 @@ const Container = styled.div`
   background-color: ${props => props.bgColor};
   width: 100%;
   height: 100vh;
+  z-index: 1;
 
 
   @media only screen and (max-width: 420px) {

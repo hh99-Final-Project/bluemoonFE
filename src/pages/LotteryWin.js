@@ -119,7 +119,8 @@ const Container = styled.div`
 const ContentBox = styled.div`
     width: 950px;
     height: 530px;
-
+    position: relative;
+    z-index: 3;
     background: linear-gradient(180deg, rgba(63, 75, 112, 0.79) 0%, rgba(100, 114, 152, 0.79) 100%);
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 70px #465981;

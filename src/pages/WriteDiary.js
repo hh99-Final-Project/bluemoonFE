@@ -274,7 +274,6 @@ const WriteContainer = styled.div`
     height: 100vh;
     position: relative;
     overflow: hidden;
-    z-index: 2;
 
     @media only screen and (max-width: 420px) {
         width: 320px;
@@ -294,6 +293,7 @@ const PostAreaContainer = styled.div`
     backdrop-filter: blur(80px);
     border-radius: 25px;
     position: relative;
+    z-index: 3;
 
     @media only screen and (max-width: 420px) {
         width: 320px;

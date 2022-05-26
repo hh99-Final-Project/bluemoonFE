@@ -45,8 +45,7 @@ const Container = styled.div`
     left: 50%;
     transform: translate(-50%, 0);
     bottom: 0;
-    z-index: 1;
-    //bottom: 84px;
+    z-index: 2;
 
     display: flex;
     align-items: center;

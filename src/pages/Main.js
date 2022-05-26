@@ -185,7 +185,7 @@ const IntroContainer = styled.div`
     justify-content: space-between;
     padding: 45px 53px;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 
     @media only screen and (max-width: 420px) {
         width: 320px;

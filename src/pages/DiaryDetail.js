@@ -99,6 +99,8 @@ const DetailContent = styled.div`
     backdrop-filter: blur(80px);
     border-radius: 25px;
     margin: auto;
+    position: relative;
+    z-index: 3;
 
     @media only screen and (max-width: 420px) {
         width: 320px;

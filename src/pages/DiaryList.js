@@ -250,7 +250,6 @@ const DiaryListContainer = styled.div`
     height: 100vh;
     position: relative;
     overflow: hidden;
-    z-index: 2;
 `;
 
 const CardContainer = styled.div`
@@ -263,6 +262,8 @@ const CardContainer = styled.div`
     box-shadow: 0 0 70px #465981;
     backdrop-filter: blur(80px);
     border-radius: 25px;
+    position: relative;
+    z-index: 3;
 `;
 
 const CardContainerBackGround = styled.div`
