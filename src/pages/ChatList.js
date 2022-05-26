@@ -26,8 +26,6 @@ function ChatList() {
     const hasNext = useSelector((state) => state.chatSlice.hasNext);
     const page = useSelector((state) => state.chatSlice.page);
 
-    console.log(page);
-
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
     });
