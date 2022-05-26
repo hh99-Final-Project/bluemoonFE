@@ -96,9 +96,9 @@ function SignUp() {
         setCurrentHeader("홈");
     }, []);
 
-    // if (userInfo?.nickname !== "") {
-    //     return <Main />;
-    // }
+    if (userInfo?.nickname !== "") {
+        return <Main />;
+    }
 
     return (
         <Layout>
