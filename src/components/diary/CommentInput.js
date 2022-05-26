@@ -96,8 +96,6 @@ function CommentInput(props) {
         setComment(e.target.value);
     };
 
-    console.log(recordTime,"recordTime");
-
     const saveComment = () => {
         let time = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
         setParentId("");
