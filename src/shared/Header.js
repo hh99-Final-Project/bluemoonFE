@@ -20,7 +20,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import Popup from "../shared/Popup";
 import useStore from "../zustand/store";
-import { getUnreadCount } from "../redux/modules/chatSlice";
+import { getUnreadCount, deleteUnreadCount } from "../redux/modules/chatSlice";
 import { useMediaQuery } from "react-responsive";
 import MobileCategoryBar from "./MobileCategoryBar";
 import Modal from "react-modal";
@@ -58,6 +58,8 @@ const Header = () => {
 
     const logoutAction = () => {
         dispatch(logout());
+        dispatch(deleteUnreadCount());
+        dispatch(deleteNewCommentAlert());
         setLogoutPopup(false);
         navigate("/");
         setCurrentHeader("홈");

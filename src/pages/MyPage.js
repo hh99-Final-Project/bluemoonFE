@@ -141,7 +141,6 @@ const Container = styled.div`
     height: 100vh;
     overflow: hidden;
 
-
     @media only screen and (max-width: 420px) {
         width: 320px;
         margin: auto;
@@ -229,6 +228,7 @@ const NoDiaryNotice = styled.div`
 
     @media only screen and (max-width: 420px) {
         width: 320px;
+        left: 60px;
     }
 `;
 
