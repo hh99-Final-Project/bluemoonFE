@@ -25,6 +25,14 @@ function WriteDiary() {
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
 
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
+
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
     });
@@ -60,7 +68,7 @@ function WriteDiary() {
     const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
     const [expireTime, setExpireTime] = useState();
 
-    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    // const userInfo = useSelector((state) => state.userSlice.userInfo);
     const queryClient = useQueryClient();
     const dispatch = useDispatch();
 
@@ -171,7 +179,7 @@ function WriteDiary() {
                         <SaveDiaryButton onClick={onClickHandler} src={saveIcon} />
                     </PostHeader>
                     <WriteArea>
-                        <PostText placeholder="제목을 작성해주세요" onChange={onChangeTitleHandler} value={title}/>
+                        <PostText placeholder="제목을 작성해주세요" onChange={onChangeTitleHandler} value={title} />
                         <PostContainer>
                             <PostArea
                                 isShowSpeaker={isShowSpeaker}
@@ -404,7 +412,7 @@ const PostArea = styled.textarea`
     border-radius: 10px;
     overflow-y: auto;
     overflow-x: hidden;
-  
+
     ::-webkit-scrollbar {
         display: none;
     }

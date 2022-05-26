@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Slider from "react-slick";
@@ -13,9 +13,18 @@ import { color } from "../utils/designSystem";
 import Intro from "../pages/Intro";
 import { useMediaQuery } from "react-responsive";
 import { isMobile } from "react-device-detect";
+import { useSelector } from "react-redux";
 
 const Main = () => {
     const navigate = useNavigate();
+
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
 
     const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
 

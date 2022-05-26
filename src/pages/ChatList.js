@@ -21,6 +21,14 @@ function ChatList() {
     const dispatch = useDispatch();
     const { setCurrentHeader } = useStore();
 
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
+
     const chatList = useSelector((state) => state.chatSlice.chatList);
     const isLoading = useSelector((state) => state.chatSlice.isLoading);
     const hasNext = useSelector((state) => state.chatSlice.hasNext);
