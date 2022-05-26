@@ -12,14 +12,24 @@ function Footer() {
             <div>
                 <Fe>
                     Front-End
-                    <a href="https://github.com/hyemigwak">곽혜미</a>
-                    <a href="https://github.com/lee-chun-91">이춘</a>
+                    <a href="https://github.com/hyemigwak" target="_blank" rel="noopener noreferrer">
+                        곽혜미
+                    </a>
+                    <a href="https://github.com/lee-chun-91" target="_blank" rel="noopener noreferrer">
+                        이춘
+                    </a>
                 </Fe>
                 <Be>
                     Back-End
-                    <a href="https://github.com/TodayIsYolo">김승민</a>
-                    <a href="https://github.com/jaeyoungjang2">장재영</a>
-                    <a href="https://github.com/cbjjzzang">최봉진</a>
+                    <a href="https://github.com/TodayIsYolo" target="_blank" rel="noopener noreferrer">
+                        김승민
+                    </a>
+                    <a href="https://github.com/jaeyoungjang2" target="_blank" rel="noopener noreferrer">
+                        장재영
+                    </a>
+                    <a href="https://github.com/cbjjzzang" target="_blank" rel="noopener noreferrer">
+                        최봉진
+                    </a>
                 </Be>
                 <Ui>
                     UI/UX Designer
@@ -50,7 +60,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-  
+
     font-size: 11px;
     line-height: 13px;
 
