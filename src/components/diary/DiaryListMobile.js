@@ -8,17 +8,21 @@ import { spring, chatIcon, commentIcon, voicePlayIcon } from "../../static/image
 import Slider from "react-slick";
 import { color } from "../../utils/designSystem";
 import { MobileTitleName } from "../common";
+import {diaryApi} from "../../apis/diaryApi";
 
 const DiaryListMobile = (props) => {
-    const { getMoreDiaryAPI, count, diary, togglePlayVoice, diaryList, createChat, setCount } = props;
+    const { page, count, diary, togglePlayVoice, diaryList, createChat, setCount, setDiaryList, setPage } = props;
     const navigate = useNavigate();
     const scrollRef = useRef();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
+    console.log(count, "count");
+    console.log(diaryList.length, "length");
+
     const settings = {
         dots: false,
         arrows: false,
-        infinite: true,
+        infinite: false,
         speed: 1000,
         autoplay: false,
         slideToShow: 1,
@@ -26,10 +30,25 @@ const DiaryListMobile = (props) => {
         vertical: true,
         verticalSwiping: true,
         afterChange: (current) => {
-            setCount((prev) => prev + 1);
-            // scrollRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
-            if (count + 1 === diaryList.length) {
-                getMoreDiaryAPI();
+            if(current + 1 === diaryList.length) {
+                window.alert("마지막 페이지에요!");
+                return;
+            }
+
+            setCount(current + 1);
+            if (current + 2 === diaryList.length) {
+                diaryApi.getDiaryList(page + 1).then((res) => {
+                    //가져온 다음 페이지가 비었다면, 페이지를 처음으로 되돌리지 않는다.
+                    if (res.length === 0 && current + 2 !== diaryList.length) {
+                        window.alert("마지막 페이지에요!");
+                        return;
+                    }
+
+                    if (res.length !== 0) {
+                        setDiaryList((prevList) => [...prevList, ...res]);
+                        setPage(page => page + 1);
+                    }
+                });
             }
         },
     };
@@ -166,9 +185,11 @@ const Desc = styled.div`
     line-height: 18px;
     color: #08105d;
     width: 260px;
-    max-height: 54px;
+    max-height: 160px;
+    overflow: auto;
     margin-top: 20px;
     margin-left: 2px;
+    white-space: pre-wrap;
 `;
 
 const ButtonArea = styled.div`

@@ -46,9 +46,6 @@ function DiaryList() {
         setCount((count) => count - 1);
     };
 
-    const getMoreDiaryAPI = () => {
-
-    };
 
 
     const getNextDiary = (e) => {
@@ -149,7 +146,8 @@ function DiaryList() {
                     setPage={setPage}
                     setCount={setCount}
                     count={count}
-                    getMoreDiaryAPI={getMoreDiaryAPI}
+                    setDiaryList={setDiaryList}
+                    page={page}
                 />
             ) : (
                 <DiaryListContainer>

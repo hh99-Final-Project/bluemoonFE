@@ -132,7 +132,7 @@ ReplyComment.propTypes = {
 
 
 const ReplyCommentList = styled.div`
-  width: 876px;
+  width: 884px;
   height: 100%;
 `;
 const OneReplyComment = styled.div`
