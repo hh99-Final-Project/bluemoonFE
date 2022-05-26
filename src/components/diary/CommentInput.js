@@ -96,15 +96,16 @@ function CommentInput(props) {
         setComment(e.target.value);
     };
 
+    console.log(recordTime,"recordTime");
 
     const saveComment = () => {
-        let timeToServer = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
-        setTime(timeToServer);
+        let time = `${timeFormatter2(Math.floor(recordTime / 60)) + ":" + timeFormatter2(recordTime % 60)}`;
         setParentId("");
+        setTime(time);
         setComment("");
         deleteVoice();
 
-        mutation.mutate({postId, comment, audioUrl, isLocked, parentCommentId, timeToServer}, {
+        mutation.mutate({postId, comment, audioUrl, isLocked, parentCommentId, time}, {
             onSuccess: async (data) => {
                 dispatch(setUserPoint(data.data.point));
             }
