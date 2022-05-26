@@ -27,6 +27,13 @@ function DiaryList() {
     const { setCurrentHeader } = useStore();
     const audioRef = useRef();
 
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
+
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
     });
@@ -46,8 +53,6 @@ function DiaryList() {
         setCount((count) => count - 1);
     };
 
-
-
     const getNextDiary = (e) => {
         e.stopPropagation();
 
@@ -55,13 +60,12 @@ function DiaryList() {
             audioRef.current.pause();
         }
 
-        if(count === diaryList.length) {
+        if (count === diaryList.length) {
             window.alert("마지막 페이지에요!");
             return;
         }
 
         setCount((count) => count + 1);
-
 
         if (count + 1 === diaryList.length) {
             //마지막 슬라이드 전일때 Api 요청
@@ -75,7 +79,7 @@ function DiaryList() {
                 if (res.length !== 0) {
                     setIsLoading(false);
                     setDiaryList((prevList) => [...prevList, ...res]);
-                    setPage(page => page + 1);
+                    setPage((page) => page + 1);
                 } else {
                     console.log("error");
                 }
@@ -158,7 +162,7 @@ function DiaryList() {
                             {/*다이어리 영역*/}
                             <DiaryCard
                                 onClick={() => {
-                                    if(diaryList.length !== 0){
+                                    if (diaryList.length !== 0) {
                                         if (isLogin) {
                                             navigate(`/diary/${diaryList[count - 1].postUuid}`);
                                         } else {
@@ -166,10 +170,18 @@ function DiaryList() {
                                         }
                                     }
                                 }}
-                                key={ diaryList.length === 0 ? 0 : isLogin ? diaryList[count - 1].postUuid : diaryList[0].postUuid}
+                                key={
+                                    diaryList.length === 0
+                                        ? 0
+                                        : isLogin
+                                        ? diaryList[count - 1].postUuid
+                                        : diaryList[0].postUuid
+                                }
                             >
                                 <CardLeftPage>
-                                    {(isLogin && diaryList.length !== 0) && <PrevButton onClick={getPrevDiary} src={prevButton} />}
+                                    {isLogin && diaryList.length !== 0 && (
+                                        <PrevButton onClick={getPrevDiary} src={prevButton} />
+                                    )}
                                     <CardBackground>
                                         <CardBorder>
                                             <DiaryTitle>
@@ -179,8 +191,7 @@ function DiaryList() {
                                                     ? diaryList[count - 1].title
                                                     : diaryList[0].title}
                                             </DiaryTitle>
-                                            {
-                                                diaryList.length !== 0 &&
+                                            {diaryList.length !== 0 && (
                                                 <CommentIcon
                                                     onClick={(e) => {
                                                         e.preventDefault();
@@ -189,17 +200,19 @@ function DiaryList() {
                                                 >
                                                     <img src={commentIcon} alt={"comment"} />
                                                 </CommentIcon>
-                                            }
+                                            )}
                                         </CardBorder>
                                     </CardBackground>
                                 </CardLeftPage>
 
                                 <CardRightPage>
-                                    { (isLogin && diaryList.length !== 0) && <NextButton onClick={getNextDiary} src={nextButton} />}
+                                    {isLogin && diaryList.length !== 0 && (
+                                        <NextButton onClick={getNextDiary} src={nextButton} />
+                                    )}
                                     <CardBackground>
                                         <CardBorderRight>
                                             <ContentBox>
-                                                { (diaryList.length !==0 && diaryList[count - 1].voiceUrl) && (
+                                                {diaryList.length !== 0 && diaryList[count - 1].voiceUrl && (
                                                     <div>
                                                         <VoicePlayIcon onClick={togglePlayVoice} src={voicePlayIcon} />
                                                         <audio ref={audioRef} src={diaryList[count - 1].voiceUrl} />
@@ -213,8 +226,7 @@ function DiaryList() {
                                                         : diaryList[0].content}
                                                 </DiaryDesc>
                                             </ContentBox>
-                                            {
-                                                diaryList.length !== 0 &&
+                                            {diaryList.length !== 0 && (
                                                 <ChattingIcon
                                                     onClick={() => {
                                                         if (isLogin) {
@@ -226,7 +238,7 @@ function DiaryList() {
                                                 >
                                                     <img src={chatIcon} alt={"chatIcon"} />
                                                 </ChattingIcon>
-                                            }
+                                            )}
                                         </CardBorderRight>
                                     </CardBackground>
                                 </CardRightPage>

@@ -37,6 +37,13 @@ const Lottery = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
+
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
     });

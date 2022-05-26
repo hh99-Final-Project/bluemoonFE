@@ -30,7 +30,14 @@ const ChatDetail = () => {
     });
 
     // 보내는 사람
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
+
     // const token = getCookie("accessToken");
     const token = localStorage.getItem("accessToken");
     const [text, setText] = React.useState("");

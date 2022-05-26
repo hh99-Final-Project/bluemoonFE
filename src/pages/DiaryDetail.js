@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import CategoryBar from "../shared/CategoryBar";
 import { convertDate } from "../utils/convertDate";
 import { Layout } from "../components/common";
-import {useQuery, useQueryClient} from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import { backIcon } from "../static/images/resources";
@@ -24,8 +24,15 @@ function DiaryDetail() {
     const params = useParams();
     const postId = params.id;
     const queryClient = useQueryClient();
-    const isLogin = useSelector(((state) => state.userSlice.isLogin));
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
     const token = !!getCookie("accessToken");
+
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
 
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
@@ -63,16 +70,11 @@ function DiaryDetail() {
                             <BackButton src={backIcon} onClick={() => navigate("/diarylist")} />
                             <Title>{isLogin ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
                         </TitleLeft>
-                        <Time>
-                            {convertDate(isLogin ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}
-                        </Time>
+                        <Time>{convertDate(isLogin ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}</Time>
                     </TitleContainer>
                     <ContentContainer>
                         <DiaryContent diary={isLogin ? loginDetail.data : nonLoginDetail.data} />
-                        <CommentContainer
-                            diary={isLogin ? loginDetail.data : nonLoginDetail.data}
-                            postId={postId}
-                        />
+                        <CommentContainer diary={isLogin ? loginDetail.data : nonLoginDetail.data} postId={postId} />
                     </ContentContainer>
                 </DetailContent>
             </DetailContainer>

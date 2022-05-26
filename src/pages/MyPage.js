@@ -14,10 +14,19 @@ import { Layout, MobileTitleName } from "../components/common";
 import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
+import { useSelector } from "react-redux";
 
 function MyPage() {
     const navigate = useNavigate();
     const { setCurrentHeader } = useStore();
+
+    const isLogin = useSelector((state) => state.userSlice.isLogin);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
 
     const [myDiary, setMyDiary] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
