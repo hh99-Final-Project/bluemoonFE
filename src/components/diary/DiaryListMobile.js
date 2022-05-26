@@ -16,9 +16,6 @@ const DiaryListMobile = (props) => {
     const scrollRef = useRef();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
 
-    console.log(count, "count");
-    console.log(diaryList.length, "length");
-
     const settings = {
         dots: false,
         arrows: false,
