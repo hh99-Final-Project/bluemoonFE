@@ -27,6 +27,7 @@ import {
 import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
 import { setUserPoint, setUserCount } from "../redux/modules/userSlice";
+import Popup from "../shared/Popup";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -87,6 +88,18 @@ const Lottery = () => {
                 const result = error.response.data;
             });
     };
+
+    // url 공유
+    const copyUrl = (e) => {
+        e.stopPropagation();
+
+        navigator.clipboard.writeText("https://bluemoondiary.com/").then(function () {
+            setIsOpenPopup(true);
+            // alert("URL 복사가 완료되었습니다.");
+        });
+    };
+
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
 
     return (
         <Layout>
@@ -154,13 +167,24 @@ const Lottery = () => {
                                 추천인은 1000p <br />
                                 회원가입한 사람은 500p
                             </RecommendDesc>
-                            <RecommendIcons>친구 추천</RecommendIcons>
+                            <RecommendIcons onClick={copyUrl}>친구 추천</RecommendIcons>
                         </>
                     ) : (
                         <>
-                            <MobileRecommendIcon src={mobileRecommendIcon}></MobileRecommendIcon>
-                            <MobileRecommendDesc></MobileRecommendDesc>
+                            <MobileRecommendIcon onClick={copyUrl}>
+                                <img src={mobileRecommendIcon}></img>
+                            </MobileRecommendIcon>
+                            <MobileRecommendDesc>친구 추천</MobileRecommendDesc>
                         </>
+                    )}
+                    {isOpenPopup && (
+                        <Popup
+                            title={"URL 복사가 완료되었습니다."}
+                            close={() => setIsOpenPopup(false)}
+                            event={() => {
+                                setIsOpenPopup(false);
+                            }}
+                        />
                     )}
                 </ContentBox>
             </Container>
@@ -496,7 +520,7 @@ const Desc = styled.div`
     }
 `;
 
-const RecommendIcons = styled.div`
+const RecommendIcons = styled.button`
     position: absolute;
     width: 77px;
     height: 34px;
@@ -517,6 +541,9 @@ const RecommendIcons = styled.div`
     line-height: 18px;
 
     color: #ffffff;
+    background-color: transparent;
+
+    cursor: pointer;
 `;
 
 const RecommendDesc = styled.div`
@@ -581,7 +608,7 @@ const MobileCountNoti = styled.div`
 
     color: #c6d3ec;
 `;
-const MobileRecommendIcon = styled.img`
+const MobileRecommendIcon = styled.div`
     position: absolute;
     width: 32px;
     height: 32px;
