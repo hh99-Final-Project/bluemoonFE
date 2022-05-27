@@ -326,6 +326,7 @@ const RecommendPerson = styled.div`
         position: static;
         margin: 5vh auto 0;
         justify-content: center;
+        flex-direction: inherit;
     }
 `;
 
@@ -359,10 +360,19 @@ const RecommendPersonInput = styled.input`
     }
 
     @media only screen and (max-width: 420px) {
-        width: 164px;
+        width: 175px;
         height: 41px;
         position: static;
         margin: 2vh auto 0;
+        padding-left: 6px;
+
+        &::placeholder {
+            font-size: 8px;
+            line-height: 10px;
+
+            color: #43567e;
+            padding-left: 2px;
+        }
     }
 `;
 
