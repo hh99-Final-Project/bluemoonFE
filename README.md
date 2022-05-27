@@ -15,7 +15,7 @@
 - 개발 언어 : JavaScript
 - 개발 라이브러리 : React.js
 - 형상 관리 : git
-- 협업 툴 : Notion, Slack, Pigma
+- 협업 툴 : Notion, Slack, Figma
 
 
 
