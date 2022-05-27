@@ -183,7 +183,11 @@ function WriteDiary() {
                         <PostContainer>
                             <PostArea
                                 isShowSpeaker={isShowSpeaker}
-                                placeholder={isShowSpeaker ? "" : "500자 내로 작성해주세요"}
+                                placeholder={
+                                    isShowSpeaker
+                                        ? ""
+                                        : "500자 내로 작성해주세요. 당신이 작성한 고민은 다른 주인들에게 보여집니다."
+                                }
                                 onChange={onChangeContentHandler}
                                 value={diary}
                             />
