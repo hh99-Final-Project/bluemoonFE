@@ -19,7 +19,7 @@ const setRefreshCookie = (token, exp = 7) => {
     document.cookie = `refreshToken=${token}; expires=${date}`;
 };
 
-const introCookie = (bool , exp = 7) => {
+const setIsSeenIntro = (bool , exp = 7) => {
     let date = new Date();
     date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * exp);
     document.cookie = `isSeenIntro=${bool}; expires=${date}`;
@@ -30,4 +30,4 @@ const deleteCookie = (name) => {
     document.cookie = name + "=; expires=" + date;
 };
 
-export { getCookie, setAccessCookie, setRefreshCookie, deleteCookie, introCookie };
+export { getCookie, setAccessCookie, setRefreshCookie, deleteCookie, setIsSeenIntro };
