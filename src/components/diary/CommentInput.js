@@ -34,7 +34,6 @@ function CommentInput(props) {
     const [recordTime, setRecordTime] = useState(0);
     const [time, setTime] = useState("");
     const [expireTime, setExpireTime] = useState(new Date());
-    // const token = getCookie("accessToken");
     const token = localStorage.getItem("accessToken");
 
     const {
@@ -75,6 +74,7 @@ function CommentInput(props) {
     const ws = useRef();
     const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
+    const userInfo = useSelector((state) => state.userSlice.userInfo);
 
     const mutation = useMutation(
         () => diaryApi.createComment(postId, comment, audioUrl, isLocked, parentCommentId, time),
@@ -130,7 +130,10 @@ function CommentInput(props) {
             if (comment === "") {
                 return;
             }
-            ws.current.send("/pub/chat/alarm", { token: token }, JSON.stringify(message));
+
+            if (userInfo.userId !== diary.userId) {
+                ws.current.send("/pub/chat/alarm", { token: token }, JSON.stringify(message));
+            }
         } catch (error) {
             console.log(error);
         }
