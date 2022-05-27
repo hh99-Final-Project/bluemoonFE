@@ -401,7 +401,7 @@ const CommentIcon = styled.div`
 
 const ChattingIcon = styled.div`
     position: absolute;
-    bottom: 35px;
+    bottom: 25px;
     right: 32px;
     cursor: pointer;
 `;
