@@ -15,7 +15,7 @@ function DiaryContent(props) {
     const { diary } = props;
     const navigate = useNavigate();
 
-    const [audio, setAudio] = useState();
+    const audioRef = useRef();
     const [isPlaying, setIsPlaying] = useState(false);
     const buttonRef = useRef();
 
@@ -40,11 +40,11 @@ function DiaryContent(props) {
 
 
     const playAudio = () => {
-        if(audio.paused) {
-            audio.play();
+        if(audioRef.current.paused) {
+            audioRef.current.play();
             setIsPlaying(true);
         } else {
-            audio.pause();
+            audioRef.current.pause();
             setIsPlaying(false);
         }
 
@@ -52,14 +52,15 @@ function DiaryContent(props) {
 
     useEffect(()=>{
         if(diary.voiceUrl.length > 0) {
-            let tmpAudio = new Audio(diary.voiceUrl);
-            tmpAudio.volume = 1;
-            tmpAudio.loop = false;
-            setAudio(tmpAudio);
+            audioRef.current = new Audio(diary.voiceUrl);
+            audioRef.current.volume = 1;
+            audioRef.current.loop = false;
         }
            return () => {
-               if(audio){
-                   audio.pause();
+               if(audioRef.current){
+                   console.log("!!");
+                   console.log(audioRef.current,"!?");
+                   audioRef.current.pause();
                }
            };
         },[]);
