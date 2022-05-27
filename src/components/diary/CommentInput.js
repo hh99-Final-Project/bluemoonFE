@@ -13,9 +13,9 @@ import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2 } from "../../utils/convertDate";
 import { isModalOpen } from "../../redux/modules/commonSlice";
-import {isMobile} from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
-import {MyTimer} from "./Timer";
+import { MyTimer } from "./Timer";
 import { setUserPoint } from "../../redux/modules/userSlice";
 
 CommentInput.propTypes = {
@@ -61,11 +61,10 @@ function CommentInput(props) {
         playingHandler,
     } = useRecordVoice();
 
-
-    const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause} = MyTimer(expireTime);
+    const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause } = MyTimer(expireTime);
 
     const isMobileQuery = useMediaQuery({
-        query: "(max-width: 420px)"
+        query: "(max-width: 420px)",
     });
 
     const lockHandler = () => {
@@ -104,12 +103,11 @@ function CommentInput(props) {
         mutation.mutate(postId, comment, audioUrl, isLocked, parentCommentId, time, {
             onSuccess: async (data) => {
                 dispatch(setUserPoint(data.data.point));
-            }
+            },
         });
     };
 
     const onClick = async () => {
-
         if (!isLogin) {
             dispatch(isModalOpen(true));
             return;
@@ -127,7 +125,6 @@ function CommentInput(props) {
                 message: `[${diary.title}]에 댓글이 달렸어요!`,
                 postUuid: postId,
                 otherUserId: diary.userId, // 새 댓글 알람을 받을 사람
-                // type: "ENTER",
             };
 
             if (comment === "") {
@@ -176,10 +173,9 @@ function CommentInput(props) {
                 />
                 <IconArea>
                     <ButtonArea>
-                        {
-                            !isMobile && !isMobileQuery && <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue} />
-                        }
-
+                        {!isMobile && !isMobileQuery && (
+                            <VoiceButton onClick={() => setIsOpenVoicePopup(true)} src={microphoneBlue} />
+                        )}
 
                         {isShowSpeaker && (
                             <PlayArea>
