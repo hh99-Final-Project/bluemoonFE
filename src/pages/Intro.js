@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { halfMoon, building, starBG } from "../static/images/resources";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
-import { getCookie, introCookie } from "../utils/cookie";
+import {getCookie, setIsSeenIntro} from "../utils/cookie";
 
 const Intro = () => {
     const animationRef = useRef();
@@ -14,25 +14,43 @@ const Intro = () => {
         query: "(max-width: 420px)",
     });
 
+    const animationHandler = () => {
+        localStorage.setItem("isShowIntro", JSON.stringify(true));
+        if (isMobile || isMobileQuery) {
+            setIsSeenIntro(true);
+        }
+        setTimeout(() => {
+            navigate("/");
+        }, 1000);
+    };
+
     useEffect(() => {
         if (localStorage.getItem("isShowIntro") === "true" || getCookie("isSeenIntro")) {
             navigate("/");
             return;
         }
 
-        animationRef.current.addEventListener("animationend", () => {
-            localStorage.setItem("isShowIntro", JSON.stringify(true));
-            if (isMobile || isMobileQuery) {
-                introCookie(true);
+        animationRef.current.addEventListener("animationend", animationHandler);
+
+        return () => {
+            if(animationRef.current){
+                animationRef.current.removeEventListener("animationend", animationHandler);
             }
-            setTimeout(() => {
-                navigate("/");
-            }, 1500);
-        });
+
+        };
     }, []);
 
     return (
         <IntroContainer>
+            <SkipBtn onClick={() => {
+                localStorage.setItem("isShowIntro", JSON.stringify(true));
+                if (isMobile || isMobileQuery) {
+                    setIsSeenIntro(true);
+                }
+                navigate("/");
+            }}>
+                SKIP &gt;&gt;
+            </SkipBtn>
             {isMobileQuery || isMobile ? (
                 <Desc>
                     <First>달빛이 푸른 어느날, 의문의 다이어리를 주웠다.</First>
@@ -217,4 +235,17 @@ const Fourth = styled.div`
             transform: none;
         }
     }
+`;
+
+const SkipBtn = styled.div`
+    position: absolute;
+    font-size: 16px;
+    line-height: 20px;
+    cursor: pointer;
+    color: #C6D3EC;
+    right: 0;
+    width: 55px;
+    padding-top: 24px;
+    padding-right: 24px;
+    z-index: 99999;
 `;
