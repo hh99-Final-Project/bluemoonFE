@@ -133,8 +133,8 @@ const Lottery = () => {
                         )}
                         {isClick && isWin === false && (
                             <LotteryResult isWin={isWin}>
-                                당신에게 편안한 밤을 선물할게요
-                                <p>아쉽지만 다음 기회에 참여해주세요!</p>
+                                당신에겐 달빛을 담은 용기를 드릴게요.
+                                {/* <p>아쉽지만 다음 기회에 참여해주세요!</p> */}
                             </LotteryResult>
                         )}
                     </LotteryArea>
