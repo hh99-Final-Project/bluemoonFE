@@ -31,6 +31,7 @@ const PostText = styled.input`
     margin-bottom: 10px;
     font-size: 18px;
     line-height: 23px;
+    color: #08105D;
 
     @media only screen and (max-width: 420px) {
         width: 320px;
@@ -52,7 +53,7 @@ const PostText = styled.input`
         @media only screen and (max-width: 420px) {
             font-size: 15px;
             line-height: 18px;
-            color: rgba(227, 229, 255, 0.5);
+          color: rgba(8, 16, 93, 0.5);
         }
     }
 `;
