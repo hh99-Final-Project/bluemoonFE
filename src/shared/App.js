@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
 import { userApi } from "../apis/userApi";
 import { ReactQueryDevtools } from "react-query/devtools";
+import {Helmet} from "react-helmet";
 
 function App() {
     const dispatch = useDispatch();
@@ -37,6 +38,11 @@ function App() {
 
     return (
         <React.Fragment>
+            <Helmet>
+                <title>Bluemoon</title>
+                <meta name="description" content="bluemoon" />
+                <meta property="og:url" content="https://bluemoondiary.com"/>
+            </Helmet>
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/signup" element={<SignUp />} />
