@@ -96,7 +96,7 @@
     - 구독한 웹소켓에서 댓글 알람 메시지가 중복으로 돌아와, 같은 메시지가 중복으로 리듀서에 추가되는 문제가 발생 (2~10번 이상)
 - 원인
     - 페이지를 이동할 때마다(컴포넌트 unmount 시) Header 컴포넌트에서 웹소켓 unsubscribe 처리를 하지 않아, 소켓 연결 수가 늘어남
-- 해결 Header 컴포넌트에
+- 해결
     - 웹소켓이 연결되는 컴포넌트에 useEffect cleanup 함수로 웹소켓 disconnect 실행하여 연결을 해제
 
 ### **SockJS client object 중복 생성**
