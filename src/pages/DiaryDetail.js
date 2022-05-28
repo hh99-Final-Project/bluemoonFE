@@ -67,7 +67,7 @@ function DiaryDetail() {
                 <DetailContent BgColor={color.containerBoxColor}>
                     <TitleContainer>
                         <TitleLeft>
-                            <BackButton src={backIcon} onClick={() => navigate("/diarylist")} />
+                            <BackButton src={backIcon} onClick={() => navigate(-1)} />
                             <Title>{isLogin ? loginDetail.data.title : nonLoginDetail.data.title}</Title>
                         </TitleLeft>
                         <Time>{convertDate(isLogin ? loginDetail.data.createdAt : nonLoginDetail.data.createdAt)}</Time>
