@@ -62,7 +62,7 @@ const ReplyComment = (props) => {
                         <OneReplyComment key={idx}>
                             <NickNameArea>
                                 <NickNameAreaLeft>
-                                    <ReplyImg src={replyIcon}/>
+                                    <ReplyImg src={replyIcon} alt={"replyIcon"}/>
                                     <Nickname>
                                         {comment.nickname}의 답글
                                     </Nickname>

@@ -72,7 +72,7 @@ const LotteryWin = () => {
                 <CategoryBar />
                 <ContentBox>
                     <LotteryWinIcon>
-                        <img src={lotteryWinIcon} />
+                        <img src={lotteryWinIcon} alt={"lottery-win-icon"} />
                     </LotteryWinIcon>
                     <Title>당첨을 축하합니다!</Title>
                     <Input

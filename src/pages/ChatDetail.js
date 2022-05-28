@@ -161,7 +161,7 @@ const ChatDetail = () => {
                     <ChatRoomTitle>
                         <p> {otherUserInfo.otherUserNickname}님과의 대화</p>
                         <BackButton onClick={() => navigate("/chatlist")}>
-                            <img src={close} />
+                            <img src={close} alt={"close-button"} />
                         </BackButton>
                     </ChatRoomTitle>
 

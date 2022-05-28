@@ -85,7 +85,7 @@ const MobileCategoryBar = () => {
                 <MenuContentBox>
                     <MenuArea>
                         <div>메뉴</div>
-                        <img onClick={() => setMobileHeader()} src={mobHeaderBackIcon} />
+                        <img onClick={() => setMobileHeader()} src={mobHeaderBackIcon} alt={"back-icon"} />
                     </MenuArea>
                     <LoginArea>
                         { isLogin ? (
@@ -106,19 +106,19 @@ const MobileCategoryBar = () => {
                     </LoginArea>
                     <HeaderContent>
                         <Home>
-                            <img src={mobHomeIcon} />
+                            <img src={mobHomeIcon} alt={"home-icon"} />
                             <div onClick={() => moveToPage("/")}>시작 홈</div>
                         </Home>
                         <DiaryList>
-                            <img src={mobListIcon} />
+                            <img src={mobListIcon} alt={"diary-list-icon"}/>
                             <div onClick={() => moveToPage("/diarylist")}>고민 상담소</div>
                         </DiaryList>
                         <DiaryWrite>
-                            <img src={mobWriteIcon} />
+                            <img src={mobWriteIcon} alt={"write-icon"}/>
                             <div onClick={() => moveToPage("/write")}>고민 접수</div>
                         </DiaryWrite>
                         <MyPageIcon>
-                            <img src={mobMyPageIcon} />
+                            <img src={mobMyPageIcon} alt={"mypage-icon"}/>
                             <div
                                 onClick={() => {
                                     if (loginCheck()) {
@@ -132,7 +132,7 @@ const MobileCategoryBar = () => {
                             </div>
                         </MyPageIcon>
                         <ChattingIcon>
-                            <img src={mobChatIcon} />
+                            <img src={mobChatIcon} alt={"chat-icon"}/>
                             <div
                                 onClick={() => {
                                     if (loginCheck()) {
@@ -146,17 +146,17 @@ const MobileCategoryBar = () => {
                             </div>
                         </ChattingIcon>
                         <EventIcon>
-                            <img src={mobEventIcon} />
+                            <img src={mobEventIcon} alt={"event-icon"}/>
                             <div onClick={() => moveToPage("/lottery")}>이벤트</div>
                             { userInfo && (
                                 <div>
                                     <MyPoint>
-                                        <img src={mobMyPointBluemoon} />
+                                        <img src={mobMyPointBluemoon} alt={"mypoint-icon"}/>
                                         <div onClick={() => setPointPopup(true)}>{userInfo.myPoint}</div>
                                     </MyPoint>
                                     { isPointPopup &&
                                     <PointPopup ref={popupRef}>
-                                        <img onClick={() => setPointPopup(false)} src={closeBtn}/>
+                                        <img onClick={() => setPointPopup(false)} src={closeBtn} alt={"close-icon"}/>
                                         <div>댓글은 개당 100p, 다이어리 작성시 500p가 적립됩니다.(하루 최대 댓글 5개, 다이어리 1개)</div>
                                         <div>1000p가 있으면 이벤트 페이지에서 추첨을 할 수 있습니다. (하루 1번)</div>
                                     </PointPopup>
@@ -166,7 +166,7 @@ const MobileCategoryBar = () => {
                         </EventIcon>
                     </HeaderContent>
                     <FeedbackIcon>
-                        <img src={mobFeedbackIcon} />
+                        <img src={mobFeedbackIcon} alt={"feeback-icon"}/>
                         <div
                             onClick={() =>
                                 window.open(

@@ -116,7 +116,7 @@ const Lottery = () => {
                         {!isMobile ? (
                             <img src={lotteryMoon} alt="lotteryMoon" />
                         ) : (
-                            <img src={mobileLotteryMoon} alt="mobileLotteryMoon"></img>
+                            <img src={mobileLotteryMoon} alt="mobileLotteryMoon"/>
                         )}
                     </MoonArea>
                     <LotteryArea>
@@ -157,7 +157,7 @@ const Lottery = () => {
                         </>
                     )}
 
-                    <Star>{!isMobile ? <img src={star}></img> : <img src={mobileStar}></img>}</Star>
+                    <Star>{!isMobile ? <img src={star} alt={"starIcon"}/> : <img src={mobileStar} alt={"starIcon"}/>}</Star>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
                         다른 주인들에게 지혜로 고민을 들어준 당신을 위해, <br />
@@ -180,7 +180,7 @@ const Lottery = () => {
                     ) : (
                         <>
                             <MobileRecommendIcon onClick={copyUrl}>
-                                <img src={mobileRecommendIcon}></img>
+                                <img src={mobileRecommendIcon} alt={"recommend-friend"}/>
                             </MobileRecommendIcon>
                             <MobileRecommendDesc>
                                 추천인은 1000p <br />
