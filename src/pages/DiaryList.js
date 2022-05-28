@@ -38,8 +38,6 @@ function DiaryList() {
         query: "(max-width: 420px)",
     });
 
-    console.log(diaryList,"diaryList");
-    console.log(count,"count");
 
     const getPrevDiary = (e) => {
         e.stopPropagation();
