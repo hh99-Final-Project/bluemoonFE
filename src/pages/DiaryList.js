@@ -8,17 +8,19 @@ import Header from "../shared/Header";
 import Footer from "../shared/Footer";
 import { Layout } from "../components/common";
 import useStore from "../zustand/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { color } from "../utils/designSystem";
 import { DiaryListMobile } from "../components/diary";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
 import { commentIcon, chatIcon, prevButton, nextButton, voicePlayIcon } from "../static/images/resources";
 import { chatApi } from "../apis/chatApi";
-import { getCookie } from "../utils/cookie";
+import Login from "../components/user/Login";
+import { isModalOpen } from "../redux/modules/commonSlice";
 
 function DiaryList() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const [count, setCount] = useState(1);
     const [page, setPage] = useState(1);
@@ -56,6 +58,11 @@ function DiaryList() {
 
     const getNextDiary = (e) => {
         e.stopPropagation();
+
+        if(!isLogin) {
+            dispatch(isModalOpen(true));
+            return;
+        }
 
         if (audioRef.current) {
             audioRef.current.pause();
@@ -207,7 +214,7 @@ function DiaryList() {
                                 </CardLeftPage>
 
                                 <CardRightPage>
-                                    {isLogin && diaryList.length !== 0 && (
+                                    {diaryList.length !== 0 && (
                                         <NextButton onClick={getNextDiary} src={nextButton} />
                                     )}
                                     <CardBackground>
@@ -247,6 +254,7 @@ function DiaryList() {
                         </CardContainerBackGround>
                         <DiaryWriteButton onClick={() => navigate("/write")}>다이어리 쓰기</DiaryWriteButton>
                     </CardContainer>
+                    <Login/>
                 </DiaryListContainer>
             )}
             <Footer />
