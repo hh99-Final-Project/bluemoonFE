@@ -114,7 +114,7 @@ function Comment(props) {
                                 audioPlay(new Date(addedNow));
 
                         }}>
-                            <img src={voicePlayIcon}/>
+                            <img src={voicePlayIcon} alt={"listen-voice"}/>
                             <PlayIcon>
                                 음성 듣기
                             </PlayIcon>

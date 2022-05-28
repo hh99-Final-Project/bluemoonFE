@@ -22,6 +22,7 @@ import { isMobile } from "react-device-detect";
 import { setUserPoint } from "../redux/modules/userSlice";
 import WriteDiaryInput from "../components/diary/WriteDiaryInput";
 import WriteDiaryTextArea from "../components/diary/WriteDiaryTextArea";
+import {Helmet} from "react-helmet";
 
 function WriteDiary() {
     const navigate = useNavigate();
@@ -152,6 +153,11 @@ function WriteDiary() {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Bluemoon 고민 접수</title>
+                <meta name="description" content="bluemoon 고민 접수" />
+                <meta property="og:url" content="https://bluemoondiary.com/write"/>
+            </Helmet>
             <WriteContainer>
                 <Header />
                 {!isMobile ? (

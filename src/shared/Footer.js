@@ -8,7 +8,7 @@ Footer.propTypes = {};
 function Footer() {
     return (
         <Container bgColor={color.backgroundColor}>
-            <img src={footerLogo}></img>
+            <img src={footerLogo} alt={"footer-bluemoon-logo"}/>
             <div>
                 <Fe>
                     Front-End

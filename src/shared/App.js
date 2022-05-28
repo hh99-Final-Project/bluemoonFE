@@ -20,15 +20,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginCheck } from "../redux/modules/userSlice";
 import { userApi } from "../apis/userApi";
 import { ReactQueryDevtools } from "react-query/devtools";
+import {Helmet} from "react-helmet";
 
 function App() {
-    const queryClient = new QueryClient();
     const dispatch = useDispatch();
-    // const cookie = getCookie("accessToken");
     const token =  localStorage.getItem("accessToken");
     const isLogin = useSelector((state) => state.userSlice.isLogin);
-    const { pathname } = useLocation();
     const isAlreadyCheckIntro = localStorage.getItem("isShowIntro");
+    const { pathname } = useLocation();
+
 
     useEffect(() => {
         if (token) {
@@ -38,6 +38,11 @@ function App() {
 
     return (
         <React.Fragment>
+            <Helmet>
+                <title>Bluemoon</title>
+                <meta name="description" content="bluemoon" />
+                <meta property="og:url" content="https://bluemoondiary.com"/>
+            </Helmet>
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/signup" element={<SignUp />} />

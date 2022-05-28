@@ -15,6 +15,7 @@ import Popup from "../shared/Popup";
 import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
+import {Helmet} from "react-helmet";
 
 function ChatList() {
     const navigate = useNavigate();
@@ -96,6 +97,11 @@ function ChatList() {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Bluemoon 채팅 리스트</title>
+                <meta name="description" content="bluemoon 채팅 리스트" />
+                <meta property="og:url" content="https://bluemoondiary.com/chatlist"/>
+            </Helmet>
             <Container>
                 <Header />
                 {!isMobile ? <CategoryBar /> : <MobileTitleName title={"대화*리스트"} pos={6} />}

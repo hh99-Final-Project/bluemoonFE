@@ -7,7 +7,7 @@ const Feedback = () => {
         <FeedBackArea
             onClick={() =>
                 window.open("https://docs.google.com/forms/d/e/1FAIpQLScXhuS3JBOySC6_YMlJOc98xew2pYAwUyPYRE_Qms2NGrdKfw/viewform")}>
-            <img src={feedbackHammer}/>
+            <img src={feedbackHammer} alt={"service-feedback"}/>
             <div>피드백</div>
         </FeedBackArea>
     );

@@ -15,6 +15,7 @@ import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 
 function MyPage() {
     const navigate = useNavigate();
@@ -22,12 +23,6 @@ function MyPage() {
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-
-    useEffect(() => {
-        if (isLogin && userInfo.nickname === "") {
-            navigate("/signup");
-        }
-    }, []);
 
     const [myDiary, setMyDiary] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -69,6 +64,12 @@ function MyPage() {
     };
 
     useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
+
+    useEffect(() => {
         userApi.getMyPage(page).then((response) => {
             setMyDiary([...myDiary, ...response]);
             if (response.length < 10) {
@@ -92,6 +93,11 @@ function MyPage() {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Bluemoon 마이페이지</title>
+                <meta name="description" content="bluemoon 마이페이지" />
+                <meta property="og:url" content="https://bluemoondiary.com/mypage" />
+            </Helmet>
             <Container>
                 <Header />
                 {!isMobile ? <CategoryBar /> : <MobileTitleName title={"마이*페이지"} pos={6} />}

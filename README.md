@@ -88,6 +88,7 @@
 
 ## 🔥트러블 슈팅
 
+
 ### 실시간 알람 메시지 중복 수신 웹소켓 연결이 계속 시도되는 문제
 
 - 현상
@@ -95,8 +96,19 @@
     - 구독한 웹소켓에서 댓글 알람 메시지가 중복으로 돌아와, 같은 메시지가 중복으로 리듀서에 추가되는 문제가 발생 (2~10번 이상)
 - 원인
     - 페이지를 이동할 때마다(컴포넌트 unmount 시) Header 컴포넌트에서 웹소켓 unsubscribe 처리를 하지 않아, 소켓 연결 수가 늘어남
-- 해결 Header 컴포넌트에
-    - 웹소켓이 연결되는 컴포넌트에 useEffect cleanup 함수로 웹소켓 disconnect 실행하여 연결을 해제함
+- 해결
+    - 웹소켓이 연결되는 컴포넌트에 useEffect cleanup 함수로 웹소켓 disconnect 실행하여 연결을 해제
+
+### **SockJS client object 중복 생성**
+
+- 현상 : 소켓이 연결된 페이지가 리랜더링 될 때마다 SockJS client object 생성 시도 지속되며, 서버 다운 상황 발생
+- 원인 : 페이지 컴포넌트 return 내에서 선언된 client object가 리랜더링 시마다 초기화되며, client object 생성 코드가 동작
+- 해결
+    - client object 선언을 useEffect 에서 하고, useRef로 선언한 ref 객체에 client object 를 할당, ref 객체를 페이지 컴포넌트 return 에서 사용
+    - 때문에 컴포넌트의 리랜더링이 발생하더라도 client 객체가 계속해서 값을 유지하게 해서, 리랜더링 되는 상황을 방지
+        (생성한 client로 연결이 이루어지므로 연결을 유지하기 위해선 client가 유지되어야 한다고 생각)
+        
+        
     
 ### 댓글별 음성 녹음 파일 관리
 
