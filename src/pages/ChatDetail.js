@@ -93,6 +93,8 @@ const ChatDetail = () => {
     // 소켓 연결 함수
     function wsConnect() {
         try {
+            ws.current.debug = function (str) {};
+            ws.current.debug();
             ws.current.connect({ token: token, type: "CHAT" }, () => {
                 // connect 이후 subscribe
                 ws.current.subscribe(`/sub/chat/room/${roomId}`, (response) => {
