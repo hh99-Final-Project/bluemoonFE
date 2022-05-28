@@ -15,7 +15,6 @@ import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
-import { useQuery, useMutation, useQueryClient } from "react-query";
 
 function MyPage() {
     const navigate = useNavigate();
@@ -30,7 +29,7 @@ function MyPage() {
         }
     }, []);
 
-    // const [myDiary, setMyDiary] = useState([]);
+    const [myDiary, setMyDiary] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(null);
@@ -40,85 +39,50 @@ function MyPage() {
     const [clickedDiary, setClickedDiary] = useState("");
     const PopupRef = useRef();
 
-    // queryClient 는 query update 할 때 사용
-    const queryClient = useQueryClient();
-
-    // useQuery 는 get 할 때 사용
-    const myPageList = useQuery(["mypage", 1], () => userApi.getMyPage(1), {
-        refetchOnWindowFocus: false,
-        retry: 0, // 실패시 재호출 횟수
-        enabled: isLogin,
-        onSuccess: (data) => {
-            // 성공시 호출
-            console.log(data);
-        },
-        onError: (e) => {
-            // 실패시 호출 (401, 404 같은 error가 아니라 정말 api 호출이 실패한 경우만 호출됩니다.)
-            // 강제로 에러 발생시키려면 api단에서 throw Error 날립니다. (참조: https://react-query.tanstack.com/guides/query-functions#usage-with-fetch-and-other-clients-that-do-not-throw-by-default)
-            console.log(e.message);
-        },
-    });
-
-    console.log(myPageList);
-
-    // mutation 은 update 시 사용
-    const deleteMutation = useMutation(() => diaryApi.deleteDiary(clickedDiary), {
-        onSuccess: (res, variables, context) => {
-            if (res.status === 200) {
-                setIsOpenPopup(false);
-                // diaryApi가 성공하면 mypage로 맵핑된 useQuery api 함수를 실행
-                queryClient.invalidateQueries("mypage");
-            }
-        },
-    });
-
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
     });
 
-    const deleteDiary = () => {
-        // diaryApi.deleteDiary(clickedDiary).then((res) => {
-        //     if (res.status === 200) {
-        //         setIsOpenPopup(false);
-        //         setMyDiary(myDiary.filter((diary) => diary.postUuid !== clickedDiary));
-        //     }
-        // });
-
-        deleteMutation.mutate(clickedDiary);
-    };
-
     // 무한스크롤
     const InfinityScroll = _.throttle((e) => {
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
-            // userApi.getMyPage(page).then((response) => {
-            //     setMyDiary([...myDiary, ...response]);
-            //     setIsLoading(false);
-            //     if (response.length < 10) {
-            //         setHasNext(false);
-            //     } else {
-            //         setHasNext(true);
-            //     }
-            //     setPage(page + 1);
-            // });
+            userApi.getMyPage(page).then((response) => {
+                setMyDiary([...myDiary, ...response]);
+                setIsLoading(false);
+                if (response.length < 10) {
+                    setHasNext(false);
+                } else {
+                    setHasNext(true);
+                }
+                setPage(page + 1);
+            });
         }
     }, 300);
 
-    useEffect(() => {
-        // userApi.getMyPage(page).then((response) => {
-        //     setMyDiary([...myDiary, ...response]);
-        //     if (response.length < 10) {
-        //         setHasNext(false);
-        //     } else {
-        //         setHasNext(true);
-        //     }
-        //     setPage(page + 1);
-        //     setIsLoading(false);
-        // });
+    const deleteDiary = () => {
+        diaryApi.deleteDiary(clickedDiary).then((res) => {
+            if (res.status === 200) {
+                setIsOpenPopup(false);
+                setMyDiary(myDiary.filter((diary) => diary.postUuid !== clickedDiary));
+            }
+        });
+    };
 
+    useEffect(() => {
+        userApi.getMyPage(page).then((response) => {
+            setMyDiary([...myDiary, ...response]);
+            if (response.length < 10) {
+                setHasNext(false);
+            } else {
+                setHasNext(true);
+            }
+            setPage(page + 1);
+            setIsLoading(false);
+        });
         setCurrentHeader("마이페이지");
     }, []);
 
-    if (myPageList.idle || myPageList.isLoading) {
+    if (isLoading) {
         return <Loading />;
     }
 
@@ -136,10 +100,10 @@ function MyPage() {
                     <MyPageTitle>
                         <p>내가 쓴 글</p>
                     </MyPageTitle>
-                    {myPageList.data.length === 0 && <NoDiaryNotice>아직 작성한 글이 없습니다.</NoDiaryNotice>}
+                    {myDiary.length === 0 && <NoDiaryNotice>아직 작성한 글이 없습니다.</NoDiaryNotice>}
                     <DiaryWrapper ref={InfinityScrollref} onScroll={InfinityScroll}>
-                        {myPageList.data.length > 0 &&
-                            myPageList.data.map((diary) => {
+                        {myDiary.length > 0 &&
+                            myDiary.map((diary) => {
                                 return (
                                     <DiaryCard
                                         ref={PopupRef}
