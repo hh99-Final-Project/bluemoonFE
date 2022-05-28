@@ -18,6 +18,7 @@ import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
 import ChatMessageBox from "../components/chat/ChatMessageBox";
+import {Helmet} from "react-helmet";
 
 const ChatDetail = () => {
     const navigate = useNavigate();

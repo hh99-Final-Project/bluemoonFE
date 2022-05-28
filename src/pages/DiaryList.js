@@ -17,8 +17,8 @@ import { commentIcon, chatIcon, prevButton, nextButton, voicePlayIcon } from "..
 import { chatApi } from "../apis/chatApi";
 import Login from "../components/user/Login";
 import {setLoginModalOpen} from "../redux/modules/commonSlice";
-import {loginCheck} from "../redux/modules/userSlice";
 import { userApi } from "../apis/userApi";
+import { Helmet } from "react-helmet";
 
 function DiaryList() {
     const navigate = useNavigate();
@@ -164,6 +164,11 @@ function DiaryList() {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Bluemoon 고민 상담소</title>
+                <meta name="description" content="bluemoon 고민 상담소" />
+                <meta property="og:url" content="https://bluemoondiary.com/diarylist"/>
+            </Helmet>
             {isMobileQuery || isMobile ? (
                 <DiaryListMobile
                     togglePlayVoice={togglePlayVoice}

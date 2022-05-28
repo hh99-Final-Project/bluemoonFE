@@ -17,6 +17,7 @@ import { crescent, line } from "../static/images/resources";
 import { setUserNickname, setUserPoint } from "../redux/modules/userSlice";
 import SignUpInput from "../components/user/SignUpInput";
 import RecommendInput from "../components/user/RecommendInput";
+import {Helmet} from "react-helmet";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
@@ -78,12 +79,17 @@ function SignUp() {
         setCurrentHeader("홈");
     }, []);
 
-    // if (userInfo?.nickname !== "") {
-    //     return <Main />;
-    // }
+    if (userInfo?.nickname !== "") {
+        return <Main />;
+    }
 
     return (
         <Layout>
+            <Helmet>
+                <title>Bluemoon 회원 가입</title>
+                <meta name="description" content="bluemoon 회원 가입" />
+                <meta property="og:url" content="https://bluemoondiary.com/signup"/>
+            </Helmet>
             <Container>
                 <Header />
                 {!isMobile ? <CategoryBar /> : <MobileTitleName title={"회원가입"} />}

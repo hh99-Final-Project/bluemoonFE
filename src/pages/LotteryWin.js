@@ -11,6 +11,7 @@ import { Layout } from "../components/common";
 import { lotteryWinIcon, check } from "../static/images/resources";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
+import {Helmet} from "react-helmet";
 
 const LotteryWin = () => {
     const { setCurrentHeader } = useStore();
@@ -61,6 +62,11 @@ const LotteryWin = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Bluemoon 이벤트 당첨</title>
+                <meta name="description" content="bluemoon 이벤트 당첨" />
+                <meta property="og:url" content="https://bluemoondiary.com/lotterywin"/>
+            </Helmet>
             <Container>
                 <Header />
                 <CategoryBar />

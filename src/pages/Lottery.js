@@ -28,6 +28,7 @@ import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
 import { setUserPoint, setUserCount } from "../redux/modules/userSlice";
 import Popup from "../shared/Popup";
+import {Helmet} from "react-helmet";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -102,6 +103,11 @@ const Lottery = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Bluemoon 오픈 이벤트</title>
+                <meta name="description" content="bluemoon 오픈 이벤트" />
+                <meta property="og:url" content="https://bluemoondiary.com/lottery"/>
+            </Helmet>
             <Container>
                 <Header />
                 {isMobile || isMobileQuery ? <MobileTitleName title={"오픈*이벤트"} pos={6} /> : <CategoryBar />}
@@ -277,22 +283,16 @@ const LotteryClick = styled.div`
     position: absolute;
     top: 248px;
     left: 153px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #ffffff;
-
     z-index: 9999;
-
     cursor: pointer;
     font-size: 16px;
     line-height: 20px;
-
     text-align: center;
 
-    color: #ffffff;
 
     @media only screen and (max-width: 420px) {
         width: auto;
