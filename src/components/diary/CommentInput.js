@@ -120,6 +120,8 @@ function CommentInput(props) {
 
         saveComment();
         try {
+            ws.current.debug = function (str) {};
+            ws.current.debug();
             // 보낼 메시지
             const message = {
                 message: `[${diary.title}]에 댓글이 달렸어요!`,
