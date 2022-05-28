@@ -38,6 +38,9 @@ function DiaryList() {
         query: "(max-width: 420px)",
     });
 
+    console.log(diaryList,"diaryList");
+    console.log(count,"count");
+
     const getPrevDiary = (e) => {
         e.stopPropagation();
 
@@ -46,7 +49,7 @@ function DiaryList() {
         }
 
         if (count === 1) {
-            window.alert("첫번째 다이어리에요!");
+            setCount(diaryList.length);
             return;
         }
 
@@ -61,7 +64,7 @@ function DiaryList() {
         }
 
         if (count === diaryList.length) {
-            window.alert("마지막 페이지에요!");
+            setCount(1);
             return;
         }
 
@@ -72,7 +75,7 @@ function DiaryList() {
             diaryApi.getDiaryList(page + 1).then((res) => {
                 //가져온 다음 페이지가 비었다면, 페이지를 처음으로 되돌리지 않는다.
                 if (res.length === 0) {
-                    window.alert("마지막 페이지에요!");
+                    setCount(1);
                     return;
                 }
 
