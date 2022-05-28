@@ -13,7 +13,7 @@ import {
 } from "../static/images/resources";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "../components/user/Login";
-import { isModalOpen } from "../redux/modules/commonSlice";
+import {isModalOpen, setLoginModalOpen} from "../redux/modules/commonSlice";
 import useMovePage from "../hooks/useMovePage";
 import star from "../static/images/categoryBar/Star.svg";
 
@@ -26,7 +26,7 @@ function CategoryBar() {
     const { moveToPage } = useMovePage();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const isLogin = useSelector((state) => state.userSlice.isLogin);
-    const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const isModalOpen = useSelector((state) => state.commonSlice.isModalOpen);
 
     const path = window.location.pathname;
 
@@ -35,11 +35,11 @@ function CategoryBar() {
     };
 
     const closeModal = () => {
-        dispatch(isModalOpen(false));
+        dispatch(setLoginModalOpen({open: false}));
     };
 
-    const openModal = () => {
-        dispatch(isModalOpen(true));
+    const openModal = (bool, path) => {
+        dispatch(setLoginModalOpen({open: bool, path: path}));
     };
 
     const unreadCountList = useSelector((state) => state.chatSlice.unreadCountList);
@@ -81,7 +81,7 @@ function CategoryBar() {
                         if (loginCheck()) {
                             moveToPage("/mypage");
                         } else {
-                            openModal(true);
+                            openModal(true, "/mypage");
                         }
                     }}
                 >
@@ -95,11 +95,9 @@ function CategoryBar() {
                     header={currentHeader}
                     onClick={() => {
                         if (loginCheck()) {
-                            // setCurrentHeader("채팅");
-                            // navigate("/chatlist");
                             moveToPage("/chatlist");
                         } else {
-                            openModal(true);
+                            openModal(true, "/chatlist");
                         }
                     }}
                 >
@@ -132,7 +130,7 @@ function CategoryBar() {
                 )}
             </CategoryRight>
 
-            {modalIsOpen && <Login />}
+            {isModalOpen && <Login />}
         </HeaderContainer>
     );
 }

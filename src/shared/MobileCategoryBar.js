@@ -18,7 +18,7 @@ import {
 } from "../static/images/resources";
 import useMovePage from "../hooks/useMovePage";
 import Login from "../components/user/Login";
-import { isModalOpen } from "../redux/modules/commonSlice";
+import {isModalOpen, setLoginModalOpen} from "../redux/modules/commonSlice";
 import Popup from "./Popup";
 import { logout } from "../redux/modules/userSlice";
 
@@ -100,7 +100,7 @@ const MobileCategoryBar = () => {
                                 </LogoutButton>
                             </UserInfoArea>
                         ) : (
-                            <NotLogined onClick={() => dispatch(isModalOpen(true))}>로그인/회원가입</NotLogined>
+                            <NotLogined onClick={() => dispatch(setLoginModalOpen({open: true}))}>로그인/회원가입</NotLogined>
                         )
                         }
                     </LoginArea>
@@ -124,7 +124,7 @@ const MobileCategoryBar = () => {
                                     if (loginCheck()) {
                                         moveToPage("/mypage");
                                     } else {
-                                        dispatch(isModalOpen(true));
+                                        dispatch(setLoginModalOpen({open: true}));
                                     }
                                 }}
                             >
@@ -138,7 +138,7 @@ const MobileCategoryBar = () => {
                                     if (loginCheck()) {
                                         moveToPage("/chatlist");
                                     } else {
-                                        dispatch(isModalOpen(true));
+                                        dispatch(setLoginModalOpen({open: true}));
                                     }
                                 }}
                             >

@@ -3,7 +3,8 @@ import axios from "axios";
 
 //이니셜스테이트
 const initialState = {
-    modalIsOpen: false,
+    isModalOpen: false,
+    loginPath: "/",
     info: null,
     newCommentAlert: [],
     unreadAlert: [],
@@ -25,8 +26,10 @@ const commonSlice = createSlice({
     name: "common",
     initialState,
     reducers: {
-        isModalOpen(state, action) {
-            state.modalIsOpen = action.payload;
+        setLoginModalOpen(state, action) {
+            console.log(action.payload,"payload");
+            state.isModalOpen = action.payload.open;
+            state.loginPath = action.payload.path ? action.payload.path : "/";
         },
         getAlertList(state, action) {
             // 배열에 이전 알람 메시지 추가 (리듀서에서 처리 여부 고민중)
@@ -50,7 +53,7 @@ const commonSlice = createSlice({
 });
 
 //액션 생성함수
-export const { isModalOpen, getAlertList, getNewCommentAlert, deleteNewCommentAlert } = commonSlice.actions;
+export const { setLoginModalOpen, getAlertList, getNewCommentAlert, deleteNewCommentAlert } = commonSlice.actions;
 
 //리듀서 export
 export default commonSlice.reducer;

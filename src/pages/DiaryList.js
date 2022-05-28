@@ -16,7 +16,7 @@ import { useMediaQuery } from "react-responsive";
 import { commentIcon, chatIcon, prevButton, nextButton, voicePlayIcon } from "../static/images/resources";
 import { chatApi } from "../apis/chatApi";
 import Login from "../components/user/Login";
-import { isModalOpen } from "../redux/modules/commonSlice";
+import {isModalOpen, setLoginModalOpen} from "../redux/modules/commonSlice";
 
 function DiaryList() {
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ function DiaryList() {
         e.stopPropagation();
 
         if(!isLogin) {
-            dispatch(isModalOpen(true));
+            dispatch(setLoginModalOpen({open: true}));
             return;
         }
 

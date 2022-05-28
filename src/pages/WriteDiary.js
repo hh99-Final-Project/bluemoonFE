@@ -15,7 +15,7 @@ import { Layout, MobileTitleName } from "../components/common";
 import { useMutation, useQueryClient } from "react-query";
 import { color } from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
-import { isModalOpen } from "../redux/modules/commonSlice";
+import {isModalOpen, setLoginModalOpen} from "../redux/modules/commonSlice";
 import { timeFormatter, timeFormatter2 } from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
 import { isMobile } from "react-device-detect";
@@ -91,7 +91,7 @@ function WriteDiary() {
 
     const onClickHandler = (e) => {
         if (!userInfo) {
-            dispatch(isModalOpen(true));
+            dispatch(setLoginModalOpen({open: true}));
             return;
         }
 

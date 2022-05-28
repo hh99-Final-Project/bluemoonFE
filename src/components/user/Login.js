@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import KakaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
-import { isModalOpen } from "../../redux/modules/commonSlice";
+import {setLoginModalOpen} from "../../redux/modules/commonSlice";
 import { userApi } from "../../apis/userApi";
 import { setAccessCookie, setRefreshCookie } from "../../utils/cookie";
 import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
@@ -15,16 +15,20 @@ import { useMediaQuery } from "react-responsive";
 import useStore from "../../zustand/store";
 
 
-function Login() {
+function Login({path}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const isModalOpen = useSelector((state) => state.commonSlice.isModalOpen);
+    const originPath = useSelector((state) => state.commonSlice.loginPath);
     const { setMobileHeader } = useStore();
 
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
     });
+
+    console.log(originPath,"originPath");
+    console.log(isModalOpen,"isModalOpen");
 
 
     const kakaoLoginHandler = (res) => {
@@ -35,23 +39,27 @@ function Login() {
                 let refreshToken = response.headers.refreshtoken;
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("refreshToken", refreshToken);
-                // setAccessCookie(accessToken);
-                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
-                dispatch(isModalOpen(false));
+                dispatch(setLoginModalOpen({open: false}));
 
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
                     //현재 있었던 페이지로 돌아간다.
-                    if(pathname === "/") {
+                    if(pathname === "/" && originPath === "/") {
                         navigate("/diarylist");
+                        return;
+                    }
+                    //마이페이지 혹은 채팅리스트탭을 눌렀을 때
+                    if(originPath !== "/") {
+                        navigate(originPath);
                         setMobileHeader();
                     } else {
+                        //원래 기존의 페이지에서 로그인 후 기존 페이지 이용
                         navigate(pathname);
+                        setMobileHeader();
                     }
-
                 }
             } else {
                 console.log("err");
@@ -67,21 +75,25 @@ function Login() {
 
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("refreshToken", refreshToken);
-
-                // setAccessCookie(accessToken);
-                // setRefreshCookie(refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
-                dispatch(isModalOpen(false));
+                dispatch(setLoginModalOpen({open: false}));
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
-                    //현재 있었던 페이지로 돌아가요!
-                    if(pathname === "/") {
+                    //현재 있었던 페이지로 돌아간다.
+                    if(pathname === "/" && originPath === "/") {
                         navigate("/diarylist");
+                        return;
+                    }
+                    //마이페이지 혹은 채팅리스트탭을 눌렀을 때
+                    if(originPath !== "/") {
+                        navigate(originPath);
                         setMobileHeader();
                     } else {
+                        //원래 기존의 페이지에서 로그인 후 기존 페이지 이용
                         navigate(pathname);
+                        setMobileHeader();
                     }
                 }
             } else {
@@ -99,13 +111,13 @@ function Login() {
     };
 
     const closeModal = () => {
-        dispatch(isModalOpen(false));
+        dispatch(setLoginModalOpen({open: false}));
     };
 
     return (
         <div>
             <Modal
-                isOpen={modalIsOpen}
+                isOpen={isModalOpen}
                 onRequestClose={closeModal}
                 ariaHideApp={false}
                 style={{

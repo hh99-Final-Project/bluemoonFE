@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Notifications } from "../components/common";
 import { deleteCookie, getCookie } from "../utils/cookie";
 import { logout } from "../redux/modules/userSlice";
-import { isModalOpen, getNewCommentAlert, deleteNewCommentAlert } from "../redux/modules/commonSlice";
+import { setLoginModalOpen, getNewCommentAlert, deleteNewCommentAlert } from "../redux/modules/commonSlice";
 import {
     newAlertIcon,
     moonPoint,
@@ -52,7 +52,8 @@ const Header = () => {
         if (userInfo) {
             window.alert("이미 로그인 되어있습니다");
         } else {
-            dispatch(isModalOpen(true));
+            // dispatch(isModalOpen(true));
+            dispatch(setLoginModalOpen({open: true}));
         }
     };
 

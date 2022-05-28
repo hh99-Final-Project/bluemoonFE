@@ -12,7 +12,7 @@ import { lockIcon, microphoneBlue, listenIcon } from "../../static/images/resour
 import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2 } from "../../utils/convertDate";
-import { isModalOpen } from "../../redux/modules/commonSlice";
+import {setLoginModalOpen} from "../../redux/modules/commonSlice";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
 import { MyTimer } from "./Timer";
@@ -109,7 +109,7 @@ function CommentInput(props) {
 
     const onClick = async () => {
         if (!isLogin) {
-            dispatch(isModalOpen(true));
+            dispatch(setLoginModalOpen({open: true}));
             return;
         }
 
