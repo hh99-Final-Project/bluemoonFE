@@ -17,6 +17,7 @@ import { close } from "../static/images/resources";
 import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
+import ChatMessageBox from "../components/chat/ChatMessageBox";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -161,20 +162,21 @@ const ChatDetail = () => {
                         </BackButton>
                     </ChatRoomTitle>
 
-                    <MessageWrapper>
-                        {messages.length > 0 &&
-                            messages.map((message, idx) => {
-                                return (
-                                    <ChatMessage
-                                        key={idx}
-                                        message={message.message}
-                                        userId={message.userId}
-                                        createdAt={message.createdAt}
-                                    />
-                                );
-                            })}
-                        <div ref={scrollRef} />
-                    </MessageWrapper>
+                    <ChatMessageBox messages={messages} scrollRef={scrollRef}/>
+                    {/*<MessageWrapper>*/}
+                    {/*    {messages.length > 0 &&*/}
+                    {/*        messages.map((message, idx) => {*/}
+                    {/*            return (*/}
+                    {/*                <ChatMessage*/}
+                    {/*                    key={idx}*/}
+                    {/*                    message={message.message}*/}
+                    {/*                    userId={message.userId}*/}
+                    {/*                    createdAt={message.createdAt}*/}
+                    {/*                />*/}
+                    {/*            );*/}
+                    {/*        })}*/}
+                    {/*    <div ref={scrollRef} />*/}
+                    {/*</MessageWrapper>*/}
                     <InputWrpper>
                         <ChatInput userInfo={userInfo} onSend={onSend} text={text} setText={setText} />
                     </InputWrpper>
@@ -185,7 +187,7 @@ const ChatDetail = () => {
     );
 };
 
-export default ChatDetail;
+export default React.memo(ChatDetail);
 
 const Container = styled.div`
     width: 100%;

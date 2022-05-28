@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CategoryBar from "../shared/CategoryBar";
@@ -20,6 +20,8 @@ import { timeFormatter, timeFormatter2 } from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
 import { isMobile } from "react-device-detect";
 import { setUserPoint } from "../redux/modules/userSlice";
+import WriteDiaryInput from "../components/diary/WriteDiaryInput";
+import WriteDiaryTextArea from "../components/diary/WriteDiaryTextArea";
 
 function WriteDiary() {
     const navigate = useNavigate();
@@ -75,21 +77,6 @@ function WriteDiary() {
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
     });
-
-    const onChangeTitleHandler = (e) => {
-        if (e.target.value.length > 30) {
-            return;
-        }
-        setTitle(e.target.value);
-    };
-
-    const onChangeContentHandler = (e) => {
-        //일단 최대 길이를 500자로만 설정했습니다. 기획에 따라 변동합니다.
-        if (e.target.value.length > 500) {
-            return;
-        }
-        setDiary(e.target.value);
-    };
 
     const SaveRecordTime = (time) => {
         setRecordTime(time);
@@ -179,14 +166,9 @@ function WriteDiary() {
                         <SaveDiaryButton onClick={onClickHandler} src={saveIcon} />
                     </PostHeader>
                     <WriteArea>
-                        <PostText placeholder="제목을 작성해주세요" onChange={onChangeTitleHandler} value={title} />
+                        <WriteDiaryInput value={title} setValue={setTitle}/>
                         <PostContainer>
-                            <PostArea
-                                isShowSpeaker={isShowSpeaker}
-                                placeholder={isShowSpeaker ? "" : "500자 내로 작성해주세요"}
-                                onChange={onChangeContentHandler}
-                                value={diary}
-                            />
+                            <WriteDiaryTextArea isShowSpeaker={isShowSpeaker} diary={diary} setDiary={setDiary}/>
                             <PostAreaBottomIcons>
                                 <VoiceLeft>
                                     {!isMobile && !isMobileQuery && (
@@ -275,7 +257,8 @@ function WriteDiary() {
     );
 }
 
-export default WriteDiary;
+export default React.memo(WriteDiary);
+
 
 const WriteContainer = styled.div`
     width: 100%;

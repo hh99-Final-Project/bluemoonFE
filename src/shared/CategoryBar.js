@@ -19,7 +19,7 @@ import star from "../static/images/categoryBar/Star.svg";
 
 CategoryBar.propTypes = {};
 
-function CategoryBar(props) {
+function CategoryBar() {
     const dispatch = useDispatch();
 
     const { currentHeader, setCurrentHeader } = useStore();
@@ -137,7 +137,7 @@ function CategoryBar(props) {
     );
 }
 
-export default CategoryBar;
+export default React.memo(CategoryBar);
 
 const HeaderContainer = styled.div`
     width: 950px;

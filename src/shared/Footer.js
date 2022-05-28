@@ -43,7 +43,7 @@ function Footer() {
     );
 }
 
-export default Footer;
+export default React.memo(Footer);
 
 const Container = styled.div`
     //background-color: ${(props) => props.bgColor};

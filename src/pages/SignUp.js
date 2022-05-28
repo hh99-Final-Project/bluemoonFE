@@ -15,6 +15,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { crescent, line } from "../static/images/resources";
 import { setUserNickname, setUserPoint } from "../redux/modules/userSlice";
+import SignUpInput from "../components/user/SignUpInput";
+import RecommendInput from "../components/user/RecommendInput";
 
 function SignUp() {
     const [nickName, setNickName] = useState("");
@@ -33,23 +35,6 @@ function SignUp() {
     const isMobile = useMediaQuery({
         query: "(max-width: 420px)",
     });
-
-    const onChange = (e) => {
-        if (e.target.value === "") {
-            setIsValidNickName(null);
-            setNickName(e.target.value);
-            return;
-        } else if (e.target.value !== "") {
-            const result = /^[a-zA-zㄱ-힣0-9]{1,10}$/.test(e.target.value);
-            if (result) {
-                nickNameCheckDB(e.target.value);
-            } else {
-                setIsValidNickName(false);
-            }
-        }
-
-        setNickName(e.target.value);
-    };
 
     const debounce = _.debounce((nickName) => {
         userApi.nickNameCheck(nickName).then((response) => {
@@ -71,9 +56,6 @@ function SignUp() {
         setIsOpenPopup(true);
     };
 
-    const onChangeRecommender = (e) => {
-        setRecommender(e.target.value);
-    };
 
     const saveNickNameDB = () => {
         userApi.saveNickName(nickName, recommender).then((response) => {
@@ -96,9 +78,9 @@ function SignUp() {
         setCurrentHeader("홈");
     }, []);
 
-    if (userInfo?.nickname !== "") {
-        return <Main />;
-    }
+    // if (userInfo?.nickname !== "") {
+    //     return <Main />;
+    // }
 
     return (
         <Layout>
@@ -107,15 +89,15 @@ function SignUp() {
                 {!isMobile ? <CategoryBar /> : <MobileTitleName title={"회원가입"} />}
 
                 <SignUpBox BgColor={color.containerBoxColor}>
-                    {isMobile && <Crescent src={crescent}></Crescent>}
+                    {isMobile && <Crescent src={crescent}/>}
                     <SignUpBoxTitle>사용하실 닉네임을 적어주세요</SignUpBoxTitle>
-                    {isMobile && <TitleLine></TitleLine>}
-                    <NickNameInput
-                        placeholder="10자 이내 (특수문자, 공백 불가)"
-                        onChange={onChange}
-                        value={nickName}
-                        name="nickName"
-                    ></NickNameInput>
+                    {isMobile && <TitleLine/>}
+                    <SignUpInput
+                        nickName={nickName}
+                        setIsValidNickName={setIsValidNickName}
+                        setNickName={setNickName}
+                        nickNameCheckDB={nickNameCheckDB}
+                    />
                     {isValidNickName === null && (
                         <NickNameCheckResult>사용하실 닉네임을 입력해주세요</NickNameCheckResult>
                     )}
@@ -124,13 +106,8 @@ function SignUp() {
 
                     <RecommendPerson>추천인 닉네임 입력(선택사항)</RecommendPerson>
 
-                    {isMobile && <RecommendPersonLine></RecommendPersonLine>}
-                    <RecommendPersonInput
-                        placeholder="추천인은 1000p, 회원가입한 사람은 500p"
-                        onChange={onChangeRecommender}
-                        value={recommender}
-                        name="recommender"
-                    ></RecommendPersonInput>
+                    {isMobile && <RecommendPersonLine/>}
+                    <RecommendInput recommender={recommender} setRecommender={setRecommender}/>
                     <Button isValid={isValidNickName} onClick={onClickHandler}>
                         시작하기
                     </Button>
@@ -225,47 +202,6 @@ const TitleLine = styled.div`
     border: 1px solid #ffffff;
     width: 185px;
     margin: 0.1vh auto 0;
-`;
-
-const NickNameInput = styled.input`
-    position: absolute;
-    width: 539.47px;
-    height: 40.85px;
-    display: block;
-    top: 173px;
-    left: 205px;
-    outline: none;
-    padding-left: 21px;
-    background: rgba(198, 211, 236, 0.8);
-    border-radius: 5px;
-    border: none;
-
-    &::placeholder {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 18px;
-        text-align: center;
-        color: #43567e;
-    }
-
-    &:focus {
-        border: 1px solid #333333;
-    }
-
-    @media only screen and (max-width: 420px) {
-        width: 164px;
-        height: 41px;
-        position: static;
-        margin: 2vh auto 0;
-
-        &::placeholder {
-            font-size: 10px;
-            line-height: 13px;
-
-            color: #43567e;
-        }
-    }
 `;
 
 const NickNameCheckResult = styled.div`
