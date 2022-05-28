@@ -63,10 +63,7 @@ const Message = styled.div`
     background-color: ${(props) => (props.user ? "rgba(8, 17, 52, 0.6);" : "rgba(163, 171, 199, 0.6);")};
     margin: ${(props) => (props.user ? "0 0 0 5px" : "0 5px 0 0")};
     flex-direction: ${(props) => (props.user ? "row-reverse" : "row")};
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 14px;
     line-height: 18px;
 
@@ -83,10 +80,6 @@ const Message = styled.div`
 const CreatedAt = styled.div`
     display: table-cell;
     vertical-align: middle;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 10px;
     line-height: 13px;
     text-align: center;

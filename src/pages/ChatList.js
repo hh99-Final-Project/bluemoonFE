@@ -220,9 +220,6 @@ const ChatRoomListTitle = styled.div`
 
     p {
         margin-left: 23px;
-        font-family: "Spoqa Han Sans Neo";
-        font-style: normal;
-        font-weight: 400;
         font-size: 20px;
         line-height: 25px;
         display: flex;
@@ -317,9 +314,7 @@ const TitleLine = styled.div`
 `;
 
 const CharRoomTitle = styled.div`
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 18px;
     display: flex;
@@ -337,10 +332,6 @@ const CharRoomTitle = styled.div`
 const UnreadCount = styled.div`
     position: relative;
     margin: 0 0 0 11px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 10px;
     line-height: 13px;
     display: flex;
@@ -362,10 +353,7 @@ const LastChatTime = styled.div`
     position: absolute;
     top: 12px;
     right: 16px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 10px;
     line-height: 13px;
     display: flex;
@@ -384,10 +372,7 @@ const LastChat = styled.div`
     position: absolute;
     top: 42px;
     left: 16px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 10px;
     line-height: 13px;
     display: flex;
@@ -405,10 +390,7 @@ const ChatOutButton = styled.div`
     position: absolute;
     top: 44px;
     right: 16px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 10px;
     line-height: 13px;
     display: flex;

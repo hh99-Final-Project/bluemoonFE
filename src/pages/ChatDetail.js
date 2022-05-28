@@ -239,9 +239,6 @@ const ChatRoomTitle = styled.div`
 
     & p {
         margin-left: 22px;
-        font-family: "Spoqa Han Sans Neo";
-        font-style: normal;
-        font-weight: 400;
         font-size: 20px;
         line-height: 25px;
 

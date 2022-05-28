@@ -202,10 +202,6 @@ const MyPageTitle = styled.div`
     & p {
         margin-left: 29px;
         height: 24px;
-
-        font-family: "Spoqa Han Sans Neo";
-        font-style: normal;
-        font-weight: 400;
         font-size: 20px;
         line-height: 25px;
 
@@ -223,10 +219,7 @@ const NoDiaryNotice = styled.div`
     left: 377px;
     width: 197px;
     height: 23px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 16px;
     line-height: 20px;
     display: flex;
@@ -296,10 +289,7 @@ const DiaryTitle = styled.div`
     top: 12px;
     left: 16px;
     height: 16px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 14px;
     line-height: 18px;
     display: flex;
@@ -321,10 +311,6 @@ const CreatedAt = styled.div`
     position: absolute;
     top: 12px;
     right: 16px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 10px;
     line-height: 13px;
     display: flex;
@@ -345,10 +331,6 @@ const CommentCount = styled.div`
     position: absolute;
     top: 41px;
     left: 16px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 12px;
     line-height: 15px;
     display: flex;
@@ -370,10 +352,6 @@ const DeleteButton = styled.div`
     position: absolute;
     top: 45px;
     right: 16px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 10px;
     line-height: 13px;
     display: flex;

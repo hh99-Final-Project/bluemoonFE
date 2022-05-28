@@ -287,10 +287,6 @@ const LotteryClick = styled.div`
     z-index: 9999;
 
     cursor: pointer;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 16px;
     line-height: 20px;
 
@@ -351,9 +347,6 @@ const LotteryResult = styled(LotteryClick)`
 
     p {
         margin-top: 8px;
-        font-family: "Spoqa Han Sans Neo";
-        font-style: normal;
-        font-weight: 400;
         font-size: 10px;
         line-height: 13px;
         text-align: center;
@@ -407,10 +400,7 @@ const GetBananaMilkButton = styled.div`
 
     border: 1px solid #fffafa;
     border-radius: 5px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 8px;
     line-height: 10px;
     text-align: center;
@@ -429,10 +419,7 @@ const CountNoti = styled.div`
     height: 24px;
     left: 50px;
     top: 415px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 13px;
     line-height: 16px;
     text-align: center;
@@ -458,10 +445,7 @@ const LeftCount = styled.div`
     background: transparant;
     border: 1.5px solid #c6d3ec;
     border-radius: 5px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 15px;
     line-height: 19px;
     text-align: center;
@@ -486,9 +470,6 @@ const Title = styled.div`
     left: 540px;
     width: 220px;
 
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 24px;
     line-height: 30px;
 
@@ -508,11 +489,11 @@ const Desc = styled.div`
     top: 264px;
     left: 540px;
 
-    font-family: "Spoqa Han Sans Neo";
+    font-family: "Spoqa";
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
-    line-height: 18px;
+    line-height: 22px;
 
     color: #c6d3ec;
 
@@ -530,14 +511,11 @@ const SubDesc = styled.div`
     position: absolute;
     width: auto;
     height: 30px;
-    top: 356px;
+    top: 360px;
     left: 539px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 10px;
-    line-height: 13px;
+    line-height: 15px;
 
     color: #c6d3ec;
 
@@ -564,10 +542,6 @@ const RecommendIcons = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 14px;
     line-height: 18px;
 
@@ -583,10 +557,7 @@ const RecommendDesc = styled.div`
     top: 407px;
     right: 50px;
     text-align: right;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 12px;
     line-height: 15px;
 
@@ -608,10 +579,6 @@ const MobileLeftCount = styled.div`
     top: 544px;
 
     z-index: 1000;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 15px;
     line-height: 19px;
     display: flex;
@@ -627,10 +594,6 @@ const MobileCountNoti = styled.div`
     height: 8px;
     left: 33px;
     top: 583px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 8px;
     line-height: 10px;
     display: flex;
@@ -652,10 +615,7 @@ const MobileRecommendDesc = styled.div`
     height: 10px;
     right: 34px;
     top: 590px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
+  
     font-size: 8px;
     line-height: 10px;
 

@@ -288,10 +288,6 @@ const SubmitButton = styled.div`
     border: 1px solid #c4c4c4;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-
-    font-family: "Spoqa Han Sans Neo";
-    font-style: normal;
-    font-weight: 400;
     font-size: 14px;
     line-height: 18px;
     text-align: center;
