@@ -97,7 +97,7 @@ const LotteryWin = () => {
                             ㆍ입력받은 연락처는 기프티콘 전송을 위한 목적으로만 수집되며, 다른 용도로 사용되지 않습니다.
                         </div>
                         <br />
-                        <div>ㆍ기프티콘 발송은 4월00일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.</div>
+                        <div>ㆍ기프티콘 발송은 6월 2일 일괄 전송될 예정이며, 전송 직후 연락처는 즉시 파기됩니다.</div>
                     </AgreeDesc>
 
                     <SubmitButton onClick={onClick}>입력완료</SubmitButton>

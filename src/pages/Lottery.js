@@ -27,6 +27,7 @@ import {
 import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
 import { setUserPoint, setUserCount } from "../redux/modules/userSlice";
+import Popup from "../shared/Popup";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -88,6 +89,17 @@ const Lottery = () => {
             });
     };
 
+    // url 공유
+    const copyUrl = (e) => {
+        e.stopPropagation();
+
+        navigator.clipboard.writeText("https://bluemoondiary.com/").then(function () {
+            setIsOpenPopup(true);
+        });
+    };
+
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
+
     return (
         <Layout>
             <Container>
@@ -121,15 +133,15 @@ const Lottery = () => {
                         )}
                         {isClick && isWin === false && (
                             <LotteryResult isWin={isWin}>
-                                당신에게 편안한 밤을 선물할게요
-                                <p>아쉽지만 다음 기회에 참여해주세요!</p>
+                                당신에겐 달빛을 담은 용기를 드릴게요.
+                                {/* <p>아쉽지만 다음 기회에 참여해주세요!</p> */}
                             </LotteryResult>
                         )}
                     </LotteryArea>
                     {!isMobile ? (
                         <>
                             <CountNoti>참여 가능 횟수</CountNoti>
-                            <ClickCount>{userInfo ? userInfo.lottoCount : "0"}</ClickCount>
+                            <LeftCount>{userInfo ? userInfo.lottoCount : "0"}</LeftCount>
                         </>
                     ) : (
                         <>
@@ -142,25 +154,42 @@ const Lottery = () => {
                     <Star>{!isMobile ? <img src={star}></img> : <img src={mobileStar}></img>}</Star>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
-                        블루문의 세계에서 용기를 내주신 당신을 위해, <br />
+                        다른 주인들에게 지혜로 고민을 들어준 당신을 위해, <br />
                         푸른 빛이 담긴 선물을 준비했어요. <br />
-                        지금 이 순간, 당신에게 가장 필요한 것을 줄게요. <br />
                         블루문을 향해 말을 걸어보시겠어요? <br />
                         어쩌면, 당신에게 특별한 행운이 찾아올지도 몰라요:)
                     </Desc>
+                    <SubDesc>
+                        1000룬을 모으면 하루 한 번, 이벤트에 참여할 수 있습니다. <br />
+                        게시글 500룬(하루 1번), 댓글 100룬(하루 5번)
+                    </SubDesc>
                     {!isMobile ? (
                         <>
                             <RecommendDesc>
                                 추천인은 1000p <br />
                                 회원가입한 사람은 500p
                             </RecommendDesc>
-                            <RecommendIcons>친구 추천</RecommendIcons>
+                            <RecommendIcons onClick={copyUrl}>친구 추천</RecommendIcons>
                         </>
                     ) : (
                         <>
-                            <MobileRecommendIcon src={mobileRecommendIcon}></MobileRecommendIcon>
-                            <MobileRecommendDesc></MobileRecommendDesc>
+                            <MobileRecommendIcon onClick={copyUrl}>
+                                <img src={mobileRecommendIcon}></img>
+                            </MobileRecommendIcon>
+                            <MobileRecommendDesc>
+                                추천인은 1000p <br />
+                                회원가입한 사람은 500p
+                            </MobileRecommendDesc>
                         </>
+                    )}
+                    {isOpenPopup && (
+                        <Popup
+                            title={"URL 복사가 완료되었습니다."}
+                            close={() => setIsOpenPopup(false)}
+                            event={() => {
+                                setIsOpenPopup(false);
+                            }}
+                        />
                     )}
                 </ContentBox>
             </Container>
@@ -399,7 +428,7 @@ const CountNoti = styled.div`
     position: absolute;
     height: 24px;
     left: 50px;
-    top: 420px;
+    top: 415px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
@@ -415,7 +444,7 @@ const CountNoti = styled.div`
     justify-content: center;
 `;
 
-const ClickCount = styled.div`
+const LeftCount = styled.div`
     position: absolute;
     width: 77px;
     height: 34px;
@@ -426,7 +455,8 @@ const ClickCount = styled.div`
     align-items: center;
     justify-content: center;
 
-    background: #c6d3ec;
+    background: transparant;
+    border: 1.5px solid #c6d3ec;
     border-radius: 5px;
 
     font-family: "Spoqa Han Sans Neo";
@@ -436,7 +466,7 @@ const ClickCount = styled.div`
     line-height: 19px;
     text-align: center;
 
-    color: #000000;
+    color: #ffffff;
 `;
 
 const Star = styled.div`
@@ -453,7 +483,7 @@ const Star = styled.div`
 const Title = styled.div`
     position: absolute;
     top: 212px;
-    left: 542px;
+    left: 540px;
     width: 220px;
 
     font-family: "Spoqa Han Sans Neo";
@@ -496,7 +526,32 @@ const Desc = styled.div`
     }
 `;
 
-const RecommendIcons = styled.div`
+const SubDesc = styled.div`
+    position: absolute;
+    width: auto;
+    height: 30px;
+    top: 356px;
+    left: 539px;
+
+    font-family: "Spoqa Han Sans Neo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13px;
+
+    color: #c6d3ec;
+
+    @media only screen and (max-width: 420px) {
+        top: auto;
+        left: auto;
+        width: 320px;
+        height: 24px;
+        margin: 456px auto 0;
+        text-align: center;
+    }
+`;
+
+const RecommendIcons = styled.button`
     position: absolute;
     width: 77px;
     height: 34px;
@@ -517,6 +572,9 @@ const RecommendIcons = styled.div`
     line-height: 18px;
 
     color: #ffffff;
+    background-color: transparent;
+
+    cursor: pointer;
 `;
 
 const RecommendDesc = styled.div`
@@ -581,19 +639,19 @@ const MobileCountNoti = styled.div`
 
     color: #c6d3ec;
 `;
-const MobileRecommendIcon = styled.img`
+const MobileRecommendIcon = styled.div`
     position: absolute;
     width: 32px;
     height: 32px;
-    left: 254px;
+    right: 34px;
     top: 544px;
 `;
 const MobileRecommendDesc = styled.div`
     position: absolute;
-
+    width: auto;
     height: 10px;
-    left: 248px;
-    top: 583px;
+    right: 34px;
+    top: 590px;
 
     font-family: "Spoqa Han Sans Neo";
     font-style: normal;
@@ -603,7 +661,7 @@ const MobileRecommendDesc = styled.div`
 
     display: flex;
     align-items: center;
-    text-align: center;
+    text-align: right;
 
     color: #c6d3ec;
 `;
