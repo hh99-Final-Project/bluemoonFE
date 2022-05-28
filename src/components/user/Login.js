@@ -27,10 +27,6 @@ function Login({path}) {
         query: "(max-width: 420px)",
     });
 
-    console.log(originPath,"originPath");
-    console.log(isModalOpen,"isModalOpen");
-
-
     const kakaoLoginHandler = (res) => {
         userApi.kakaoLogin(res.response.access_token).then((response) => {
             if (response.status === 200) {

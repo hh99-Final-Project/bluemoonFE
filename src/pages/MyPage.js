@@ -22,11 +22,6 @@ function MyPage() {
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    useEffect(() => {
-        if (isLogin && userInfo.nickname === "") {
-            navigate("/signup");
-        }
-    }, []);
 
     const [myDiary, setMyDiary] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -66,6 +61,12 @@ function MyPage() {
             });
         }
     }, 300);
+
+    useEffect(() => {
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
+        }
+    }, []);
 
     useEffect(() => {
         userApi.getMyPage(page).then((response) => {

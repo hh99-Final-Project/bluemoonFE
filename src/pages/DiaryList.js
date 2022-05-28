@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { diaryApi } from "../apis/diaryApi";
@@ -16,7 +16,9 @@ import { useMediaQuery } from "react-responsive";
 import { commentIcon, chatIcon, prevButton, nextButton, voicePlayIcon } from "../static/images/resources";
 import { chatApi } from "../apis/chatApi";
 import Login from "../components/user/Login";
-import {isModalOpen, setLoginModalOpen} from "../redux/modules/commonSlice";
+import {setLoginModalOpen} from "../redux/modules/commonSlice";
+import {loginCheck} from "../redux/modules/userSlice";
+import { userApi } from "../apis/userApi";
 
 function DiaryList() {
     const navigate = useNavigate();
@@ -30,12 +32,6 @@ function DiaryList() {
     const audioRef = useRef();
 
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    useEffect(() => {
-        if (isLogin && userInfo.nickname === "") {
-            navigate("/signup");
-        }
-    }, []);
-
     const isMobileQuery = useMediaQuery({
         query: "(max-width: 420px)",
     });
@@ -98,10 +94,9 @@ function DiaryList() {
     const getAnonymousListApi = () => {
         diaryApi.getNotLoginUserDiary().then((res) => {
             if (res) {
-                setIsLoading(false);
-                let tmp = [];
-                tmp.push(res.data);
-                setDiaryList(tmp);
+                console.log("6");
+                // setIsLoading(false);
+                setDiaryList([res.data]);
             } else {
                 console.log("error");
             }
@@ -119,20 +114,40 @@ function DiaryList() {
             });
     };
 
+    useEffect(()=>{
+        const authCheck = async () => {
+            const data = await userApi.isLogin();
+            if(data.userId){
+                diaryApi.getDiaryList(page).then((res) => {
+                    if (res) {
+                        setIsLoading(false);
+                        setDiaryList(res);
+                    }
+                });
+            } else {
+                diaryApi.getNotLoginUserDiary().then((res) => {
+                    if (res) {
+                        setIsLoading(false);
+                        setDiaryList([res.data]);
+                    } else {
+                        console.log("error");
+                    }
+                });
+            }
+        };
+
+        authCheck();
+
+    },[isLogin]);
+
     useEffect(() => {
         setCurrentHeader("고민상담");
 
-        if (isLogin) {
-            diaryApi.getDiaryList(page).then((res) => {
-                if (res) {
-                    setIsLoading(false);
-                    setDiaryList(res);
-                }
-            });
-        } else {
-            getAnonymousListApi();
+        if (isLogin && userInfo.nickname === "") {
+            navigate("/signup");
         }
-    }, [isLogin]);
+    }, []);
+
 
     const togglePlayVoice = (e) => {
         e.stopPropagation();
