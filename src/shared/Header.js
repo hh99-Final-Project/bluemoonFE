@@ -93,6 +93,8 @@ const Header = () => {
 
     function wsConnect() {
         try {
+            ws.current.debug = function (str) {};
+            ws.current.debug();
             ws.current.connect({ token: token }, () => {
                 ws.current.subscribe(`/sub/chat/room/${userInfo.userId}`, (response) => {
                     const newAlert = JSON.parse(response.body);
@@ -141,10 +143,14 @@ const Header = () => {
             ) : (
                 <HeaderContainer>
                     {/* {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>} */}
-                    <Logo onClick={() => {
-                        navigate("/");
-                        setCurrentHeader("홈");
-                    }}>Blue Moon</Logo>
+                    <Logo
+                        onClick={() => {
+                            navigate("/");
+                            setCurrentHeader("홈");
+                        }}
+                    >
+                        Blue Moon
+                    </Logo>
                     {userInfo ? (
                         <HeaderRightArea>
                             <Point
