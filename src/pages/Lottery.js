@@ -631,6 +631,11 @@ const MobileRecommendIcon = styled.div`
     height: 32px;
     right: 34px;
     top: 544px;
+
+    img {
+        width: 32px;
+        height: 32px;
+    }
 `;
 const MobileRecommendDesc = styled.div`
     position: absolute;
