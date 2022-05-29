@@ -28,7 +28,7 @@ import MobileTitleName from "../components/common/MobileTitleName";
 import { useMediaQuery } from "react-responsive";
 import { setUserPoint, setUserCount } from "../redux/modules/userSlice";
 import Popup from "../shared/Popup";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 
 const Lottery = () => {
     const { setCurrentHeader } = useStore();
@@ -106,7 +106,7 @@ const Lottery = () => {
             <Helmet>
                 <title>Bluemoon 오픈 이벤트</title>
                 <meta name="description" content="bluemoon 오픈 이벤트" />
-                <meta property="og:url" content="https://bluemoondiary.com/lottery"/>
+                <meta property="og:url" content="https://bluemoondiary.com/lottery" />
             </Helmet>
             <Container>
                 <Header />
@@ -116,7 +116,7 @@ const Lottery = () => {
                         {!isMobile ? (
                             <img src={lotteryMoon} alt="lotteryMoon" />
                         ) : (
-                            <img src={mobileLotteryMoon} alt="mobileLotteryMoon"/>
+                            <img src={mobileLotteryMoon} alt="mobileLotteryMoon" />
                         )}
                     </MoonArea>
                     <LotteryArea>
@@ -157,7 +157,9 @@ const Lottery = () => {
                         </>
                     )}
 
-                    <Star>{!isMobile ? <img src={star} alt={"starIcon"}/> : <img src={mobileStar} alt={"starIcon"}/>}</Star>
+                    <Star>
+                        {!isMobile ? <img src={star} alt={"starIcon"} /> : <img src={mobileStar} alt={"starIcon"} />}
+                    </Star>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
                         다른 주인들에게 지혜로 고민을 들어준 당신을 위해, <br />
@@ -180,7 +182,7 @@ const Lottery = () => {
                     ) : (
                         <>
                             <MobileRecommendIcon onClick={copyUrl}>
-                                <img src={mobileRecommendIcon} alt={"recommend-friend"}/>
+                                <img src={mobileRecommendIcon} alt={"recommend-friend"} />
                             </MobileRecommendIcon>
                             <MobileRecommendDesc>
                                 추천인은 1000p <br />
@@ -250,11 +252,21 @@ const MoonArea = styled.div`
     top: 39px;
     left: 77px;
 
+    img {
+        width: 433px;
+        height: 433px;
+    }
+
     @media only screen and (max-width: 420px) {
         width: 251px;
         height: 251px;
         top: 213px;
         left: 34px;
+
+        img {
+            width: 251px;
+            height: 251px;
+        }
     }
 `;
 
@@ -277,6 +289,8 @@ const LotteryhalfMoon = styled.img`
     position: absolute;
     top: 182px;
     left: -4px;
+    width: 377px;
+    height: 191px;
 `;
 
 const LotteryClick = styled.div`
@@ -292,7 +306,6 @@ const LotteryClick = styled.div`
     font-size: 16px;
     line-height: 20px;
     text-align: center;
-
 
     @media only screen and (max-width: 420px) {
         width: auto;
@@ -400,7 +413,7 @@ const GetBananaMilkButton = styled.div`
 
     border: 1px solid #fffafa;
     border-radius: 5px;
-  
+
     font-size: 8px;
     line-height: 10px;
     text-align: center;
@@ -419,7 +432,7 @@ const CountNoti = styled.div`
     height: 24px;
     left: 50px;
     top: 415px;
-  
+
     font-size: 13px;
     line-height: 16px;
     text-align: center;
@@ -445,7 +458,7 @@ const LeftCount = styled.div`
     background: transparant;
     border: 1.5px solid #c6d3ec;
     border-radius: 5px;
-  
+
     font-size: 15px;
     line-height: 19px;
     text-align: center;
@@ -458,9 +471,19 @@ const Star = styled.div`
     top: 114px;
     right: 333px;
 
+    img {
+        width: 74px;
+        height: 92px;
+    }
+
     @media only screen and (max-width: 420px) {
         top: 42px;
         left: 142px;
+
+        img {
+            width: 40px;
+            height: 48px;
+        }
     }
 `;
 
@@ -513,7 +536,7 @@ const SubDesc = styled.div`
     height: 30px;
     top: 360px;
     left: 539px;
-  
+
     font-size: 10px;
     line-height: 15px;
 
@@ -557,7 +580,7 @@ const RecommendDesc = styled.div`
     top: 407px;
     right: 50px;
     text-align: right;
-  
+
     font-size: 12px;
     line-height: 15px;
 
@@ -615,7 +638,7 @@ const MobileRecommendDesc = styled.div`
     height: 10px;
     right: 34px;
     top: 590px;
-  
+
     font-size: 8px;
     line-height: 10px;
 

@@ -53,7 +53,7 @@ const Header = () => {
             window.alert("이미 로그인 되어있습니다");
         } else {
             // dispatch(isModalOpen(true));
-            dispatch(setLoginModalOpen({open: true}));
+            dispatch(setLoginModalOpen({ open: true }));
         }
     };
 
@@ -129,9 +129,9 @@ const Header = () => {
         <React.Fragment>
             {isMobile ? (
                 <MobileHeaderContainer>
-                    <MobMoreIcon onClick={toggleHeaderMenu} src={mobMoreIcon} />
+                    <MobMoreIcon onClick={toggleHeaderMenu} src={mobMoreIcon} alt={"mobMoreIcon"} />
                     <MobLogo>Blue Moon</MobLogo>
-                    <MobAlert onClick={() => setIsOpenNoti(true)} src={mobAlertIcon} />
+                    <MobAlert onClick={() => setIsOpenNoti(true)} src={mobAlertIcon} alt={"mobAlertIcon"} />
                     {newCommentAlert.length > 0 && (
                         <>
                             <NewAlertNumberArea src={newAlertNumber} alt={"NewAlertNumber"} />
@@ -142,7 +142,6 @@ const Header = () => {
                 </MobileHeaderContainer>
             ) : (
                 <HeaderContainer>
-                    {/* {path === "/" ? <div></div> : <Logo onClick={() => navigate("/")}>Blue Moon</Logo>} */}
                     <Logo
                         onClick={() => {
                             navigate("/");
@@ -402,6 +401,8 @@ const MobileHeaderContainer = styled.div`
 `;
 const MobMoreIcon = styled.img`
     cursor: pointer;
+    width: 20px;
+    height: 20px;
 `;
 const MobLogo = styled.div`
     font-family: "Jura";
@@ -411,4 +412,6 @@ const MobLogo = styled.div`
 `;
 const MobAlert = styled.img`
     cursor: pointer;
+    width: 20px;
+    height: 20px;
 `;
