@@ -1,17 +1,18 @@
-
 @font-face {
-  font-family: "spoqa";
-  src: url("./static/fonts/SpoqaHanSansNeo-Regular.ttf") format('woff2'),
+    font-family: "spoqa";
+    /* src: url("./static/fonts/SpoqaHanSansNeo-Regular.ttf") format('woff2'),
       url("./static/fonts/SpoqaHanSansNeo-Bold.ttf") format('woff2'),
       url("./static/fonts/SpoqaHanSansNeo-Medium.ttf") format('woff2'),
-        url("./static/fonts/SpoqaHanSansNeo-Light.ttf") format('woff2')
+        url("./static/fonts/SpoqaHanSansNeo-Light.ttf") format('woff2') */
+    src: url("./static/fonts/SpoqaHanSansNeo-Regular.woff2") format("woff2"),
+        url("./static/fonts/SpoqaHanSansNeo-Bold.woff2") format("woff2"),
+        url("./static/fonts/SpoqaHanSansNeo-Medium.woff2") format("woff2"),
+        url("./static/fonts/SpoqaHanSansNeo-Light.woff2") format("woff2");
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Jura&display=swap");
 
-
 * {
-  font-family: 'spoqa';
-  margin: 0;
+    font-family: "spoqa";
+    margin: 0;
 }
-
