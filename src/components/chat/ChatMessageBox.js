@@ -2,28 +2,27 @@ import React from "react";
 import ChatMessage from "./ChatMessage";
 import styled from "styled-components";
 
-
-const ChatMessageBox = ({messages, scrollRef}) => {
+const ChatMessageBox = ({ messages, scrollRef }) => {
     return (
         <MessageWrapper>
             {messages.length > 0 &&
-            messages.map((message, idx) => {
-                return (
-                    <ChatMessage
-                        key={idx}
-                        message={message.message}
-                        userId={message.userId}
-                        createdAt={message.createdAt}
-                    />
-                );
-            })}
+                messages.map((message, idx) => {
+                    return (
+                        <ChatMessage
+                            key={idx}
+                            message={message.message}
+                            userId={message.userId}
+                            createdAt={message.createdAt}
+                        />
+                    );
+                })}
             <div ref={scrollRef} />
         </MessageWrapper>
     );
 };
 
+// 성능 최적화. React.memo()를 사용, props 값이 변하지 않으면 리랜더링 되지 않음.
 export default React.memo(ChatMessageBox);
-
 
 const MessageWrapper = styled.div`
     width: 942px;
