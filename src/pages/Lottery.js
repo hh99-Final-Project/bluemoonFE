@@ -114,19 +114,19 @@ const Lottery = () => {
                 <ContentBox BgColor={color.containerBoxColor}>
                     <MoonArea>
                         {!isMobile ? (
-                            <img src={lotteryMoon} alt="lotteryMoon" />
+                            <img src={lotteryMoon} alt="lotteryMoon" loading="lazy"/>
                         ) : (
-                            <img src={mobileLotteryMoon} alt="mobileLotteryMoon" />
+                            <img src={mobileLotteryMoon} alt="mobileLotteryMoon" loading="lazy"/>
                         )}
                     </MoonArea>
                     <LotteryArea>
-                        {!isMobile && <LotteryhalfMoon src={lotteryhalfMoon} />}
+                        {!isMobile && <LotteryhalfMoon src={lotteryhalfMoon} loading="lazy"/>}
                         {!isClick && <LotteryClick onClick={onClickHandler}>클릭하기</LotteryClick>}
                         {isLoading && <LotteryLoading>모습을 비추고 있어요..</LotteryLoading>}
                         {isClick && isWin === true && (
                             <LotteryResult isWin={isWin}>
                                 당신에겐 달콤한 휴식을 선물할게요.
-                                <BananaMilkIcon src={!isMobile ? bananaMilkIcon : mobileBananaMilkIcon} />
+                                <BananaMilkIcon loading="lazy" src={!isMobile ? bananaMilkIcon : mobileBananaMilkIcon} />
                                 <GetBananaMilkButton
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -152,13 +152,13 @@ const Lottery = () => {
                     ) : (
                         <>
                             <MobileLeftCount>{userInfo ? userInfo.lottoCount : "0"}</MobileLeftCount>
-                            <MobileCircleIcon src={mobileCircleIcon}></MobileCircleIcon>
+                            <MobileCircleIcon src={mobileCircleIcon}/>
                             <MobileCountNoti>남은 기회</MobileCountNoti>
                         </>
                     )}
 
                     <Star>
-                        {!isMobile ? <img src={star} alt={"starIcon"} /> : <img src={mobileStar} alt={"starIcon"} />}
+                        {!isMobile ? <img src={star} alt={"starIcon"} loading="lazy"/> : <img src={mobileStar} alt={"starIcon"} loading="lazy"/>}
                     </Star>
                     <Title>블루문! 내게 말해줘</Title>
                     <Desc>
@@ -182,7 +182,7 @@ const Lottery = () => {
                     ) : (
                         <>
                             <MobileRecommendIcon onClick={copyUrl}>
-                                <img src={mobileRecommendIcon} alt={"recommend-friend"} />
+                                <img src={mobileRecommendIcon} alt={"recommend-friend"} loading="lazy"/>
                             </MobileRecommendIcon>
                             <MobileRecommendDesc>
                                 추천인은 1000p <br />

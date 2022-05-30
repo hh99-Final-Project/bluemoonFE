@@ -29,7 +29,7 @@ function ChatInput(props) {
                    onKeyPress={onKeyPressHandler}
                    value={text} />
             <SendButton onClick={onClick}>
-                <img src={send}/>
+                <img src={send} alt={"send-message"} loading="lazy"/>
             </SendButton>
         </React.Fragment>
     );

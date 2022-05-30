@@ -118,9 +118,9 @@ function Notifications(props) {
                     <Title>알림</Title>
                     <CloseButton onClick={closeModal}>
                         {isMobile || isMobileQuery ? (
-                            <img src={mobAlertCloseBtn} alt={"mobAlertCloseBtn"} />
+                            <img src={mobAlertCloseBtn} alt={"mobAlertCloseBtn"}/>
                         ) : (
-                            <img src={closeButton} alt={"close_alert"} />
+                            <img src={closeButton} alt={"close_alert"}/>
                         )}
                     </CloseButton>
                 </NotiHeader>

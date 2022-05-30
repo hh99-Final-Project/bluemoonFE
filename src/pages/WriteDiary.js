@@ -150,8 +150,8 @@ function WriteDiary() {
 
                 <PostAreaContainer BgColor={color.containerBoxColor}>
                     <PostHeader>
-                        <BackToListButton onClick={() => navigate(-1)} src={backIcon} />
-                        <SaveDiaryButton onClick={onClickHandler} src={saveIcon} />
+                        <BackToListButton loading="lazy" onClick={() => navigate(-1)} src={backIcon} />
+                        <SaveDiaryButton loading="lazy" onClick={onClickHandler} src={saveIcon} />
                     </PostHeader>
                     <WriteArea>
                         <WriteDiaryInput value={title} setValue={setTitle}/>
@@ -161,7 +161,7 @@ function WriteDiary() {
                                 <VoiceLeft>
                                     {!isMobile && !isMobileQuery && (
                                         <RecordArea isPlaying={isPlaying} onClick={() => setIsOpenVoicePopup(true)}>
-                                            <img src={recordIcon} alt={"record"} />
+                                            <img loading="lazy" src={recordIcon} alt={"record"} />
                                             {isPlaying ? <div>듣는 중입니다</div> : <div>음성 등록</div>}
                                         </RecordArea>
                                     )}

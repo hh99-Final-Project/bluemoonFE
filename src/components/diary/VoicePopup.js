@@ -75,7 +75,7 @@ const VoicePopup = (props) => {
                 {isPlaying && <div>재생 중</div>}
             </RecordStatus>
             <RecordImg>
-                <img src={microphone} alt={"voiceIcon"} />
+                <img src={microphone} alt={"voiceIcon"} loading="lazy"/>
             </RecordImg>
             <RecordTime ref={timeRef}>
 
@@ -108,7 +108,7 @@ const VoicePopup = (props) => {
                             recordVoice();
                         }}
                     >
-                        <img src={onRecIcon} alt={"onRecIcon"} />
+                        <img src={onRecIcon} alt={"onRecIcon"} loading="lazy"/>
                     </OnRecording>
                 )}
 
@@ -116,7 +116,7 @@ const VoicePopup = (props) => {
                 {!onRec && (
                     <RecIcons>
                         <PlayingButtonInActive>
-                            <img src={PlayInActive} alt={"playIcon"} />
+                            <img src={PlayInActive} alt={"playIcon"} loading="lazy"/>
                         </PlayingButtonInActive>
                         {isPaused ? (
                             // 현재 일시정지 상태이니 다시 재개할 수 있는 버튼
@@ -137,7 +137,7 @@ const VoicePopup = (props) => {
                                     SaveRecordTime(seconds + minutes * 60);
                                 }}
                             >
-                                <img src={pauseIcon} alt={"pauseIcon"} />
+                                <img src={pauseIcon} alt={"pauseIcon"} loading="lazy"/>
                             </PauseBtn>
                         )}
                         <StopBtn
@@ -149,7 +149,7 @@ const VoicePopup = (props) => {
 
                             }}
                         >
-                            <img src={stopIcon} alt={"stopIcon"} />
+                            <img src={stopIcon} alt={"stopIcon"} loading="lazy"/>
                         </StopBtn>
                     </RecIcons>
                 )}
@@ -170,7 +170,7 @@ const VoicePopup = (props) => {
                                     TimerRestart(new Date(addedNow));
                                 }}
                             >
-                                <img src={playIcon} alt={"playIcon"} />
+                                <img src={playIcon} alt={"playIcon"} loading="lazy"/>
                             </PlayingButton>
 
                             {/*재생 해 봤는데 다시 녹음하고 싶을 때*/}
@@ -182,7 +182,7 @@ const VoicePopup = (props) => {
                                     TimerRestart();
                                 }}
                             >
-                                <img src={onRecIcon} alt={"onRecIcon"} />
+                                <img src={onRecIcon} alt={"onRecIcon"} loading="lazy"/>
                             </OnRecording2>
 
                             {/*완전 녹음이 끝나서 이제 팝업 닫기*/}
@@ -198,7 +198,7 @@ const VoicePopup = (props) => {
                                     }
                                 }}
                             >
-                                <img src={stopIcon} alt={"stopIcon"} />
+                                <img src={stopIcon} alt={"stopIcon"} loading="lazy"/>
                             </StopBtn>
                         </RecIcons>
                     </FinishRecord>
@@ -215,7 +215,7 @@ const VoicePopup = (props) => {
                                     toggleListening();
                                 }}
                             >
-                                <img src={playIcon} alt={"playIcon"} />
+                                <img src={playIcon} alt={"playIcon"} loading="lazy"/>
                             </PlayingButton>
                         ) : (
                             // 재생 중 일시 정지
@@ -225,12 +225,12 @@ const VoicePopup = (props) => {
                                     toggleListening();
                                 }}
                             >
-                                <img src={smallPause} alt={"pauseIcon"} />
+                                <img src={smallPause} alt={"pauseIcon"} loading="lazy"/>
                             </PauseBtn>
                         )}
 
                         <OnRecordingInActive>
-                            <img src={OnRecIconInActive} alt={"onRecIcon"} />
+                            <img src={OnRecIconInActive} alt={"onRecIcon"} loading="lazy"/>
                         </OnRecordingInActive>
 
                         {/*단순 녹음 종료*/}
@@ -243,7 +243,7 @@ const VoicePopup = (props) => {
                                 closePopup();
                             }}
                         >
-                            <img src={stopIcon} alt={"stopIcon"} />
+                            <img src={stopIcon} alt={"stopIcon"} loading="lazy"/>
                         </StopBtn>
                     </RecIcons>
                 )}

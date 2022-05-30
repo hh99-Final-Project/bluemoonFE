@@ -90,7 +90,7 @@ function Comment(props) {
                 <TitleArea>
                     <TitleLeft>
                         <NicknameArea>{comment.nickname}의 댓글</NicknameArea>
-                        {comment.lock && <img src={lockIcon} alt={"lockIcon"}/>}
+                        {comment.lock && <img src={lockIcon} alt={"lockIcon"} loading="lazy"/>}
                     </TitleLeft>
                     <PostTimeArea>{convertDate(comment.createdAt)}</PostTimeArea>
                 </TitleArea>
@@ -114,7 +114,7 @@ function Comment(props) {
                                 audioPlay(new Date(addedNow));
 
                         }}>
-                            <img src={voicePlayIcon} alt={"listen-voice"}/>
+                            <img src={voicePlayIcon} alt={"listen-voice"} loading="lazy"/>
                             <PlayIcon>
                                 음성 듣기
                             </PlayIcon>
