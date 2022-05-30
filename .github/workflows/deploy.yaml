@@ -49,6 +49,5 @@ jobs:
                   SOURCE_DIR: "build"
 
             - name: Invalidate cache CloudFront
-              uses: chetan/invalidate-cloudfront-action@master
               run: aws cloudfront create-invalidation --distribution-id ${{secrets.DISTRIBUTION_ID}} --paths "/*"
               continue-on-error: true
