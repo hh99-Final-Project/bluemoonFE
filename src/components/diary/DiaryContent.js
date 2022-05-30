@@ -58,8 +58,6 @@ function DiaryContent(props) {
         }
            return () => {
                if(audioRef.current){
-                   console.log("!!");
-                   console.log(audioRef.current,"!?");
                    audioRef.current.pause();
                }
            };
