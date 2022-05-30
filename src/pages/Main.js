@@ -17,6 +17,7 @@ import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 
 const Main = () => {
+    console.log("메인!");
     const navigate = useNavigate();
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
