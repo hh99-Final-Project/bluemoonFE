@@ -31,7 +31,6 @@ import Popup from "../shared/Popup";
 import { Helmet } from "react-helmet";
 
 const Lottery = () => {
-    console.log("배포 자동화 테스트3");
     const { setCurrentHeader } = useStore();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const [isClick, setIsClick] = useState(null);
