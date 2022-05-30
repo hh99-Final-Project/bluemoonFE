@@ -118,4 +118,6 @@ const SaveDiary = styled.img`
     margin-right: 4px;
     box-sizing: border-box;
     cursor: pointer;
+    width: 17px;
+    height: 17px;
 `;

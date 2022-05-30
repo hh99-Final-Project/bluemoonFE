@@ -15,10 +15,9 @@ import { Layout, MobileTitleName } from "../components/common";
 import { useMutation, useQueryClient } from "react-query";
 import { color } from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
-import {isModalOpen, setLoginModalOpen} from "../redux/modules/commonSlice";
+import {setLoginModalOpen} from "../redux/modules/commonSlice";
 import { timeFormatter, timeFormatter2 } from "../utils/convertDate";
 import { MyTimer } from "../components/diary/Timer";
-import { isMobile } from "react-device-detect";
 import { setUserPoint } from "../redux/modules/userSlice";
 import WriteDiaryInput from "../components/diary/WriteDiaryInput";
 import WriteDiaryTextArea from "../components/diary/WriteDiaryTextArea";
@@ -70,9 +69,6 @@ function WriteDiary() {
     const [isOpenSuccessPopup, setIsOpenSuccessPopup] = useState(false);
     const [isOpenVoicePopup, setIsOpenVoicePopup] = useState(false);
     const [expireTime, setExpireTime] = useState();
-
-    // const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const queryClient = useQueryClient();
     const dispatch = useDispatch();
 
     const isMobileQuery = useMediaQuery({
@@ -124,12 +120,6 @@ function WriteDiary() {
         setIsOpenVoicePopup(false);
     };
 
-    const handler = (e) => {
-        if (diary.length > 0) {
-            e.preventDefault();
-            e.returnValue = "작성 중인데 정말 나가시겠습니까?";
-        }
-    };
 
     const { timerSec, timerMin, TimerIsRunning, TimerRestart, TimerPause } = MyTimer(expireTime);
 
@@ -142,14 +132,6 @@ function WriteDiary() {
             }
         };
     }, [myAudio]);
-
-    useEffect(() => {
-        window.addEventListener("beforeunload", handler);
-
-        return () => {
-            window.removeEventListener("beforeunload", handler);
-        };
-    }, [diary]);
 
     return (
         <Layout>
