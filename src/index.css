@@ -1,17 +1,17 @@
-
 @font-face {
-  font-family: "spoqa";
-  src: url("./static/fonts/SpoqaHanSansNeo-Regular.ttf") format('woff2'),
-      url("./static/fonts/SpoqaHanSansNeo-Bold.ttf") format('woff2'),
-      url("./static/fonts/SpoqaHanSansNeo-Medium.ttf") format('woff2'),
-        url("./static/fonts/SpoqaHanSansNeo-Light.ttf") format('woff2')
+    font-family: "spoqa";
+    /* 성능최적화 1. 웹 폰트 woff2 사용 */
+    src: url("./static/fonts/SpoqaHanSansNeo-Regular.woff2") format("woff2"),
+        url("./static/fonts/SpoqaHanSansNeo-Bold.woff2") format("woff2"),
+        url("./static/fonts/SpoqaHanSansNeo-Medium.woff2") format("woff2"),
+        url("./static/fonts/SpoqaHanSansNeo-Light.woff2") format("woff2");
+    /* 성능최적화 2. 글꼴 로드될 때까지 텍스트가 시스템 글꼴을 사용하여 즉시 표기되게 함 */
+    font-display: swap;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Jura&display=swap");
 
-
 * {
-  font-family: 'spoqa';
-  margin: 0;
+    font-family: "spoqa";
+    margin: 0;
 }
-

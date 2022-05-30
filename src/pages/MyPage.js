@@ -15,7 +15,7 @@ import { color } from "../utils/designSystem";
 import Popup from "../shared/Popup";
 import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 
 function MyPage() {
     const navigate = useNavigate();
@@ -38,15 +38,6 @@ function MyPage() {
         query: "(max-width: 420px)",
     });
 
-    const deleteDiary = () => {
-        diaryApi.deleteDiary(clickedDiary).then((res) => {
-            if (res.status === 200) {
-                setIsOpenPopup(false);
-                setMyDiary(myDiary.filter((diary) => diary.postUuid !== clickedDiary));
-            }
-        });
-    };
-
     // 무한스크롤
     const InfinityScroll = _.throttle((e) => {
         if (e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight) <= 200 && hasNext) {
@@ -62,6 +53,15 @@ function MyPage() {
             });
         }
     }, 300);
+
+    const deleteDiary = () => {
+        diaryApi.deleteDiary(clickedDiary).then((res) => {
+            if (res.status === 200) {
+                setIsOpenPopup(false);
+                setMyDiary(myDiary.filter((diary) => diary.postUuid !== clickedDiary));
+            }
+        });
+    };
 
     useEffect(() => {
         if (isLogin && userInfo.nickname === "") {
@@ -80,7 +80,6 @@ function MyPage() {
             setPage(page + 1);
             setIsLoading(false);
         });
-
         setCurrentHeader("마이페이지");
     }, []);
 
@@ -88,16 +87,16 @@ function MyPage() {
         return <Loading />;
     }
 
-    if (myDiary === []) {
-        return <React.Fragment></React.Fragment>;
-    }
+    // if (myDiary === []) {
+    //     return <React.Fragment></React.Fragment>;
+    // }
 
     return (
         <Layout>
             <Helmet>
                 <title>Bluemoon 마이페이지</title>
                 <meta name="description" content="bluemoon 마이페이지" />
-                <meta property="og:url" content="https://bluemoondiary.com/mypage"/>
+                <meta property="og:url" content="https://bluemoondiary.com/mypage" />
             </Helmet>
             <Container>
                 <Header />

@@ -15,7 +15,7 @@ import Popup from "../shared/Popup";
 import { deleteUnreadCount, getChatList, deleteChatList } from "../redux/modules/chatSlice";
 import { unreadCount } from "../static/images/resources";
 import { useMediaQuery } from "react-responsive";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 
 function ChatList() {
     const navigate = useNavigate();
@@ -66,9 +66,6 @@ function ChatList() {
 
     // 무한스크롤(리덕스 코드 구현 여부 확인되면 코드 정리 예정)
     const InfinityScrollRef = useRef();
-    // const [isLoading, setIsLoading] = useState(true);
-    // const [page, setPage] = useState(1);
-    // const [hasNext, setHasNext] = useState(null);
 
     // 무한스크롤을 함수
     // Grid onScroll 이벤트에 넣어두어, Grid 스크롤 발생 시 실행됨
@@ -100,7 +97,7 @@ function ChatList() {
             <Helmet>
                 <title>Bluemoon 채팅 리스트</title>
                 <meta name="description" content="bluemoon 채팅 리스트" />
-                <meta property="og:url" content="https://bluemoondiary.com/chatlist"/>
+                <meta property="og:url" content="https://bluemoondiary.com/chatlist" />
             </Helmet>
             <Container>
                 <Header />
@@ -359,7 +356,7 @@ const LastChatTime = styled.div`
     position: absolute;
     top: 12px;
     right: 16px;
-  
+
     font-size: 10px;
     line-height: 13px;
     display: flex;
@@ -378,7 +375,7 @@ const LastChat = styled.div`
     position: absolute;
     top: 42px;
     left: 16px;
-  
+
     font-size: 10px;
     line-height: 13px;
     display: flex;
@@ -396,7 +393,7 @@ const ChatOutButton = styled.div`
     position: absolute;
     top: 44px;
     right: 16px;
-  
+
     font-size: 10px;
     line-height: 13px;
     display: flex;

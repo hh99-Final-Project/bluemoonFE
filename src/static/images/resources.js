@@ -23,6 +23,7 @@ export const logo = require("./common/logo.svg").default;
 export const notFoundImg = require("./common/notFoundImg.svg").default;
 export const starBG = require("./common/starBG.svg").default;
 export const loadingIcon = require("./common/moonLoading.gif");
+export const loadingIconWebP = require("./common/moonLoading.webP");
 export const halfMoon = require("./common/halfMoon.svg").default;
 export const building = require("./common/building.svg").default;
 export const mainMoonIcon = require("./common/mainMoonIcon.svg").default;

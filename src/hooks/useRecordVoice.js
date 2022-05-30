@@ -1,7 +1,6 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 export default function useRecordVoice() {
-
     const [stream, setStream] = useState();
     const [media, setMedia] = useState();
     const [source, setSource] = useState();
@@ -17,9 +16,8 @@ export default function useRecordVoice() {
     const [audioCtx, setAudioCtx] = useState();
     const [myAudio, setMyAudio] = useState();
 
-
-    useEffect(()=>{
-        if(audioUrl){
+    useEffect(() => {
+        if (audioUrl) {
             let audio = new Audio(URL.createObjectURL(audioUrl));
             audio.loop = false;
             audio.volume = 1;
@@ -30,23 +28,23 @@ export default function useRecordVoice() {
             };
             setMyAudio(audio);
         }
-
-    },[audioUrl]);
-
-
+    }, [audioUrl]);
 
     //재생중인지, 일시정지인지
     const toggleListening = () => {
-        setIsListening(prev => !prev);
-        setIsPlaying(prev => !prev);
+        setIsListening((prev) => !prev);
+        setIsPlaying((prev) => !prev);
     };
 
     //음성 녹음하기
     const recordVoice = () => {
         // 음원 정보를 담은 노드를 생성한다.
+        // Web Audio API 사용을 위해 오디오 컨텍스트 인스턴스 생성
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         // 자바스크립트를 통해 음원의 진행상태에 직접접근에 사용된다.
+        // createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels)
+        // bufferSize 에 0을 입력하면, 환경에서 가장 최적의 butter size 를 찾음
         const analyser = audioCtx.createScriptProcessor(0, 1, 1);
         setAnalyser(analyser);
 
@@ -98,8 +96,6 @@ export default function useRecordVoice() {
         source.disconnect();
     };
 
-
-
     //녹음 조건 정하기
     if (analyser) {
         analyser.onaudioprocess = function (e) {
@@ -125,8 +121,6 @@ export default function useRecordVoice() {
         };
     }
 
-
-
     //일시 정지
     const recordPause = () => {
         media.pause();
@@ -144,30 +138,27 @@ export default function useRecordVoice() {
         }
     };
 
-
     // 파일 출력 & 재생
 
     const play = () => {
-        if (myAudio){
+        if (myAudio) {
             myAudio.play();
             setIsPlaying(true);
         }
     };
 
     const playingPause = () => {
-        if(myAudio){
-            myAudio.pause();
-
-        };
-    };
-
-    const playingStop = () => {
-        if(myAudio){
-            myAudio.currentTime = 0;
+        if (myAudio) {
             myAudio.pause();
         }
     };
 
+    const playingStop = () => {
+        if (myAudio) {
+            myAudio.currentTime = 0;
+            myAudio.pause();
+        }
+    };
 
     //파일 삭제
     const deleteVoice = () => {
@@ -197,7 +188,6 @@ export default function useRecordVoice() {
         setIsPaused(false);
     };
 
-
     return {
         recordVoice,
         stopRecord,
@@ -219,6 +209,6 @@ export default function useRecordVoice() {
         isListening,
         playingStop,
         myAudio,
-        resetShowSpeaker
+        resetShowSpeaker,
     };
 }

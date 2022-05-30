@@ -1,13 +1,10 @@
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
-
-const RecommendInput = ({recommender, setRecommender}) => {
-
+const RecommendInput = ({ recommender, setRecommender }) => {
     const onChangeRecommender = useCallback((e) => {
         setRecommender(e.target.value);
-    },[]);
-
+    }, []);
 
     return (
         <RecommendPersonInput
@@ -19,9 +16,8 @@ const RecommendInput = ({recommender, setRecommender}) => {
     );
 };
 
-
+// React.memo 로 감싸주어, props 가 변경되지 않으면 리랜더링 되지 않도록 함
 export default React.memo(RecommendInput);
-
 
 const RecommendPersonInput = styled.input`
     position: absolute;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { loadingIcon } from "../static/images/resources";
+import { loadingIcon, loadingIconWebP } from "../static/images/resources";
 import { color } from "../utils/designSystem";
 import Layout from "../components/common/Layout";
 
@@ -8,7 +8,10 @@ const Loading = () => {
     return (
         <Layout>
             <LoadingContainer bgColor={color.backgroundColor}>
-                <img src={loadingIcon} alt={"loading-spinner"} />
+                <picture>
+                    <source srcSet={"loadingIconWebP"} type="image/webp" />
+                    <img src={loadingIcon} alt={"loading-spinner"} />
+                </picture>
                 <p>푸른 달의 빛을 받고 있습니다...</p>
             </LoadingContainer>
         </Layout>
@@ -42,11 +45,9 @@ const LoadingContainer = styled.div`
         line-height: 20px;
         color: #ffffff;
 
-      @media only screen and (max-width: 420px) {
-        font-size: 12px;
-        line-height: 15px;
-      }
+        @media only screen and (max-width: 420px) {
+            font-size: 12px;
+            line-height: 15px;
+        }
     }
-
-
 `;

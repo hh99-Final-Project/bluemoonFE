@@ -18,7 +18,7 @@ import useStore from "../zustand/store";
 import { color } from "../utils/designSystem";
 import { useMediaQuery } from "react-responsive";
 import ChatMessageBox from "../components/chat/ChatMessageBox";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 
 const ChatDetail = () => {
     const navigate = useNavigate();
@@ -164,22 +164,7 @@ const ChatDetail = () => {
                             <img src={close} alt={"close-button"} />
                         </BackButton>
                     </ChatRoomTitle>
-
-                    <ChatMessageBox messages={messages} scrollRef={scrollRef}/>
-                    {/*<MessageWrapper>*/}
-                    {/*    {messages.length > 0 &&*/}
-                    {/*        messages.map((message, idx) => {*/}
-                    {/*            return (*/}
-                    {/*                <ChatMessage*/}
-                    {/*                    key={idx}*/}
-                    {/*                    message={message.message}*/}
-                    {/*                    userId={message.userId}*/}
-                    {/*                    createdAt={message.createdAt}*/}
-                    {/*                />*/}
-                    {/*            );*/}
-                    {/*        })}*/}
-                    {/*    <div ref={scrollRef} />*/}
-                    {/*</MessageWrapper>*/}
+                    <ChatMessageBox messages={messages} scrollRef={scrollRef} />
                     <InputWrpper>
                         <ChatInput userInfo={userInfo} onSend={onSend} text={text} setText={setText} />
                     </InputWrpper>
@@ -199,8 +184,6 @@ const Container = styled.div`
 `;
 
 const ChatRoom = styled.div`
-    box-sizing: border-box;
-
     width: 950px;
     height: 530px;
     background: ${(props) => props.BgColor};
@@ -294,8 +277,8 @@ const MessageWrapper = styled.div`
     }
 `;
 const InputWrpper = styled.div`
-    width: 945px;
-    height: 57px;
+    width: 950px;
+    height: 61px;
     background: #2f3a5f;
     border-radius: 0px 0px 25px 25px;
     display: flex;

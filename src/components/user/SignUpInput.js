@@ -1,9 +1,7 @@
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
-
-const SignupInput = ({nickName, setIsValidNickName, setNickName, nickNameCheckDB}) => {
-
+const SignupInput = ({ nickName, setIsValidNickName, setNickName, nickNameCheckDB }) => {
     const onChange = useCallback((e) => {
         if (e.target.value === "") {
             setIsValidNickName(null);
@@ -19,8 +17,7 @@ const SignupInput = ({nickName, setIsValidNickName, setNickName, nickNameCheckDB
         }
 
         setNickName(e.target.value);
-    },[]);
-
+    }, []);
 
     return (
         <NickNameInput
@@ -32,9 +29,8 @@ const SignupInput = ({nickName, setIsValidNickName, setNickName, nickNameCheckDB
     );
 };
 
-
+// React.memo 로 감싸주어, props 가 변경되지 않으면 리랜더링 되지 않도록 함
 export default React.memo(SignupInput);
-
 
 const NickNameInput = styled.input`
     position: absolute;
