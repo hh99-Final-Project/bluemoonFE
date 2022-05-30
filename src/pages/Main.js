@@ -17,6 +17,8 @@ import useStore from "../zustand/store";
 import { useSelector } from "react-redux";
 
 const Main = () => {
+    console.log("배포 자동화 테스트");
+
     const navigate = useNavigate();
 
     const isLogin = useSelector((state) => state.userSlice.isLogin);
