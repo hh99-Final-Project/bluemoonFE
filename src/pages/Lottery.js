@@ -31,6 +31,7 @@ import Popup from "../shared/Popup";
 import { Helmet } from "react-helmet";
 
 const Lottery = () => {
+    console.log("배포 자동화가 잘 되었다면, 별도 설정 없이 이 콘솔이 보일겁니다.");
     const { setCurrentHeader } = useStore();
     const userInfo = useSelector((state) => state.userSlice.userInfo);
     const [isClick, setIsClick] = useState(null);
