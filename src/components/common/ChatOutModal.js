@@ -11,8 +11,6 @@ ChatOutModal.propTypes = {
 
 function ChatOutModal(props) {
     const { ChatOutTabRef, closeModal, deleteChat, charRoomId } = props;
-    // const navigate = useNavigate();
-
     return (
         <React.Fragment>
             <Modal

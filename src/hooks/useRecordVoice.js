@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function useRecordVoice() {
     const [stream, setStream] = useState();
