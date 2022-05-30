@@ -27,7 +27,6 @@ const commonSlice = createSlice({
     initialState,
     reducers: {
         setLoginModalOpen(state, action) {
-            console.log(action.payload,"payload");
             state.isModalOpen = action.payload.open;
             state.loginPath = action.payload.path ? action.payload.path : "/";
         },

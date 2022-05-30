@@ -17,6 +17,7 @@ import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
 import { MyTimer } from "./Timer";
 import { setUserPoint } from "../../redux/modules/userSlice";
+import Login from "../user/Login";
 
 CommentInput.propTypes = {
     postId: PropTypes.string,
@@ -35,6 +36,7 @@ function CommentInput(props) {
     const [time, setTime] = useState("");
     const [expireTime, setExpireTime] = useState(new Date());
     const token = localStorage.getItem("accessToken");
+    const isModalOpen = useSelector(((state) => state.commonSlice.isModalOpen));
 
     const {
         recordVoice,
@@ -245,6 +247,7 @@ function CommentInput(props) {
                     isListening={isListening}
                 />
             )}
+            { isModalOpen && <Login/> }
         </React.Fragment>
     );
 }

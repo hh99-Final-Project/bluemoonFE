@@ -18,7 +18,7 @@ import {
 } from "../static/images/resources";
 import useMovePage from "../hooks/useMovePage";
 import Login from "../components/user/Login";
-import {isModalOpen, setLoginModalOpen} from "../redux/modules/commonSlice";
+import {setLoginModalOpen} from "../redux/modules/commonSlice";
 import Popup from "./Popup";
 import { logout } from "../redux/modules/userSlice";
 
@@ -30,7 +30,7 @@ const MobileCategoryBar = () => {
     const popupRef = useRef();
     const isLogin = useSelector((state) => state.userSlice.isLogin);
     const userInfo = useSelector((state) => state.userSlice.userInfo);
-    const modalIsOpen = useSelector((state) => state.commonSlice.modalIsOpen);
+    const modalIsOpen = useSelector((state) => state.commonSlice.isModalOpen);
     const [logoutPopup, setLogoutPopup] = useState(false);
     const [isPointPopup, setPointPopup] = useState(false);
 
