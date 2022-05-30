@@ -15,18 +15,13 @@ jobs:
         node-version: [14.15.x]
 
     steps:
-      # 해당 레포지토리로 checkout 하는 Action 
       - uses: actions/checkout@v2
 
-      # Node 환경을 설정하여 npm 커맨드를 사용할 수 있도록 하는 Action
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      # Github Repository Secrets 를 통해 환경 변수 파일을 생성합니다.
-      # 리눅스 명령어 echo 는 인수로 받은 인수열을 >> 뒤에 있는 파일에 저장합니다.
-      # 만약 파일이 존재하지 않는다면 파일을 생성한 후 문자열을 입력하게 됩니다.
      - name: "Create env file"
         run: |
           echo "REACT_APP_KAKAO_APPKEY=$REACT_APP_KAKAO_APPKEY" >> .env
