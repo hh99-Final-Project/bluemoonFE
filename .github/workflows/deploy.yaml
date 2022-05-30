@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Build, Deploy to S3 bucket and Invalidation chche CloudFront
+    name: Build, Deploy to S3 bucket
     runs-on: [ubuntu-latest]
 
     strategy:
@@ -24,15 +24,10 @@ jobs:
 
      - name: "Create env file"
         run: |
-          echo "REACT_APP_KAKAO_APPKEY=$REACT_APP_KAKAO_APPKEY" >> .env
-          echo "REACT_APP_GOOGLE_CLIENTID=$REACT_APP_GOOGLE_CLIENTID" >> .env
-          echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL" >> .env
-          echo "REACT_APP_SOCKJS_URL=$REACT_APP_SOCKJS_URL" >> .env
-        env:
-          REACT_APP_KAKAO_APPKEY: ${{ secrets.REACT_APP_KAKAO_APPKEY }}
-          REACT_APP_GOOGLE_CLIENTID: ${{ secrets.REACT_APP_GOOGLE_CLIENTID }}
-          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
-          REACT_APP_SOCKJS_URL: ${{ secrets.REACT_APP_SOCKJS_URL }}
+          echo "REACT_APP_KAKAO_APPKEY=${{ secrets.REACT_APP_KAKAO_APPKEY }}" >> .env
+          echo "REACT_APP_GOOGLE_CLIENTID=${{ secrets.REACT_APP_GOOGLE_CLIENTID }}" >> .env
+          echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}" >> .env
+          echo "REACT_APP_SOCKJS_URL=${{ secrets.REACT_APP_SOCKJS_URL }}" >> .env
 
       - name: Npm install
         run: npm install 
@@ -49,7 +44,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_BUCKET_REGION }}
-          SOURCE_DIR: "./build"
+          SOURCE_DIR: "build"
 
       - name: Invalidate cache CloudFront
         uses: chetan/invalidate-cloudfront-action@master
