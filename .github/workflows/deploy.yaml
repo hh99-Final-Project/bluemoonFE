@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
      - name: "Create env file"
-        run: |
+        run: |  
           echo "REACT_APP_KAKAO_APPKEY=${{ secrets.REACT_APP_KAKAO_APPKEY }}" >> .env
           echo "REACT_APP_GOOGLE_CLIENTID=${{ secrets.REACT_APP_GOOGLE_CLIENTID }}" >> .env
           echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}" >> .env
