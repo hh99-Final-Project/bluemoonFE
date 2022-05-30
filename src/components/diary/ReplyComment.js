@@ -57,7 +57,6 @@ const ReplyComment = (props) => {
         <ReplyCommentList>
             {
                 replyComments.map((comment, idx) => {
-                    console.log(typeof(comment.userId),"comment");
                     return (
                         <OneReplyComment key={idx}>
                             <NickNameArea>
