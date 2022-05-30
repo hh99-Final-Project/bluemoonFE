@@ -29,7 +29,6 @@ jobs:
       # 만약 파일이 존재하지 않는다면 파일을 생성한 후 문자열을 입력하게 됩니다.
      - name: "Create env file"
         run: |
-          touch .env
           echo "REACT_APP_KAKAO_APPKEY=$REACT_APP_KAKAO_APPKEY" >> .env
           echo "REACT_APP_GOOGLE_CLIENTID=$REACT_APP_GOOGLE_CLIENTID" >> .env
           echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL" >> .env
