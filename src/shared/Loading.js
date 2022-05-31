@@ -8,10 +8,7 @@ const Loading = () => {
     return (
         <Layout>
             <LoadingContainer bgColor={color.backgroundColor}>
-                <picture>
-                    <source srcSet={"loadingIconWebP"} type="image/webp" />
-                    <img src={loadingIcon} alt={"loading-spinner"} />
-                </picture>
+                <img src={loadingIcon} alt={"loading-spinner"} />
                 <p>푸른 달의 빛을 받고 있습니다...</p>
             </LoadingContainer>
         </Layout>

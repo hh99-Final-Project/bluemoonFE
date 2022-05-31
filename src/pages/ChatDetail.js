@@ -97,6 +97,7 @@ const ChatDetail = () => {
         try {
             ws.current.debug = function (str) {};
             ws.current.debug();
+            // type : "CHAT" 을 보내는 용도는 채팅방에 들어갈 때를 알기 위해서임
             ws.current.connect({ token: token, type: "CHAT" }, () => {
                 // connect 이후 subscribe
                 ws.current.subscribe(`/sub/chat/room/${roomId}`, (response) => {
