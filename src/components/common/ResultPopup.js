@@ -7,7 +7,7 @@ import Popup from "../../shared/Popup";
 Popup.propTypes = { title: PropTypes.string, close: PropTypes.func };
 
 const ResultPopup = (props) => {
-    const { title, close, width, height, margin } = props;
+    const { title, close, width, height } = props;
 
     return (
         <React.Fragment>
