@@ -5,7 +5,8 @@
     {
       "src": "https://bluemoon-webservice-s3.s3.ap-northeast-2.amazonaws.com/front-meta/maskable_icon_x128.png",
       "type": "image/png",
-      "sizes": "128x128"
+      "sizes": "128x128",
+      "purpose": "maskable"
     },
     {
       "src": "https://bluemoon-webservice-s3.s3.ap-northeast-2.amazonaws.com/front-meta/maskable_icon_x192.png",
