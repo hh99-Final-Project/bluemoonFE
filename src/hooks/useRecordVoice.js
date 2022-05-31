@@ -38,17 +38,20 @@ export default function useRecordVoice() {
 
     //음성 녹음하기
     const recordVoice = () => {
+        // audioContext 생성
         // 음원 정보를 담은 노드를 생성한다.
         // Web Audio API 사용을 위해 오디오 컨텍스트 인스턴스 생성
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
+        // ScriptProcessorNode를 만든다.
         // 자바스크립트를 통해 음원의 진행상태에 직접접근에 사용된다.
-        // createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels)
+        // bufferSize 는 256, 512, 1024, 2048 과 같은 값을 가짐.
         // bufferSize 에 0을 입력하면, 환경에서 가장 최적의 butter size 를 찾음
         const analyser = audioCtx.createScriptProcessor(0, 1, 1);
         setAnalyser(analyser);
 
         function makeSound(stream) {
+            // MediaStreamAudioSourceNode 를 만든다.
             // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보를 보여준다.
             const source = audioCtx.createMediaStreamSource(stream);
             setAudioCtx(audioCtx);
@@ -60,6 +63,8 @@ export default function useRecordVoice() {
         }
 
         //유저 마이크 사용 권한 획득 후 녹음 시작
+        // MediaDevice.getUserMedia 메소드를 통해 유저의 카메라, 마이크 등을 기기로부터 입력 받을 수 있다.
+        //promise를 반환하므로, then()으로 받아 이후 작업 진행
         navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
             //사용자가 허용을 눌렀을때, 녹음을 시작할 수 있다. audio stream을 통해 녹음 객체를 만들어준다.
             const mediaRecorder = new MediaRecorder(stream);
@@ -78,6 +83,8 @@ export default function useRecordVoice() {
 
     const stopRecord = () => {
         // blob 객체를 내보내는 메서드
+        // dataavailable 이벤트 핸들러의 인자로 전달되는 the event 객체에는 data 속성이 있으며,
+        // source에서 생성되는 Blob 형의 데이터를 참조하고 있다.
         media.ondataavailable = function (e) {
             setAudioUrl(e.data);
             setOnRec(true);
@@ -92,6 +99,7 @@ export default function useRecordVoice() {
         media.stop();
 
         // 메서드가 호출 된 노드 연결 해제
+        // 스트리밍이 끝나면 명시적으로 disconnect 해줘야 한다.
         analyser.disconnect();
         source.disconnect();
     };

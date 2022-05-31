@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import KakaoLogin from "react-kakao-login";
 import GoogleLogin from "react-google-login";
-import {setLoginModalOpen} from "../../redux/modules/commonSlice";
+import { setLoginModalOpen } from "../../redux/modules/commonSlice";
 import { userApi } from "../../apis/userApi";
 import { setAccessCookie, setRefreshCookie } from "../../utils/cookie";
 import { isLogined, getUserInfo } from "../../redux/modules/userSlice";
@@ -14,8 +14,7 @@ import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
 import useStore from "../../zustand/store";
 
-
-function Login({path}) {
+function Login({ path }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { pathname } = useLocation();
@@ -37,18 +36,18 @@ function Login({path}) {
                 localStorage.setItem("refreshToken", refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
-                dispatch(setLoginModalOpen({open: false}));
+                dispatch(setLoginModalOpen({ open: false }));
 
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
-                    //현재 있었던 페이지로 돌아간다.
-                    if(pathname === "/" && originPath === "/") {
+                    // 메인페이지에서 로그인 했으면 로그인 후 다이어리리스트로 이동
+                    if (pathname === "/" && originPath === "/") {
                         navigate("/diarylist");
                         return;
                     }
                     //마이페이지 혹은 채팅리스트탭을 눌렀을 때
-                    if(originPath !== "/") {
+                    if (originPath !== "/") {
                         navigate(originPath);
                         setMobileHeader();
                     } else {
@@ -73,17 +72,17 @@ function Login({path}) {
                 localStorage.setItem("refreshToken", refreshToken);
                 dispatch(getUserInfo(response.data));
                 dispatch(isLogined(true));
-                dispatch(setLoginModalOpen({open: false}));
+                dispatch(setLoginModalOpen({ open: false }));
                 if (response.data.nickname === "") {
                     navigate("/signup");
                 } else {
                     //현재 있었던 페이지로 돌아간다.
-                    if(pathname === "/" && originPath === "/") {
+                    if (pathname === "/" && originPath === "/") {
                         navigate("/diarylist");
                         return;
                     }
                     //마이페이지 혹은 채팅리스트탭을 눌렀을 때
-                    if(originPath !== "/") {
+                    if (originPath !== "/") {
                         navigate(originPath);
                         setMobileHeader();
                     } else {
@@ -107,7 +106,7 @@ function Login({path}) {
     };
 
     const closeModal = () => {
-        dispatch(setLoginModalOpen({open: false}));
+        dispatch(setLoginModalOpen({ open: false }));
     };
 
     return (
@@ -124,7 +123,7 @@ function Login({path}) {
                         right: 0,
                         bottom: 0,
                         backgroundColor: "rgba(35, 35, 35, 0.46)",
-                        zIndex: 99999
+                        zIndex: 99999,
                     },
                     content: {
                         position: "absolute",
@@ -133,21 +132,22 @@ function Login({path}) {
                         right: "auto",
                         bottom: "auto",
                         transform: "translate(-50%, -50%)",
-                        width: (isMobile || isMobileQuery) ? "295px" : "365px",
-                        height: (isMobile || isMobileQuery) ? "213px" : "264px",
+                        width: isMobile || isMobileQuery ? "295px" : "365px",
+                        height: isMobile || isMobileQuery ? "213px" : "264px",
                         border: "none",
                         backgroundColor: "rgba(198, 211, 236, 0.9)",
                         borderRadius: "10px",
                         outline: "none",
                         overflow: "hidden",
                         zIndex: 99999,
-                        boxSizing: "border-box"
+                        boxSizing: "border-box",
                     },
                 }}
             >
-                <CloseButton onClick={closeModal} src={mobAlertCloseBtn}/>
+                <CloseButton onClick={closeModal} src={mobAlertCloseBtn} />
                 <LoginText>
-                    다이어리를 가진 사람만<br/>
+                    다이어리를 가진 사람만
+                    <br />
                     사용할 수 있어요!
                 </LoginText>
                 <LoginButtons>
@@ -189,11 +189,11 @@ function Login({path}) {
 export default Login;
 
 const CloseButton = styled.img`
-  position: absolute;
-  right: 20px;
-  cursor:pointer;
-  width: 12.8px;
-  height: 12.8px;
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+    width: 12.8px;
+    height: 12.8px;
 `;
 
 const LoginText = styled.div`
@@ -201,13 +201,13 @@ const LoginText = styled.div`
     line-height: 23px;
     text-align: center;
     margin-top: 38px;
-    color: #08105D;
+    color: #08105d;
 
-  @media only screen and (max-width: 420px) {
-    font-size: 14px;
-    line-height: 18px;
-    margin-top: 25px;
-  }
+    @media only screen and (max-width: 420px) {
+        font-size: 14px;
+        line-height: 18px;
+        margin-top: 25px;
+    }
 `;
 
 const LoginButtons = styled.div`
@@ -215,15 +215,15 @@ const LoginButtons = styled.div`
     width: 244px;
 
     @media only screen and (max-width: 420px) {
-      width: 196px;
+        width: 196px;
     }
 `;
 
 const KaKaoLoginText = styled.div`
-    width: 100%;  
+    width: 100%;
     height: 35px;
-    background-color: #FAE301;
-    border: 1px solid #BBB0B0;
+    background-color: #fae301;
+    border: 1px solid #bbb0b0;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 
@@ -237,24 +237,23 @@ const KaKaoLoginText = styled.div`
     cursor: pointer;
     box-sizing: border-box;
 
-  @media only screen and (max-width: 420px) {
-    height: 28px;
-    font-size: 10px;
-    line-height: 13px;
-    
-  }
+    @media only screen and (max-width: 420px) {
+        height: 28px;
+        font-size: 10px;
+        line-height: 13px;
+    }
 `;
 
 const GoogleLoginText = styled(KaKaoLoginText)`
-      background: #FFFFFF;
-      border: 1px solid #DEDEDE;
-      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-      margin-top: 14px;
-      color: #2D53A9;
+    background: #ffffff;
+    border: 1px solid #dedede;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    margin-top: 14px;
+    color: #2d53a9;
 
-      @media only screen and (max-width: 420px) {
+    @media only screen and (max-width: 420px) {
         margin-top: 9px;
         font-size: 10px;
         line-height: 13px;
-      }
+    }
 `;

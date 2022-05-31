@@ -30,17 +30,12 @@ const commonSlice = createSlice({
             state.isModalOpen = action.payload.open;
             state.loginPath = action.payload.path ? action.payload.path : "/";
         },
-        getAlertList(state, action) {
-            // 배열에 이전 알람 메시지 추가 (리듀서에서 처리 여부 고민중)
-            // state.commentAlertList.push(...action.payload);
-        },
         getNewCommentAlert(state, action) {
             // 배열의 가장 앞에 실시간 알람 메시지를 추가
             state.newCommentAlert.unshift(action.payload);
-            // state.commentAlertList.unshift(action.payload); //(리듀서에서 처리 여부 고민중)
         },
         deleteNewCommentAlert(state, action) {
-            // 알람 아이콘 클릭했을 시
+            // 알람 아이콘 클릭했을 시 newCommentAlert 배열을 초기화
             state.newCommentAlert = [];
         },
     },
@@ -52,7 +47,7 @@ const commonSlice = createSlice({
 });
 
 //액션 생성함수
-export const { setLoginModalOpen, getAlertList, getNewCommentAlert, deleteNewCommentAlert } = commonSlice.actions;
+export const { setLoginModalOpen, getNewCommentAlert, deleteNewCommentAlert } = commonSlice.actions;
 
 //리듀서 export
 export default commonSlice.reducer;

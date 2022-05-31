@@ -12,7 +12,7 @@ import { lockIcon, microphoneBlue, listenIcon } from "../../static/images/resour
 import VoicePopup from "./VoicePopup";
 import { useTimer } from "react-timer-hook";
 import { timeFormatter, timeFormatter2 } from "../../utils/convertDate";
-import {setLoginModalOpen} from "../../redux/modules/commonSlice";
+import { setLoginModalOpen } from "../../redux/modules/commonSlice";
 import { isMobile } from "react-device-detect";
 import { useMediaQuery } from "react-responsive";
 import { MyTimer } from "./Timer";
@@ -36,7 +36,7 @@ function CommentInput(props) {
     const [time, setTime] = useState("");
     const [expireTime, setExpireTime] = useState(new Date());
     const token = localStorage.getItem("accessToken");
-    const isModalOpen = useSelector(((state) => state.commonSlice.isModalOpen));
+    const isModalOpen = useSelector((state) => state.commonSlice.isModalOpen);
 
     const {
         recordVoice,
@@ -111,7 +111,7 @@ function CommentInput(props) {
 
     const onClick = async () => {
         if (!isLogin) {
-            dispatch(setLoginModalOpen({open: true}));
+            dispatch(setLoginModalOpen({ open: true }));
             return;
         }
 
@@ -122,6 +122,7 @@ function CommentInput(props) {
 
         saveComment();
         try {
+            // 콘솔에 웹소켓 디버그 내용 안보이도록 처리
             ws.current.debug = function (str) {};
             ws.current.debug();
             // 보낼 메시지
@@ -247,7 +248,7 @@ function CommentInput(props) {
                     isListening={isListening}
                 />
             )}
-            { isModalOpen && <Login/> }
+            {isModalOpen && <Login />}
         </React.Fragment>
     );
 }

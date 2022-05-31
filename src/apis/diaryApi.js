@@ -9,13 +9,14 @@ export const diaryApi = {
         };
         let json = JSON.stringify(req);
         const form = new FormData();
+        // 블롭 생성. Blob 객체는 파일류의 불변하는 미가공 데이터를 나타냄.
         const blob = new Blob([json], { type: "application/json" });
         form.append("requestDto", blob);
         audioUrl !== undefined && form.append("file", audioUrl);
         let headerConfig = {
             headers: {
-                "Content-Type": "multipart/form-data"
-            }
+                "Content-Type": "multipart/form-data",
+            },
         };
         const data = await instance.post("/api/posts", form, headerConfig);
         return data;
@@ -42,7 +43,7 @@ export const diaryApi = {
             content: comment,
             lock: isLocked,
             parentUuid: parentCommentId,
-            timer: time
+            timer: time,
         };
 
         const form = new FormData();
@@ -53,8 +54,8 @@ export const diaryApi = {
 
         let headerConfig = {
             headers: {
-                "Content-Type": "multipart/form-data"
-            }
+                "Content-Type": "multipart/form-data",
+            },
         };
 
         const data = await instance.post("/api/comments", form, headerConfig);
