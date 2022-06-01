@@ -59,35 +59,36 @@ const Lottery = () => {
     });
 
     const onClickHandler = (e) => {
-        if (!userInfo) {
-            window.alert("로그인 후 참여할 수 있습니다!");
-            return;
-        }
-
-        userApi
-            .tryLottery()
-            .then((response) => {
-                setIsClick(true);
-                setTimeout(() => setIsLoading(true), 1000);
-                setTimeout(() => setIsLoading(false), 4000);
-                if (response.data.result === true) {
-                    setTimeout(() => {
-                        setIsWin(true);
-                        dispatch(setUserPoint(response.data.point));
-                        dispatch(setUserCount());
-                    }, 5000);
-                } else if (response.data.result === false) {
-                    setTimeout(() => {
-                        setIsWin(false);
-                        dispatch(setUserPoint(response.data.point));
-                        dispatch(setUserCount());
-                    }, 5000);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                const result = error.response.data;
-            });
+        window.alert("오픈 이벤트가 종료되었습니다! 감사합니다😄");
+        // if (!userInfo) {
+        //     window.alert("로그인 후 참여할 수 있습니다!");
+        //     return;
+        // }
+        //
+        // userApi
+        //     .tryLottery()
+        //     .then((response) => {
+        //         setIsClick(true);
+        //         setTimeout(() => setIsLoading(true), 1000);
+        //         setTimeout(() => setIsLoading(false), 4000);
+        //         if (response.data.result === true) {
+        //             setTimeout(() => {
+        //                 setIsWin(true);
+        //                 dispatch(setUserPoint(response.data.point));
+        //                 dispatch(setUserCount());
+        //             }, 5000);
+        //         } else if (response.data.result === false) {
+        //             setTimeout(() => {
+        //                 setIsWin(false);
+        //                 dispatch(setUserPoint(response.data.point));
+        //                 dispatch(setUserCount());
+        //             }, 5000);
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //         const result = error.response.data;
+        //     });
     };
 
     // url 공유
