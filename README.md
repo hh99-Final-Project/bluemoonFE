@@ -11,7 +11,7 @@
     - 음성으로 익명 다이어리를 작성하고, 댓글을 공유할 수 있습니다.
 - 주요 기능
     - webRTC, Recording API 를 이용한 음성 녹음 및 재생
-    - sockJS / Stomp 를 활용한 실시간 채팅, 알림
+    - sockjs-client / Stompjs 를 활용한 실시간 채팅, 알림
 - 개발 언어 : JavaScript
 - 개발 라이브러리 : React.js
 - 형상 관리 : git
