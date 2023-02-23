@@ -3,7 +3,11 @@
 
 <img src="https://user-images.githubusercontent.com/79817823/170234163-15484676-6d55-45e3-a156-d9f579106538.jpg" width="300" height="300"/>
 
+
 ## ✏️프로젝트명 & 소개 
+
+![시연 영상_요약](https://user-images.githubusercontent.com/100131652/220870683-1076e9a7-3c83-4ed9-8c73-abe413132c99.gif)
+
 
 - **프로젝트명** : **BlueMoon**
 - 프로젝트 제작기간 : 2022.04.22 (금) ~ 2022.06.02 (목)
